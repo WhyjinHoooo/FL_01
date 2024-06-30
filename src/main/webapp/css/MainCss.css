@@ -1,0 +1,180 @@
+@charset "UTF-8";
+
+@media only screen and (min-width: 1537px){
+	.content-wrapper {
+		display: flex; /* Flex 컨테이너 설정 */
+		min-height: calc(100vh - 148px);
+	}
+	.Main-side {
+		/* border: 1px solid rgb(111,167,235); */ /* 기존의 테두리 스타일 유지 */
+		/* width: 7.5%; 폭을 100px로 설정 */
+		margin-right: 600px;
+		border-radius: 20px;
+		max-height: 100vh;
+		overflow-y: auto;
+	}
+	.Main-side::-webkit-scrollbar {
+		display: none;
+	}
+	* {
+		padding: 0;
+		margin: 0;
+	}
+	li {
+		list-style: none;
+	}
+	a {
+		text-decoration: none;
+		font-size: 14px;
+	}
+	.menu {
+		width: 200px;
+		overflow: hidden;
+		margin: 10px auto;
+	}
+	.menu > li {
+		width: 100%;
+		text-align: center;
+		line-height: 40px;
+		background-color: #5778ff;
+	}
+	.menu a {
+		color: #fff;
+	}
+	.submenu > li {
+		line-height: 50px;
+		background-color: #94a9ff;
+	}
+	.submenu > li:hover {
+	    background-color: #ffc107c7;
+	}
+	.submenu {
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 0.5s ease-out;
+	}
+	.menu > li:hover {
+		background-color: #94a9ff;
+		transition-duration: 0.5s;
+	}
+	.menu > li:hover .submenu {
+		max-height: 1000px; /* 충분히 큰 값으로 설정 */
+		transition-duration: 1s;
+	}
+	.menu > li.fixed .submenu {
+		max-height: 1000px; /* 서브메뉴가 항상 보이도록 설정 */
+	}
+	.menu > li.fixed {
+		background-color: rgb(163, 204, 163);/*  #94a9ff; */
+	}
+	.grid-container {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 20px;
+		padding: 20px;
+	}
+	.grid-item {
+		width: 300px;
+		height: 300px;
+	}
+	canvas {
+		width: 100% !important;
+		height: auto !important;
+	}
+	p {
+	    margin: 5px 0px 0px 125px;
+	}
+	footer{
+		height: 100px;
+		background-color: #002060;
+		position : relative;
+	}
+}
+@media only screen and (max-width: 1537px) {
+	.content-wrapper {
+		display: flex; /* Flex 컨테이너 설정 */
+		min-height: calc(100vh - 148px);
+	}
+	.Main-side {
+		margin-right: 150px;
+		border-radius: 20px;
+		max-height: 100vh;
+		overflow-y: auto;
+	}
+	.Main-side::-webkit-scrollbar {
+		display: none;
+	}
+	* {
+		padding: 0;
+		margin: 0;
+	}
+	li {
+		list-style: none;
+	}
+	a {
+		text-decoration: none;
+		font-size: 14px;
+	}
+	.menu {
+		width: 200px;
+		overflow: hidden;
+		margin: 10px auto;
+	}
+	.menu > li {
+		width: 100%;
+		text-align: center;
+		line-height: 40px;
+		background-color: #5778ff;
+	}
+	.menu a {
+		color: #fff;
+	}
+	.submenu > li {
+		line-height: 50px;
+		background-color: #94a9ff;
+	}
+	.submenu > li:hover {
+	    background-color: #ffc107c7;
+	}
+	.submenu {
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 0.5s ease-out;
+	}
+	.menu > li:hover {
+		background-color: #94a9ff;
+		transition-duration: 0.5s;
+	}
+	.menu > li:hover .submenu {
+		max-height: 1000px; /* 충분히 큰 값으로 설정 */
+		transition-duration: 1s;
+	}
+	.menu > li.fixed .submenu {
+		max-height: 1000px; /* 서브메뉴가 항상 보이도록 설정 */
+	}
+	.menu > li.fixed {
+		background-color: rgb(163, 204, 163);/*  #94a9ff; */
+	}
+	.grid-container {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 20px;
+		padding: 10px 10px 30px 10px;
+	}
+	.grid-item {
+		width: 300px;
+		height: 180px;
+	}
+	canvas {
+		width: 100% !important;
+		height: auto !important;
+	}
+	p {
+    margin: 5px 0px 0px 125px;
+	}
+	footer{
+		height: 35px;
+		background-color: #002060;
+		position : relative;
+	}
+}

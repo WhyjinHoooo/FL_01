@@ -1,0 +1,2621 @@
+@charset "UTF-8";
+
+.info {
+	text-align: right;
+}
+.nation-code{
+	width: 103px;
+	text-align: center;
+}
+.money-code{
+	width: 103px;
+	text-align: center;
+}
+.yn{
+	width: 103px;
+	text-align: center;	
+}
+#FSRL{
+	width: 103px;
+	text-align: center;		
+}
+.language-code{
+		text-align: center;		
+}
+
+/* main-info START*/
+.main-info{
+	margin-top: 50px;
+	width: 80%;
+	margin-right: 55px;
+}
+.bag-main-info{
+    width: 80%; /* 가운데 정렬을 위해 전체 너비의 절반으로 설정합니다 */
+    margin-top: 50px;
+    margin-right: 230px;
+}
+.tax-main-info{
+    width: 80%; /* 가운데 정렬을 위해 전체 너비의 절반으로 설정합니다 */
+    margin-top: 50px;
+    margin-right: 60px;
+}
+.ba-main-info {
+    width: 40%; /* 가운데 정렬을 위해 전체 너비의 절반으로 설정합니다 */
+    margin-top: 50px;
+    margin-right: 400px;
+}
+.ccg-main-info {
+    width: 40%; /* 가운데 정렬을 위해 전체 너비의 절반으로 설정합니다 */
+    margin-top: 50px;
+    margin-right: 150px;
+}
+.cc-main-info {
+    width: 40%; /* 가운데 정렬을 위해 전체 너비의 절반으로 설정합니다 */
+    margin-top: 50px;
+    margin-right: 150px;
+}
+.plant-main-info {
+    width: 40%; /* 가운데 정렬을 위해 전체 너비의 절반으로 설정합니다 */
+    margin-top: 50px;
+    margin-right: 200px;
+}
+.emp-main-info {
+    width: 40%; /* 가운데 정렬을 위해 전체 너비의 절반으로 설정합니다 */
+    margin-top: 50px;
+    margin-right: 230px;
+}
+.storage-main-info {
+    width: 40%; /* 가운데 정렬을 위해 전체 너비의 절반으로 설정합니다 */
+    margin-top: 50px;
+    margin-right: -45px;
+}
+.mat-main-info {
+    width: 40%; /* 가운데 정렬을 위해 전체 너비의 절반으로 설정합니다 */
+    margin-top: 50px;
+    margin-right: -45px;
+}
+.ven-main-info {
+    width: 40%; /* 가운데 정렬을 위해 전체 너비의 절반으로 설정합니다 */
+    margin-top: 50px;
+    margin-right: 20px;
+}
+
+@media only screen and (max-width: 1537px){/* 화면 너비가 1536px 이하인 경우에 적용되는 CSS 미디어 쿼리를 지정 */
+    .content-wrapper {
+    display: flex; /* Flex 컨테이너 설정 */
+	}
+	.content-wrapper1{
+	flex-direction: column;
+	}
+    #SideMenu {
+	    border: 1px solid rgb(255,228,0); /* 기존의 테두리 스타일 유지 */
+	    width: 200px; /* 폭을 100px로 설정 */
+	    margin-right: 30px;
+	    border-radius: 20px;
+    }
+    .main-content-container {
+        flex: 3; /* flex-grow 값을 3으로 설정하여 side-menu-container보다 넓은 공간을 차지하도록 함 */
+        background-color: #ffffff; /* 배경색은 예시이므로 원하는 대로 조정하세요 */
+        width: 100%;
+    }
+    .sub-content-container{
+    flex: 1;
+    }
+	/* 발주 페이지 CSS */
+	.order-main-info,
+	.order-sub-info {
+		padding-right: 8%;
+	    padding-left: 10px;
+	    padding-top: 30px;
+	    padding-bottom: 30px;
+	    display: inline-block; /* inline-block 사용 */
+	}
+	
+	.order-sub-info {
+	margin-left: 200px;
+	    margin-bottom: 50px;
+	    border: 1px solid #1DDB16;
+	    width: 60%;
+	    /* height: 60%; */
+	    border-radius: 20px;
+	}
+	.table-container table td.spaceCell-b{
+	width: 490px !important;
+	}
+	
+	.table-container table tr.spacer-row{
+		height: 5px;
+	}
+	
+	.table-container table td.spaceCell-50{
+		width: 0px !important;
+	}
+	.table-container table td.spaceCell-90{
+	width: 0px !important;
+	}
+	.table-container table td.spaceCell-ss{
+	width: 60px !important;
+	}
+	
+	.table-container table td.spaceCell-sss{
+	width: 5px !important;
+	}
+	
+	.container {
+	width: 90%;
+    position: relative;
+	}
+	
+	.container img {
+	    position: absolute;
+	    margin-bottom: 50px; /* 이미지들의 상단 여백 */
+	    margin-left: 55%;
+	    display: inline-block;
+	}
+	
+	#btn{
+	width: 200px;
+	height: 50px;
+	border-radius:5px;
+	font-size:18px;
+	transition: all 0.3s ease;
+	}
+	#btn:hover{
+		background-color: gray;
+		color: white;;
+	}
+	
+	.input-btn {
+	    margin-bottom: 50px;
+	    margin-left: 70%;
+	    display: inline-block;
+	    vertical-align: middle;
+	}
+	.order-ready .table-container {
+    overflow-y: auto;
+    height: 550px;
+	}
+
+	.order-ready .WirteForm {
+    border-collapse: collapse;
+    width: 98%; /* 수정: 테이블 너비를 100%로 설정 */
+    font-size: 12px;
+    margin-left: 10px;
+	}
+
+	.order-ready .WirteForm th,
+	.order-ready .WirteForm td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+	}
+	.order-ready .WirteForm th {
+    background-color: rgb(111, 167, 235);
+    position: sticky;
+    top: 0;
+    color: white;
+    text-align: center;
+    z-index: 2; /* 헤더가 다른 요소 위에 오도록 설정, 추가 */
+	}
+
+	.order-ready .WirteForm .datasize {
+    text-align: center;
+	}
+	/* 사이드 메뉴 시작 */
+	#SideMenu .plantCode,
+	#SideMenu .VendorCode {
+    text-align: center;
+    width: 60px;
+    margin-left: 20px;
+	}
+
+	#SideMenu .plantDes,
+	#SideMenu .VendorDes,
+	#SideMenu .ordType,
+	#SideMenu .OrderNum,
+	#SideMenu .UserID,
+	#SideMenu .date {
+	    text-align: center;
+	    background-color: #ddd;
+	    width: 150px;
+	    margin-left: 20px;
+	}
+	
+	#SideMenu li {
+	    font-weight: bold;
+	    list-style: circle;
+	} 
+	/* 사이드 메뉴 끝 */
+	.order-sub-info .table-container .table_1{
+		margin-left: 40px;
+	}	
+	.order-sub-info .table-container .table_1 .OIN{
+		text-align : center;
+		background-color: #ddd;
+	}
+	.order-sub-info .table-container .table_2{
+		width: 700px;
+		margin-left: 47px;
+		margin-top : 10px;
+	}
+	.order-sub-info .table-container .table_2 tbody{
+		width: 200px;
+	}
+	.order-sub-info .table-container .table_2 #twoLines{
+		display: inline-block;
+	}
+	.order-sub-info .table-container .table_2 .MatCode{
+		text-align : center;
+	}
+	.order-sub-info .table-container .table_2 .MatDes{
+		text-align : center;
+		background-color: #ddd;
+		width: 200px ;
+	}
+	.order-sub-info .table-container .table_2 .MatType{
+		text-align : center;
+		background-color: #ddd;
+	}
+	
+	.order-sub-info .table-container .table_3{
+		width: 700px;
+		margin-left: 47px;
+		margin-top : 10px;
+	}
+	.order-sub-info .table-container .table_3 .OrderUnit, .StockUnit{
+		text-align : center;
+		background-color: #ddd;
+	}
+	.order-sub-info .table-container .table_4{
+		width: 800px;
+		margin-top : 10px;
+	}
+	.order-sub-info .table-container .table_4 .Date{
+		width : 100px;
+	}
+	.order-sub-info .table-container .table_4 #twoLines{
+		display: inline-block;
+	}
+	.order-sub-info .table-container .table_4 .SlocaCode{
+		text-align : center;
+		background-color: #ddd;
+	}
+	.order-sub-info .table-container .table_4 .SlocaDes{
+		width: 210px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.order-sub-info .table-container .table_5{
+		width: 700px;
+		margin-left: 37px;
+		margin-top : 10px;
+	}
+	.order-sub-info .table-container .table_5 .Oriprice, .PriUnit, .OrdPrice, .MonUnit{
+		width: 60px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	
+	.orderedDate .table-container {
+    overflow-y: auto;
+    height: 250px;
+    border: 1px solid #ffdddd;
+    border-radius: 0px 0px 20px 20px;
+    margin-bottom: 50px;
+	}
+	.orderedDate .WrittenForm th {
+    background-color: #ffdddd;
+    position: sticky;
+    top: 0;
+    color: white;
+    text-align: center;
+    z-index: 2; /* 헤더가 다른 요소 위에 오도록 설정, 추가 */
+	}
+	.orderedDate .WrittenForm {
+    border-collapse: collapse;
+    width: 100%; /* 수정: 테이블 너비를 100%로 설정 */
+    font-size: 10px;
+ 	}
+ 	.orderedDate .WrittenForm th,
+	.orderedDate .WrittenForm td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+ 	}
+}
+
+@media only screen and (min-width: 1537px) { /* 화면 너비가 1536px 이상인 경우에 적용되는 CSS 미디어 쿼리를 지정 */
+	.table-container br {
+	    display: none;
+	}
+    .content-wrapper {
+    display: flex; /* Flex 컨테이너 설정 */
+	}
+	.content-wrapper1{
+	flex-direction: column;
+	}
+    .main-content-container {
+        flex: 3; /* flex-grow 값을 3으로 설정하여 side-menu-container보다 넓은 공간을 차지하도록 함 */
+        background-color: #ffffff; /* 배경색은 예시이므로 원하는 대로 조정하세요 */
+        width: 100%;
+        margin-bottom: 25px;
+    }
+    .side-menu-container {
+	    border: 1px solid rgb(111,167,235); /* 기존의 테두리 스타일 유지 */
+	    width: 7.5%; /* 폭을 100px로 설정 */
+	    margin-right: 100px;
+	    border-radius: 20px;
+    }
+    
+	/* 자재입고 페이지  CSS 시작 */
+	.orderedDate .table-container {
+    overflow-y: auto;
+    height: 350px;
+    border: 1px solid rgba(111,167,235, .5);
+    border-radius: 0px 0px 20px 20px;
+    margin-bottom: 50px;
+	}
+	
+	.orderedDate .WrittenForm {
+    border-collapse: collapse;
+    width: 100%; /* 수정: 테이블 너비를 100%로 설정 */
+	}
+
+	.orderedDate .WrittenForm th,
+	.orderedDate .WrittenForm td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+	}
+	.orderedDate .WrittenForm th {
+    background-color: rgb(111, 167, 235);
+    position: sticky;
+    top: 0;
+    color: white;
+    text-align: center;
+    z-index: 2; /* 헤더가 다른 요소 위에 오도록 설정, 추가 */
+	}
+
+	.orderedDate .WrittenForm .datasize {
+    text-align: center;
+	}
+	.input-sub-info {
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding-left: 10px; 
+    padding-top: 15px;
+    padding-bottom: 30px;
+    width: 99.5%;
+	}
+    /* table_1 START */
+	.input-sub-info .table-container .table_1{
+		margin-left: 20px;
+	}
+	.input-sub-info .table-container .table_1 .MatNum{
+		width: 168px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_1 .ItemNum{
+		width: 60px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_1 .MovType{
+		width: 70px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_1 .MovType_Des{
+		width: 400px;
+		font-weight: 700;
+	}
+	/* table_1 END */
+	/* table_2 START */
+	.input-sub-info .table-container .table_2{
+		margin-left: 12px;
+	}
+	.input-sub-info .table-container .table_2 .PurOrdNo{
+		width: 168px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_2 .OIN{
+		width: 60px;
+		text-align: center;
+		font-weight: 700;
+	}
+	/* table_2 END */
+	/* table_3 START */
+	.input-sub-info .table-container .table_3{
+		margin-left: 95px;
+	}
+	.input-sub-info .table-container .table_3 .MatCode{
+		width: 168px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_3 .MatDes{
+		width: 800px;
+		font-weight: 700;
+		text-align: left;
+	}
+	.input-sub-info .table-container .table_3 .MatType{
+		width: 100px;
+		text-align: center;
+		font-weight: 700;
+	}
+	/* table_3 END */
+	/* table_4 START */
+	.input-sub-info .table-container .table_4{
+		margin-left: 117px;
+	}
+	.input-sub-info .table-container .table_4 .PlantCode{
+		width: 100px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_4 .SLocCode{
+		width: 100px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_4 .SLocDes{
+		width: 300px;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_4 .WareRack{
+		width: 100px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_4 .Bin{
+		width: 99px;
+		text-align: center;
+		font-weight: 700;
+	}
+	/* table_4 END */
+	/* table_5 START */
+	.input-sub-info .table-container .table_5{
+		margin-left: 85px;
+	}
+	.input-sub-info .table-container .table_5 .OrderCount{
+		width: 100px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_5 .BuyUnit{
+		width: 90px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_5 .InputCount{
+		width: 145px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_5 .GoodUnit{
+		width: 90px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_5 .NotInput{
+		width: 99px;
+		text-align: center;
+		font-weight: 700;
+	}
+	/* table_5 END */
+	/* table_6 START */
+	.input-sub-info .table-container .table_6{
+		margin-left: 53px;
+	}
+	.input-sub-info .table-container .table_6 .LotNum{
+		width: 295px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_6 .MadeDate{
+		width: 150px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_6 .Deadline{
+		width: 150px;
+		text-align: center;
+		font-weight: 700;
+	}
+	/* table_6 END */
+	.StoreReady .table-container {
+    overflow-y: auto;
+    overflow-x: auto;
+    height: 350px;
+    border: 1px solid rgba(111,167,235, .5);
+    border-radius: 0px 0px 20px 20px;
+	}
+
+	.StoreReady .TemTable {
+    border-collapse: collapse;
+    width: 100%; /* 수정: 테이블 너비를 100%로 설정 */
+	}
+
+	.StoreReady .TemTable th,
+	.StoreReady .TemTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+	}
+	.StoreReady .TemTable th {
+    background-color: rgb(111, 167, 235);
+    position: sticky;
+    top: 0;
+    color: white;
+    text-align: center;
+    z-index: 2; /* 헤더가 다른 요소 위에 오도록 설정, 추가 */
+	}
+
+	.StoreReady .WrittenForm .datasize {
+    text-align: center;
+	}
+	
+    /* 자재입고 페이지  CSS 끝 */
+	.order-main-info,
+	.order-sub-info {
+		padding-right: 8%;
+	    padding-left: 10px;
+	    padding-top: 30px;
+	    padding-bottom: 30px;
+	    display: inline-block; /* inline-block 사용 */
+	}
+	.sub-content-container .input-btn{
+		width: 200px;
+		height: 50px;
+		border-radius:5px;
+		font-size:18px;
+		transition: all 0.3s ease;
+		margin-left: 98%;
+		margin-top: 16px;
+	}
+	.sub-content-container .container img {
+	    position: absolute;
+	    margin-top: 16px; /* 이미지들의 상단 여백 */
+	    margin-left: 58%;
+	    display: inline-block;
+	}
+	.order-sub-info {
+	margin-left: 200px;
+	    margin-bottom: 10px;
+	    border: 1px solid #000;
+	    width: 60%;
+	    /* height: 60%; */
+	}
+	.table-container table td.spaceCell-b{
+	width: 490px !important;
+	}
+	
+	.table-container table tr.spacer-row{
+		height: 5px;
+	}
+	.table-container table td.spaceCell-ss{
+	width: 50px !important;
+	}
+	.table-container table td.spaceCell-ss-2{
+	width: 100px !important;
+	}
+	.table-container table td.spaceCell-s{
+	width: 60px !important;
+	}
+	.table-container table td.spaceCell-43{
+		width: 43px;
+	}
+	.table-container table td.spaceCell-179{
+		width: 179px;
+	}
+	.table-container table td.spaceCell-243{
+	width: 243px;
+	}
+	.table-container table td.spaceCell-515{
+	width: 515px;
+	}
+	.table-container table td.spaceCell-230{
+	width: 230px;
+	}
+	.table-container table td.spaceCell-250{
+		width: 250px;
+	}
+	.table-container table td.spaceCell-300{
+	width: 300px;
+	}
+	.table-container table td.spaceCell-10{
+		width: 10px;
+	}
+	.container {
+	/* margin-left: 250px; */
+	width: 90%;
+    position: relative;
+	}
+	
+	.container img {
+	    position: absolute;
+	    margin-bottom: 50px; /* 이미지들의 상단 여백 */
+	    margin-left: 40%;
+	    display: inline-block;
+	}
+	
+	#btn:hover{
+		background-color: gray;
+		color: white;;
+	}
+	
+	.input-btn {
+		width: 200px;
+		height: 50px;
+		border-radius:5px;
+		font-size:18px;
+		transition: all 0.3s ease;
+	    margin-bottom: 25px;
+	    margin-left: 90%;
+	    display: inline-block;
+	    vertical-align: middle;
+	}
+	
+	.order-ready .table-container {
+    overflow-y: auto;
+    height: 550px;
+    border: 1px solid rgba(111,167,235, .5);
+    border-radius: 0px 0px 20px 20px;
+	}
+
+	.order-ready .WirteForm {
+    border-collapse: collapse;
+    width: 100%; /* 수정: 테이블 너비를 100%로 설정 */
+	}
+
+	.order-ready .WirteForm th,
+	.order-ready .WirteForm td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+	}
+	.order-ready .WirteForm th {
+    background-color: rgb(111, 167, 235);
+    position: sticky;
+    top: 0;
+    color: white;
+    text-align: center;
+    z-index: 2; /* 헤더가 다른 요소 위에 오도록 설정, 추가 */
+	}
+
+	.order-ready .WirteForm .datasize {
+    text-align: center;
+	}
+	#SideMenu .plantCode,
+	#SideMenu .VendorCode {
+    text-align: center;
+    width: 60px;
+    margin-left: 20px;
+	}
+
+	#SideMenu .plantDes,
+	#SideMenu .VendorDes,
+	#SideMenu .ordType,
+	#SideMenu .OrderNum,
+	#SideMenu .UserID,
+	#SideMenu .date {
+	    text-align: center;
+	    background-color: #ddd;
+	    width: 150px;
+	    margin-left: 20px;
+	}
+	
+	#SideMenu li {
+	    font-weight: bold;
+	    list-style: none;
+	    margin-left: 20px;
+	    margin-top: 10px;
+	}
+	#In_SideMenu li {
+	    font-weight: bold;
+	    list-style: none;
+	    margin-left: 20px;
+	    margin-top: 10px;
+	}
+	#In_SideMenu .plantCode,
+	#In_SideMenu .VendorCode {
+    text-align: center;
+    width: 60px;
+    margin-left: 20px;
+	}
+
+	#In_SideMenu .plantDes,
+	#In_SideMenu .VendorDes,
+	#In_SideMenu .ordType,
+	#In_SideMenu .OrderNum,
+	#In_SideMenu .UserID,
+	#In_SideMenu .date {
+	    text-align: center;
+	    background-color: #ddd;
+	    width: 150px;
+	    margin-left: 20px;
+	}
+	.order-sub-info .table-container .table_1 .OIN{
+		text-align : center;
+		background-color: #ddd;
+	}
+	.order-sub-info .table-container .table_2 .MatCode{
+		text-align : center;
+	}
+	.order-sub-info .table-container .table_2 .MatDes{
+		text-align : center;
+		background-color: #ddd;
+	}
+	.order-sub-info .table-container .table_2 .MatType{
+		text-align : center;
+		background-color: #ddd;
+	}
+	.order-sub-info .table-container .table_3 .OrderUnit{
+		text-align : center;
+		background-color: #ddd;
+	}
+	.order-sub-info .table-container .table_3 .StockUnit{
+		text-align : center;
+		background-color: #ddd;
+	}
+	.order-sub-info .table-container .table_4 .SlocaCode{
+		text-align : center;
+		background-color: #ddd;
+	}
+	.order-sub-info .table-container .table_4 .SlocaDes{
+		width: 230px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	
+	.order-sub-info .table-container .table_5 .Oriprice, .PriUnit, .OrdPrice, .MonUnit{
+		width: 100px;
+		text-align : center;
+		background-color: #ddd;
+	}
+		
+	.order-sub-info .table-container .table_2 .MatDes{
+		width: 470px ;
+	}
+	.order-sub-info .table-container .table_3{
+		margin-left: 285px;
+		margin-top : 10px;
+	}
+	.order-sub-info .table-container .table_4 .Date{
+		width : 100px;
+	}
+	.order-sub-info .table-container .table_4{
+		margin-left: 255px;
+		margin-top : 10px;
+	}
+	.order-sub-info .table-container .table_5{
+		margin-left: 287px;
+		margin-top : 10px;
+	} 
+	.order-sub-info .table-container .table_1{
+		margin-left: 273px;
+	}
+	.order-sub-info .table-container .table_2{
+		/* margin-right: 100px; */
+		margin-left: 285px;
+		margin-top : 10px;
+	}
+}
+@media only screen and (max-width: 1537px) { /* 화면 너비가 1536px 이상인 경우에 적용되는 CSS 미디어 쿼리를 지정 */
+	.table-container br {
+	    display: none;
+	}
+    .content-wrapper {
+    display: flex; /* Flex 컨테이너 설정 */
+	}
+	.content-wrapper1{
+	flex-direction: column;
+	}
+    .main-content-container {
+        flex: 3; /* flex-grow 값을 3으로 설정하여 side-menu-container보다 넓은 공간을 차지하도록 함 */
+        background-color: #ffffff; /* 배경색은 예시이므로 원하는 대로 조정하세요 */
+        width: 100%;
+        margin-bottom: 25px;
+    }
+    .side-menu-container {
+	    border: 1px solid rgb(255,228,0); /* 기존의 테두리 스타일 유지 */
+	    width: 200px; /* 폭을 100px로 설정 */
+	    margin-right: 30px;
+	    border-radius: 20px;
+    }
+    
+	/* 자재입고 페이지  CSS 시작 */
+	.orderedDate .table-container {
+    overflow-y: auto;
+    height: 230px;
+    border: 1px solid rgba(111,167,235, .5);
+    border-radius: 0px 0px 20px 20px;
+    margin-bottom: 30px;
+	}
+
+	.orderedDate .WrittenForm {
+    border-collapse: collapse;
+    width: 100%; /* 수정: 테이블 너비를 100%로 설정 */
+	}
+
+	.orderedDate .WrittenForm th,
+	.orderedDate .WrittenForm td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+	}
+	.orderedDate .WrittenForm th {
+    background-color: rgb(111, 167, 235);
+    position: sticky;
+    top: 0;
+    color: white;
+    text-align: center;
+    z-index: 2; /* 헤더가 다른 요소 위에 오도록 설정, 추가 */
+	}
+
+	.orderedDate .WrittenForm .datasize {
+    text-align: center;
+	}
+	.input-sub-info {
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding-left: 10px; 
+    padding-top: 15px;
+    padding-bottom: 20px;
+    width: 99.5%;
+	}
+    /* table_1 START */
+	.input-sub-info .table-container .table_1{
+		margin-left: 20px;
+	}
+	.input-sub-info .table-container .table_1 .MatNum{
+		width: 100px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_1 .ItemNum{
+		width: 60px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_1 .MovType{
+		width: 70px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_1 .MovType_Des{
+		width: 200px;
+		font-weight: 700;
+		text-align: center;
+	}
+	/* table_1 END */
+	/* table_2 START */
+	.input-sub-info .table-container .table_2{
+		margin-left: 12px;
+	}
+	.input-sub-info .table-container .table_2 .PurOrdNo{
+		width: 100px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_2 .OIN{
+		width: 60px;
+		text-align: center;
+		font-weight: 700;
+	}
+	/* table_2 END */
+	/* table_3 START */
+	.input-sub-info .table-container .table_3{
+		margin-left: 95px;
+	}
+	.input-sub-info .table-container .table_3 .MatCode{
+		width: 99px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_3 .MatDes{
+		width: 416px;
+		font-weight: 700;
+		text-align: left;
+	}
+	.input-sub-info .table-container .table_3 .MatType{
+		width: 100px;
+		text-align: center;
+		font-weight: 700;
+	}
+	/* table_3 END */
+	/* table_4 START */
+	.input-sub-info .table-container .table_4{
+		margin-left: 119px;
+	}
+	.input-sub-info .table-container .table_4 .PlantCode{
+		width: 100px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_4 .SLocCode{
+		width: 100px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_4 .SLocDes{
+		width: 258px;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_4 .WareRack{
+		width: 100px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_4 .Bin{
+		width: 99px;
+		text-align: center;
+		font-weight: 700;
+	}
+	/* table_4 END */
+	/* table_5 START */
+	.input-sub-info .table-container .table_5{
+		margin-left: 89px;
+	}
+	.input-sub-info .table-container .table_5 .OrderCount{
+		width: 100px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_5 .BuyUnit{
+		width: 90px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_5 .InputCount{
+		width: 145px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_5 .GoodUnit{
+		width: 90px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_5 .NotInput{
+		width: 99px;
+		text-align: center;
+		font-weight: 700;
+	}
+	/* table_5 END */
+	/* table_6 START */
+	.input-sub-info .table-container .table_6{
+		margin-left: 58px;
+	}
+	.input-sub-info .table-container .table_6 .LotNum{
+		width: 295px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_6 .MadeDate{
+		width: 150px;
+		text-align: center;
+		font-weight: 700;
+	}
+	.input-sub-info .table-container .table_6 .Deadline{
+		width: 150px;
+		text-align: center;
+		font-weight: 700;
+	}
+	/* table_6 END */
+	.StoreReady .table-container {
+    overflow-y: auto;
+    overflow-x: auto;
+    height: 350px;
+    border: 1px solid rgba(111,167,235, .5);
+    border-radius: 0px 0px 20px 20px;
+	}
+
+	.StoreReady .TemTable {
+    border-collapse: collapse;
+    width: 100%; /* 수정: 테이블 너비를 100%로 설정 */
+    font-size: 10px;
+	}
+
+	.StoreReady .TemTable th,
+	.StoreReady .TemTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+	}
+	.StoreReady .TemTable th {
+    background-color: rgb(111, 167, 235);
+    position: sticky;
+    top: 0;
+    color: white;
+    text-align: center;
+    z-index: 2; /* 헤더가 다른 요소 위에 오도록 설정, 추가 */
+	}
+
+	.StoreReady .WrittenForm .datasize {
+    text-align: center;
+	}
+	
+    /* 자재입고 페이지  CSS 끝 */
+	.order-main-info,
+	.order-sub-info {
+		padding-right: 8%;
+	    padding-left: 10px;
+	    padding-top: 30px;
+	    padding-bottom: 30px;
+	    display: inline-block; /* inline-block 사용 */
+	}
+	.sub-content-container .input-btn{
+		width: 200px;
+		height: 50px;
+		border-radius:5px;
+		font-size:18px;
+		transition: all 0.3s ease;
+		margin-left: 98%;
+		margin-top: 16px;
+	}
+	.sub-content-container .container img {
+	    position: absolute;
+	    margin-top: 16px; /* 이미지들의 상단 여백 */
+	    margin-left: 58%;
+	    display: inline-block;
+	}
+	.order-sub-info {
+	margin-left: 200px;
+	    margin-bottom: 10px;
+	    border: 1px solid #000;
+	    width: 60%;
+	    /* height: 60%; */
+	}
+	.table-container table td.spaceCell-b{
+	width: 240px !important;
+	}
+	
+	.table-container table tr.spacer-row{
+		height: 5px;
+	}
+	.table-container table td.spaceCell-ss{
+	width: 50px !important;
+	}
+	.table-container table td.spaceCell-ss-2{
+	width: 100px !important;
+	}
+	.table-container table td.spaceCell-s{
+	width: 30px !important;
+	}
+	.table-container table td.spaceCell-43{
+		width: 11px;
+	}
+	.table-container table td.spaceCell-179{
+		width: 10px;
+	}
+	.table-container table td.spaceCell-243{
+	width: 20px;
+	}
+	.table-container table td.spaceCell-515{
+	width: 80px;
+	}
+	.table-container table td.spaceCell-230{
+	width: 20px;
+	}
+	.table-container table td.spaceCell-250{
+	width: 10px;
+	}
+	.table-container table td.spaceCell-300{
+	width: 10px;
+	}
+	.table-container table td.spaceCell-10{
+		width: 10px;
+	}
+	.container {
+	/* margin-left: 250px; */
+	width: 90%;
+    position: relative;
+	}
+	
+	.container img {
+	    position: absolute;
+	    margin-bottom: 50px; /* 이미지들의 상단 여백 */
+	    margin-left: 54%;
+	    display: inline-block;
+	}
+	
+	#btn:hover{
+		background-color: gray;
+		color: white;;
+	}
+	
+	.input-btn {
+		width: 200px;
+		height: 50px;
+		border-radius:5px;
+		font-size:18px;
+		transition: all 0.3s ease;
+	    margin-bottom: 25px;
+	    margin-left: 90%;
+	    display: inline-block;
+	    vertical-align: middle;
+	}
+	
+	.order-ready .table-container {
+    overflow-y: auto;
+    height: 550px;
+    border: 1px solid rgba(111,167,235, .5);
+    border-radius: 0px 0px 20px 20px;
+	}
+
+	.order-ready .WirteForm {
+    border-collapse: collapse;
+    width: 100%; /* 수정: 테이블 너비를 100%로 설정 */
+	}
+
+	.order-ready .WirteForm th,
+	.order-ready .WirteForm td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+	}
+	.order-ready .WirteForm th {
+    background-color: rgb(111, 167, 235);
+    position: sticky;
+    top: 0;
+    color: white;
+    text-align: center;
+    z-index: 2; /* 헤더가 다른 요소 위에 오도록 설정, 추가 */
+	}
+
+	.order-ready .WirteForm .datasize {
+    text-align: center;
+	}
+	#In_SideMenu li {
+	    font-weight: bold;
+	    list-style: none;
+	    margin-left: 20px;
+	    margin-top: 10px;
+	}
+	#In_SideMenu .plantCode,
+	#In_SideMenu .VendorCode {
+    text-align: center;
+    width: 60px;
+    margin-left: 20px;
+	}
+
+	#In_SideMenu .plantDes,
+	#In_SideMenu .VendorDes,
+	#In_SideMenu .ordType,
+	#In_SideMenu .OrderNum,
+	#In_SideMenu .UserID,
+	#In_SideMenu .date {
+	    text-align: center;
+	    background-color: #ddd;
+	    width: 150px;
+	    margin-left: 20px;
+	}
+}
+
+/* 발주 페이지 CSS 수정 중 끝*/
+@media only screen and (min-width: 1536px) {
+	.input-main-info {
+    border: 1px solid #000;
+    margin-top: 50px;
+    padding-left: 10px; 
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 80%;
+	}
+
+}
+
+/*main-info END*/
+/*sub-info START*/
+.sub-info {
+    border: 1px solid #000;
+    margin-top: 50px;
+    padding-left: 10px; 
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 80%;
+}
+.bag-sub-info {
+    border: 1px solid #000;
+    margin-top: 50px;
+    padding-left: 10px; 
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 80%;
+}
+.tax-sub-info {
+    border: 1px solid #000;
+    margin-top: 50px;
+    padding-left: 10px; 
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 80%;
+}
+.ba-sub-info {
+    border: 1px solid #000;
+    margin-top: 50px;
+    padding-left: 10px; 
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 80%;
+}
+.ccg-sub-info {
+    border: 1px solid #000;
+    margin-top: 50px;
+    padding-left: 10px; 
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 80%;
+}
+.cc-sub-info {
+    border: 1px solid #000;
+    margin-top: 50px;
+    padding-left: 10px; 
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 80%;
+}
+.plant-sub-info {
+    border: 1px solid #000;
+    margin-top: 50px;
+    padding-left: 10px; 
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 80%;
+}
+.emp-sub-info {
+    border: 1px solid #000;
+    margin-top: 50px;
+    padding-left: 10px; 
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 80%;
+}
+.storage-sub-info {
+    border: 1px solid #000;
+    margin-top: 50px;
+    padding-left: 10px; 
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 80%;
+}
+.mat-sub-info {
+    border: 1px solid #000;
+    margin-top: 50px;
+    padding-left: 10px; 
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 80%;
+}
+.ven-sub-info {
+    border: 1px solid #000;
+    margin-top: 50px;
+    padding-left: 10px; 
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 80%;
+}
+
+
+/*sub-info END*/
+
+
+/* Company START */
+.sub-info .table-container #NationCode{
+	width: 100px;
+	text-align: center;
+}
+.sub-info .table-container #NationDes{
+	width: 200px;
+	text-align: center;
+}
+/* Company END */
+
+/* Business Area Group START */
+.bag-sub-info .table-container .Com-code{
+	text-align: center;
+	width: 95px;
+}
+.ba-sub-info .table-container .TA-code, .ba-sub-info .table-container .BAG-code{
+	text-align: center;
+	width: 105px;
+}
+/* Business Area Group END */
+
+/* Cost Center Group START */
+.ccg-sub-info .table-container .Com-code,
+.ccg-sub-info .table-container .CCTR-level,
+.ccg-sub-info .table-container .Upper-CCT-Group,
+.ccg-sub-info .table-container .Upper-Cct-Name,
+.ccg-sub-info .table-container .tccg {
+	text-align: center;
+	width: 103px;
+}
+
+/* Cost Center Group END */
+
+/* Cost Center START */
+.cc-sub-info .table-container .Biz_Code,
+.cc-sub-info .table-container .ccc,
+.cc-sub-info .table-container .cct{
+	text-align: center;
+	width: 103px;
+}
+/* Cost Center END */
+
+/* Plant START */
+.plant-sub-info .table-container .BizSelect{
+	width: 103px;
+	text-align: center;
+}
+.plant-sub-info .table-container .Com_Des,
+.plant-sub-info .table-container .Biz_Des{
+	text-align: center;
+}
+
+/* Plant END */
+/* Storage START */ 
+.storage-sub-info .table-container .ComCode,
+.storage-sub-info .table-container .Plant_Select,
+.storage-sub-info .table-container .Stor_Code{
+	width: 110px;
+	text-align: center;	
+}
+
+.storage-sub-info .table-container .Com_Name,
+.storage-sub-info .table-container .Plant_Name,
+.storage-sub-info .table-container .Stor_Des {
+	width: 275px;
+	text-align: center;
+}
+/* Storage END */
+
+/* 간격 START */
+.table-container table tr.spacer-row{
+	height: 10px;
+}
+.table-container table td.spaceCell{
+	width: 150px;
+}
+.table-container table td.spaceCell-b{
+	width: 550px;
+}
+/* .table-container table td.spaceCell-s{
+	width: 150px;
+} */
+/* .table-container table td.spaceCell-10{
+	width: 10px;
+} */
+.table-container table td.spaceCell-18{
+	width: 18px;
+}
+.table-container table td.spaceCell-20{
+	width: 20px;
+}
+.table-container table td.spaceCell-23{
+	width: 23px;
+}
+.table-container table td.spaceCell-30{
+	width: 30px;
+}
+.table-container table td.spaceCell-40{
+	width: 40px;
+}
+.table-container table td.spaceCell-50{
+	width: 50px;
+}
+.table-container table td.spaceCell-60{
+	width: 60px;
+}
+.table-container table td.spaceCell-70{
+	width: 70px;
+}
+.table-container table td.spaceCell-80{
+	width: 80px;
+}
+.table-container table td.spaceCell-90{
+	width: 90px;
+}
+.table-container table td.spaceCell-100{
+	width: 100px;
+}
+.table-container table td.spaceCell-150{
+	width: 150px;
+}
+.table-container table td.spaceCell-180{
+	width: 180px;
+}
+.table-container table td.spaceCell-190{
+	width: 190px;
+}
+.table-container table td.spaceCell-200{
+	width: 200px;
+}
+/* .table-container table td.spaceCell-230{
+	width: 230px;
+} */
+.table-container table td.spaceCell-240{
+	width: 240px;
+}
+/* .table-container table td.spaceCell-250{
+	width: 250px;
+} */
+/* .table-container table td.spaceCell-300{
+	width: 300px;
+} */
+/* .table-container table td.spaceCell-400{
+	width: 400px;
+} */
+.table-container table td.spaceCell-ss{
+	width: 50px;
+}
+/* .table-container table td.spaceCell-515{
+	width: 515px;
+} */
+/* .table-container table td.spaceCell-ss-1{
+	width: 50px;
+} */
+.table-container table td.spaceCell-ss-1-1{
+	width: 130px;
+}
+/* .table-container table td.spaceCell-ss-2{
+	width: 190px;
+} */
+.table-container table td.spaceCell-sss{
+	width: 5px;
+}
+/* 간격 END */
+
+.Search-Result {
+    width: 105%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Search-Result table {
+    width: 90%;
+    text-align: center;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+.Search-Result th, .Search-Result td {
+    padding: 10px;
+    border: 1px solid #000;
+    font-size : 10px;
+}
+
+.Search-Result td {
+    vertical-align: middle; /* 셀 내부의 텍스트를 수직 가운데 정렬 */
+}
+.spacing{
+    display: inline-block;
+    margin-right: 40px;  
+  }
+.Com-code {
+	width: 103px;
+	text-align: center;
+}
+.Upper-Biz-level{
+	width: 103px;
+	text-align: center;	
+}
+.Biz-level{
+	width: 103px;
+	text-align: center;	
+}
+
+.Nationality-Des {
+    text-align: center;
+}
+.Nationality-Code{
+	text-align: center;
+	padding-right: 20px;
+}
+
+.emp-sub-info .CCSelect , .PosCode, .duty , .title{
+	width: 110px;
+	text-align: center;
+}
+.emp-sub-info .NewAddr{
+	margin-bottom: 5px;
+}
+.emp-sub-info .AddrCode {
+    width: 105px;
+	text-align: center;
+}
+.emp-sub-info .Addr, .emp-sub-info .AddrDetail, .emp-sub-info .AddrRefer {
+    width: 99%;
+}
+.emp-sub-info .PosCode{
+	width: 105px;
+}
+.emp-sub-info .today , .duty_Start{
+	width: 105px;
+}
+
+.emp-sub-info .ComCode, .duty_code , .title_Code{
+	width: 105px;
+	text-align: center;
+	/* <input>하는 CSS */
+}
+.emp-sub-info .Com-Search img {
+    width: 10px;
+    height: 10px;
+}
+
+.ComSearch-board {
+	padding: 20px;
+	width: 80%;
+	max-height: 400px;
+	overflow-y: auto;
+}
+
+.ComSearch-board table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.ComSearch-board th, .ComSearch-board td {
+border: 1px solid #ccc;
+padding: 10px;
+text-align: center;
+}
+
+.ComSearch-board th {
+background-color: #f2f2f2;
+}
+
+.ComSearch-board td a {
+text-decoration: none;
+color: #007bff;
+}
+
+.ComSearch-board td a:hover {
+text-decoration: underline;
+}
+.ComSearch-board .jinho {
+	position: fixed;
+}
+/* 실험 부분 시작 */
+.MovArea {
+	border: 1px solid #ccc;
+	width: 100%;
+	max-height: 600px;
+	overflow: auto;
+}
+.table-header {
+	width: 965px;
+	border: 0px;
+	border-collapse: collapse;
+}
+.table-header th, .table-header td{
+	width: 20%;
+	border-right: 1px solid lightgray;
+	text-align: center;
+	padding: 5px 0;
+}
+.table-header th:last-child, .table-header td:last-child{
+	border-right: 0px !important;
+}
+.table-header tr:first-child{
+	background-color: gray !important;
+	color: white !important;
+	font-weight: bold !important;
+}
+.table-header tr:nth-child(odd){
+	background-color: #ccc;
+	text-align: center;
+}
+.table-header th {
+	position: sticky;
+	top: 0px;
+	background-color: #6FA7EB !important;
+	padding: 10px;
+	text-align: center;
+}
+.table-tr{
+        cursor: default;
+}
+	/* 네비게이션 부분 CSS START */
+/* ul{
+	list-style-type:none;
+	margin: 0;
+    padding: 0;
+}  
+.navi > li{
+	float: left;
+	width: 200px;
+}
+
+.navi > li > a{
+	padding: 10px 50px;
+}
+
+li a{
+	background-color: #39f;
+    text-decoration: none;
+    font-weight: bold;
+    color: #000000;
+    display: block;
+    text-align: center;
+    padding: 10px;
+}
+
+li a:hover{
+	background-color:#33f;
+	color: white;
+}
+
+.navi li ul{	
+	display: none;
+}
+.navi li:hover ul{
+	display: block;
+}  
+ 
+-------------------------------
+    .navi{
+        list-style-type:none;
+        margin: 0;
+        padding: 0;
+    }  
+    .navi .testnav > li{
+        float: left;
+        width: 200px;
+    }
+    .navi .testnav > li > a{
+        padding: 10px 50px;
+    }
+
+    .navi .testnav li a{
+        background-color: #DDDDFF;
+        text-decoration: none;
+        font-weight: bold;
+        color: white;
+        display: block;
+        text-align: center;
+        padding: 10px;
+        border-radius: 5px; 
+        border: 1px #DDDDFF; 
+    }
+     
+    .navi .testnav li a:hover{
+        background-color:#FFDDDD;
+        color: white;
+    }
+    .navi .testnav li ul{    
+        display: none;
+    }
+    .navi .testnav li:hover ul{
+        display: block;
+    }
+*/
+	/* 네비게이션 부분 CSS END */
+/* 실험 부분 끝 */
+.emp-sub-info .table-container .CC_Code, .CC_Name , .Com_Name, .duty_Des , .title_Des{
+	text-align: center;
+}
+.emp-sub-info .table-container .duty_Des{
+	width: 245px;
+	height: 15px;
+	font-size: 10px;
+}
+.storage-sub-info .table-container .Storage_Type_Des{
+	width: 275px;
+	height: 15px;
+	font-size: 10px;
+	text-align: center;
+}
+.mat-main-info .table-container .plantCode, .matTypeCode, .matTypeDes , .matlv1Code, .matlv1Des , .matlv2Code , .matlv2Des, .matlv3Code , .matlv3Des{
+	text-align: center;
+}
+.mat-main-info .table-container .matCode{
+	background-color : #D3D3D3;
+	text-align: center;
+}
+.mat-sub-info .table-container .unit{
+	width : 110px;
+	text-align: center;
+}
+.mat-sub-info .table-container .examineItem2{
+	margin-left: 50px;
+}
+.mat-sub-info .table-container .useYN2{
+	margin-left: 103px;
+}
+.mat-sub-info .table-container .StorageCode, .StorageDes, .matGroupCode, .matGroupDes, .matadjustCode, .matadjustDes{
+	text-align: center;
+}
+.ven-main-info .table-container .ComCode{
+	text-align: center;
+}
+.ven-sub-info .table-container .NationCode, .NationDes{
+	text-align: center;
+}
+
+
+/* 화살표 START*/
+/* .container {
+    position: relative;
+}
+
+.container img {
+    position: absolute;
+    margin-top: 30px; 이미지들의 상단 여백
+}
+
+.container img[name="Down"] {
+    left: 1200px; 첫 번째 이미지를 왼쪽으로 800px 이동
+    margin-right: 90px; 첫 번째 이미지의 오른쪽 여백 100px 설정
+} */
+
+/* .input-btn {
+    margin-top: 30px;
+    margin-left: 60%;
+    display: inline-block;
+    vertical-align: middle;
+} */
+/* 화살표 END */
+/* 작성표 START */
+/* .WirteForm {
+	margin-top: 30px;
+    border-collapse: collapse; 테이블 셀 경계를 합치도록 설정
+    width: 2050px; 테이블 전체 너비를 100%로 설정
+} */
+/* Data 검색용 테이블 CSS */
+.DataForm {
+	margin-top: 5px;
+    border-collapse: collapse; /* 테이블 셀 경계를 합치도록 설정 */
+    width: 2050px; /* 테이블 전체 너비를 100%로 설정 */
+}
+
+.DataForm th, .DataForm td {
+    border: 1px solid #ddd; /* 셀 경계를 1px 실선으로 설정 */
+    padding: 8px; /* 셀 안의 여백 설정 */
+    text-align: center; /* 텍스트를 왼쪽 정렬로 설정 */
+    font-size: 12px;
+    
+}
+.wrapper{
+	margin-top: 100px;
+}
+.search-section {
+	order: 1;
+}
+ 
+.table-section {
+	order: 2;
+}
+.DataForm th {
+    background-color: rgb(111, 167, 235); /* 배경색을 지정 */
+    color: white; /* 글자색을 흰색으로 설정 */
+} 
+/* 작성표 END */
+
+/* 자재입고 큰 모니터 START */
+@media only screen and (min-width: 1536px) {
+	.input-main-info .table-container .main-table .plantCode{
+		width: 100px;
+		text-align: center;
+	}
+	.input-main-info .table-container .main-table .plantDes{
+		width: 315px; 
+		text-align: center;
+	}
+	.input-main-info .table-container .main-table .Input_Id{
+		text-align: center;
+	}
+	
+	.input-main-info .table-container .main-table .VendorCode{
+		width: 100px;
+		text-align: center;
+	}
+	.input-main-info .table-container .main-table .VenderDes{
+		width: 315px; 
+		text-align: center;
+	}
+	.input-main-info .table-container .main-table .Input_Date{
+		text-align: center;
+	}
+	.Info-input-btn{
+       	width: 200px;
+        height: 50px;
+        border-radius: 5px;
+        font-size: 18px;
+        transition: all 0.3s ease;
+        margin-top: 30px;
+        margin-left: 64.5%;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    a.search-link{
+	display: inline-block;
+    vertical-align: middle;
+    text-decoration: none;
+    margin-top: 30px;
+    width: 200px;
+    height: 50px;
+    border-radius: 5px;
+    border: 1px solid #000;
+    color: #000;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    background-color: white;
+	}
+	
+	a.search-link p {
+	    display: inline-block;
+	    vertical-align: top; /* 텍스트를 위로 정렬 */
+	    line-height: 0.5; /* 텍스트의 높이를 최소화하여 위로 이동시킴 */
+	}
+	
+}
+
+
+/* 자재입고 큰 모니터 END */
+@media only screen and (max-width: 1537px) {
+	
+	
+	.Content-Wrapper-OutAside {
+    display: flex; /* Flex 컨테이너 설정 */
+	}
+	
+	#Out_SideMenu li {
+	    font-weight: bold;
+	    list-style: none;
+	    margin-left: 20px;
+	    margin-top: 10px;
+	}
+	#Out_SideMenu .plantCode,
+	#Out_SideMenu .StorageCode,
+	#Out_SideMenu .movCode {
+    text-align: center;
+    width: 60px;
+    margin-left: 20px;
+	}
+
+	#Out_SideMenu .plantDes,
+	#Out_SideMenu .StorageDes,
+	#Out_SideMenu .movDes,
+	#Out_SideMenu .Doc_Num,
+	#Out_SideMenu .Out_date,
+	#Out_SideMenu .User_Id {
+	    text-align: center;
+	    background-color: #ddd;
+	    width: 150px;
+	    margin-left: 20px;
+	}
+	
+	.output-main-info {
+	    border: 1px solid #000;
+	    margin-top: 50px;
+	    padding-left: 10px; 
+	    padding-top: 30px;
+	    padding-bottom: 15px;
+	    width: 80%;
+	}
+	.output-sub-info {
+	    border: 1px solid #000;
+	    padding-left: 10px; 
+	    padding-top: 30px;
+	    padding-bottom: 30px;
+	    width: 90%;
+	    border-radius: 10px;
+	    margin-left: 50px;
+	}
+	.output-main-info .table-container .main-table_01 .plantCode{
+		width : 100px;
+		text-align: center;
+	}
+	.output-main-info .table-container .main-table_01 .plantDes{
+		width : 550px;
+		text-align: center;
+		background-color: #ddd;
+		font-weight: 700;
+	}
+	.output-main-info .table-container .main-table_01 .StorageCode{
+		width : 100px;
+		text-align: center;
+	}
+	.output-main-info .table-container .main-table_01 .StorageDes{
+		width : 550px;
+		text-align: center;
+		background-color: #ddd;
+		font-weight: 700;
+	}
+	.output-main-info .table-container .main-table_01 .User_Id{
+		font-weight: 700;
+		width: 100px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.output-main-info .table-container .main-table_01 .Out_date{
+		font-weight: 700;
+		width: 100px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.output-main-info .table-container .main-table_02{
+		margin-right: 728px; 
+	}
+	.output-main-info .table-container .main-table_02 .Doc_Num{
+		text-align : center;
+	}
+	.output-main-info .table-container .main-table_02 .movCode{
+		width : 95px;
+		text-align : center;
+	}
+	.output-main-info .table-container .main-table_02 .movDes{
+		width : 220px;
+		text-align : center;
+		background-color: #ddd;
+		font-weight: 700;
+	}
+	.output-sub-info .table-container .sub-table-01 .GINo{
+		width : 60px;
+		text-align : center;
+	}
+	.output-sub-info .table-container .sub-table-01{
+		margin-left: 100px;
+	}
+	.output-sub-info .table-container .sub-table-02 .MatCode{
+		text-align : center;
+	}
+	.output-sub-info .table-container .sub-table-02 .MatDes{
+		width : 603px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.output-sub-info .table-container .sub-table-02{
+		margin-left: 123px;
+	}
+	.output-sub-info .table-container .sub-table-03 .MatLotNo{
+		text-align : center;
+	}
+	.output-sub-info .table-container .sub-table-03 .MakeDate{
+		width : 100px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.output-sub-info .table-container .sub-table-03 .DeadDete{
+		width : 100px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.output-sub-info .table-container .sub-table-03{
+		margin-left : 85px;
+	}
+	.output-sub-info .table-container .sub-table-04 .Rack{
+		width : 100px;
+	}
+	.output-sub-info .table-container .sub-table-04 .Bin{
+		width : 100px;
+	}
+	.output-sub-info .table-container .sub-table-04{
+		margin-left: 110px;
+	}
+	.output-sub-info .table-container .sub-table-05 .OutCount{
+		width : 100px;
+		text-align : center;
+	}
+	.output-sub-info .table-container .sub-table-05 .OrderUnit{
+		width : 80px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.output-sub-info .table-container .sub-table-05 .BeforeCount{
+		width : 100px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.output-sub-info .table-container .sub-table-05 .BeforeLotNo{
+		width : 100px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.output-sub-info .table-container .sub-table-05{
+		margin-left: 113px;
+	}
+	
+	.output-sub-info .table-container .sub-table-06 .UseDepart{
+		width : 100px;
+		text-align : center;
+	}
+	.output-sub-info .table-container .sub-table-06 .DepartName{
+		width : 230px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.output-sub-info .table-container .sub-table-06 .InputStorage{
+		width : 100px;
+		text-align : center;
+	}
+	.output-sub-info .table-container .sub-table-06{
+		margin-left: 113px;
+	}
+	.output-sub-info .table-container .sub-table-07{
+		margin-left: 90px;
+	}
+	.output-sub-info .table-container .sub-table-07 .nothing{
+		width: 200px;
+	}
+	/* .datasize{
+		text-align : center !important;
+	} */
+	#OPResgistform, #OrderRegistForm, #MatInputRegistForm {
+        margin-top: 50px;
+    }
+	.expiredData .table-container {
+    overflow-y: auto;
+    height: 300px;
+    width: 110%;
+    border: 1px solid rgba(111,167,235, .5);
+    border-radius: 0px 0px 20px 20px;
+	}
+	
+	.expiredData .WrittenForm {
+    border-collapse: collapse;
+    width: 100%; /* 수정: 테이블 너비를 100%로 설정 */
+	}
+
+	.expiredData .WrittenForm th,
+	.expiredData .WrittenForm td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+	}
+	.expiredData .WrittenForm th {
+    background-color: rgb(111, 167, 235);
+    position: sticky;
+    top: 0;
+    color: white;
+    text-align: center;
+	font-size: smaller;
+    z-index: 2; /* 헤더가 다른 요소 위에 오도록 설정, 추가 */
+	}
+
+	.expiredData .WrittenForm .datasize {
+    text-align: center;
+	}
+	
+	.inputArea {
+	margin: 10px 0px 0px 0px;
+	width: 90%;
+    position: relative;
+	}
+	
+	.inputArea img {
+	    position: absolute;
+	    margin-bottom: 50px; /* 이미지들의 상단 여백 */
+	    margin-left: 40%;
+	    display: inline-block;
+	}
+	
+	.inputArea #btn:hover{
+		background-color: gray;
+		color: white;;
+	}
+	
+	.inputArea .input-btn {
+		width: 200px;
+		height: 50px;
+		border-radius:5px;
+		font-size:18px;
+		transition: all 0.3s ease;
+	    margin-bottom: 25px;
+	    margin-left: 88%;
+	    display: inline-block;
+	    vertical-align: middle;
+	}
+}
+/* 위에 여기여기 */
+@media only screen and (min-width: 1537px) {
+	.Content-Wrapper-OutAside {
+    display: flex; /* Flex 컨테이너 설정 */
+	}
+	
+	#Out_SideMenu li {
+	    font-weight: bold;
+	    list-style: none;
+	    margin-left: 20px;
+	    margin-top: 10px;
+	}
+	#Out_SideMenu .plantCode,
+	#Out_SideMenu .StorageCode,
+	#Out_SideMenu .movCode {
+    text-align: center;
+    width: 60px;
+    margin-left: 20px;
+	}
+
+	#Out_SideMenu .plantDes,
+	#Out_SideMenu .StorageDes,
+	#Out_SideMenu .movDes,
+	#Out_SideMenu .Doc_Num,
+	#Out_SideMenu .Out_date,
+	#Out_SideMenu .User_Id {
+	    text-align: center;
+	    background-color: #ddd;
+	    width: 150px;
+	    margin-left: 20px;
+	}
+	
+	.output-main-info {
+	    border: 1px solid #000;
+	    margin-top: 50px;
+	    padding-left: 10px; 
+	    padding-top: 30px;
+	    padding-bottom: 15px;
+	    width: 80%;
+	}
+	.output-sub-info {
+	    border: 1px solid #000;
+	    padding-left: 10px; 
+	    padding-top: 30px;
+	    padding-bottom: 30px;
+	    width: 100%;
+	    border-radius: 10px;
+	    margin-left: 300px;
+	}
+	.output-main-info .table-container .main-table_01 .plantCode{
+		width : 100px;
+		text-align: center;
+	}
+	.output-main-info .table-container .main-table_01 .plantDes{
+		width : 550px;
+		text-align: center;
+		background-color: #ddd;
+		font-weight: 700;
+	}
+	.output-main-info .table-container .main-table_01 .StorageCode{
+		width : 100px;
+		text-align: center;
+	}
+	.output-main-info .table-container .main-table_01 .StorageDes{
+		width : 550px;
+		text-align: center;
+		background-color: #ddd;
+		font-weight: 700;
+	}
+	.output-main-info .table-container .main-table_01 .User_Id{
+		font-weight: 700;
+		width: 100px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.output-main-info .table-container .main-table_01 .Out_date{
+		font-weight: 700;
+		width: 100px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.output-main-info .table-container .main-table_02{
+		margin-right: 728px; 
+	}
+	.output-main-info .table-container .main-table_02 .Doc_Num{
+		text-align : center;
+	}
+	.output-main-info .table-container .main-table_02 .movCode{
+		width : 95px;
+		text-align : center;
+	}
+	.output-main-info .table-container .main-table_02 .movDes{
+		width : 220px;
+		text-align : center;
+		background-color: #ddd;
+		font-weight: 700;
+	}
+	.output-sub-info .table-container .sub-table-01 .GINo{
+		width : 60px;
+		text-align : center;
+	}
+	.output-sub-info .table-container .sub-table-01{
+		margin-left: 150px;
+	}
+	.output-sub-info .table-container .sub-table-02 .MatCode{
+		text-align : center;
+	}
+	.output-sub-info .table-container .sub-table-02 .MatDes{
+		width : 603px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.output-sub-info .table-container .sub-table-02{
+		margin-left: 173px;
+	}
+	.output-sub-info .table-container .sub-table-03 .MatLotNo{
+		text-align : center;
+	}
+	.output-sub-info .table-container .sub-table-03 .MakeDate{
+		width : 100px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.output-sub-info .table-container .sub-table-03 .DeadDete{
+		width : 100px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.output-sub-info .table-container .sub-table-03{
+		margin-left : 135px;
+	}
+	.output-sub-info .table-container .sub-table-04 .Rack{
+		width : 100px;
+	}
+	.output-sub-info .table-container .sub-table-04 .Bin{
+		width : 100px;
+	}
+	.output-sub-info .table-container .sub-table-04{
+		margin-left: 160px;
+	}
+	.output-sub-info .table-container .sub-table-05 .OutCount{
+		width : 100px;
+		text-align : center;
+	}
+	.output-sub-info .table-container .sub-table-05 .OrderUnit{
+		width : 80px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.output-sub-info .table-container .sub-table-05 .BeforeCount{
+		width : 100px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.output-sub-info .table-container .sub-table-05 .BeforeLotNo{
+		width : 100px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.output-sub-info .table-container .sub-table-05{
+		margin-left: 163px;
+	}
+	
+	.output-sub-info .table-container .sub-table-06 .UseDepart{
+		width : 100px;
+		text-align : center;
+	}
+	.output-sub-info .table-container .sub-table-06 .DepartName{
+		width : 230px;
+		text-align : center;
+		background-color: #ddd;
+	}
+	.output-sub-info .table-container .sub-table-06 .InputStorage{
+		width : 100px;
+		text-align : center;
+	}
+	.output-sub-info .table-container .sub-table-06{
+		margin-left: 163px;
+	}
+	.output-sub-info .table-container .sub-table-07{
+		margin-left: 140px;
+	}
+	.output-sub-info .table-container .sub-table-07 .nothing{
+		width: 200px;
+	}
+	/* .datasize{
+		text-align : center !important;
+	} */
+	#OPResgistform, #OrderRegistForm, #MatInputRegistForm {
+        margin-top: 50px;
+    }
+	.expiredData .table-container {
+    overflow-y: auto;
+    height: 680px;
+    width: 160%;
+    border: 1px solid rgba(111,167,235, .5);
+    border-radius: 0px 0px 20px 20px;
+	}
+	
+	.expiredData .WrittenForm {
+    border-collapse: collapse;
+    width: 100%; /* 수정: 테이블 너비를 100%로 설정 */
+	}
+
+	.expiredData .WrittenForm th,
+	.expiredData .WrittenForm td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+	}
+	.expiredData .WrittenForm th {
+    background-color: rgb(111, 167, 235);
+    position: sticky;
+    top: 0;
+    color: white;
+    text-align: center;
+    z-index: 2; /* 헤더가 다른 요소 위에 오도록 설정, 추가 */
+	}
+
+	.expiredData .WrittenForm .datasize {
+    text-align: center;
+	}
+	
+	.inputArea {
+	margin: 10px 0px 0px 400px;
+	width: 90%;
+    position: relative;
+	}
+	
+	.inputArea img {
+	    position: absolute;
+	    margin-bottom: 50px; /* 이미지들의 상단 여백 */
+	    margin-left: 40%;
+	    display: inline-block;
+	}
+	
+	.inputArea #btn:hover{
+		background-color: gray;
+		color: white;;
+	}
+	
+	.inputArea .input-btn {
+		width: 200px;
+		height: 50px;
+		border-radius:5px;
+		font-size:18px;
+		transition: all 0.3s ease;
+	    margin-bottom: 25px;
+	    margin-left: 88%;
+	    display: inline-block;
+	    vertical-align: middle;
+	}
+}
+
+/* .bg-light {
+    background-color: #f8f9fa !important;
+}
+.navbar-expand-lg {
+        -ms-flex-flow: row nowrap;
+        flex-flow: row nowrap;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+    }
+.navbar {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: .5rem 1rem;
+}
+.container-fluid, .container-lg, .container-md, .container-sm, .container-xl {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.navbar-light .navbar-brand {
+    color: rgba(0, 0, 0, .9);
+}
+.navbar-brand {
+    display: inline-block;
+    padding-top: .3125rem;
+    padding-bottom: .3125rem;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap;
+}
+a {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+}
+.navbar-light .navbar-toggler {
+    color: rgba(0, 0, 0, .5);
+    border-color: rgba(0, 0, 0, .1);
+}
+.navbar-expand-lg .navbar-toggler {
+        display: none;
+    }
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+    cursor: pointer;
+}
+.navbar-toggler {
+    padding: .25rem .75rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
+[type=button], [type=reset], [type=submit], button {
+    -webkit-appearance: button;
+}
+button, select {
+    text-transform: none;
+}
+button, input {
+    overflow: visible;
+}
+
+button {
+    border-radius: 0;
+}
+.navbar-expand-lg .navbar-collapse {
+        display: -ms-flexbox !important;
+        display: flex !important;
+        -ms-flex-preferred-size: auto;
+        flex-basis: auto;
+}
+.collapse:not(.show) {
+    display: none;
+}
+.navbar-collapse {
+    -ms-flex-preferred-size: 100%;
+    flex-basis: 100%;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -ms-flex-align: center;
+    align-items: center;
+}
+    .navbar-expand-lg .navbar-nav {
+        -ms-flex-direction: row;
+        flex-direction: row;
+    }
+    .navbar-nav {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+dl, ol, ul {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+.dropdown, .dropleft, .dropright, .dropup {
+    position: relative;
+}
+.navbar-nav {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+.navbar-light .navbar-nav .nav-link {
+    color: rgba(0, 0, 0, .5);
+}
+
+    .navbar-expand-lg .navbar-nav .nav-link {
+        padding-right: .5rem;
+        padding-left: .5rem;
+    }
+
+.navbar-nav .nav-link {
+    padding-right: 0;
+    padding-left: 0;
+}
+.nav-link {
+    display: block;
+    padding: .5rem 1rem;
+}
+.dropdown-toggle {
+    white-space: nowrap;
+}
+[role=button] {
+    cursor: pointer;
+}
+a {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+	position: absolute;
+}
+
+.navbar-nav .dropdown-menu {
+    position: static;
+    float: none;
+}
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 10rem;
+    padding: .5rem 0;
+    margin: .125rem 0 0;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: .25rem;
+}
+ol ol, ol ul, ul ol, ul ul {
+    margin-bottom: 0;
+}
+dl, ol, ul {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 10rem;
+    padding: .5rem 0;
+    margin: .125rem 0 0;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: .25rem;
+}
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: .25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+        position: absolute;
+    }
+    .navbar-nav .dropdown-menu {
+    position: static;
+    float: none;
+}
+.navbar .container, .navbar .container-fluid, .navbar .container-lg, .navbar .container-md, .navbar .container-sm, .navbar .container-xl {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+.navbar-expand-lg>.container, .navbar-expand-lg>.container-fluid, .navbar-expand-lg>.container-lg, .navbar-expand-lg>.container-md, .navbar-expand-lg>.container-sm, .navbar-expand-lg>.container-xl {
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+    }
+    .dropdown-toggle::after {
+    display: inline-block;
+    margin-left: .255em;
+    vertical-align: .255em;
+    content: "";
+    border-top: .3em solid;
+    border-right: .3em solid transparent;
+    border-bottom: 0;
+    border-left: .3em solid transparent;
+}
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+}
+ */

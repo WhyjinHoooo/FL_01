@@ -1,0 +1,475 @@
+@charset "UTF-8";
+
+* {
+  box-sizing: border-box;
+  font-family: "Noto Sans CJK KR";
+  font-style: normal;
+}
+
+body.RegistArea {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+body#MyPEdit {
+  flex-direction: row;
+  justify-content: center;
+}
+.Find-container{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 670px;
+	height: 450px;
+	margin-top: 20px;
+	background: #ffffff;
+	border: 1px solid #aacdff;
+	box-shadow: 7px 7px 39px rgba(0, 104, 255, 0.25);
+	border-radius: 20px;
+}
+.id-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 470px;
+  height: 818px;
+  margin-top: 90px;
+}
+.container {
+  position: absolute; /* 추가 */
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 670px;
+  height: 960px;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  background: #ffffff;
+  border: 1px solid #aacdff;
+  box-shadow: 7px 7px 39px rgba(0, 104, 255, 0.25);
+  border-radius: 20px;
+}
+.container_V1 {
+  position: absolute; /* 추가 */
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 670px;
+  height: 960px;
+  /* margin-top: 60px; */
+  margin: 80px 0px 0px 35%;
+  /* margin-bottom: 60px; */
+  background: #ffffff;
+  border: 1px solid #aacdff;
+  box-shadow: 7px 7px 39px rgba(0, 104, 255, 0.25);
+  border-radius: 20px;
+  opacity: 0.98;
+}
+.logo_V1{
+	width: 45%;
+    margin: 10px 0px 0px 25.5%;
+}
+
+.member-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 470px;
+  height: 818px;
+  margin: 40px;
+}
+
+.header {
+  width: 466px;
+  height: 94px;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 47px;
+  color: #0068ff;
+}
+
+.gender {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 140px;
+  height: 23.94px;
+  margin-top: 50px;
+}
+
+.gender input {
+  width: 20px;
+  height: 19.95px;
+  background: #ebebeb;
+  border: 1px solid #d2d2d2;
+}
+
+.gender label {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.agree-check {
+  width: 454px;
+  height: 21.06px;
+  margin-top: 52.05px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000000;
+}
+
+.btn {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  width: 400px;
+  height: 106px;
+  border-top: 1px solid #e6e6e6;
+}
+
+.RegistBtn {
+  margin-top: 10px;
+  width: 400px;
+  height: 75px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 27px;
+  text-align: center;
+  color: #0068ff;
+  background: #ffffff;
+  border: 1px solid #0068ff;
+  border-radius: 10px;
+}
+.idFIndBtn {
+  margin-top: 20px;
+  width: 400px;
+  height: 75px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 27px;
+  text-align: center;
+  color: #0068ff;
+  background: #ffffff;
+  border: 1px solid #0068ff;
+  border-radius: 10px;
+}
+.InputId{
+	font-size: 20px;
+    width: 300px;
+    border-width: 0 0 0px;
+}
+.IdArea{
+    position: relative;
+    border-width: 0 0 1px;
+    border-bottom: 1px solid #0068ff;
+    width: 400px;
+	}
+.IdArea button{
+	width: 80px;
+    position: absolute;
+    top: 0;
+    border-radius: 5px;
+    right: 5px;
+    color: #0068ff;
+    border: 1px solid #0068ff;
+    background: transparent;
+}
+.IdArea button:hover {
+    background: #0068ff;
+    color: #fff;
+}
+.Cate{
+	margin-top: 10px;
+	color: #797979;
+}
+.Find-Cate{
+	margin-top: 10px;
+	color: #797979;
+}
+input:focus {
+  outline: none;
+}
+.IDNum1, .IDNum2{
+    font-size: 20px;
+    width: 195px;
+    border-width: 0 0 1px;
+    border-bottom: 1px solid #0068ff;
+}
+.bottom-border {
+    font-size: 20px;
+    width: 400px;
+    border-width: 0 0 1px;
+    border-bottom: 1px solid #0068ff;
+}
+.Email {
+	font-size: 20px;
+    width: 130px !important ; 
+    border-width: 0 0 1px;
+    border-bottom: 1px solid #0068ff;
+}
+select.Domain {
+  height: 35px;
+  box-sizing: border-box;
+  margin-left: 5px;
+  padding: 5px 0 5px 10px;
+  border-radius: 4px;
+  border: 1px solid #d9d6d6;
+  color: #383838;
+  background-color: #ffffff;
+  font-family: 'Montserrat', 'Pretendard', sans-serif;
+}
+.Domain_txt{
+	font-size: 20px;
+    width: 130px;
+    border-width: 0 0 1px;
+    border-bottom: 1px solid #0068ff;
+}
+select.Year, select.Month, select.Date{
+	width: 80px;
+	height: 35px;
+  	box-sizing: border-box;
+  	margin-left: 25px;
+  	border-radius: 4px;
+  	border: 1px solid #d9d6d6;
+  	color: #383838;
+  	background-color: #ffffff;
+  	font-family: 'Montserrat', 'Pretendard', sans-serif;
+  	text-align: center;
+}
+.AddrCode{
+	font-size: 20px;
+	width: 290px !important ; 
+	border-width: 0 0 1px;
+	border-bottom: 1px solid #0068ff;
+}
+.AddrCodeBtn{
+	width: 100px;
+    height: 30px;
+    position: absolute;
+    border-radius: 5px;
+    color: #0068ff;
+    border: 1px solid #0068ff;
+    background: transparent;
+    margin-left: 10px;
+}
+.AddrCodeBtn:hover {
+    background: #0068ff;
+    color: #fff;
+}
+input[type="radio"] {
+    margin-left: 100px;
+}
+.PH_front{
+	height: 35px;
+  	box-sizing: border-box;
+  	width: 110px;
+  	border-radius: 4px;
+  	border: 1px solid #d9d6d6;
+  	color: #383838;
+  	background-color: #ffffff;
+  	font-family: 'Montserrat', 'Pretendard', sans-serif;
+  	text-align: center;
+}
+.PH_middle, .PH_end{
+	font-size: 20px;
+    width: 130px;
+    border-width: 0 0 1px;
+    border-bottom: 1px solid #0068ff;
+    text-align: center;
+}
+.ComSelect{
+	width: 200px;
+	height: 35px;
+  	box-sizing: border-box;
+  	margin-left: 100px;
+  	border-radius: 4px;
+  	border: 1px solid #d9d6d6;
+  	color: #383838;
+  	background-color: #ffffff;
+  	font-family: 'Montserrat', 'Pretendard', sans-serif;
+  	text-align: center;
+}
+ #ErrorMess{
+ 	color: #ff3f3f;
+ 	font-size: 10px;
+ }
+@media only screen and (min-width: 1537px) { /* 화면 너비가 1536px 이상인 경우에 적용되는 CSS 미디어 쿼리를 지정 */
+	.table-container br {
+	    display: none;
+	}
+    .Login-wrapper {
+    	display: flex; /* Flex 컨테이너 설정 */
+    	margin: 5% 0px 0px 20%;
+	}
+	.Input-Section{
+		display: flex;
+        flex-direction: column;
+	}
+	.SearchSection{
+		margin: 50px 0px 0px 50px;
+	}
+	.Login-Area{
+		display: flex;
+		flex-direction: column;
+        border: 1px solid rgb(111, 167, 235);
+        /* width: 40%; */
+        height: 300px;
+        border-radius: 20px;
+        margin: 3% 10% 0% 10%;
+        
+	}
+	.Com-Area {
+		margin: 25px 0px 0 70px;
+	    width: 400px;
+    }
+    .Id-Area {
+		margin: 40px 0px 0 70px;
+	    width: 400px;
+    }
+    .PW-Area {
+		margin: 40px 0px 0 70px;
+	    width: 400px;
+    }
+	.ComChoice {
+		width: 150%;
+		height: 30px;
+		box-sizing: border-box;
+	  	border-radius: 4px;
+	  	border: 1px solid #d9d6d6;
+	  	color: #383838;
+	  	background-color: #ffffff;
+	  	font-family: 'Montserrat', 'Pretendard', sans-serif;
+	  	text-align: center;
+	}
+	.ComTitle{
+        width: 100px;
+	}
+	.ComSec {
+    	width: 100px;
+    	padding-right: 100px;
+	}
+	.main-title{
+	 	font-family: "Malgun Gothic";
+	 	font-weight: bold;
+		font-size: 20px;
+	}
+	.User{
+		width: 100px;
+		height: 25px;
+	}
+	.Login_Btn{
+        width: 440px;
+        height: 50px;
+        margin: 10px 0px 0px 15px;
+        border-radius: 10px;
+        font-size: 25px;
+	}
+	.JoinSec th,
+	.JoinSec td {
+	    text-align: left;
+	    font-size: 15px;
+	}
+	.CommonBtn{
+		margin-left: 100px;
+		text-align: center;
+		width: 150px;
+		font-size: 15px;
+		font-weight: bold;
+	}
+}
+@media only screen and (max-width: 1537px) { /* 화면 너비가 1536px 이상인 경우에 적용되는 CSS 미디어 쿼리를 지정 */
+	.table-container br {
+	    display: none;
+	}
+    .Login-wrapper {
+    	display: flex; /* Flex 컨테이너 설정 */
+    	margin: 5% 0px 0px 0px;
+	}
+	.Input-Section{
+		display: flex;
+        flex-direction: column;
+	}
+	.SearchSection{
+		margin: 50px 0px 0px 30px;
+	}
+	.Login-Area{
+		display: flex;
+		flex-direction: column;
+        border: 1px solid rgb(111, 167, 235);
+        width: 50%;
+        height: 300px;
+        border-radius: 20px;
+        margin: 3% 10% 0% 10%;
+        
+	}
+	.Com-Area {
+		margin: 25px 50px 0 0px;
+	    width: 400px;
+    }
+    .Id-Area {
+		margin: 40px 0px 0px 30px;
+	    width: 400px;
+    }
+    .PW-Area {
+		margin: 40px 0px 0px 30px;
+	    width: 400px;
+    }
+	.ComChoice {
+		width: 150%;
+		height: 30px;
+	  	box-sizing: border-box;
+	  	border-radius: 4px;
+	  	border: 1px solid #d9d6d6;
+	  	color: #383838;
+	  	background-color: #ffffff;
+	  	font-family: 'Montserrat', 'Pretendard', sans-serif;
+	  	text-align: center;
+	}
+	.ComTitle{
+        width: 100px;
+	}
+	.ComSec {
+    	width: 100px;
+    	padding-right: 100px;
+	}
+	.main-title{
+	 	font-family: "Malgun Gothic";
+	 	font-weight: bold;
+		font-size: 15px;
+	}
+	.User{
+		width: 100px;
+		height: 25px;
+		margin-right: 50px;
+	}
+	.Login_Btn{
+        width: 300px;
+        height: 50px;
+        margin: 10px 0px 0px 70px;
+        border-radius: 10px;
+        font-size: 25px;
+	}
+	.JoinSec th,
+	.JoinSec td {
+	    text-align: left;
+	    font-size: 15px;
+	}
+	.CommonBtn{
+		text-align: center;
+		width: 130px;
+		font-size: 15px;
+		font-weight: bold;
+	}
+	#logo{
+		width: 500px;
+		z-index: -3;
+	}
+	#findTable{
+		width: 300px;
+	}
+	
+}
