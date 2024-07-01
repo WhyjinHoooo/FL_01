@@ -230,6 +230,8 @@ $(document).ready(function(){
 		}
 	});
 	
+	/*
+	버튼을 사용하는 경우
 	$('.DealPrice-btn').on('click', function(event) {
         event.preventDefault();
         convertCurrency();
@@ -257,7 +259,31 @@ $(document).ready(function(){
         } else {
             alert('Please enter a valid deal price and currency code');
         }
-    }
+    } 
+	*/
+	$('.DealPrice').on('input', function(){
+		// 버튼을 사용하지 않고 거래통화와 거래 금액만 입력되면 바로 작동되는 경우
+		var dealPrice = parseFloat($(this).val());
+        var currencyCode = document.getElementById("ledcurrency").value;
+        var DealCurrency = document.getElementById("money-code").value;
+        if (!isNaN(dealPrice) && currencyCode) {
+        	console.log(dealPrice + ", " + currencyCode + ", " + DealCurrency);
+        	
+            $.ajax({
+                url: 'PriceExchange.jsp', // 절대 경로로 변경
+                type: 'POST',
+                data: { currencyCode: currencyCode, dealPrice: dealPrice, DealCurrency: DealCurrency },
+                success: function(response) {
+                	$('input[name="ledPrice"]').val($.trim(response));
+                },
+                error: function() {
+                    alert('Failed to retrieve exchange rate');
+                }
+            });
+        } else {
+            alert('Please enter a valid deal price and currency code');
+        }
+	});
     /* 화면에 보이는 항번을 정의하기 위한 변수들 */
 	var Add = 0;
 	var Minus = 0;
@@ -272,19 +298,9 @@ $(document).ready(function(){
 	});
 	
 	$('.FuncArea').on('click', "img[name='Down']", function(){ // 임시 저장버튼을 클릭한 경우
-		DeCreBDid = $('input[name="DeCre"]:checked').val();
-	    SlipType = $('input[name="SlipType"]').val();
+		DeCreBDid = $('input[name="DeCre"]:checked').val(); // Debit/Credit
+	    SlipType = $('input[name="SlipType"]').val(); // 전표유형
 	    Acc = $('input[name="AccSubject"]').val();
-	    
-	   /* const AccSubject = document.quertSelector(".AccSubject");
-	   const AccSubjectDes = document.quertSelector(".AccSubjectDes");
-	   const money-code = document.quertSelector(".money-code");
-	   const DealPrice = document.quertSelector(".DealPrice");
-	   const ledPrice = document.quertSelector(".ledPrice");
-	   const Deptd = document.quertSelector(".Deptd");
-	   const DeptdDes = document.quertSelector(".DeptdDes");
-	   const AdminAlloc = document.quertSelector(".AdminAlloc");
-	   const lineform = document.quertSelector(".lineform"); */
 	   
 		var AccSubject = $('.AccSubject').val();
 		var DealCode = $('.money-code').val();
@@ -304,8 +320,16 @@ $(document).ready(function(){
 		var ChildList = {};
 		$('.child').each(function(){
 			var name = $(this).attr("name");
-			var value = $(this).val();
-			ChildList[name] = value;
+			// class가 'child'인 것들 중 name속성에 저장된 이름을 var name에 저장
+			if($(this).attr('type') === 'checkbox'){
+				if($(this).is(':checked')){
+					var value = $(this).val();	
+					ChildList[name] = value;
+				}
+			}else {
+				var value = $(this).val();
+				ChildList[name] = value;
+			}
 		}); // Child에 입력된 정보를 임시저장테이블 tmpaccfldocline에 저장할 항목들
 		
 		
@@ -339,8 +363,8 @@ $(document).ready(function(){
 					};
 		} // if문 끝
 		
-/* 		console.log("ChildList : ", ChildList);
-		console.log("LineFormList : ", LineFormList); */
+		console.log("ChildList : ", ChildList);
+		/* 		console.log("LineFormList : ", LineFormList); */
 		var NowItemNumber = parseInt($('.DocNumber').val(), 10);
 		console.log("현재 항번 : " + NowItemNumber);
 		if(Minus > 0){
@@ -401,6 +425,16 @@ $(document).ready(function(){
 	    $('.SlipOptionTable02').find('.lineform').each(function() {
 	        $(this).val('');
 	    });
+	    $.ajax({
+	    	url : 'Calculate.jsp',
+	    	type: 'POST',
+	    	success: function(response) {
+            	$('input[name="ledPrice"]').val($.trim(response));
+            },
+            error: function() {
+                alert('Failed to retrieve exchange rate');
+            }
+	    });
 	}); // img[name='Down'] 클릭 끝
 	
 	$('.SlipTable').on('click', "input[name='DeleteBtn']", function(){
@@ -451,7 +485,7 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-	<h1>일반 데체전표 입력</h1>
+	<h5>일반 데체전표 입력</h5>
 	<jsp:include page="../HeaderTest.jsp"></jsp:include>
 		<form name="" id=""  action="###" method="" enctype="">
 			<div class="SlipHeader">
@@ -646,10 +680,10 @@ $(document).ready(function(){
 								<th>거래 금액 : </th>
 									<td>
 										<input type="text" class="DealPrice child" id="DealPrice" name="DealPrice">
-										<button class="DealPrice-btn">Convert Currency</button>
+										<!-- <button class="DealPrice-btn">Convert Currency</button> -->
 									</td>	
 								
-								<td class="EmptyCell_31-7"></td>
+								<td class="EmptyCell_45"></td>
 									
 								<th>장부 금액 : </th>
 								
@@ -715,6 +749,15 @@ $(document).ready(function(){
 				<th>Local Amount</th><th>Local Curr</th><th>Exchange Rate</th><th>Cost Center</th><th>Order</th><th>Biz Area</th><th>Company</th><br>
 				<th>Posting Date</th><th>Document Number</th><th>Item Number</th><th>관리항목</th>
 			</table>
+		</div>
+		<div class="TotalPrice">
+			<div class="DebitArea">
+				<li>차변(Debit) 합계 Local Amount : <input class="DebitTotal" value="0" readonly></li> 
+			</div> 
+			<div class="EmptyCell_3"></div>
+			<div class="CreditArea">
+				<li>대변(Credit) 합계 Local Amount : <input class="CreditTotal" value="0" readonly></li> 
+			</div> 
 		</div>
 </body>
 </html>

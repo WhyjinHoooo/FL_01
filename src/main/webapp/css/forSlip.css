@@ -66,7 +66,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    margin: 30px 0px 0px 50%;
+    margin: 10px 0px 0px 50%;
 	}
 	img#DownBtn {
     margin-right: 70%;
@@ -92,7 +92,7 @@
     width: 90.6%;
     border: 1px solid rgb(111, 167, 235);
     border-radius: 0px 0px 10px 10px;
-    margin: 30px 0px 0px 120px;
+    margin: 10px 0px 0px 120px;
 	}
 	.SlipFoot br {
     	display: none;
@@ -116,6 +116,29 @@
     border: 1px solid #ddd;
     text-align: center;
     padding: 8px;
+	}
+	.TotalPrice {
+    display: flex;
+    border: 1px solid rgb(111, 167, 235);
+    width: 90.7%;
+    margin: 5px 0px 0px 4.7%;
+    border-radius: 5px 5px 5px 5px;
+    height: 42px;
+	}
+	.TotalPrice li {
+	list-style: none;
+	font-style: normal;
+	font-weight: bold;
+    }
+    .TotalPrice input {
+    text-align: right;
+    height: 20px;
+    }
+	.DebitArea {
+    padding: 10px 0px 0px 57%;
+	}
+	.CreditArea {
+    padding-top: 10px;
 	}
     .SlipOptionTable01{
     border-collapse: collapse;
@@ -266,6 +289,9 @@
 	}
 	.EmptyCell_31-7 {
     width: 31.7%;
+	}
+	.EmptyCell_3{
+	width: 3%;
 	}
 	/* 빈 공간 영역들 */
 	

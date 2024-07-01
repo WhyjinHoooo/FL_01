@@ -49,15 +49,15 @@
 		        
 		        TempChild = (JSONObject)CombinedData.get("TmpAccFLine");
 		        TempLineForm = (JSONObject)CombinedData.get("TmpAccFLForm");
-		        /* for(String Ckey : ChildKey){
+		       	for(String Ckey : ChildKey){
 					System.out.println(Ckey + ": " + TempChild.get(Ckey));
-				} */
-				/*for(String Lkey : LineKey){
+				}
+				for(String Lkey : LineKey){
 					System.out.println(Lkey + ": " + TempLineForm.get(Lkey));
-				} */
-		        /* for(String Hkey : HeadKey){
+				}
+		        for(String Hkey : HeadKey){
 					System.out.println(Hkey + ": " + TempChild.get(Hkey));
-				} */
+				}
 				String TemFlHeadSql = "INSERT INTO tmpaccfldochead(DocType, DocNum, PostingDate, DocDescrip, DocInputDepart, DocInputBA, ComCode, InputPerson, DocCreteDate) "+
 										"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 				PreparedStatement TemFlHeadPstmt = conn.prepareStatement(TemFlHeadSql);
@@ -216,6 +216,9 @@
 		} else {
 			System.out.println("2번");
 			TempChild = (JSONObject)CombinedData.get("TmpAccFLine");
+			for(String Ckey : ChildKey){
+				System.out.println(Ckey + ": " + TempChild.get(Ckey));
+			}
 			try{
 				String TemFlHeadSql = "INSERT INTO tmpaccfldochead(DocType, DocNum, PostingDate, DocDescrip, DocInputDepart, DocInputBA, ComCode, InputPerson, DocCreteDate) "+
 						"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
