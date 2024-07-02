@@ -37,7 +37,11 @@ try{
 	while(Drs.next()){
 		DeTotal += Integer.parseInt(Drs.getString("TAmount"));
 	}
-	out.print(total);
+	JSONObject jsonresponse = new JSONObject();
+	jsonresponse.put("CreTotal", CreTotal);
+	jsonresponse.put("DeTotal", DeTotal);
+	
+	out.print(jsonresponse);
 } catch(SQLException e){
 	e.printStackTrace();
 }

@@ -429,7 +429,9 @@ $(document).ready(function(){
 	    	url : 'Calculate.jsp',
 	    	type: 'POST',
 	    	success: function(response) {
-            	$('input[name="ledPrice"]').val($.trim(response));
+	    		var data = JSON.parse(response);
+            	$('input[name="DebitTotal"]').val($.trim(data.DeTotal));
+            	$('input[name="CreditTotal"]').val($.trim(data.CreTotal));
             },
             error: function() {
                 alert('Failed to retrieve exchange rate');
@@ -438,48 +440,69 @@ $(document).ready(function(){
 	}); // img[name='Down'] 클릭 끝
 	
 	$('.SlipTable').on('click', "input[name='DeleteBtn']", function(){
-		Minus++;
-		console.log("삭제한 횟수 : " + Minus);
-		var Row = $(this).closest('tr'); // 클릭된 삭제 버튼이 속한 행 선택
-	    var DelDoc = Row.find('td:eq(15)').text(); // CRE20240621S0001
-	    var DelDocNum = Row.find('td:eq(16)').text(); // CRE20240621S0001의 ItemNumber, 0001...
-	    var DelItemNum = Row.find('td:eq(0)').text(); // 항번
-		
-	    DeletedItems.push({DocCode: DelDoc, DocCodeNumber: DelDocNum, DelConut: Minus});
-	    console.log("삭제할 것들 : ", DeletedItems);
-	    Row.remove();
-	    RowNum--;
-		
-	    $.ajax({
-	        url: 'DeleteTemDoc.jsp',
-	        type: 'POST',
-	        data: {'List': JSON.stringify(DeletedItems)},
-	        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
-	        dataType: 'json',
-	        async: false,
-	        success: function(List) {
-	            // 서버에서 응답이 온 후의 처리
-	            if (List.result) {
-	                console.log('삭제 성공');
-	            } else {
-	                console.log('삭제 실패: ' + List.message);
-	            }
-	        },
-	        error: function(jqXHR, textStatus, errorThrown) {
-	            console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
-	        }
-	    });
+			Minus++;
+			console.log("삭제한 횟수 : " + Minus);
+			var Row = $(this).closest('tr'); // 클릭된 삭제 버튼이 속한 행 선택
+		    var DelDoc = Row.find('td:eq(15)').text(); // CRE20240621S0001
+		    var DelDocNum = Row.find('td:eq(16)').text(); // CRE20240621S0001의 ItemNumber, 0001...
+		    var DelItemNum = Row.find('td:eq(0)').text(); // 항번
+		    
+		    var CreditTotal = $('.CreditTotal').val();
+		    var DebitTotal = $('.DebitTotal').val();
+		    
+		    console.log("삭제한 것 확인용 콘솔 : " + CreditTotal);
+		    console.log("삭제한 것 확인용 콘솔 : " + DebitTotal);
 	    
-	    $(".SlipTable tr").each(function(index){
-	    	if(index != 0){
-	    		$(this).find('td:eq(0)').text(index);
-                $(this).find('td:eq(16)').text(("0000" + index).slice(-4));
-                $(this).find('td a').attr("data-docnumber", ("0000" + index).slice(-4));
-	    	}
-	    });
-	    var ChangeDocNumber = ("0000" + (Add - Minus + 1)).slice(-4);
-	    console.log("확인용 로그 : " + ChangeDocNumber);
-	    $(".DocNumber").val(ChangeDocNumber);
+		
+		    DeletedItems.push({DocCode: DelDoc, DocCodeNumber: DelDocNum, DelConut: Minus});
+		    console.log("삭제할 것들 : ", DeletedItems);
+		    Row.remove();
+		    RowNum--;
+		
+		    $.ajax({
+		    	url : 'MinusCalcu.jsp',
+		    	type: 'POST',
+		    	data: {DocCode: DelDoc, DocCodeNumber: DelDocNum, Cre: CreditTotal, De: DebitTotal},
+		    	success: function(response) {
+		    		var data = JSON.parse(response);
+	            	$('input[name="DebitTotal"]').val($.trim(data.DeTotal));
+	            	$('input[name="CreditTotal"]').val($.trim(data.CreTotal));
+	            },
+	            error: function() {
+	                alert('Failed to retrieve exchange rate');
+	            }
+		    });
+		    
+		    $.ajax({
+		        url: 'DeleteTemDoc.jsp',
+		        type: 'POST',
+		        data: {'List': JSON.stringify(DeletedItems)},
+		        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+		        dataType: 'json',
+		        async: false,
+		        success: function(List) {
+		            // 서버에서 응답이 온 후의 처리
+		            if (List.result) {
+		                console.log('삭제 성공');
+		            } else {
+		                console.log('삭제 실패: ' + List.message);
+		            }
+		        },
+		        error: function(jqXHR, textStatus, errorThrown) {
+		            console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+		        }
+		    });
+	    
+		    $(".SlipTable tr").each(function(index){
+		    	if(index != 0){
+		    		$(this).find('td:eq(0)').text(index);
+	                $(this).find('td:eq(16)').text(("0000" + index).slice(-4));
+	                $(this).find('td a').attr("data-docnumber", ("0000" + index).slice(-4));
+		    	}
+		    });
+		    var ChangeDocNumber = ("0000" + (Add - Minus + 1)).slice(-4);
+		    console.log("확인용 로그 : " + ChangeDocNumber);
+		    $(".DocNumber").val(ChangeDocNumber);
 	});
 });
 </script>
@@ -752,11 +775,11 @@ $(document).ready(function(){
 		</div>
 		<div class="TotalPrice">
 			<div class="DebitArea">
-				<li>차변(Debit) 합계 Local Amount : <input class="DebitTotal" value="0" readonly></li> 
+				<li>차변(Debit) 합계 Local Amount : <input class="DebitTotal" name="DebitTotal" value="0" readonly></li> 
 			</div> 
 			<div class="EmptyCell_3"></div>
 			<div class="CreditArea">
-				<li>대변(Credit) 합계 Local Amount : <input class="CreditTotal" value="0" readonly></li> 
+				<li>대변(Credit) 합계 Local Amount : <input class="CreditTotal" name="CreditTotal" value="0" readonly></li> 
 			</div> 
 		</div>
 </body>
