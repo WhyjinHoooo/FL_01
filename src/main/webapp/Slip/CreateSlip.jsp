@@ -22,7 +22,7 @@
 	String todayDate = today.format(formatter);
 %>
 <script type='text/javascript'>
-	var path = window.location.pathname;
+	/* var path = window.location.pathname;
 	var Address = path.split("/").pop();
 	window.addEventListener('unload', (event) => {
 		
@@ -32,7 +32,7 @@
 				
 		}
 	    navigator.sendBeacon('../DeleteOrder', JSON.stringify(data));
-	});
+	}); */
 	document.addEventListener("DOMContentLoaded", function() {
 	    var now_utc = Date.now();
 	    var timeOff = new Date().getTimezoneOffset() * 60000;
@@ -506,11 +506,39 @@ $(document).ready(function(){
 	});
 });
 </script>
+<script>
+	function CreDeCompare(event){
+		
+		event.preventDefault();
+		
+		var TotalCre = document.getElementById("CreditTotal").value;
+		var TotalDe = document.getElementById("DebitTotal").value;
+		
+		if(TotalCre !== TotalDe){
+			alert("합계가 맞지 않습니다.");
+			return false;
+		} else{
+			$.ajax({
+		    	url : 'CreateSlip_Ok.jsp',
+		    	type: 'POST',
+		    	success: function(response) {
+		    		alert("Success");
+		    		location.reload();
+	            },
+	            error: function() {
+	                alert('Failed to retrieve exchange rate');
+	            }
+		    });
+			
+			return true;
+		}
+	}
+</script>
 </head>
 <body>
 	<h5>일반 데체전표 입력</h5>
 	<jsp:include page="../HeaderTest.jsp"></jsp:include>
-		<form name="" id=""  action="###" method="" enctype="">
+		<form name="SlipInoutForm" id="SlipInoutForm" action="CreateSlip_Ok.jsp" method="POST" enctype="UTF-8">
 			<div class="SlipHeader">
 				<div class="HederSet">
 					<table class="Head01">
@@ -763,7 +791,7 @@ $(document).ready(function(){
 			</div>
 			<div class=" FuncArea">
 				<img id="DownBtn" name="Down" src="../img/Dvector.png" alt="">
-				<input class="input-btn" id="btn" type="submit" value="저장">
+				<input class="input-btn" id="btn" type="submit" value="저장" onclick="CreDeCompare(event)">
 			</div>
 		</form>
 		<div class="SlipFoot">
@@ -775,11 +803,11 @@ $(document).ready(function(){
 		</div>
 		<div class="TotalPrice">
 			<div class="DebitArea">
-				<li>차변(Debit) 합계 Local Amount : <input class="DebitTotal" name="DebitTotal" value="0" readonly></li> 
+				<li>차변(Debit) 합계 Local Amount : <input class="DebitTotal" id="DebitTotal" name="DebitTotal" value="0" readonly></li> 
 			</div> 
 			<div class="EmptyCell_3"></div>
 			<div class="CreditArea">
-				<li>대변(Credit) 합계 Local Amount : <input class="CreditTotal" name="CreditTotal" value="0" readonly></li> 
+				<li>대변(Credit) 합계 Local Amount : <input class="CreditTotal" id="CreditTotal" name="CreditTotal" value="0" readonly></li> 
 			</div> 
 		</div>
 </body>

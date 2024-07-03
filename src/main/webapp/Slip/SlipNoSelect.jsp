@@ -8,10 +8,6 @@
 <%
 PreparedStatement pstmt = null;
 ResultSet rs = null;
-
-PreparedStatement TempPstmt = null;
-ResultSet TempRs = null;
-
 try{
 	String Type = request.getParameter("type"); // 전표유형 FIG
 	String Number = request.getParameter("No"); // 전표번호\
@@ -21,38 +17,9 @@ try{
 	String first = Type + DateForNo + "S0001";
 	System.out.println("first : " + first);
 	
-	String TempSql = "SELECT * FROM tmpaccfldochead WHERE DocNum = ? ORDER BY DocNum DESC";	
-	TempPstmt = conn.prepareStatement(TempSql);
-	TempPstmt.setString(1, first);
-	
 	String sql = "SELECT * FROM FlDocHead WHERE DocNum = ? ORDER BY DocNum DESC";
 	pstmt = conn.prepareStatement(sql);
-	pstmt.setString(1, first);
-	
-	String CheckQuery01 = TempPstmt.toString();
-	String CheckQuery02 = pstmt.toString();
-    System.out.println("Prepared SQL Query: " + CheckQuery01);
-    System.out.println("Prepared SQL Query: " + CheckQuery02);
-	
-	
-	rs = pstmt.executeQuery();
-	TempRs = TempPstmt.executeQuery();
-	
-	if(!rs.next()) {
-		/* if(TempRs.next()){
-			String recentData = TempRs.getString("DocNum");
-			String numberPart = recentData.substring(12, 16);
-			int incrementedValue = Integer.parseInt(numberPart) + 1;
-			first = first.substring(0, 12) + String.format("%05d", incrementedValue);
-			
-			System.out.println("TempRs가 된 경우");
-			System.out.println("Recent Data: " + recentData);
-	        System.out.println("Number Part: " + numberPart);
-	        System.out.println("Incremented Value: " + incrementedValue);
-	        System.out.println("first: " + first);
-		} else{
-			first = first;	
-		} */
+	/* if(!rs.next()) {
 		first = first;	
 	} else {
 		String recentData = rs.getString("DocNum");
@@ -64,6 +31,29 @@ try{
         System.out.println("Number Part: " + numberPart);
         System.out.println("Incremented Value: " + incrementedValue);
         System.out.println("first: " + first);
+    } */
+	 while (true) { // 계속 반복
+        pstmt.setString(1, first);
+        String CheckQuery02 = pstmt.toString();
+        System.out.println("Prepared SQL Query: " + CheckQuery02);
+        
+        rs = pstmt.executeQuery();
+
+        // 만약에 데이터가 존재하면, 전표 번호를 증가시키고 다시 검사
+        if (rs.next()) {
+            String recentData = rs.getString("DocNum");
+            String numberPart = recentData.substring(12, 16);
+            int incrementedValue = Integer.parseInt(numberPart) + 1;
+            first = Type + DateForNo + "S" + String.format("%04d", incrementedValue);
+            
+            System.out.println("Recent Data: " + recentData);
+            System.out.println("Number Part: " + numberPart);
+            System.out.println("Incremented Value: " + incrementedValue);
+            System.out.println("first: " + first);
+        } else {
+            // 데이터가 없으면 해당 전표 번호를 사용할 수 있음
+            break;
+        }
     }
 	out.print(first.trim());
 } catch(SQLException e) {
@@ -72,8 +62,7 @@ try{
     // 리소스 정리
     if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
     if (pstmt != null) try { pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-   if (TempRs != null) try { TempRs.close(); } catch (SQLException e) { e.printStackTrace(); }
-    if (TempPstmt != null) try { TempPstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
 }
 %>
+
 

@@ -17,7 +17,8 @@ try{
 	ResultSet rs = null;
 	
 	/* String sql = "SELECT * FROM ordertable WHERE SUBSTRING(Mmpo, 1, 18) = ? ORDER BY Seq ASC"; */
-	String sql = "SELECT DocNum, DocLineItem FROM tmpaccfldocline WHERE DocNum = ? ORDER BY DocLineItem DESC";
+//	String sql = "SELECT DocNum, DocLineItem FROM tmpaccfldocline WHERE DocNum = ? ORDER BY DocLineItem DESC";
+	String sql = "SELECT * FROM tmpaccfldocline WHERE DocNum = ? ORDER BY DocLineItem DESC";
 	pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1, NowDocNum);
 	
