@@ -400,14 +400,14 @@ input[type="radio"] {
 		display: flex;
 		flex-direction: column;
         border: 1px solid rgb(111, 167, 235);
-        width: 50%;
+        width: 26%;
         height: 300px;
         border-radius: 20px;
-        margin: 3% 10% 0% 10%;
+        margin: 3% 10% 0% 30%;
         
 	}
 	.Com-Area {
-		margin: 25px 50px 0 0px;
+		margin: 25px 0px 0px 40px;
 	    width: 400px;
     }
     .Id-Area {
@@ -419,7 +419,7 @@ input[type="radio"] {
 	    width: 400px;
     }
 	.ComChoice {
-		width: 150%;
+		width: 150px;
 		height: 30px;
 	  	box-sizing: border-box;
 	  	border-radius: 4px;
@@ -445,6 +445,7 @@ input[type="radio"] {
 		width: 100px;
 		height: 25px;
 		margin-right: 50px;
+		text-align: center;
 	}
 	.Login_Btn{
         width: 300px;
@@ -467,6 +468,7 @@ input[type="radio"] {
 	#logo{
 		width: 500px;
 		z-index: -3;
+		margin-left: 40%;
 	}
 	#findTable{
 		width: 300px;

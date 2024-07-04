@@ -294,5 +294,268 @@
 	width: 3%;
 	}
 	/* 빈 공간 영역들 */
-	
 }
+/* =============================== */
+@media only screen and (max-width: 1537px) {
+	
+	.SlipBody {
+	    display: flex;
+	    flex-direction: row;
+	    flex-wrap: nowrap;
+	    margin: 10px 0px 0px 10px;
+	}
+	.SlipHeader {
+	    border: 1px solid #6fa7eb;
+	    width: 99%;
+	    height: 200px;
+	    margin: 30px 0px 0px 10px;
+	    border-radius: 10px;
+	}	
+	.BodyChild01 {
+    border: 1px solid rgb(111 167 235);
+    width: 55%;
+    height: 280px;
+    margin-right: 10px;
+    border-radius: 10px;
+	}
+	.BodyChild02 {
+	    border: 1px solid rgb(111 167 235);
+	    width: 50%;
+	    height: 280px;
+	    border-radius: 10px;
+	}
+	.FuncArea {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 10px 0px 0px 50%;
+	}
+	img#DownBtn {
+    margin-right: 70%;
+	}
+	.input-btn {
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 25px;
+    background: #002060;
+    color: white;
+    border: 1px solid;
+    border-color: #002060;
+    border-width: 2px;
+	}
+	.FuncArea .input-btn:hover {
+    background-color: #80bdff;
+    border-color: #80bdff;
+	}
+	.SlipFoot {
+    overflow-y: auto;
+    height: 480px;
+    width: 99%;
+    border: 1px solid rgb(111, 167, 235);
+    border-radius: 0px 0px 10px 10px;
+    margin: 10px 0px 0px 10px;
+	}
+	.SlipFoot br {
+    	display: none;
+	}
+	
+	.SlipTable{
+	border-collapse: collapse;
+	width: 100%;
+	}
+	.SlipTable th{
+	background-color: rgb(111, 167, 235);
+	position: sticky;
+	top: 0;
+	color: white;
+	text-align: center;
+	z-index: 2;
+	padding: 8px;
+	border: 1px solid #fff;
+	font-size: 14px;
+    }
+    .SlipFoot .SlipTable td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 8px;
+	}
+	.TotalPrice {
+    display: flex;
+    border: 1px solid rgb(111, 167, 235);
+    width: 99%;
+    margin: 10px 0px 0px 10px;
+    border-radius: 5px 5px 5px 5px;
+    height: 42px;
+	}
+	.TotalPrice li {
+	list-style: none;
+	font-style: normal;
+	font-weight: bold;
+    }
+    .TotalPrice input {
+    text-align: right;
+    height: 20px;
+    }
+	.DebitArea {
+    padding: 10px 0px 0px 33%;
+	}
+	.CreditArea {
+    padding-top: 10px;
+	}
+    .SlipOptionTable01{
+    border-collapse: collapse;
+	width: 100%;
+    }
+    .SlipOptionTable01 th{
+	background-color: #002060;
+	position: sticky;
+	top: 0;
+	color: white;
+	text-align: center;
+	z-index: 2;
+	padding: 8px;
+	border: 1px solid #fff;
+	border-radius: 10px;
+    }
+    .SlipOptionTable02{
+	width: 100%;
+    }
+    .SlipOptionTable02 td{
+	/* position: sticky; */
+	top: 0;
+	color: black;
+	text-align: center;
+	z-index: 2;
+	padding: 8px;
+	border: 1px solid rgb(111, 167, 235);
+	border-radius: 10px;
+    }
+    .BodyChild02 #No1{
+    	width: 15px;
+    	font-weight: bold;
+    }
+    .BodyChild02 #No2{
+    	width: 131px;
+    }
+    .BodyChild02 #No2_2{
+    	width: 126px;
+    }
+    .BodyChild02 #No3{
+    	width: 150px;
+    }
+    .BodyChild02 .SlipOptionTable02 #No3{
+    	padding: 0px;
+    }
+    .BodyChild02 input{
+    	width: 170px;
+        padding: 0px;
+        border-width: 0;
+        text-align:center;
+    }
+    .BodyChild02 input:focus {
+  	outline: none;
+	}
+	/* SlipHeader와 관련된 CSS 시작 */
+	.HederSet {
+    margin-top: 30px;
+	}
+	table.Head01 {
+    margin: 5px 0px 0px 2%;
+	}
+	table.Head01 input{
+	text-align: center;
+	}
+	table.Head02 {
+    margin: 10px 0px 0px 4.2%;
+	}
+	table.Head02 input{
+	text-align: center;
+	}
+	table.Head03 {
+    margin: 10px 0px 0px 2%;
+	}
+	table.Head03 input{
+	text-align: center;
+	}
+	.Head03 input#Date {
+    width: 164px;
+    text-align: center;
+	}
+	table.Head04 {
+    margin: 10px 0px 0px 4.4%;
+	}
+	.Head04 input#briefs {
+    width: 845px;
+	}
+	/* SlipHeader와 관련된 CSS 끝 */
+	/* SlipBody와 관련된 CSS 시작 */
+	.BodyChildSet01 {
+    margin-top: 30px;
+	}
+	table.Child01 {
+    margin-left: 9.5%;
+	}
+	.Child01 .DocNumber{
+	text-align: center;
+	}
+	table.Child02 {
+    margin: 10px 0px 0px 5.5%;
+	}
+	.AccSubject, .AccSubjectDes{
+	text-align: center;
+	}
+	table.Child03 {
+    margin: 10px 0px 0px 2%;
+	}
+	table.Child04 {
+    margin: 10px 0px 0px 5%;
+	}
+	.Child04 .money-code, .Child04 .ledcurrency{
+	text-align: center;
+	}
+	table.Child05 {
+	    margin: 10px 0px 0px 5%;
+	}
+	.Child05 .DealPrice, .Child05 .ledPrice{
+	text-align: center;
+	}
+	
+	table.Child06 {
+	    margin: 10px 0px 0px 0%;
+	}
+	.Child06 .AdminAlloc, .Child06 .Deptd, .Child06 .DeptdDes{
+		text-align: center;
+	}
+	/* SlipBody와 관련된 CSS 끝 */
+	/* SlipOptionTable와 관련된 CSS 시작*/
+	
+	/* SlipOptionTable와 관련된 CSS 끝*/
+	/* 빈 공간 영역들 */
+	.EmptyCell_20{
+	width: 20%;
+	}
+	.EmptyCell_18-4 {
+    width: 18.4%;
+	}
+	.EmptyCell_18-9 {
+    width: 18.9%;
+	}
+	.EmptyCell_23 {
+    width: 23%;
+	}
+	.EmptyCell_45{
+	width: 30%;
+	}
+	.EmptyCell_21-9 {
+    width: 2%;
+	}
+	.EmptyCell_31-7 {
+    width: 31.7%;
+	}
+	.EmptyCell_3{
+	width: 3%;
+	}
+	/* 빈 공간 영역들 */
+}
+

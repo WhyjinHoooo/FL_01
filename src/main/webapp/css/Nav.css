@@ -162,6 +162,12 @@ a#UserBtn:hover {
 a#LogOutBtn {
     color: white;
 }
+@media only screen and (max-width: 1537px) {
+	a#LogOutBtn {
+	    color: white;
+	    margin-left: 10px;
+	}	
+}
 a#LogOutBtn:hover {
     color: #FFD700;
 }
@@ -516,7 +522,7 @@ pre code {
 }
 @media only screen and (max-width: 1537px){
 	.LoginArea {
-    margin-left: 10%;
+    margin-left: 5%;
 	}
 }
 /* .container,.container-fluid,.container-lg,.container-md,.container-sm,.container-xl {
