@@ -30,8 +30,18 @@
 			        
 			%>
 			<tr>
-			    <td><a href="javascript:void(0)" onClick="var LCode = '<%=rs.getString("ENGname")%>';window.opener.document.querySelector('.language-code').value= LCode ;window.opener.document.querySelector('.language-code').dispatchEvent(new Event('change')); window.close();"><%=rs.getString("ENGname") %></a></td>
-			    <td><%=rs.getString("KRname") %></td>
+			    <td>
+			        <a href="javascript:void(0)" 
+			           onClick="
+			               var LCode = '<%= rs.getString("ENGname") %>';
+			               window.opener.document.querySelector('.language-code').value = LCode;
+			               window.opener.document.querySelector('.language-code').dispatchEvent(new Event('change'));
+			               window.close();
+			           ">
+			           <%= rs.getString("ENGname") %>
+			        </a>
+			    </td>
+			    <td><%= rs.getString("KRname") %></td>
 			</tr>
 
 			<%  

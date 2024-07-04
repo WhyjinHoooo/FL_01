@@ -30,9 +30,20 @@
 			        
 			%>
 			<tr>
-			    <td><a href="javascript:void(0)" onClick="var MCode = '<%=rs.getString("code")%>';window.opener.document.querySelector('.money-code').value= MCode ;window.opener.document.querySelector('.money-code').dispatchEvent(new Event('change')); window.close();"><%=rs.getString("Code") %></a></td>
+			    <td>
+			        <a href="javascript:void(0)" 
+			           onClick="
+			               var MCode = '<%=rs.getString("code")%>';
+			               window.opener.document.querySelector('.money-code').value = MCode;
+			               window.opener.document.querySelector('.money-code').dispatchEvent(new Event('change'));
+			               window.close();
+			           ">
+			           <%=rs.getString("Code") %>
+			        </a>
+			    </td>
 			    <td><%=rs.getString("Kr_Money") %></td>
 			</tr>
+
 
 			<%  
 			    }

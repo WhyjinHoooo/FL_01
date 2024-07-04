@@ -30,7 +30,20 @@
 			        
 			%>
 			<tr>
-			    <td><a href="javascript:void(0)" onClick="var NCode = '<%=rs.getString("Code")%>'; var NDes = '<%=rs.getString("Name")%>';window.opener.document.querySelector('#NationCode').value= NCode ; window.opener.document.querySelector('#NationDes').value=NDes ;window.opener.document.querySelector('#NationCode').dispatchEvent(new Event('change')); window.close();"><%=rs.getString("Code") %></a></td>
+			    <td><a href="javascript:void(0)" 
+				       onClick="
+				           var NCode = '<%=rs.getString("Code")%>';
+				           var NDes = '<%=rs.getString("Name")%>';
+				           
+				           window.opener.document.querySelector('#NationCode').value = NCode;
+				           window.opener.document.querySelector('#NationDes').value = NDes;
+				           
+				           window.opener.document.querySelector('#NationCode').dispatchEvent(new Event('change'));
+				           window.close();
+				       ">
+				       <%=rs.getString("Code") %>
+				    </a>
+			    </td>
 			    <td><%=rs.getString("Name") %></td>
 			</tr>
 
