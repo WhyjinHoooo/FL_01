@@ -146,18 +146,18 @@
 						         });
 						         $('select[name="Upper-Biz-level"]').change(function() {
 						             var selectedOptionValue = $(this).val();
-						             var selectedOptionText = $(this).children("option:selected").text();
+						             /* var selectedOptionText = $(this).children("option:selected").text();
 						             
-						             $('input[name="Upper-Biz-Name"]').val(selectedOptionValue);
+						             $('input[name="Upper-Biz-Name"]').val(selectedOptionValue); */
 						             
 						             // Description 값을 설정하는 코드 추가
-						             $('.biz-group-description').each(function() {
+						            /* $('.biz-group-description').each(function() {
 						                 if ($(this).data('group') === selectedOptionText) {
 						                     var description = $(this).data('description');
 						                     $('input[name="bag-des"]').val(description);
 						                     return false;
 						                 }
-						             });
+						             }); */
 						         });
 						    }
 						    
@@ -169,8 +169,12 @@
 						    });
 						    
 						    $('.Com-code').change(function(){
-						        var Biz_level = $('.Biz-level').val();
+						        //var Biz_level = $('.Biz-level').val();
+						        var Biz_level = 1;
 						        var CompanyCode = $(this).val();
+						      	
+						        console.log('Biz_level : ' + Biz_level);
+						        console.log('CompanyCode : ' + CompanyCode);
 						        
 						        sendData(Biz_level, CompanyCode);
 						        

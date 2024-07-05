@@ -30,10 +30,23 @@
 			        
 			%>
 			<tr>
-			    <td><a href="javascript:void(0)" onClick="var ComCode = '<%=rs.getString("Com_Cd")%>';window.opener.document.querySelector('.Com-code').value= ComCode;window.opener.document.querySelector('.Com-code').dispatchEvent(new Event('change')); window.close();"><%=rs.getString("Com_Cd") %></a></td>
-			    <td><%=rs.getString("Com_Des") %></td>
+			    <td>
+			        <a href="javascript:void(0)" 
+			           onClick="
+			               var ComCode = '<%= rs.getString("Com_Cd") %>';
+			               var parentDoc = window.opener.document;
+			
+			               var comCodeElement = parentDoc.querySelector('.Com-code');
+			               comCodeElement.value = ComCode;
+			               comCodeElement.dispatchEvent(new Event('change'));
+			
+			               window.close();
+			           ">
+			           <%= rs.getString("Com_Cd") %>
+			        </a>
+			    </td>
+			    <td><%= rs.getString("Com_Des") %></td>
 			</tr>
-
 			<%  
 			    }
 			    }catch(SQLException e){
