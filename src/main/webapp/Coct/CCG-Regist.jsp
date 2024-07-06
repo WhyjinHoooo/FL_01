@@ -44,7 +44,7 @@
 	    window.open("${contextPath}/Information/UpCCTSearch.jsp?ComCode=" + Code + "&Level=" + lv, "테스트", "width=600,height=495, left=500 ,top=" + yPos);
 	}
 	</script>
-	<script type="text/javascript">
+<!-- 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('.Com-code').change(function() {
 				var selectedCode = $(this).val();
@@ -70,7 +70,7 @@
 			});
 			
 		});
-	</script>  
+	</script>  --> 
 </head>
 <body>
 	<h1>Cost Center Group 등록</h1>
@@ -106,10 +106,10 @@
 						<tr><th>Company Code : </th>
 							<td class="input-info">
 								<a href="javascript:ComSearch()"><input type="text" class="Com-code" name="Com-Code" placeholder="SELECT" readonly></a>
-									<th class="info">Top Cost Center Group : </th>
-										<td>
-											<input type="text" class="tccg" name="tccg" readonly size="10'">
-										</td>
+							<th class="info">Top Cost Center Group : </th>
+								<td>
+									<input type="text" class="tccg" name="tccg" readonly size="10'">
+								</td>
 							</td>
 						</tr>
 						

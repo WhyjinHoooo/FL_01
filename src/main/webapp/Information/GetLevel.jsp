@@ -15,7 +15,7 @@
 		<div class="ComSearch-board">
 			<table>
 			    <tr>
-			        <th>기업코드(Code)</th><th>레벨</th>
+			        <th>하위 레벨</th>
 			    </tr>
 			<%
 			    try{
@@ -32,22 +32,34 @@
 			    if(ComCode.equals("") || ComCode.isEmpty()){
 			%>
 				<tr>
-					<td colspan="2"><a href="javascript:void(0)" onClick="window.close();">회사코드를 선택해주세요.</a></td>
+					<td><a href="javascript:void(0)" onClick="window.close();">회사코드를 선택해주세요.</a></td>
 				</tr>
 			<%
 			    } else if(rs.next()){
-			    	do{
 			    		String getLevel = rs.getString("MaxLevel");
-			    		int MaxLevel = (getLevel != null) ? Integer.parseInt(getLevel) + 1 : 0;
+			    		int MaxLevel = (!getLevel.equals("0")) ? Integer.parseInt(getLevel) + 1 : 1;
+			    for (int i = 1; i <= MaxLevel; i++) {
 			%>
-			<tr>
-			    <td><a href="javascript:void(0)" onClick="var Level = '<%=MaxLevel%>';window.opener.document.querySelector('.CCTR-level').value= Level ;window.opener.document.querySelector('.CCTR-level').dispatchEvent(new Event('change')); window.close();"><%=rs.getString("ComCode") %></a></td>
-			    <td><%=MaxLevel%></td>
-			</tr>
-
-			<%  
-			    	}while(rs.next());
-			    }
+				<tr>
+				    <td>
+				        <a href="javascript:void(0)" 
+				           onClick="
+				               var Level = '<%= i %>';
+				               var parentDocument = window.opener.document;
+				
+				               var levelElement = parentDocument.querySelector('.CCTR-level');
+				               levelElement.value = Level;
+				               levelElement.dispatchEvent(new Event('change'));
+				
+				               window.close();
+				           ">
+				           <%= i %>
+				        </a>
+				    </td>
+				</tr>
+			<% 
+			    		}
+			    	}
 			    }catch(SQLException e){
 			        e.printStackTrace();
 			    }
