@@ -29,14 +29,20 @@
 	String Addr2 = request.getParameter("Addr2");
 	
 	String Select = request.getParameter("Select_MS");
-	String MainTa = request.getParameter("main-TA-Code");
+	String MainTa = null; 
+	
+	if(Select.equals("1")){
+		MainTa = request.getParameter("main-TA-Code");
+	} else{
+		MainTa = request.getParameter("main-TA-Code");
+	}
 	
 	String Use = request.getParameter("Use-Useless");
 	
 	int ID1 = 12345;
 	int ID2 = 56789;
 
-	String sql = "INSERT INTO taxarea VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	String sql = "INSERT INTO taxarea VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	
@@ -46,19 +52,22 @@
 		}
 		pstmt.setString(1, Tac);
 		pstmt.setString(2, Des);
-		pstmt.setString(3, NaCode);
-		pstmt.setString(4, PosCode);
-		pstmt.setString(5, Addr1);
-		pstmt.setString(6, Addr2);
-		pstmt.setString(7, Select);
-		pstmt.setString(8, MainTa);
-		pstmt.setString(9, Use);
-		pstmt.setString(10, formattedNow);
-		pstmt.setInt(11, ID1);
-		pstmt.setString(12, formattedNow);
-		pstmt.setInt(13, ID2);
+		pstmt.setString(3, ComCode);
+		pstmt.setString(4, NaCode);
+		pstmt.setString(5, PosCode);
+		pstmt.setString(6, Addr1);
+		pstmt.setString(7, Addr2);
+		pstmt.setString(8, Select);
+		pstmt.setString(9, MainTa);
+		pstmt.setString(10, Use);
+		pstmt.setString(11, formattedNow);
+		pstmt.setInt(12, ID1);
+		pstmt.setString(13, formattedNow);
+		pstmt.setInt(14, ID2);
 		
 		pstmt.executeUpdate();
+		
+		out.println("<script>window.location.href='Tax-Regist.jsp';</script>");
 	} catch(SQLException e){
 		e.printStackTrace();
 	} finally{
@@ -72,18 +81,5 @@
 	}
 	conn.close();
 %>
-<script>
-	/* alert("Complete");
-	window.location.href="Tax-Regist.jsp"; */
-    console.log("TAC: <%= Tac %>");
-    console.log("Des: <%= Des %>");
-    console.log("NaCode: <%= NaCode %>");
-    console.log("PosCode: <%= PosCode %>");
-    console.log("Addr1: <%= Addr1 %>");
-    console.log("Addr2: <%= Addr2 %>");
-    console.log("Select: <%= Select %>");
-    console.log("MainTa: <%= MainTa %>");
-    console.log("Use: <%= Use %>");
-</script>
 </body>
 </html>
