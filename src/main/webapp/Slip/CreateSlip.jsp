@@ -97,7 +97,8 @@ function UserBAInput(inputFieldId){
     var docNumber, slipNo;
     /* if(inputFieldId === "NowUserBA"){
    		window.open("${contextPath}/Slip/Info/UserBAInput.jsp?ComCode=" + ComCode, "테스트", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);	
-    } else  */if(inputFieldId === "UsedUserBA"){
+    } else  */
+    if(inputFieldId === "UsedUserBA"){
     	window.open("${contextPath}/Slip/Info/UsedCom.jsp", "테스트", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     } else if(inputFieldId === "BizMoneyCode"){
     	popupWidth = 900;
@@ -346,7 +347,7 @@ $(document).ready(function(){
 		    LineFormList.push(rowData);
 		}); */
 		
-		if(DeCreBDid === "C" && SlipType === "CRE" && (Acc === "2003500" || Acc === "2003510" || Acc === "2003520")){
+		if(DeCreBDid === "C" /* && SlipType === "CRE" */ && (Acc === "2003500" || Acc === "2003510" || Acc === "2003520")){
 			$('.lineform').each(function(){
 				var name = $(this).attr("name");
 				var value = $(this).val();
@@ -399,11 +400,6 @@ $(document).ready(function(){
 					} else if(key === "Order"){
 						NewRow += "<td>" + "" + "</td>";
 					} else if(key === "Line"){
-						// NewRow += "<td>" + '&#128172' + "</td>";
-						// NewRow += "<td><a href=\"javascript:void(0)\" onClick=\"UserBAInput('LineInfo')\">&#128172;</a></td>";
-						// NewRow += "<td><a href=\"javascript:void(0)\" onClick=\"UserBAInput('LineInfo')\" data-docnumber=\"" + data.DocNumber + "\" data-slipno=\"" + data.SlipNo + "\">&#128172;</a></td>";
-						//NewRow += "<td><a href=\"javascript:void(0)\" onClick=\"UserBAInput('LineInfo')\" data-docnumber=\"" + data.DocNumber + "\" data-slipno=\"" + data.SlipNo + "\">&#128172;</a></td>";
-						// NewRow += "<td><a href=\"javascript:void(0)\" onClick=\"UserBAInput('LineInfo')\" data-docnumber=\"" + ("0000" + (RowNum)).slice(-4) + "\" data-slipno=\"" + data.SlipNo + "\">&#128172;</a></td>";
 						NewRow += "<td><a href=\"javascript:void(0)\" onClick=\"UserBAInput('LineInfo')\" data-docnumber=\"" + ("0000" + RowNum).slice(-4) + "\" data-slipno=\"" + data.SlipNo + "\">&#128172;</a></td>";
 					} else {
 						NewRow += "<td>" + data[key] + "</td>";
@@ -533,6 +529,77 @@ $(document).ready(function(){
 			return true;
 		}
 	}
+
+	function PayRequest(event, inputFieldId){
+		event.preventDefault();
+		
+		var popupWidth = 950;
+	    var popupHeight = 600;
+	   /*  var ComCode = document.querySelector('#UserDepart').value; */
+	    
+	    // 현재 활성화된 모니터의 위치를 감지
+	    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+	    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
+	    
+	    // 전체 화면의 크기를 감지
+	    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+	    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+	    var xPos, yPos;
+		
+	    var HeadList = {};
+		$('.Head').each(function(){
+			var name = $(this).attr("name");
+			var value = $(this).val();
+			HeadList[name] = value;
+		});
+	    
+		var queryString = Object.keys(HeadList).map(function(key) {
+	        return encodeURIComponent(key) + '=' + encodeURIComponent(HeadList[key]);
+	    }).join('&');
+		
+		/* <button class="PayPath" id="PayPath" onclick="PayRequest(SelPayPath)">결재경로</button>
+		<button class="Approval" id="Approval" onclick="PayRequest(ApprovalPage)">품의상신</button> */
+		
+	    if (width == 2560 && height == 1440) {
+	        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
+	        xPos = (2560 / 2) - (popupWidth / 2);
+	        yPos = (1440 / 2) - (popupHeight / 2);
+	    } else if (width == 1920 && height == 1080) {
+	        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
+	        xPos = (1920 / 2) - (popupWidth / 2);
+	        yPos = (1080 / 2) - (popupHeight / 2);
+	    } else {
+	        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
+	        var monitorWidth = 2560;
+	        var monitorHeight = 1440;
+	        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+	        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+	    }
+		
+		var TotalCre = document.getElementById("CreditTotal").value;
+		var TotalDe = document.getElementById("DebitTotal").value;
+		if(TotalCre !== TotalDe){
+			alert("합계가 맞지 않습니다.");
+			return false;
+		} else{
+			if(inputFieldId === "SelPayPath"){
+		    	window.open(
+		                "${contextPath}/Slip/Info/DecPayPath.jsp?" + queryString, 
+		                "테스트", 
+		                "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
+		            );
+		     } else if(inputFieldId === "ApprovalPage"){
+		    	 /* window.open(
+			                "${contextPath}/Slip/Info/DecPayPath.jsp?" + queryString, 
+			                "테스트", 
+			                "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
+			            ); */
+		     }
+			
+			
+			return true;
+		}
+	}
 </script>
 </head>
 <body>
@@ -553,7 +620,7 @@ $(document).ready(function(){
 								
 							<th>전표번호 : </th>
 								<td>
-									<input class="SlipNo child lineform" id="SlipNo" name="SlipNo" readonly>
+									<input class="SlipNo child lineform Head" id="SlipNo" name="SlipNo" readonly>
 								</td>
 							
 							<td class="EmptyCell_20"><!-- 빈 공간 크기 20% --></td>
@@ -562,11 +629,11 @@ $(document).ready(function(){
 								<%
 								if(User_Id != null){
 								%>
-									<input class="User child" id="User" name="User" value="<%=User_Id%>" readonly>
+									<input class="User child Head" id="User" name="User" value="<%=User_Id%>" readonly>
 								<%
 								} else{
 								%>
-									<input class="User child" id="User" name="User" value="Null" reandonly>
+									<input class="User child Head" id="User" name="User" value="Null" reandonly>
 								<%
 								}
 								%>
@@ -594,7 +661,7 @@ $(document).ready(function(){
 								
 							<th>전표입력 BA : </th>
 								<td>
-									<input type="text" name="UserBizArea" id="UserBizArea" readonly>
+									<input type="text" class="Head" name="UserBizArea" id="UserBizArea" readonly>
 								</td>
 							
 							<td class="EmptyCell_18-9"> <!-- 빈 공간 크기 18.9% --></td>
@@ -615,7 +682,7 @@ $(document).ready(function(){
 								
 							<th>전표 입력 부서 : </th>
 								<td>
-									<input type="text" id="TargetDepartCd" name="TargetDepartCd" readonly>
+									<input type="text" class="Head" id="TargetDepartCd" name="TargetDepartCd" readonly>
 									<input type="text" id="TargetDepartDes" name="TargetDepartDes" readonly>
 								</td>					
 						</tr>
@@ -682,7 +749,7 @@ $(document).ready(function(){
 									        console.log("Debit/Credit의 필드 TypeValue(전표유형): " + TypeValue);
 									        console.log("Debit/Credit의 필드 SubValue(계정과목): " + SubValue);
 									
-									        if (SelectedValue === "C" && TypeValue === "CRE" && (SubValue === "2003500" || SubValue === "2003510" || SubValue === "2003520")) {
+									        if (SelectedValue === "C" /* && TypeValue === "CRE" */ && (SubValue === "2003500" || SubValue === "2003510" || SubValue === "2003520")) {
 									            $('.SlipOptionTable02 input').prop('disabled', false);
 									        } else {
 									            $('.SlipOptionTable02 input').prop('disabled', true);
@@ -749,14 +816,22 @@ $(document).ready(function(){
 									<td>
 										<a href="javascript:void(0)" onClick="UserBAInput('DeptdSelect')"><input class="Deptd child" id="Deptd" name="Deptd" placeholder="선택" readonly></a>
 										<input class="DeptdDes child" id="DeptdDes" name="DeptdDes" readonly>
-									</td>	
+									</td>
 									
 								<td class="EmptyCell_21-9"></td>
 									
 								<th>관리/귀속 BA : </th>
 									<td>
 										<input class="AdminAlloc child" id="AdminAlloc" name="AdminAlloc" placeholder="선택" readonly>
-									</td>				
+									</td>
+							</tr>
+						</table>
+						<table class="Child07">
+							<tr>
+								<th>라인 적요 : </th>
+									<td>
+										<input class="LineBriefs child" id="LineBriefs" name="LineBriefs">
+									</td>
 							</tr>
 						</table>
 					</div>
@@ -792,6 +867,8 @@ $(document).ready(function(){
 			<div class=" FuncArea">
 				<img id="DownBtn" name="Down" src="../img/Dvector.png" alt="">
 				<input class="input-btn" id="btn" type="submit" value="저장" onclick="CreDeCompare(event)">
+				<button class="PayPath" id="PayPath" onclick="PayRequest(event, 'SelPayPath')">결재경로</button>
+				<button class="Approval" id="Approval" onclick="PayRequest(event, 'ApprovalPage')">품의상신</button>
 			</div>
 		</form>
 		<div class="SlipFoot">

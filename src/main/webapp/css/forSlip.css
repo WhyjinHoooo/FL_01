@@ -34,6 +34,55 @@
 	text-decoration: underline;
 	}
 	/* 팝업창 CSS 끝*/
+	/* 결재경로 팝업창 CSS 시작 */
+	.PayPathDiv {
+	padding-top: 5px;
+    width: 100%;
+    max-height: 450px;
+    position: relative;
+    height: 450px;
+	}
+	.PayPathDiv .btn {
+    width: 229px;
+    padding: 10px 0px 10px 0px;
+    font-size: larger;
+    background: #7030A0;
+    color: white;
+	}
+	.PayPathDiv table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+	
+	.PayPathDiv th, .PayPathDiv td {
+	 border: 1px solid #ccc;
+	 padding: 10px;
+	 text-align: center;
+	 }
+	
+	.PayPathDiv th {
+	background-color: #DDEBF7;
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	}
+	
+	.PayPathDiv td a {
+	text-decoration: none;
+	color: #007bff;
+	}
+	.PayPathDiv td a:hover {
+	text-decoration: underline;
+	}
+	.PayPathBanner {
+    text-align: center;
+    background: #002060;
+    font-size: x-large;
+    color: white;
+    padding: 10px;
+    border: 1px solid;
+	}
+	/* 결재경로 팝업창 CSS 끝 */
 @media only screen and (min-width: 1537px) {
 	
 	.SlipBody {
@@ -69,7 +118,7 @@
     margin: 10px 0px 0px 50%;
 	}
 	img#DownBtn {
-    margin-right: 70%;
+    margin-right: 61%;
 	}
 	.input-btn {
     width: 100px;
@@ -82,7 +131,39 @@
     border-color: #002060;
     border-width: 2px;
 	}
+	.PayPath {
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 20px;
+    background: #002060;
+    color: white;
+    border: 1px solid;
+    border-color: #002060;
+    border-width: 2px;
+    margin-left: 3px;
+	}
+	.Approval {
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 20px;
+    background: #002060;
+    color: white;
+    border: 1px solid;
+    border-color: #002060;
+    border-width: 2px;
+    margin-left: 3px;
+	}
 	.FuncArea .input-btn:hover {
+    background-color: #80bdff;
+    border-color: #80bdff;
+	}
+	.FuncArea .Approval:hover {
+    background-color: #80bdff;
+    border-color: #80bdff;
+	}
+	.FuncArea .PayPath:hover {
     background-color: #80bdff;
     border-color: #80bdff;
 	}
@@ -263,6 +344,12 @@
 	}
 	.Child06 .AdminAlloc, .Child06 .Deptd, .Child06 .DeptdDes{
 		text-align: center;
+	}
+	table.Child07 {
+   	 margin: 5px 0px 0px 17.3%;
+	}
+	.Child07 .LineBriefs{
+		width: 488%;
 	}
 	/* SlipBody와 관련된 CSS 끝 */
 	/* SlipOptionTable와 관련된 CSS 시작*/

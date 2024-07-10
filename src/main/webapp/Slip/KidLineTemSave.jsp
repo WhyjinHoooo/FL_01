@@ -32,7 +32,7 @@
 	
 	String[] ChildKey = {
 		    "SlipNo", "DocNumber","Original", "AccSubject", "AccSubjectDes", "DeCre", "money-code","DealPrice","ledcurrency","ledPrice",
-		    "Deptd","DeptdDes","AdminAlloc","briefs","Date","UserDepart","User",
+		    "Deptd","DeptdDes","AdminAlloc","LineBriefs","Date","UserDepart","User",
 		};
 
 	String[] LineKey = {
