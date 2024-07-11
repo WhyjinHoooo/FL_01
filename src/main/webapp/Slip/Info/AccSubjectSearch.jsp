@@ -68,7 +68,18 @@
 	                        while(rs.next()) {    
 	                %>
 	                <tr>
-	                    <td><a href="javascript:void(0)" onClick="var AccSubCode = '<%=rs.getString("GLAccount")%>'; var AccSubCodeDes = '<%=rs.getString("AcctDesc")%>'; window.opener.document.querySelector('.AccSubject').value= AccSubCode ; window.opener.document.querySelector('.AccSubjectDes').value= AccSubCodeDes ;window.opener.document.querySelector('.AccSubject').dispatchEvent(new Event('change')); window.close();"><%=rs.getString("GLAccount") %></a></td>
+	                    <td>
+						    <a href="javascript:void(0)" 
+						       onClick="
+						           var AccSubCode = '<%=rs.getString("GLAccount")%>';
+						           var AccSubCodeDes = '<%=rs.getString("AcctDesc")%>';
+						           window.opener.document.querySelector('.AccSubject').value = AccSubCode;
+						           window.opener.document.querySelector('.AccSubject').dispatchEvent(new Event('change'));
+						           window.close();
+						       ">
+						       <%=rs.getString("GLAccount")%>
+						    </a>
+						</td>
 	                    <td><%=rs.getString("AcctDesc") %></td>
 	                </tr>
 	                <%

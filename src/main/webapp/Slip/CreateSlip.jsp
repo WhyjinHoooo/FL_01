@@ -533,7 +533,7 @@ $(document).ready(function(){
 	function PayRequest(event, inputFieldId){
 		event.preventDefault();
 		
-		var popupWidth = 950;
+		var popupWidth = 1000;
 	    var popupHeight = 600;
 	   /*  var ComCode = document.querySelector('#UserDepart').value; */
 	    
@@ -552,7 +552,8 @@ $(document).ready(function(){
 			var value = $(this).val();
 			HeadList[name] = value;
 		});
-	    
+	    console.log("HeadList: ", HeadList);
+		
 		var queryString = Object.keys(HeadList).map(function(key) {
 	        return encodeURIComponent(key) + '=' + encodeURIComponent(HeadList[key]);
 	    }).join('&');

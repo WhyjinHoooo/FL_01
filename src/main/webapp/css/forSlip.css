@@ -36,18 +36,29 @@
 	/* 팝업창 CSS 끝*/
 	/* 결재경로 팝업창 CSS 시작 */
 	.PayPathDiv {
-	padding-top: 5px;
-    width: 100%;
+	border: 1px solid rgb(111, 167, 235);
+    width: 99.6%;
     max-height: 450px;
     position: relative;
-    height: 450px;
+    overflow-y: auto;
 	}
-	.PayPathDiv .btn {
-    width: 229px;
+	.PayPathDiv #resultTable{
+	height: 400px;
+	max-height: 450px;
+	position: relative;
+	overflow-y: auto;
+	}
+	.PayPathDiv #resultTable .tableBody input.line {
+    text-align: center;
+    width: 100px;
+	}
+	.BtnDiv .btn {
+    width: 235px;
     padding: 10px 0px 10px 0px;
     font-size: larger;
-    background: #7030A0;
+    background: #002060;
     color: white;
+    margin-right: 6px;
 	}
 	.PayPathDiv table {
 		width: 100%;
@@ -74,6 +85,7 @@
 	.PayPathDiv td a:hover {
 	text-decoration: underline;
 	}
+	
 	.PayPathBanner {
     text-align: center;
     background: #002060;
@@ -81,6 +93,9 @@
     color: white;
     padding: 10px;
     border: 1px solid;
+	}
+	.PayPathDiv input[type="text"]{
+		width: 100px;
 	}
 	/* 결재경로 팝업창 CSS 끝 */
 @media only screen and (min-width: 1537px) {
