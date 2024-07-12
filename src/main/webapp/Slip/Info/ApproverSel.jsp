@@ -81,14 +81,15 @@
 							var UserCoCt = '<%= rs.getString("COCT") %>';
 							var UserCoCtDes = '<%= rs.getString("COCT_DES") %>';
 				           
-							window.opener.document.querySelector('.ApproverCode').value = UserCode;
-							window.opener.document.querySelector('.AppName').value = UserName;
-							window.opener.document.querySelector('.AppRank').value = UserRank;
-							window.opener.document.querySelector('.AppCoCt').value = UserCoCt;
-							window.opener.document.querySelector('.AppCoCtName').value = UserCoCtDes;
-							window.opener.document.querySelector('.ApproverCode').dispatchEvent(new Event('change'));
+							window.opener.document.querySelector('#ApproverCode_${param.rowNum}').value = UserCode; // 행 번호 사용
+							window.opener.document.querySelector('#AppName_${param.rowNum}').value = UserName; // 행 번호 사용
+							window.opener.document.querySelector('#AppRank_${param.rowNum}').value = UserRank; // 행 번호 사용
+							window.opener.document.querySelector('#AppCoCt_${param.rowNum}').value = UserCoCt; // 행 번호 사용
+							window.opener.document.querySelector('#AppCoCtName_${param.rowNum}').value = UserCoCtDes; // 행 번호 사용
+							window.opener.document.querySelector('#ApproverCode_${param.rowNum}').dispatchEvent(new Event('change')); // 행 번호 사용
 							window.close();
 				       ">
+				       <%-- ${param.rowNum}은 JSP의 EL(Expression Language)을 사용하여 request.getParameter("rowNum") 값을 가져오는 것과 동일한 기능을 합니다. --%>
 				       <%= rs.getString("EMPLOYEE_ID") %>
 				    </a>
 				</td>

@@ -30,6 +30,8 @@
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	String todayDate = today.format(formatter);
 	
+	String YesNo = null;
+	
 	String[] ChildKey = {
 		    "SlipNo", "DocNumber","Original", "AccSubject", "AccSubjectDes", "DeCre", "money-code","DealPrice","ledcurrency","ledPrice",
 		    "Deptd","DeptdDes","AdminAlloc","LineBriefs","Date","UserDepart","User",
@@ -58,9 +60,13 @@
 		        for(String Hkey : HeadKey){
 					System.out.println(Hkey + ": " + TempChild.get(Hkey));
 				}
-				String TemFlHeadSql = "INSERT INTO tmpaccfldochead(DocType, DocNum, PostingDate, DocDescrip, DocInputDepart, DocInputBA, ComCode, InputPerson, DocCreteDate) "+
-										"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				String TemFlHeadSql = "INSERT INTO tmpaccfldochead(DocType, DocNum, PostingDate, DocDescrip, DocInputDepart, DocInputBA, ComCode, InputPerson, DocSubmit, DocCreteDate) "+
+										"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 				PreparedStatement TemFlHeadPstmt = conn.prepareStatement(TemFlHeadSql);
+				
+				String YseNoSql = "SELECT * FROM docworkflowhead WHERE DocNum = ?";
+				PreparedStatement YNPstmt = conn.prepareStatement(YseNoSql);
+				ResultSet YN_rs = null;
 				
 				String TemFlHeadCheck_Sql = "SELECT * FROM tmpaccfldochead WHERE DocNum = ?";
 				PreparedStatement TemFlHeadCheck_Pstmt = conn.prepareStatement(TemFlHeadCheck_Sql);
@@ -80,8 +86,16 @@
 
 	                        switch (HKey) {
 	                            case "SlipNo": // k=0
+	                            	YNPstmt.setString(1, HeadValue);
+	                            	YN_rs = YNPstmt.executeQuery();
+	                            	if(YN_rs.next()){
+	                            		YesNo = "Yes";
+	                            	} else{
+	                            		YesNo = "No";
+	                            	}
 	                                TemFlHeadPstmt.setString(1, HeadValue.substring(0, 3)); // DocType
 	                                TemFlHeadPstmt.setString(2, HeadValue); // DocNum
+	                                TemFlHeadPstmt.setString(9, YesNo); // DocNum
 	                                break;
 	                            case "Date": // k=1
 	                                TemFlHeadPstmt.setString(3, HeadValue); // PostingDate
@@ -102,7 +116,7 @@
 	                                TemFlHeadPstmt.setString(8, HeadValue); // InputPerson
 	                                break;
 	                            case "InputDate": // k=7
-	                                TemFlHeadPstmt.setString(9, todayDate); // DocCreteDate
+	                                TemFlHeadPstmt.setString(10, todayDate); // DocCreteDate
 	                                break;
 	                            default:
 	                                // 해당 필드가 없다면 처리하지 않습니다.
@@ -220,9 +234,13 @@
 				System.out.println(Ckey + ": " + TempChild.get(Ckey));
 			}
 			try{
-				String TemFlHeadSql = "INSERT INTO tmpaccfldochead(DocType, DocNum, PostingDate, DocDescrip, DocInputDepart, DocInputBA, ComCode, InputPerson, DocCreteDate) "+
-						"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				String TemFlHeadSql = "INSERT INTO tmpaccfldochead(DocType, DocNum, PostingDate, DocDescrip, DocInputDepart, DocInputBA, ComCode, InputPerson, DocSubmit, DocCreteDate) "+
+						"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 				PreparedStatement TemFlHeadPstmt = conn.prepareStatement(TemFlHeadSql);
+				
+				String YseNoSql = "SELECT * FROM docworkflowhead WHERE DocNum = ?";
+				PreparedStatement YNPstmt = conn.prepareStatement(YseNoSql);
+				ResultSet YN_rs = null;
 				
 				String TemFlHeadCheck_Sql = "SELECT * FROM tmpaccfldochead WHERE DocNum = ?";
 				PreparedStatement TemFlHeadCheck_Pstmt = conn.prepareStatement(TemFlHeadCheck_Sql);
@@ -241,35 +259,43 @@
                         String HeadValue = (TempChild.get(HKey) != null) ? TempChild.get(HKey).toString() : "몰?루";
 
                         switch (HKey) {
-                            case "SlipNo": // k=0
-                                TemFlHeadPstmt.setString(1, HeadValue.substring(0, 3)); // DocType
-                                TemFlHeadPstmt.setString(2, HeadValue); // DocNum
-                                break;
-                            case "Date": // k=1
-                                TemFlHeadPstmt.setString(3, HeadValue); // PostingDate
-                                break;
-                            case "briefs": // k=2
-                                TemFlHeadPstmt.setString(4, HeadValue); // DocDescrip
-                                break;
-                            case "Deptd": // k=3
-                                TemFlHeadPstmt.setString(5, HeadValue); // DocInputDepart
-                                break;
-                            case "AdminAlloc": // k=4
-                                TemFlHeadPstmt.setString(6, HeadValue); // DocInputBA
-                                break;
-                            case "UserDepart": // k=5
-                                TemFlHeadPstmt.setString(7, HeadValue); // ComCode
-                                break;
-                            case "User": // k=6
-                                TemFlHeadPstmt.setString(8, HeadValue); // InputPerson
-                                break;
-                            case "InputDate": // k=7
-                                TemFlHeadPstmt.setString(9, todayDate); // DocCreteDate
-                                break;
-                            default:
-                                // 해당 필드가 없다면 처리하지 않습니다.
-                                break;
-                        }
+	                        case "SlipNo": // k=0
+	                        	YNPstmt.setString(1, HeadValue);
+	                        	YN_rs = YNPstmt.executeQuery();
+	                        	if(YN_rs.next()){
+	                        		YesNo = "Yes";
+	                        	} else{
+	                        		YesNo = "No";
+	                        	}
+	                            TemFlHeadPstmt.setString(1, HeadValue.substring(0, 3)); // DocType
+	                            TemFlHeadPstmt.setString(2, HeadValue); // DocNum
+	                            TemFlHeadPstmt.setString(9, YesNo); // DocNum
+	                            break;
+	                        case "Date": // k=1
+	                            TemFlHeadPstmt.setString(3, HeadValue); // PostingDate
+	                            break;
+	                        case "briefs": // k=2
+	                            TemFlHeadPstmt.setString(4, HeadValue); // DocDescrip
+	                            break;
+	                        case "Deptd": // k=3
+	                            TemFlHeadPstmt.setString(5, HeadValue); // DocInputDepart
+	                            break;
+	                        case "AdminAlloc": // k=4
+	                            TemFlHeadPstmt.setString(6, HeadValue); // DocInputBA
+	                            break;
+	                        case "UserDepart": // k=5
+	                            TemFlHeadPstmt.setString(7, HeadValue); // ComCode
+	                            break;
+	                        case "User": // k=6
+	                            TemFlHeadPstmt.setString(8, HeadValue); // InputPerson
+	                            break;
+	                        case "InputDate": // k=7
+	                            TemFlHeadPstmt.setString(10, todayDate); // DocCreteDate
+	                            break;
+	                        default:
+	                            // 해당 필드가 없다면 처리하지 않습니다.
+	                            break;
+                    	}
                     }
 
                     String HeadPstmtCheck = TemFlHeadPstmt.toString();

@@ -3269,10 +3269,11 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     color: #212529;
     text-align: left;
     list-style: none;
-    background-color: #fff;
+    background-color: #ffc107;
     background-clip: padding-box;
     border: 1px solid rgba(0,0,0,.15);
-    border-radius: .25rem
+    border-radius: .25rem;
+    width: 290px;
 }
 
 .dropdown-menu-left {
@@ -3448,7 +3449,7 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     color: #16181b;
     text-decoration: none;
     background-color: #f8f9fa;
-    width: 157px;
+    width: 245px;
 }
 
 .dropdown-item.active,.dropdown-item:active {
@@ -4501,6 +4502,7 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     }
 	.Sang{
 	background-color: #94a9ff;
+	width: 290px;
 	}
     .navbar-expand-lg .navbar-nav .nav-link {
         padding-right: .5rem;

@@ -60,6 +60,13 @@
     color: white;
     margin-right: 6px;
 	}
+	.BtnDiv .AddBtn:hover,
+	.BtnDiv .ApproverChange:hover,
+	.BtnDiv .InfoSave:hover,
+	.BtnDiv .InfoCancel:hover {
+	    background-color: #80bdff;
+	    border-color: #80bdff;
+	}
 	.PayPathDiv table {
 		width: 100%;
 		border-collapse: collapse;
@@ -170,17 +177,11 @@
     border-width: 2px;
     margin-left: 3px;
 	}
-	.FuncArea .input-btn:hover {
-    background-color: #80bdff;
-    border-color: #80bdff;
-	}
-	.FuncArea .Approval:hover {
-    background-color: #80bdff;
-    border-color: #80bdff;
-	}
+	.FuncArea .input-btn:hover,
+	.FuncArea .Approval:hover,
 	.FuncArea .PayPath:hover {
-    background-color: #80bdff;
-    border-color: #80bdff;
+	    background-color: #80bdff;
+	    border-color: #80bdff;
 	}
 	.SlipFoot {
     overflow-y: auto;

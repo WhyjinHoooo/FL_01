@@ -14,8 +14,15 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <title>Insert title here</title>
 </head>
+<%
+	String SlipNo = request.getParameter("SlipNo"); // 전표번호 
+	String User = request.getParameter("User"); // 전표 입력자
+	String UserBizArea = request.getParameter("UserBizArea"); // 전표입력 BA 
+	String TargetDepartCd = request.getParameter("TargetDepartCd"); // 전표 입력 부서
+%>
 <script type='text/javascript'>
-function SelectOption(inputFieldId){
+//function SelectOption(inputFieldId){
+function SelectOption(inputFieldId, rowNum){	
     var popupWidth = 515;
     var popupHeight = 600;
    /*  var ComCode = document.querySelector('#UserDepart').value; */
@@ -46,10 +53,15 @@ function SelectOption(inputFieldId){
     }
     var docNumber, slipNo;
     
-    if(inputFieldId === "Approver"){
+    /* if(inputFieldId === "Approver"){
     	popupWidth = 700;
         popupHeight = 600;
     	var approverPopup = window.open("${contextPath}/Slip/Info/ApproverSel.jsp", "approverPopup", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    } */
+    if(inputFieldId === "Approver"){
+    	popupWidth = 700;
+        popupHeight = 600;
+    	var approverPopup = window.open("${contextPath}/Slip/Info/ApproverSel.jsp?rowNum=" + rowNum, "approverPopup", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos); // 행 번호 전달
     } 
 }
 </script>
@@ -59,23 +71,23 @@ $(document).ready(function(){
 	var add = 0;
 	var minus = 0;
 	
+	var AppList = {};
+	
 	function AddLine(){
 	add++;
 	console.log("추가한 횟수 : " + add);
-			
-	var rowItem = "<tr>";
-		rowItem += "<td class='rowNum'>" + add + "</td>";
-		rowItem += "<td><input type='checkbox' class='ChkBox' id='ChkBox' name='ChkBox'></td>";
-		rowItem += "<td><select class='PayOp' id='PayOp' name='PayOp'>";
+		var rowItem = "<tr>";
+		rowItem += "<td class='rowNum'>" + add + "</td>"; // 행 번호 추가
+		rowItem += "<td><select class='PayOp Approval' id='PayOp_" + add + "' name='PayOp_" + add + "'>"; // 고유한 ID/Name 추가
 		rowItem += "<option value='A'>A 결재</option>"
 		rowItem += "<option value='B'>B 합의</option>"
 		rowItem += "<option value='C'>C 통보</option>"
 		rowItem += "</select></td>"
-		rowItem += "<td><a href='javascript:void(0)' onclick=\"SelectOption('Approver')\"><input class='ApproverCode line' value='Select' readonly></a></td>";
-		rowItem += "<td><input type='text' class='AppName line' id='AppName' name='AppName'></td>";
-		rowItem += "<td><input type='text' class='AppRank line' id='AppRank' name='AppRank'></td>";
-		rowItem += "<td><input type='text' class='AppCoCt line' id='AppCoCt' name='AppCoCt'></td>";
-		rowItem += "<td><input type='text' class='AppCoCtName line' id='AppCoCtName' name='AppCoCtName'></td>";
+		rowItem += "<td><a href='javascript:void(0)' onclick=\"SelectOption('Approver', " + add + ")\"><input class='ApproverCode line Approval' id='ApproverCode_" + add + "' name='ApproverCode_" + add + "' value='Select' readonly></a></td>"; // 고유한 ID/Name 추가
+		rowItem += "<td><input type='text' class='AppName line Approval' id='AppName_" + add + "' name='AppName_" + add + "' readonly></td>"; // 고유한 ID/Name 추가
+		rowItem += "<td><input type='text' class='AppRank line Approval' id='AppRank_" + add + "' name='AppRank_" + add + "' readonly></td>"; // 고유한 ID/Name 추가
+		rowItem += "<td><input type='text' class='AppCoCt line Approval' id='AppCoCt_" + add + "' name='AppCoCt_" + add + "' readonly></td>"; // 고유한 ID/Name 추가
+		rowItem += "<td><input type='text' class='AppCoCtName Approval' id='AppCoCtName_" + add + "' name='AppCoCtName_" + add + "'></td>"; // 고유한 ID/Name 추가
 		rowItem += "<td><button class='DelBtn' id='DelBtn' name='DelBtn'>삭제</button></td>";
 		rowItem += "</tr>";
 	
@@ -93,11 +105,55 @@ $(document).ready(function(){
 		Row.remove();
 		add--;
 		updateRowNumbers();
-	});	
+	});
+	$('.BtnDiv').on('click',"button[name='ApproverChange']", function(){
+		window.close();
+	});
+	
+	$('.BtnDiv').on('click',"button[name='ApproverChange']", function(){
+		var UserInfo = {
+		        SlipNo: '<%= SlipNo %>',
+		        User: '<%= User %>',
+		        UserBizArea: '<%= UserBizArea %>',
+		        TargetDepartCd: '<%= TargetDepartCd %>'
+		};
+		
+		$('.Approval').each(function(){
+			var name = $(this).attr("name");
+			var value = $(this).val();
+			AppList[name] = value;
+		})
+		
+		var IntegratedList = {
+			InputInfo : UserInfo,
+			EvaluList : AppList
+		};
+		console.log("IntegratedList : ", IntegratedList);
+		
+		/* $.ajax({
+			url: 'WorkFlowRegist.jsp',
+			type: 'POST',,
+			data: JSON.stringify(IntegratedList),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			axtnc: false,
+			success: function(data){
+				
+			}
+		}); // 1차 ajax의 끝
+		 */
+	});
+	
 	function updateRowNumbers() {
         $('#tableBody tr').each(function(index) {
             $(this).find('.rowNum').text(index + 1);
         });
+        /* 
+        $('#tableBody tr')는 tableBody 내의 모든 tr 요소를 선택합니다.
+		each(function(index) { ... })는 선택된 각 tr 요소에 대해 반복합니다.
+		$(this).find('.rowNum').text(index + 1);는 현재 tr 요소 내의 rowNum 클래스를 가진 요소의 텍스트를 인덱스 값에
+		1을 더한 값으로 설정합니다. 
+		*/
     }	
 });
 </script>
@@ -108,7 +164,7 @@ $(document).ready(function(){
 	     <table id="resultTable">
 	     	<thead>
 		        <tr>
-		            <th>항번</th><th>선택</th><th>결재구분</th><th>결재/합의자 사번</th><th>성명</th><th>직급</th><th>부서코드</th><th>부서명</th><th>삭제</th>
+		            <th>항번</th><!-- <th>선택</th> --><th>결재구분</th><th>결재/합의자 사번</th><th>성명</th><th>직급</th><th>부서코드</th><th>부서명</th><th>삭제</th>
 		        </tr>
 	        </thead>
 	        <tbody class="tableBody" id="tableBody">
@@ -117,9 +173,9 @@ $(document).ready(function(){
 	</div>   
 	<div class="BtnDiv">
 		<button type="button" class="AddBtn btn" id="AddBtn" name="AddBtn">셀 추가</button>
-		<button class="ApproverChange btn" id="ApproverChange">결재자 변경</button>
-		<button class="InfoSave btn" id="ApproverChange">저 장</button>
-		<button class="InfoCancel btn" id="ApproverChange">취 소</button>
+		<button class="ApproverChange btn" id="ApproverChange" name="ApproverChange">결재자 변경</button>
+		<button class="InfoSave btn" id="ApproverChange" name="ApproverChange">저 장</button>
+		<button class="InfoCancel btn" id="ApproverChange" name="ApproverChange" >취 소</button>
 	</div> 
     </center>
 </body>

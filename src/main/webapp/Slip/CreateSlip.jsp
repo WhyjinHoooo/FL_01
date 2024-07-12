@@ -307,12 +307,14 @@ $(document).ready(function(){
 		var DealCode = $('.money-code').val();
 		var DealPrice = $('.DealPrice').val();
 		var Deptd = $('.Deptd').val();
+		var LineBrief = $('.LineBriefs').val();
+		
 		var ConSumeDate = $('.ConsumeDate').val();
 		
 		var PageNumber = parseInt($('.DocNumber').val(), 10);
 		
-		if(!AccSubject || !DealCode || !DealPrice || !Deptd){
-			alert("계정과목, 거래통화, 거래금액, 관리/귀속 부서를 입력해주세요.");
+		if(!AccSubject || !DealCode || !DealPrice || !Deptd || !LineBrief){
+			alert("계정과목, 거래통화, 거래금액, 관리/귀속 부서, 라인 적요를 입력해주세요.");
 			return false;
 		}
 		
@@ -579,6 +581,7 @@ $(document).ready(function(){
 		
 		var TotalCre = document.getElementById("CreditTotal").value;
 		var TotalDe = document.getElementById("DebitTotal").value;
+		
 		if(TotalCre !== TotalDe){
 			alert("합계가 맞지 않습니다.");
 			return false;
@@ -596,8 +599,6 @@ $(document).ready(function(){
 			                "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
 			            ); */
 		     }
-			
-			
 			return true;
 		}
 	}
@@ -865,7 +866,7 @@ $(document).ready(function(){
 					</table>
 				</div>
 			</div>
-			<div class=" FuncArea">
+			<div class="FuncArea">
 				<img id="DownBtn" name="Down" src="../img/Dvector.png" alt="">
 				<input class="input-btn" id="btn" type="submit" value="저장" onclick="CreDeCompare(event)">
 				<button class="PayPath" id="PayPath" onclick="PayRequest(event, 'SelPayPath')">결재경로</button>
