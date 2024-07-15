@@ -104,6 +104,19 @@
 	.PayPathDiv input[type="text"]{
 		width: 100px;
 	}
+	.PayPathDiv .tableBody .Approval {
+    width: 120px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 20px;
+    background: #002060;
+    color: white;
+    border: 1px solid;
+    border-color: #002060;
+    border-width: 2px;
+    margin-left: 3px;
+    text-align: center;
+	}
 	/* 결재경로 팝업창 CSS 끝 */
 @media only screen and (min-width: 1537px) {
 	
@@ -142,7 +155,7 @@
 	img#DownBtn {
     margin-right: 61%;
 	}
-	.input-btn {
+	.FuncArea .input-btn {
     width: 100px;
     height: 50px;
     border-radius: 10px;
@@ -153,7 +166,7 @@
     border-color: #002060;
     border-width: 2px;
 	}
-	.PayPath {
+	.FuncArea .PayPath {
     width: 100px;
     height: 50px;
     border-radius: 10px;
@@ -165,7 +178,7 @@
     border-width: 2px;
     margin-left: 3px;
 	}
-	.Approval {
+	.FuncArea .Approval {
     width: 100px;
     height: 50px;
     border-radius: 10px;

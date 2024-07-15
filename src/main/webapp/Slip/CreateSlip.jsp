@@ -649,7 +649,7 @@ $(document).ready(function(){
 									<%
 									if(User_Depart != null){
 									%>
-										<input type="text" class="UserDepart child" id="UserDepart" name="UserDepart" value="<%=User_Depart%>" readonly>
+										<input type="text" class="UserDepart child Head" id="UserDepart" name="UserDepart" value="<%=User_Depart%>" readonly>
 									<%
 									} else{
 									%>

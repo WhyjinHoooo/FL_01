@@ -19,6 +19,7 @@
 	String User = request.getParameter("User"); // 전표 입력자
 	String UserBizArea = request.getParameter("UserBizArea"); // 전표입력 BA 
 	String TargetDepartCd = request.getParameter("TargetDepartCd"); // 전표 입력 부서
+	String ComCode = request.getParameter("UserDepart");
 %>
 <script type='text/javascript'>
 //function SelectOption(inputFieldId){
@@ -53,11 +54,6 @@ function SelectOption(inputFieldId, rowNum){
     }
     var docNumber, slipNo;
     
-    /* if(inputFieldId === "Approver"){
-    	popupWidth = 700;
-        popupHeight = 600;
-    	var approverPopup = window.open("${contextPath}/Slip/Info/ApproverSel.jsp", "approverPopup", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-    } */
     if(inputFieldId === "Approver"){
     	popupWidth = 700;
         popupHeight = 600;
@@ -76,20 +72,21 @@ $(document).ready(function(){
 	function AddLine(){
 	add++;
 	console.log("추가한 횟수 : " + add);
-		var rowItem = "<tr>";
-		rowItem += "<td class='rowNum'>" + add + "</td>"; // 행 번호 추가
-		rowItem += "<td><select class='PayOp Approval' id='PayOp_" + add + "' name='PayOp_" + add + "'>"; // 고유한 ID/Name 추가
-		rowItem += "<option value='A'>A 결재</option>"
-		rowItem += "<option value='B'>B 합의</option>"
-		rowItem += "<option value='C'>C 통보</option>"
-		rowItem += "</select></td>"
-		rowItem += "<td><a href='javascript:void(0)' onclick=\"SelectOption('Approver', " + add + ")\"><input class='ApproverCode line Approval' id='ApproverCode_" + add + "' name='ApproverCode_" + add + "' value='Select' readonly></a></td>"; // 고유한 ID/Name 추가
-		rowItem += "<td><input type='text' class='AppName line Approval' id='AppName_" + add + "' name='AppName_" + add + "' readonly></td>"; // 고유한 ID/Name 추가
-		rowItem += "<td><input type='text' class='AppRank line Approval' id='AppRank_" + add + "' name='AppRank_" + add + "' readonly></td>"; // 고유한 ID/Name 추가
-		rowItem += "<td><input type='text' class='AppCoCt line Approval' id='AppCoCt_" + add + "' name='AppCoCt_" + add + "' readonly></td>"; // 고유한 ID/Name 추가
-		rowItem += "<td><input type='text' class='AppCoCtName Approval' id='AppCoCtName_" + add + "' name='AppCoCtName_" + add + "'></td>"; // 고유한 ID/Name 추가
-		rowItem += "<td><button class='DelBtn' id='DelBtn' name='DelBtn'>삭제</button></td>";
-		rowItem += "</tr>";
+	
+	var rowItem = "<tr>";
+	rowItem += "<td class='rowNum'>" + add + "</td>"; // 행 번호 추가
+	rowItem += "<td><select class='PayOp Approval' id='PayOp_" + add + "' name='PayOp_" + add + "'>"; // 고유한 ID/Name 추가
+	rowItem += "<option value='A'>A 결재</option>"
+	rowItem += "<option value='B'>B 합의</option>"
+	rowItem += "<option value='C'>C 통보</option>"
+	rowItem += "</select></td>"
+	rowItem += "<td><a href='javascript:void(0)' onclick=\"SelectOption('Approver', " + add + ")\"><input class='ApproverCode line Approval' id='ApproverCode_" + add + "' name='ApproverCode_" + add + "' value='Select' readonly></a></td>"; // 고유한 ID/Name 추가
+	rowItem += "<td><input type='text' class='AppName line Approval' id='AppName_" + add + "' name='AppName_" + add + "' readonly></td>"; // 고유한 ID/Name 추가
+	rowItem += "<td><input type='text' class='AppRank line Approval' id='AppRank_" + add + "' name='AppRank_" + add + "' readonly></td>"; // 고유한 ID/Name 추가
+	rowItem += "<td><input type='text' class='AppCoCt line Approval' id='AppCoCt_" + add + "' name='AppCoCt_" + add + "' readonly></td>"; // 고유한 ID/Name 추가
+	rowItem += "<td><input type='text' class='AppCoCtName Approval' id='AppCoCtName_" + add + "' name='AppCoCtName_" + add + "' readonly></td>"; // 고유한 ID/Name 추가
+	rowItem += "<td><button class='DelBtn' id='DelBtn' name='DelBtn'>삭제</button></td>";
+	rowItem += "</tr>";
 	
 	$('#tableBody').append(rowItem); // 동적으로 row를 추가한다.
 		
@@ -106,16 +103,18 @@ $(document).ready(function(){
 		add--;
 		updateRowNumbers();
 	});
-	$('.BtnDiv').on('click',"button[name='ApproverChange']", function(){
+	
+	/* $('.BtnDiv').on('click',"button[name='ApproverChange']", function(){
 		window.close();
-	});
+	}); */
 	
 	$('.BtnDiv').on('click',"button[name='ApproverChange']", function(){
 		var UserInfo = {
 		        SlipNo: '<%= SlipNo %>',
 		        User: '<%= User %>',
 		        UserBizArea: '<%= UserBizArea %>',
-		        TargetDepartCd: '<%= TargetDepartCd %>'
+		        TargetDepartCd: '<%= TargetDepartCd %>',
+		        Company: '<%= ComCode %>',
 		};
 		
 		$('.Approval').each(function(){
@@ -130,9 +129,9 @@ $(document).ready(function(){
 		};
 		console.log("IntegratedList : ", IntegratedList);
 		
-		/* $.ajax({
+		$.ajax({
 			url: 'WorkFlowRegist.jsp',
-			type: 'POST',,
+			type: 'POST',
 			data: JSON.stringify(IntegratedList),
 			contentType: 'application/json; charset=utf-8',
 			dataType: 'json',
@@ -141,7 +140,7 @@ $(document).ready(function(){
 				
 			}
 		}); // 1차 ajax의 끝
-		 */
+		
 	});
 	
 	function updateRowNumbers() {
