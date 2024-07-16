@@ -84,7 +84,7 @@ $(document).ready(function(){
 	rowItem += "<td><input type='text' class='AppName line Approval' id='AppName_" + add + "' name='AppName_" + add + "' readonly></td>"; // 고유한 ID/Name 추가
 	rowItem += "<td><input type='text' class='AppRank line Approval' id='AppRank_" + add + "' name='AppRank_" + add + "' readonly></td>"; // 고유한 ID/Name 추가
 	rowItem += "<td><input type='text' class='AppCoCt line Approval' id='AppCoCt_" + add + "' name='AppCoCt_" + add + "' readonly></td>"; // 고유한 ID/Name 추가
-	rowItem += "<td><input type='text' class='AppCoCtName Approval' id='AppCoCtName_" + add + "' name='AppCoCtName_" + add + "' readonly></td>"; // 고유한 ID/Name 추가
+	rowItem += "<td><input type='text' class='AppCoCtName' id='AppCoCtName_" + add + "' name='AppCoCtName_" + add + "' readonly></td>"; // 고유한 ID/Name 추가
 	rowItem += "<td><button class='DelBtn' id='DelBtn' name='DelBtn'>삭제</button></td>";
 	rowItem += "</tr>";
 	
