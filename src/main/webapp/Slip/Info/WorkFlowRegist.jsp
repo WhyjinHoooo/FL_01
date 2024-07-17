@@ -11,6 +11,7 @@
 	BufferedReader reader = request.getReader();
 	StringBuilder sb = new StringBuilder();
 	String line;
+	JSONObject jsonResponse = new JSONObject();
 	while((line = reader.readLine()) != null){
 		sb.append(line);
 	}
@@ -76,7 +77,7 @@
 			for(int k = 0 ; k < User.length ; k++){
 				String USer_Key = User[k];
 				String USer_Val = (UserInfo.get(USer_Key) != null) ? UserInfo.get(USer_Key).toString() : "없음";
-				System.out.println("입력자 정보 : " + USer_Val);
+				/* System.out.println("입력자 정보 : " + USer_Val); */
 				switch(USer_Key){
 					case "SlipNo": // 0
 						WF_Pstmt.setString(1, USer_Val);
@@ -98,14 +99,21 @@
 						break;
 				}
 			}
-//			JSONObject approverData = (JSONObject) ApproverInfo.get(String.valueOf(j));
+			//JSONObject approverData = (JSONObject) ApproverInfo.get(String.valueOf(j));
+			/*
+			-> JSONObject approverData = (JSONObject) ApproverInfo.get("Group_" + j);
+			를 사용하는 이유는 위에서 
+			-> ApproverInfo.put("Group_" + i, approverGroup);
+			다음과 같이 그룹화했기 떄문이다.
+			-> ApproverInfo.put(i, approverGroup); 이렇게 숫자 키로 저장하면 기존의 저장된 데이터의 문자 키와 혼동이 생겨 데이터를 관리하기 어렵기 때문
+			*/
 			JSONObject approverData = (JSONObject) ApproverInfo.get("Group_" + j); 
-			System.out.println(approverData);
+			/* System.out.println(approverData); */
 			if(approverData != null){
 				for(int a = 0 ; a < Approver.length ; a++){
 					String AppKey = Approver[a];
 					String AppValue = (approverData.get(AppKey) != null) ? approverData.get(AppKey).toString() : "없음";
-					System.out.println("결재자 정보 : " + AppValue);
+					//System.out.println("결재자 정보 : " + AppValue);
 						switch (AppKey) {
 	                    case "AppCoCt": // 0
 	                        WF_Pstmt.setString(11, AppValue);
@@ -128,11 +136,16 @@
 				}
 			}
 			WF_Pstmt.executeUpdate();
-			String InsertSqlCheck = WF_Pstmt.toString();
-			System.out.println("Prepared SQL QUERY01 : " + InsertSqlCheck);
-			System.out.println("Prepared SQL QUERY02 : " + WF_Pstmt);
 		}
+		jsonResponse.put("status", "success");
 	}catch(SQLException e){
 		e.printStackTrace();
-	}
+		e.printStackTrace();
+        jsonResponse.put("status", "error");
+        jsonResponse.put("message", e.getMessage());
+	}finally {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsonResponse.toString());
+    }
 %>

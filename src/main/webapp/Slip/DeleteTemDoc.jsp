@@ -25,57 +25,73 @@
         String DocCode = null;
         String DocCodeNum = null;
         String LineItem = null;
+        String AccountCode = null;
+        
+        String nothing01 = "";
+        String nothing02 = "";
+        
         int DeleteCount = 0;
         int Count = 0;
         long YetMinus = 0;
-        
         
         // 삭제된 항목들에 대해 반복
         for (int i = 0; i < deletedItems.size(); i++) {
             JSONObject item = (JSONObject) deletedItems.get(i);
             DocCode = (String) item.get("DocCode");
-            
+            AccountCode = (String) item.get("GLAccountCode");
             DocCodeNum = (String) item.get("DocCodeNumber");
             LineItem = DocCode + "_"  + DocCodeNum;
             
             Object delCountObj = item.get("DelConut");
-            if (delCountObj instanceof Long) {
-                YetMinus = (Long) delCountObj;
-            } else if (delCountObj instanceof Integer) {
-                YetMinus = ((Integer) delCountObj).longValue();
-            } else {
-                // 데이터가 Long이나 Integer가 아닌 경우 처리 (예: 예외 발생)
-                throw new IllegalArgumentException("DelConut 값이 숫자 형식이 아닙니다: " + delCountObj);
-            }
+	        if (delCountObj instanceof Long) {
+	        	YetMinus = (Long) delCountObj;
+	        } else if (delCountObj instanceof Integer) {
+	        	YetMinus = ((Integer) delCountObj).longValue();
+			} else {
+				// 데이터가 Long이나 Integer가 아닌 경우 처리 (예: 예외 발생)
+				throw new IllegalArgumentException("DelConut 값이 숫자 형식이 아닙니다: " + delCountObj);
+	        }
             DeleteCount = (int) YetMinus;
-        }
+        
 			System.out.println("삭제할 DocCode: " + DocCode);  // log 추가
             System.out.println("삭제할 DocCodeNum: " + DocCodeNum);  // log 추가
             System.out.println("삭제할 LineItem: " + LineItem);  // log 추가
             System.out.println("삭제할 DeleteCount: " + DeleteCount);  // log 추가
+            System.out.println("삭제할 AccountCode: " + AccountCode);  // log 추가
             
-            if(!DocCode.substring(0, 3).equals("CRE")){
+            if(!AccountCode.equals("2003500") && !AccountCode.equals("2003510") && !AccountCode.equals("2003520")){
             	String DocSql = "DELETE FROM tmpaccfldocline WHERE DocNum='" + DocCode + "' AND DocLineItem= '"+ DocCodeNum + "'";
                 String NumReset01 = "SET @CNT = 0";
                 String NumReset02 = "UPDATE tmpaccfldocline SET tmpaccfldocline.DocLineItem = @CNT:=@CNT+1";
                 
-                try {
-                    int DocResult = DocSt.executeUpdate(DocSql);
-                    if (DocResult > 0) {
+					int DocResult = DocSt.executeUpdate(DocSql);
+					if (DocResult > 0) {
                         ResetSt01.executeUpdate(NumReset01);
                         ResetSt02.executeUpdate(NumReset02);
                         jsonResponse.put("result", true);  // jsonResponse 사용
-                    } else {
+					} else {
                         jsonResponse.put("result", false);  // jsonResponse 사용
                         jsonResponse.put("message", "삭제할 항목이 데이터베이스에 존재하지 않습니다.");
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    jsonResponse.put("result", false);  // jsonResponse 사용
-                    jsonResponse.put("message", "삭제 작업 중 오류가 발생했습니다.");
-                }
+					}
+				/*
+				추가해야 할지 고민되는 코드
+				String LF_Check = "SELECT distinct(DocNum_Line) FROM project.tmpaccfidoclineinform"; // tmpaccfidoclineinform에서 DocNum_Line의 값을 검색
+				PreparedStatement LF_Pstmt = conn.prepareStatement(LF_Check);
+				ResultSet LF_Rs = LF_Pstmt.executeQuery();
+				
+                 while(LF_Rs.next()){
+					nothing01 = LF_Rs.getString("DocNum_Line");
+					String L_Check = "SELECT * FROM tmpaccfldocline WHERE Original = '" + nothing01 + "'";
+					PreparedStatement L_Pstmt = conn.prepareStatement(L_Check);
+					ResultSet L_rs = L_Pstmt.executeQuery();
+					if(L_rs.next()){
+						String L_Update = "UPDATE tmpaccfldocline SET Original = ? WHERE DocNum = ? AND DocLineItem = ?";
+					}
+				};
+				*/
             } else{
             	 // 해당 항목을 DB에서 삭제
+            	System.out.println("1번");
                 String DocSql = "DELETE FROM tmpaccfldocline WHERE DocNum='" + DocCode + "' AND DocLineItem= '"+ DocCodeNum + "'";
                 String NumReset01 = "SET @CNT = 0";
                 String NumReset02 = "UPDATE tmpaccfldocline SET tmpaccfldocline.DocLineItem = @CNT:=@CNT+1";
@@ -83,21 +99,27 @@
                 int DocResult = DocSt.executeUpdate(DocSql);
                 ResetSt01.executeUpdate(NumReset01);
                 ResetSt02.executeUpdate(NumReset02);
+               
+                /* String LineCheck = "SELECT * FROM tmpaccfldochead WHERE DocNum = '"+ LineItem + "'";
+                PreparedStatement LineCheck_Pstmt = conn.prepareStatement(LineCheck);
+				ResultSet LineCheck_rs = LineCheck_Pstmt.executeQuery();
+				if(LineCheck_rs.next()){
+					nothing01 = LineCheck_rs.getString("Original");;
+				} */
                 
     			String DocNumSql = "DELETE FROM tmpaccfidoclineinform WHERE DocNum_Line = '" + LineItem + "'";
                 int DocNumResult = DocNumSt.executeUpdate(DocNumSql);
-            	
+                
+                System.out.println("DocResult : " + DocResult);
+                System.out.println("DocNumResult : " + DocNumResult);
 	            if (DocResult > 0 && DocNumResult > 0) {
-	                // 삭제 성공
-	                //if(DeleteCount == 1){
-	                	System.out.println("1번");
-	                	try{
+	                	System.out.println("2번");
 	                    	String SearchSql = "SELECT * FROM tmpaccfldocline";
 	                    	PreparedStatement SeaPstmt = conn.prepareStatement(SearchSql);
 	                    	ResultSet SeaRs = SeaPstmt.executeQuery();
 	                    	String EditDocCode = null;
 	                    	while(SeaRs.next()){
-	                    		System.out.println("여기까지");
+	                    		System.out.println("3번");
 	                    		String ItemNumber = String.format("%04d", SeaRs.getInt("DocLineItem")); // 0002
 	                    		String OriItem = SeaRs.getString("Original").substring(SeaRs.getString("Original").lastIndexOf('_') + 1); // 0003 <- Original컬럼에 저장된 데이터의 뒷부분
 	                    		String OriDocCode = SeaRs.getString("Original"); // CRE20240624S0001_0003
@@ -137,44 +159,13 @@
 	                                DocLineUpd_pstmt.setString(2, SeaRs.getString("DocNum"));
 	                                DocLineUpd_pstmt.setString(3, ItemNumber);
 	                                
-	                                /* String preparedQuery = EditPstmt.toString();
-	                				System.out.println("Prepared SQL Query: " + preparedQuery); */
+	                                String preparedQuery = EditPstmt.toString();
+	                				System.out.println("Prepared SQL Query: " + preparedQuery);
 	                                
 	                                EditPstmt.executeUpdate();
 	                                DocLineUpd_pstmt.executeUpdate();
 	                            }
 	                    	}
-	                    }catch(SQLException e){
-	                    	e.printStackTrace();
-	                    }
-	                	/*}  else {
-	                	System.out.println("2번");
-	                	try{
-	                		String SearchSql = "SELECT * FROM tmpaccfldocline";
-	                		PreparedStatement SeaPstmt = conn.prepareStatement(SearchSql);
-	                    	ResultSet SeaRs = SeaPstmt.executeQuery();
-	                    	String DocNum = null;
-	                    	String DocLineItem = null;
-	                    	String Original = null;
-	                    	while(SeaRs.next()){
-	                    		DocNum = SeaRs.getString("DocNum"); // 테이블 tmpaccfldocline의 컬럼 DocNum에 저장된 데이터 : CRE20240626S0001
-	                    		DocLineItem = String.format("%04d", SeaRs.getInt("DocLineItem")); // 테이블 tmpaccfldocline의 컬럼 DocLineItem에 저장된 데이터를 000N형태로 변환
-	                    		Original = SeaRs.getInt("Original").substring(SeaRs.getInt("Original").lastIndexOf('_') + 1); //0001
-	                    		System.out.println("DocNum(예:CRE20240626S0001) : " + DocNum);
-	                    		System.out.println("DocLineItem(예:0001) : " + DocLineItem);
-	                    		System.out.println("Original의 뒷부분(예:CRE20240626S0001_0001) : " + Original);
-	                    		if(!DocLineItem.equals(Original)){
-	                    			String DocLineUpdSql = "UPDATE tmpaccfldocline SET Original = ? WHERE DocNum = ? AND DocLineItem = ?";
-	                    			PreparedStatement DocLineUpd_pstmt = conn.prepareStatement(DocLineUpdSql);
-	                    			DocLineUpd_pstmt.setString(1, DocNum + "_" + DocLineItem);
-	                    			DocLineUpd_pstmt.setString(2, DocNum);
-	                    			DocLineUpd_pstmt.setString(3, DocLineItem);
-	                    		}
-	                    	}
-	                	}catch(){
-	                		
-	                	}
-	                } */
 	                jsonResponse.put("result", true);  // jsonResponse 사용
 	            } else {
 	                // 삭제 실패
@@ -182,8 +173,7 @@
 	                jsonResponse.put("message", "해당 항목이 데이터베이스에 존재하지 않습니다.");  // jsonResponse 사용
 	            } // if (DocResult > 0 && DocNumResult > 0){...}else{...}의 끝
             }
-        
-        
+    	}
     } catch (Exception e) {
         e.printStackTrace();
         jsonResponse.put("result", false);  // jsonResponse 사용

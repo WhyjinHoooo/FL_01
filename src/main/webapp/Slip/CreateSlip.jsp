@@ -415,7 +415,7 @@ $(document).ready(function(){
 				console.log("다음에 입력할 항번 : " + ("0000" + (PageNumber + 1)).slice(-4));
 			}
 		}); //  임시저장테이블에 저장할 항목들을 진짜로 임시저장테이블로 옮김
-		const resetChild = [$('.AccSubject'), $('.AccSubjectDes'), $('.money-code'), $('.DealPrice'), $('.DealPrice'), $('.ledPrice'), $('.Deptd'), $('.DeptdDes'), $('.AdminAlloc')];
+		const resetChild = [$('.AccSubject'), $('.AccSubjectDes'), $('.money-code'), $('.DealPrice'), $('.DealPrice'), $('.ledPrice'), $('.Deptd'), $('.DeptdDes'), $('.AdminAlloc'), $('.LineBriefs')];
 
 	    resetChild.forEach(input => input.val(''));
 
@@ -444,6 +444,7 @@ $(document).ready(function(){
 		    var DelDoc = Row.find('td:eq(15)').text(); // CRE20240621S0001
 		    var DelDocNum = Row.find('td:eq(16)').text(); // CRE20240621S0001의 ItemNumber, 0001...
 		    var DelItemNum = Row.find('td:eq(0)').text(); // 항번
+		    var GLAccount = Row.find('td:eq(2)').text(); // 
 		    
 		    var CreditTotal = $('.CreditTotal').val();
 		    var DebitTotal = $('.DebitTotal').val();
@@ -452,7 +453,7 @@ $(document).ready(function(){
 		    console.log("삭제한 것 확인용 콘솔 : " + DebitTotal);
 	    
 		
-		    DeletedItems.push({DocCode: DelDoc, DocCodeNumber: DelDocNum, DelConut: Minus});
+		    DeletedItems.push({DocCode: DelDoc, DocCodeNumber: DelDocNum, DelConut: Minus, GLAccountCode : GLAccount});
 		    console.log("삭제할 것들 : ", DeletedItems);
 		    Row.remove();
 		    RowNum--;
@@ -514,6 +515,9 @@ $(document).ready(function(){
 		
 		if(TotalCre !== TotalDe){
 			alert("합계가 맞지 않습니다.");
+			return false;
+		} else if(TotalCre === "0" && TotalDe === "0"){
+			alert("대변과 차변을 입력해주세요.");
 			return false;
 		} else{
 			$.ajax({
@@ -585,7 +589,10 @@ $(document).ready(function(){
 		if(TotalCre !== TotalDe){
 			alert("합계가 맞지 않습니다.");
 			return false;
-		} else{
+		} /* else if(TotalCre === "0" && TotalDe === "0"){
+			alert("대변과 차변을 입력해주세요.");
+			return false;
+		} */ else{
 			if(inputFieldId === "SelPayPath"){
 		    	window.open(
 		                "${contextPath}/Slip/Info/DecPayPath.jsp?" + queryString, 

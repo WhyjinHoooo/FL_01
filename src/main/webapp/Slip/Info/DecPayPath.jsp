@@ -135,10 +135,15 @@ $(document).ready(function(){
 			data: JSON.stringify(IntegratedList),
 			contentType: 'application/json; charset=utf-8',
 			dataType: 'json',
-			axtnc: false,
-			success: function(data){
-				
-			}
+			/* axtnc: false, */
+			success: function(response) {
+		        alert("결재경로가 등록되었습니다. 창을 종료합니다.");
+		        window.close();
+		    },
+		    error: function(jqXHR, textStatus, errorThrown) {
+		        alert("등록 중 오류가 발생했습니다.");
+		        console.error("AJAX Error: " + textStatus + ", " + errorThrown);
+		    }
 		}); // 1차 ajax의 끝
 		
 	});
