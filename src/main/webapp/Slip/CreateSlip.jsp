@@ -538,7 +538,7 @@ $(document).ready(function(){
 
 	function PayRequest(event, inputFieldId){
 		event.preventDefault();
-		
+
 		var popupWidth = 1000;
 	    var popupHeight = 600;
 	   /*  var ComCode = document.querySelector('#UserDepart').value; */
@@ -553,19 +553,31 @@ $(document).ready(function(){
 	    var xPos, yPos;
 		
 	    var HeadList = {};
+	    var briefsValid = true; 
+	    
 		$('.Head').each(function(){
 			var name = $(this).attr("name");
 			var value = $(this).val();
 			HeadList[name] = value;
+			if(name === "briefs" && value === ""){
+				briefsValid = false;
+				return false;
+			}
 		});
 	    console.log("HeadList: ", HeadList);
-		
+	    
 		var queryString = Object.keys(HeadList).map(function(key) {
 	        return encodeURIComponent(key) + '=' + encodeURIComponent(HeadList[key]);
 	    }).join('&');
-		
-		/* <button class="PayPath" id="PayPath" onclick="PayRequest(SelPayPath)">결재경로</button>
-		<button class="Approval" id="Approval" onclick="PayRequest(ApprovalPage)">품의상신</button> */
+		/* 
+		Object.keys(HeadList): HeadList 객체의 키-값 쌍을 URL 쿼리 문자열 형식으로 변환하는 과정
+		.map(function(key) {...}): HeadList 객체의 모든 키를 배열 형태로 반환, 예를 들어, HeadList가 {a: 1, b: 2}라면, Object.keys(HeadList)는 ['a', 'b']가 됩니다.
+		.map(function(key) {...}): map 함수는 배열의 각 요소에 대해 주어진 함수를 호출하여 새로운 배열을 생성
+		function(key) { return encodeURIComponent(key) + '=' + encodeURIComponent(HeadList[key]); }:
+			key=value 형식의 문자열을 반환, encodeURIComponent 함수는 URL에 안전하게 포함될 수 있도록 문자열을 인코딩,
+			예를 들어, 키가 name이고 값이 John Doe라면, 이 함수는 name=John%20Doe를 반환합니다 (%20은 공백 문자).
+		.join('&'):	map 함수로 생성된 배열의 각 요소를 '&' 문자열로 연결하여 하나의 문자열로 만듭니다. 예를 들어, ['a=1', 'b=2']는 'a=1&b=2'가 됩니다.
+		*/
 		
 	    if (width == 2560 && height == 1440) {
 	        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
@@ -599,7 +611,20 @@ $(document).ready(function(){
 		                "테스트", 
 		                "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
 		            );
-		     } else if(inputFieldId === "ApprovalPage"){
+		     } else if(!briefsValid){
+		    	 alert("적요를 입력해주세요.");
+		    	 return false;
+		     } else if(inputFieldId === "ApprovalPage" && briefsValid){
+		    	 $.ajax({
+					url: 'ApprovalProcess.jsp',
+					type: 'POST',
+					data: JSON.stringify(HeadList),
+					contentType: 'application/json; charset=utf-8',
+					dataType: 'json',
+					/* success: function(){
+						
+					} */
+		    	 });
 		    	 /* window.open(
 			                "${contextPath}/Slip/Info/DecPayPath.jsp?" + queryString, 
 			                "테스트", 
@@ -700,7 +725,7 @@ $(document).ready(function(){
 						<tr>
 							<th>적요 : </th>
 								<td>
-									<input type="text" class="child" id="briefs" name="briefs">
+									<input type="text" class="child Head" id="briefs" name="briefs">
 								</td>				
 						</tr>
 					</table>

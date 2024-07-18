@@ -55,7 +55,7 @@ function SelectOption(inputFieldId, rowNum){
     var docNumber, slipNo;
     
     if(inputFieldId === "Approver"){
-    	popupWidth = 700;
+    	popupWidth = 600;
         popupHeight = 600;
     	var approverPopup = window.open("${contextPath}/Slip/Info/ApproverSel.jsp?rowNum=" + rowNum, "approverPopup", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos); // 행 번호 전달
     } 
@@ -103,10 +103,10 @@ $(document).ready(function(){
 		add--;
 		updateRowNumbers();
 	});
-	
-	/* $('.BtnDiv').on('click',"button[name='ApproverChange']", function(){
+
+	$('.BtnDiv').on('click',"button[name='ApproverCancel']", function(){
 		window.close();
-	}); */
+	});
 	
 	$('.BtnDiv').on('click',"button[name='ApproverChange']", function(){
 		var UserInfo = {
@@ -179,7 +179,7 @@ $(document).ready(function(){
 		<button type="button" class="AddBtn btn" id="AddBtn" name="AddBtn">셀 추가</button>
 		<button class="ApproverChange btn" id="ApproverChange" name="ApproverChange">결재자 변경</button>
 		<button class="InfoSave btn" id="ApproverChange" name="ApproverChange">저 장</button>
-		<button class="InfoCancel btn" id="ApproverChange" name="ApproverChange" >취 소</button>
+		<button class="InfoCancel btn" id="ApproverCancel" name="ApproverCancel" >취 소</button>
 	</div> 
     </center>
 </body>

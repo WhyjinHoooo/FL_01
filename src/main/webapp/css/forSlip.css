@@ -52,6 +52,9 @@
     text-align: center;
     width: 100px;
 	}
+	.BtnDiv {
+    margin-top: 10px;
+	}
 	.BtnDiv .btn {
     width: 235px;
     padding: 10px 0px 10px 0px;
@@ -104,11 +107,11 @@
 	.PayPathDiv input[type="text"]{
 		width: 100px;
 	}
-	.PayPathDiv .tableBody .Approval, .PayPathDiv .tableBody .AppCoCtName {
-    width: 120px;
+	.PayPathDiv .tableBody .Approval, .PayPathDiv .tableBody .AppCoCtName, .PayPathDiv .tableBody .DelBtn {
+    width: 105px;
     height: 50px;
     border-radius: 10px;
-    font-size: 20px;
+    font-size: 16px;
     background: #002060;
     color: white;
     border: 1px solid;
