@@ -29,6 +29,7 @@
         
         String nothing01 = "";
         String nothing02 = "";
+        String nothing03 = "";
         
         int DeleteCount = 0;
         int Count = 0;
@@ -60,6 +61,7 @@
             System.out.println("삭제할 AccountCode: " + AccountCode);  // log 추가
             
             if(!AccountCode.equals("2003500") && !AccountCode.equals("2003510") && !AccountCode.equals("2003520")){
+            	System.out.println("1번");
             	String DocSql = "DELETE FROM tmpaccfldocline WHERE DocNum='" + DocCode + "' AND DocLineItem= '"+ DocCodeNum + "'";
                 String NumReset01 = "SET @CNT = 0";
                 String NumReset02 = "UPDATE tmpaccfldocline SET tmpaccfldocline.DocLineItem = @CNT:=@CNT+1";
@@ -73,25 +75,66 @@
                         jsonResponse.put("result", false);  // jsonResponse 사용
                         jsonResponse.put("message", "삭제할 항목이 데이터베이스에 존재하지 않습니다.");
 					}
-				/*
-				추가해야 할지 고민되는 코드
-				String LF_Check = "SELECT distinct(DocNum_Line) FROM project.tmpaccfidoclineinform"; // tmpaccfidoclineinform에서 DocNum_Line의 값을 검색
-				PreparedStatement LF_Pstmt = conn.prepareStatement(LF_Check);
-				ResultSet LF_Rs = LF_Pstmt.executeQuery();
+				String C_Check = "SELECT * FROM tmpaccfldocline"; 
+				PreparedStatement C_Pstmt = conn.prepareStatement(C_Check);
+				ResultSet C_Rs = C_Pstmt.executeQuery();
 				
-                 while(LF_Rs.next()){
-					nothing01 = LF_Rs.getString("DocNum_Line");
-					String L_Check = "SELECT * FROM tmpaccfldocline WHERE Original = '" + nothing01 + "'";
-					PreparedStatement L_Pstmt = conn.prepareStatement(L_Check);
-					ResultSet L_rs = L_Pstmt.executeQuery();
-					if(L_rs.next()){
-						String L_Update = "UPDATE tmpaccfldocline SET Original = ? WHERE DocNum = ? AND DocLineItem = ?";
+                 while(C_Rs.next()){
+                	System.out.println("1.1번");
+					nothing01 = C_Rs.getString("DocNum") + "_" + C_Rs.getString("DocLineItem");
+					nothing02 = C_Rs.getString("Original");
+					
+					System.out.println("nothing01 : " + nothing01);
+					System.out.println("nothing02 : " + nothing02);
+					
+					String LF_Check = "SELECT * FROM tmpaccfidoclineinform WHERE DocNum_Line = '" + nothing02 + "'";
+					PreparedStatement LF_Pstmt = conn.prepareStatement(LF_Check);
+					ResultSet LF_rs = LF_Pstmt.executeQuery();
+					if (LF_rs.next()) {
+					    System.out.println("1.2번");
+
+					    // 쿼리 확인을 위해 쿼리와 매개변수 값을 출력합니다.
+					    String LF_UpSql = "UPDATE tmpaccfidoclineinform "
+					                    + "SET DocNum_Line = ?, "
+					                    + "DocNum_LineDetail = REPLACE(DocNum_LineDetail, ?, ?) "
+					                    + "WHERE DocNum_Line = ?";
+
+					    PreparedStatement LF_UpPstmt = conn.prepareStatement(LF_UpSql);
+					    LF_UpPstmt.setString(1, nothing01);
+					    LF_UpPstmt.setString(2, nothing02);
+					    LF_UpPstmt.setString(3, nothing01);
+					    LF_UpPstmt.setString(4, nothing02);
+
+					    int rowsUpdated = LF_UpPstmt.executeUpdate();
+					    System.out.println("Rows updated: " + rowsUpdated);
+					    
+					    String L_UpSql = "UPDATE tmpaccfldocline "
+					                    + "SET Original = ? "
+					                    + "WHERE Original = ?";
+					    PreparedStatement L_UpPstmt = conn.prepareStatement(L_UpSql);
+					    L_UpPstmt.setString(1, nothing01);
+					    L_UpPstmt.setString(2, nothing02);
+					    
+					    rowsUpdated = L_UpPstmt.executeUpdate();
+					    System.out.println("Rows updated: " + rowsUpdated);
+					} else {
+						System.out.println("1.3번");
+						
+						String L_UpSql = "UPDATE tmpaccfldocline "
+			                    + "SET Original = ? "
+			                    + "WHERE Original = ?";
+					    PreparedStatement L_UpPstmt = conn.prepareStatement(L_UpSql);
+					    L_UpPstmt.setString(1, nothing01);
+					    L_UpPstmt.setString(2, nothing02);
+					    int rowsUpdated = L_UpPstmt.executeUpdate();
+					    System.out.println("Rows updated: " + rowsUpdated);
 					}
 				};
-				*/
+				
+				
             } else{
             	 // 해당 항목을 DB에서 삭제
-            	System.out.println("1번");
+            	System.out.println("2번");
                 String DocSql = "DELETE FROM tmpaccfldocline WHERE DocNum='" + DocCode + "' AND DocLineItem= '"+ DocCodeNum + "'";
                 String NumReset01 = "SET @CNT = 0";
                 String NumReset02 = "UPDATE tmpaccfldocline SET tmpaccfldocline.DocLineItem = @CNT:=@CNT+1";

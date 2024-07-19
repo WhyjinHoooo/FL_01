@@ -483,6 +483,7 @@ $(document).ready(function(){
 		            // 서버에서 응답이 온 후의 처리
 		            if (List.result) {
 		                console.log('삭제 성공');
+		                DeletedItems = [];
 		            } else {
 		                console.log('삭제 실패: ' + List.message);
 		            }
