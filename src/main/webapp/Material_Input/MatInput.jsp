@@ -663,7 +663,7 @@ function checkCount(){
 											type : "POST",
 											url : "CheckMat.jsp",
 											data : {movcode : Movement_Code},
-											datatype : "josn",
+											dataType : "json",
 											success: function(response){
 												if(response.result === "fail") {
 													alert(response.message);

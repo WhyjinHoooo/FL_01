@@ -599,13 +599,10 @@ $(document).ready(function(){
 		var TotalCre = document.getElementById("CreditTotal").value;
 		var TotalDe = document.getElementById("DebitTotal").value;
 		
-		if(TotalCre !== TotalDe){
+		if((TotalCre !== TotalDe) ){
 			alert("합계가 맞지 않습니다.");
 			return false;
-		} /* else if(TotalCre === "0" && TotalDe === "0"){
-			alert("대변과 차변을 입력해주세요.");
-			return false;
-		} */ else{
+		} else{
 			if(inputFieldId === "SelPayPath"){
 		    	window.open(
 		                "${contextPath}/Slip/Info/DecPayPath.jsp?" + queryString, 
@@ -616,22 +613,45 @@ $(document).ready(function(){
 		    	 alert("적요를 입력해주세요.");
 		    	 return false;
 		     } else if(inputFieldId === "ApprovalPage" && briefsValid){
-		    	 $.ajax({
-					url: 'ApprovalProcess.jsp',
-					type: 'POST',
-					data: JSON.stringify(HeadList),
-					contentType: 'application/json; charset=utf-8',
-					dataType: 'json',
-					/* success: function(){
-						
-					} */
-		    	 });
-		    	 /* window.open(
-			                "${contextPath}/Slip/Info/DecPayPath.jsp?" + queryString, 
-			                "테스트", 
-			                "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
-			            ); */
-		     }
+		    	    $.ajax({
+		    	        url: '${contextPath}/Slip/Info/WFCheck.jsp',
+		    	        type: 'POST',
+		    	        data: JSON.stringify(HeadList),
+		    	        contentType: 'application/json; charset=utf-8',
+		    	        dataType: 'json', // 수정: datatype -> dataType
+		    	        success: function(response){
+		    	            if(response.result === "Success"){
+		    	                console.log("Success");
+
+		    	                $.ajax({
+		    	                    url: '${contextPath}/Slip/Info/ApprovalProcess.jsp',
+		    	                    type: 'POST',
+		    	                    data: JSON.stringify(HeadList),
+		    	                    contentType: 'application/json; charset=utf-8',
+		    	                    dataType: 'json', // 수정: datatype -> dataType
+		    	                    /* success: function(response){ // 수정: 성공 핸들러 추가
+		    	                        console.log("ApprovalProcess Success");
+		    	                    },
+		    	                    error: function(jqXHR, textStatus, errorThrown) { // 수정: 오류 핸들러 추가
+		    	                        console.log("ApprovalProcess Error:", textStatus, errorThrown);
+		    	                    } */
+		    	                });
+
+		    	            } else{
+		    	            	console.log("fail");
+		    	                alert("결재경로를 등록해주세요.");
+		    	                window.open(
+		    	                    "${contextPath}/Slip/Info/DecPayPath.jsp?" + queryString, 
+		    	                    "테스트", 
+		    	                    "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
+		    	                );
+		    	            }
+		    	        },
+		    	        error: function(jqXHR, textStatus, errorThrown) { // 수정: 오류 핸들러 추가
+		    	            console.log("WFCheck Error:", textStatus, errorThrown);
+		    	        }
+		    	    });
+		    	}
 			return true;
 		}
 	}

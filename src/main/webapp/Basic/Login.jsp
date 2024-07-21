@@ -88,7 +88,7 @@
 							<tr class="Area">
 								<th class="IdTitle main-title">Login-ID : </th>
 									<td class="ComSec">
-										<input type="text" class="UserId User" name="UserId">
+										<input type="text" class="UserId User" name="UserId" value="2024060002"> <!-- 매번 입력하기 번거로워서 미리 입력함 -->
 									</td>
 							</tr>
 						</table>
@@ -96,7 +96,7 @@
 							<tr class="Area">
 								<th class="PwTitle main-title">Password : </th>
 									<td class="ComSec">
-										<input type="password" class="UserPw User" name="UserPw">
+										<input type="password" class="UserPw User" name="UserPw" value="qwer1234!"> <!-- 매번 입력하기 번거로워서 미리 입력함 -->
 									</td>
 							</tr>
 						</table>
