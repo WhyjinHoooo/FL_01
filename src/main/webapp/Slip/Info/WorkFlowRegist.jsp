@@ -119,16 +119,16 @@
 	                        WF_Pstmt.setString(11, AppValue);
 	                        break;
 	                    case "AppName": // 1
-	                        WF_Pstmt.setString(8, AppValue);
+	                        WF_Pstmt.setString(9, AppValue); 
 	                        break;
 	                    case "AppRank": // 2
 	                        WF_Pstmt.setString(10, AppValue);
 	                        break;
 	                    case "ApproverCode": // 3
-	                        WF_Pstmt.setString(7, AppValue);
+	                        WF_Pstmt.setString(8, AppValue); 
 	                        break;
 	                    case "PayOp": // 4
-	                        WF_Pstmt.setString(9, AppValue);
+	                        WF_Pstmt.setString(7, AppValue); 
 	                        break;
 	                    default:
 	                        break;

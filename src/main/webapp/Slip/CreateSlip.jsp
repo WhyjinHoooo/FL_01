@@ -613,6 +613,7 @@ $(document).ready(function(){
 		    	 alert("적요를 입력해주세요.");
 		    	 return false;
 		     } else if(inputFieldId === "ApprovalPage" && briefsValid){
+		    	 //1. 입력하려는 데이터의 결제경로가 등록되어 있는지 확인
 		    	    $.ajax({
 		    	        url: '${contextPath}/Slip/Info/WFCheck.jsp',
 		    	        type: 'POST',
@@ -622,22 +623,23 @@ $(document).ready(function(){
 		    	        success: function(response){
 		    	            if(response.result === "Success"){
 		    	                console.log("Success");
-
+		    	                // 2. 결제경로가 등럭되어 있으면 바로 품의 상신 진행
 		    	                $.ajax({
 		    	                    url: '${contextPath}/Slip/Info/ApprovalProcess.jsp',
 		    	                    type: 'POST',
 		    	                    data: JSON.stringify(HeadList),
 		    	                    contentType: 'application/json; charset=utf-8',
 		    	                    dataType: 'json', // 수정: datatype -> dataType
-		    	                    /* success: function(response){ // 수정: 성공 핸들러 추가
+		    	                    success: function(response){ // 수정: 성공 핸들러 추가
 		    	                        console.log("ApprovalProcess Success");
 		    	                    },
 		    	                    error: function(jqXHR, textStatus, errorThrown) { // 수정: 오류 핸들러 추가
 		    	                        console.log("ApprovalProcess Error:", textStatus, errorThrown);
-		    	                    } */
+		    	                    }
 		    	                });
 
 		    	            } else{
+		    	            	// 2-1. 결재경로가 등록안돼있으면 등록하라고 요청
 		    	            	console.log("fail");
 		    	                alert("결재경로를 등록해주세요.");
 		    	                window.open(
