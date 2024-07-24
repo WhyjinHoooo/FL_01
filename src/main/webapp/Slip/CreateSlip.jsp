@@ -532,7 +532,12 @@ $(document).ready(function(){
 	                alert('Failed to retrieve exchange rate');
 	            }
 		    });
-			
+			if(!confirm("결재경로와 품의를 신청하시겠습니까?")){
+				return false;
+			} else{
+				alert("페이지를 이동합니다.");
+				
+			}
 			return true;
 		}
 	}
@@ -630,10 +635,15 @@ $(document).ready(function(){
 		    	                    data: JSON.stringify(HeadList),
 		    	                    contentType: 'application/json; charset=utf-8',
 		    	                    dataType: 'json', // 수정: datatype -> dataType
-		    	                    success: function(response){ // 수정: 성공 핸들러 추가
-		    	                        console.log("ApprovalProcess Success");
+		    	                    success: function(response) {
+		    	                        if (response.status === 'success') {
+		    	                            console.log("ApprovalProcess Success");
+		    	                            location.reload();
+		    	                        } else {
+		    	                            console.log("ApprovalProcess Error:", response.message);
+		    	                        }
 		    	                    },
-		    	                    error: function(jqXHR, textStatus, errorThrown) { // 수정: 오류 핸들러 추가
+		    	                    error: function(jqXHR, textStatus, errorThrown) {
 		    	                        console.log("ApprovalProcess Error:", textStatus, errorThrown);
 		    	                    }
 		    	                });

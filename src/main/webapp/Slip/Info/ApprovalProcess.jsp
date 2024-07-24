@@ -9,6 +9,7 @@
 <%@page import="java.io.BufferedReader"%>
 <%@ include file="../../mydbcon.jsp" %>
 <%
+	request.setCharacterEncoding("UTF-8");
 	BufferedReader reader = request.getReader();
 	StringBuilder sb = new StringBuilder();
 	String line;
@@ -39,9 +40,54 @@
 	String SlipType = null;
 	String briefs = null;
 	String TableKeyIndex = null;
+	
 	try{
+		// '품의상신' 버튼을 클릭했을 때, 임시저장테이블에 있던 데이터 저장 기능 추가
+		// 
+		String SearchHead = "SELECT * FROM tmpaccfldochead";
+		PreparedStatement SH_Pstmt = conn.prepareStatement(SearchHead);
+		ResultSet SH_rs =SH_Pstmt.executeQuery();
+		
+		String SearchChild = "SELECT * FROM tmpaccfldocline";
+		PreparedStatement SC_Pstmt = conn.prepareStatement(SearchChild);
+		ResultSet SC_rs =SC_Pstmt.executeQuery();
+		
+		String SearchLine = "SELECT * FROM tmpaccfidoclineinform";
+		PreparedStatement SL_Pstmt = conn.prepareStatement(SearchLine);
+		ResultSet SL_rs =SL_Pstmt.executeQuery();
+		
+		while(SH_rs.next()){
+			String CopyHead = "INSERT INTO fldochead SELECT * FROM tmpaccfldochead";
+			PreparedStatement CH_pstmt = conn.prepareStatement(CopyHead);
+			CH_pstmt.executeUpdate();
+			
+			String DelHead = "DELETE FROM tmpaccfldochead";
+			PreparedStatement DH_pstmt = conn.prepareStatement(DelHead);
+			DH_pstmt.executeUpdate();
+		} 
+		while(SC_rs.next()){
+			String CopyChild = "INSERT IGNORE INTO fldocline (DocNum, DocLineItem, Original, GLAccount, AcctDescrip, DebCre, TCurr, TAmount, LCurr, LAmount, UsingDepart, UscingDepDesc, UsingBA, DocDescrip, PostingDate, ComCode, InputPerson) " +
+	                   "SELECT DocNum, DocLineItem, Original, GLAccount, AcctDescrip, DebCre, TCurr, TAmount, LCurr, LAmount, UsingDepart, UscingDepDesc, UsingBA, DocDescrip, PostingDate, ComCode, InputPerson " +
+	                   "FROM tmpaccfldocline";
+			PreparedStatement CC_pstmt = conn.prepareStatement(CopyChild);
+			CC_pstmt.executeUpdate();
+			
+			String DelChild = "DELETE FROM tmpaccfldocline";
+			PreparedStatement DC_pstmt = conn.prepareStatement(DelChild);
+			DC_pstmt.executeUpdate();
+		}
+		while(SL_rs.next()){
+			String CopyLineItem = "INSERT INTO fidoclineinform SELECT * FROM tmpaccfidoclineinform";
+			PreparedStatement CL_pstmt = conn.prepareStatement(CopyLineItem);
+			CL_pstmt.executeUpdate();
+			
+			String DelLine = "DELETE FROM tmpaccfidoclineinform";
+			PreparedStatement DL_pstmt = conn.prepareStatement(DelLine);
+			DL_pstmt.executeUpdate();
+		}
+		
 		if(ApprovalData != null){
-			System.out.println("7ApprovalProcess.jsp: 1st Success");
+			System.out.println("ApprovalProcess.jsp: 1st Success");
 	
 			SlipCode = (String)ApprovalData.get("SlipNo");
 			SlipType = SlipCode.substring(0, 3);
@@ -70,8 +116,13 @@
 			E1000 : 회사
 			asdasdasdasd : 적요
 			*/
+			String DH_S_Sql = "SELECT * FROM fldochead WHERE DocNum = ?"; // fldochead_Srearch_Sql
+			PreparedStatement DH_S_Pstmt = conn.prepareStatement(DH_S_Sql);
+			DH_S_Pstmt.setString(1, SlipCode);
+			ResultSet DH_S_Rs = DH_S_Pstmt.executeQuery();
 			
 			String WFCH_Sql = "SELECT COUNT(ResponsePerson) as Total FROM workflow WHERE DocNum = ? AND DocType = ? AND BizArea = ? AND DocInputDepart = ? AND InputPerson = ? AND ComCode = ?";
+			//WorkFlowCheck_Sql
 			PreparedStatement WFCH_Pstmt = conn.prepareStatement(WFCH_Sql);
 			WFCH_Pstmt.setString(1, SlipCode);
 			WFCH_Pstmt.setString(2, SlipType);
@@ -118,11 +169,11 @@
 				
 				DWFH_In_Pstmt.executeUpdate();
 				
-				String WFInfo_Sql = "SELECT * FROM workflow";
+				String WFInfo_Sql = "SELECT * FROM workflow WHERE DocNum = '"+ SlipCode +"'";
 	            PreparedStatement WFI_Pstmt = conn.prepareStatement(WFInfo_Sql);
 	            ResultSet WFI_Rs = WFI_Pstmt.executeQuery();
 
-	            int index = 0;
+	            int index = 1;
 	            while (WFI_Rs.next()) {
 	                String DWFL_Sql = "INSERT INTO docworkflowline ("
 	                        + "`DocNum`,"
@@ -157,11 +208,33 @@
 	                DWFL_In_Pstmt.executeUpdate();
 
 	                index++;
-	            } // for(int i = 0 ; i < TotalPerson ; i++){...}의 끝
-				
-			} // if(TotalPerson > 0){...}의 끝
-		}
-	}catch(SQLException e){
-		e.printStackTrace();
-	}
+	            } // while (WFI_Rs.next()){...}의 끝
+				if(DH_S_Rs.next()){
+					System.out.println("fldochead의 DocSubmit 변경 가능");
+					String DH_Up_Sql = "UPDATE fldochead SET DocSubmit = ? WHERE DocNum = ? AND DocSubmit = ?"; // fldochead_Srearch_Sql
+					// UPDATE fldochead SET DocSubmit = ? WHERE DocNum = ?;
+					PreparedStatement DH_Up_Pstmt = conn.prepareStatement(DH_Up_Sql);
+					
+					if(DH_S_Rs.getString("DocSubmit").equals("No")){
+						DH_Up_Pstmt.setString(1, "Yes");
+						DH_Up_Pstmt.setString(2, SlipCode);
+						DH_Up_Pstmt.setString(3, "No");
+						
+						DH_Up_Pstmt.executeUpdate();
+					} // if(DH_S_Rs.getString("DocSubmit").equals("No")){...}의 끝
+				} // if(DH_S_Rs.next()){...}의 끝
+			} // if(WFCH_Rs.next()){...}의 끝
+		} // if(ApprovalData != null){...}의 끝
+		jsonResponse.put("status", "success");
+        jsonResponse.put("message", "데이터 처리가 완료되었습니다.");
+    } catch (SQLException e) {
+        e.printStackTrace();
+        jsonResponse.put("status", "error");
+        jsonResponse.put("message", "데이터 처리 중 오류가 발생했습니다: " + e.getMessage());
+    } finally {
+    	response.setContentType("application/json"); // HttpServletResponse를 사용하여 콘텐츠 타입 설정
+        response.setCharacterEncoding("UTF-8"); // HttpServletResponse를 사용하여 문자 인코딩 설정
+        out.print(jsonResponse.toJSONString());
+        out.flush();
+    }
 %>
