@@ -11,6 +11,21 @@
 <%@ include file="../mydbcon.jsp" %>
 </head>
 <body>
+<%! 
+    // 메서드 정의는 JSP 선언문 내에서 수행
+    public String generateRandomString() {
+        int length = 8; // 문자열 길이 8로 고정
+        String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder result = new StringBuilder(length);
+        java.util.Random random = new java.util.Random();
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            result.append(characters.charAt(index));
+        }
+        return result.toString();
+    }
+%>
+
 <%
 	request.setCharacterEncoding("UTF-8");
 	LocalDateTime now = LocalDateTime.now();
@@ -34,6 +49,20 @@
 	int Jumin_1st = Integer.parseInt(request.getParameter("Jumin_1st"));
 	int Jumin_2nd = Integer.parseInt(request.getParameter("Jumin_2nd"));
 	
+	String gender = null;
+	switch((Jumin_2nd / 1000000) % 2){
+		case 1:
+			gender = "male";
+			break;
+		case 0:
+			gender = "female";
+			break;
+		default:
+			break;
+	}
+	
+	String randomEmail = generateRandomString() + "@naver.com";
+	
 	String Join = request.getParameter("join");
 	String Retire = request.getParameter("retire");
 	
@@ -52,8 +81,10 @@
 	int id2 = 76019202;
 	
 	String sql = "INSERT INTO emp VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	
 	PreparedStatement pstmt = conn.prepareStatement(sql);
+	
+	String OW_Reg_Sql = "INSERT INTO membership VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+	PreparedStatement OW_Reg_Pstmt = conn.prepareStatement(OW_Reg_Sql);
 	
 	try{
 		pstmt.setString(1, ID);
@@ -77,8 +108,21 @@
 		pstmt.setInt(19, id1);
 		pstmt.setString(20, Time);
 		pstmt.setInt(21, id2);
-		
 		pstmt.executeUpdate();
+		
+		OW_Reg_Pstmt.setString(1, Id_Des);
+		OW_Reg_Pstmt.setString(2, ID);
+		OW_Reg_Pstmt.setString(3, "0000");
+		OW_Reg_Pstmt.setString(4, Jumin_1st + "-" + Jumin_2nd);
+		OW_Reg_Pstmt.setString(5, randomEmail);
+		OW_Reg_Pstmt.setString(6, Birth);
+		OW_Reg_Pstmt.setString(7, P_Code);
+		OW_Reg_Pstmt.setString(8, AddrDetail);
+		OW_Reg_Pstmt.setString(9, gender);
+		OW_Reg_Pstmt.setString(10, "000-0000-0000");
+		OW_Reg_Pstmt.setString(11, ComCode);
+		OW_Reg_Pstmt.executeUpdate();
+		
 		response.sendRedirect("Emp-regist.jsp");
 	}catch(SQLException e){
 		e.printStackTrace();

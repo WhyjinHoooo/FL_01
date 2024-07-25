@@ -18,13 +18,13 @@
 		var xPos = (window.screen.width-2560) / 2;
 	    var yPos = (window.screen.height-1440) / 2;
 	    
-	    window.open("${contextPath}/Basic/idFind.jsp", "테스트", "width=600,height=495, right=500 ,top=" + yPos);
+	    window.open("${contextPath}/Basic/idFind.jsp", "테스트", "width=683,height=495, right=500 ,top=" + yPos);
 	}
 	function PwFind(){
 		var xPos = (window.screen.width-2560) / 2;
 	    var yPos = (window.screen.height-1440) / 2;
 	    
-	    window.open("${contextPath}/Basic/PwFind.jsp", "테스트", "width=600,height=495, right=500 ,top=" + yPos);
+	    window.open("${contextPath}/Basic/PwFind.jsp", "테스트", "width=683,height=495, right=500 ,top=" + yPos);
 	}
 	function NewComer(){
 	    var EmpNum;

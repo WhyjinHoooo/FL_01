@@ -45,6 +45,21 @@
     width: 96%;
     text-align: center;
 	}
+	.UserInfo input{
+	text-align: center;
+	}
+	.UserInfo .TimeStamp {
+    width: 98%;
+	}
+	.GuideArea{
+	margin-left: 25%;
+	}
+	.GuideArea li,
+	.GuideArea b {
+	list-style: none;
+	margin: 15px;
+	font-size: 15px;
+	}
 	.ButtonArea {
     margin: 5px 0px 0px 70%;
 	}
@@ -67,19 +82,19 @@
 	font-family: 'Montserrat', sans-serif;
 	width: 100px;
 	}
-	button:hover,
-	button:focus {
+	.ButtonArea button:hover,
+	.ButtonArea button:focus {
 	color: #fff;
 	outline: 0;
 	}
-	button {
+	.ButtonArea button {
 	transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
 	}
-	button:hover {
+	.ButtonArea button:hover {
 	box-shadow: 0 0 40px 40px #7030A0 inset; /* 변수를 실제 색상으로 대체 */
 	borde-radius: #7030A0;
 	}
-	button:focus {
+	.ButtonArea button:focus {
 	borde-radius: #7030A0;
 	}
 	.UnApprovalDocArea {

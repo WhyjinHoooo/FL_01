@@ -19,8 +19,10 @@
 	String UserIdCard = request.getParameter("UserIdCard1") + "-" + request.getParameter("UserIdCard2");// 주민등록번호
 	String Email = request.getParameter("UserEm") + "@" + request.getParameter("UserDom_txt");
 	String Birth = request.getParameter("UserY") + "-" + request.getParameter("UserM") + "-" + request.getParameter("UserD"); // 생일
+	
 	String AddressNum = request.getParameter("ZipCd"); // 도로명주소
-	String Address = request.getParameter("Addr") + "," + request.getParameter("AddrDetail") + "," +  request.getParameter("AddrRefer"); // 집주소
+	String Address = request.getParameter("Addr") + "," + request.getParameter("AddrDetail"); // 집주소
+	
 	String gender = request.getParameter("gender"); // 성별
 	String Digit = request.getParameter("Ph_F") + "-" + request.getParameter("Ph_M") + "-" + request.getParameter("Ph_E"); // 전화번호
 	String Belong = request.getParameter("Belong"); // 소속(부서)

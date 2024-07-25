@@ -16,6 +16,47 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function() {
+    var now_utc = Date.now();
+    var timeOff = new Date().getTimezoneOffset() * 60000;
+    var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
+    var TS_From = document.getElementById("TimeStamp_From");
+    var TS_To = document.getElementById("TimeStamp_To");
+
+    if (TS_From && TS_To) {
+        TS_From.setAttribute("max", today);
+        TS_To.setAttribute("max", today);
+    } else {
+        console.error("Element with id 'TimeStamp_From' or 'TimeStamp_To' not found.");
+    }
+});
+
+$(document).ready(function(){
+	var UId = $('.UserId').val();
+	var UComCode = $('.UserComCode').val();
+	$.ajax({
+	    url: '${contextPath}/UnapprovalSlip/InfoSearch/UnWriterInfo.jsp',
+	    type: 'POST',
+	    data: { id: UId },
+	    success: function(response) {
+	        // response는 JSON 배열 형태로 받습니다.
+	        if (response.length > 0) {
+	            // JSON 배열의 첫 번째 요소를 사용합니다.
+	            var data = response[0];
+	            // HTML 입력 필드에 값을 배분합니다.
+	            $('#UserBizArea').val(data.UserBA);
+	            $('#UserDepartCd').val(data.UserCoct);
+	        } else {
+	            console.log("No data found.");
+	        }
+	    },
+	    error: function(xhr, status, error) {
+	        console.error("Ajax request failed: ", status, error);
+	    }
+	});
+});
+</script>
 <meta charset="UTF-8">
 <title>전표 품의 상신 및 결재</title>
 <%
@@ -43,14 +84,14 @@
 						<tr>
 							<th>전표입력 BA : </th>
 							<td>
-								<a><input type="text" readonly></a>
+								<a><input type="text" class="UserBizArea" name="UserBizArea" id="UserBizArea" readonly></a>
 								<button>&#8681;</button>
 							</td>
 						</tr>
 						<tr>
 							<th>전표입력부서 : </th>
 							<td>
-								<a><input readonly></a>
+								<a><input class="UserDepartCd" name="UserDepartCd" id="UserDepartCd" readonly></a>
 								<button>&#8681;</button>
 							</td>
 						</tr>
@@ -71,15 +112,13 @@
 						<tr>
 							<th>기표일자(From) : </th>
 							<td>
-								<a><input readonly></a>
-								<button>&#8681;</button>
+								<input type="date" class="TimeStamp" name="TimeStamp From" id="TimeStamp_From">
 							</td>
 						</tr>
 						<tr>
 							<th>기표일자(To) : </th>
 							<td>
-								<a><input readonly></a>
-								<button>&#8681;</button>
+								<input type="date" class="TimeStamp" name="TimeStamp To" id="TimeStamp_To">
 							</td>
 						</tr>
 						<tr>
@@ -97,6 +136,18 @@
 							</td>
 						</tr>
 				</table>
+				<div class="GuideArea">
+						<li>
+							<ul>
+								<b>※ 전표상태</b>
+								<li>A 미상신</li>
+								<li>B 결재 진행중</li>
+								<li>C 승인 완료</li>
+								<li>D 결재 반려</li>
+								<li>Z 불완전전표</li>
+							</ul>
+						</li>
+				</div>
 			</div>
 			<div class="UntSituation">
 				<div class="Area_title">미승인전표 현황</div>

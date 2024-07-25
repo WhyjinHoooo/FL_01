@@ -23,6 +23,13 @@ try{
 	rs = pstmt.executeQuery();
 	if(rs.next()){
 		String AfPass = "0000";
+		String ResetSql = "UPDATE membership SET PW = ? WHERE Id = ? AND UserName = ?";
+		PreparedStatement ResetPstmt = conn.prepareStatement(ResetSql);
+		ResetPstmt.setString(1, AfPass);
+		ResetPstmt.setString(2, userId);
+		ResetPstmt.setString(3, userName);
+		ResetPstmt.executeUpdate();
+		System.out.println("업데이트 성공");
 		message.put("Pass", AfPass);
 	} else{
 		message.put("fail", "fail");

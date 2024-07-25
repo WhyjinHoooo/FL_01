@@ -117,7 +117,7 @@
 		
 		var ZipCd = document.Editform.ZipCd.value;
 		var Addr = document.Editform.Addr.value;
-		var AddrRef = document.Editform.AddrRefer.value;
+		// var AddrRef = document.Editform.AddrRefer.value;
 		var AddrDe = document.Editform.AddrDetail.value;
 		
 		var Gen = document.Editform.gender.value;
@@ -128,7 +128,7 @@
 		
 		var Be = document.Editform.Belong.value;
 		
-	    if (!UName || !UIdCd1 || !UIdCd2 || !Id || !Pw1 || !Pw2 || !EmF || !EmD || !Y || !M || !D || !ZipCd || !Addr || !AddrRef || !AddrDe || !Gen || !Be ||!PH_f || !PH_m || !PH_e) {
+	    if (!UName || !UIdCd1 || !UIdCd2 || !Id || !Pw1 || !Pw2 || !EmF || !EmD || !Y || !M || !D || !ZipCd || !Addr || /* !AddrRef || */ !AddrDe || !Gen || !Be ||!PH_f || !PH_m || !PH_e) {
 	        alert("모든 필수 항목을 입력해주세요.");
 	        return false;
 	    }else{
@@ -194,6 +194,7 @@
 	String EAddrM = null; // 사용자 집 주소
 	String EAddrE = null; // 사용자 집 주소
 	
+	//String EGender = null;
 	String EGender = null; // 사용자 성별
 	
 	String Front = null;
@@ -216,19 +217,18 @@
 		String[] IdAddr = Ers.getString("Email").split("@"); // 사용자 이메일
 		EEF = IdAddr[0]; // 이메일 앞부분
 		EES = IdAddr[1]; // 이메일 뒷부분
-
+		
 		String[] BirthDay = Ers.getString("Birth").split("-"); // 사용자 생일
 		YYYY = BirthDay[0]; // 년
 		MM = BirthDay[1]; // 월
 		DD = BirthDay[2]; // 일
 		
-		
 		String[] Address = Ers.getString("Address").split(",");
 		EAddN = Ers.getString("AddressNumber");
 		EAddF = Address[0]; // 사용자 집 주소
 		EAddrM = Address[1]; // 사용자 집 주소
-		EAddrE = Address[2]; // 사용자 집 주소
-		
+		//EAddrE = Address[2]; // 사용자 집 주소
+		 
 		EGender = Ers.getString("Gender"); // 사용자 성별
 		
 		String[] Phone = Ers.getString("Phone").split("-"); // 사용자 전화번호
@@ -238,26 +238,6 @@
 		
 		EBlong = Ers.getString("Belong");
 		String BeSQL = "";
-		
-	System.out.println("이름 : " + EName);
-		System.out.println("주번 앞자리 : " + EIdF);
-		System.out.println("주번 뒷자리 : " + EIdE);
-		System.out.println("아이디 : " + EId);
-		System.out.println("비번 : " + EPw);
-		System.out.println("이메일 앞자리 : " + EEF);
-		System.out.println("이메일 뒷자리 : " + EES);
-		System.out.println("년 : " + YYYY);
-		System.out.println("월 : " + MM);
-		System.out.println("일 : " + DD);
-		System.out.println("도로명주소 : " + EAddN);
-		System.out.println("주소 : " + EAddF);
-		System.out.println("주소 : " + EAddrM);
-		System.out.println("주소 : " + EAddrE);
-		System.out.println("성별 : " + EGender);
-		System.out.println("전화번호 앞 : " + Front);
-		System.out.println("전화번호 중간 : " + Middle);
-		System.out.println("전화번호 뒷 : " + End);
-		System.out.println("소속 : " + EBlong);
 		
 	}
 %>
@@ -380,9 +360,10 @@
 						
 						<input type="text" class="AddrCode" id="sample6_postcode" name="ZipCd" placeholder="우편번호" value='<%=EAddN%>'>
 						<input type="button" class="AddrCodeBtn" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-						<input type="text" class="bottom-border" name="Addr" id="sample6_address" placeholder="주소" value='<%=EAddF%>'><br>
-						<input type="text" class="bottom-border" name="AddrRefer" id="sample6_extraAddress" placeholder="참고항목" value='<%=EAddrE%>'>	
+						
+						<input type="text" class="bottom-border" name="Addr" id="sample6_address" placeholder="주소" value='<%=EAddF%>'><br>	
 						<input type="text" class="bottom-border" name="AddrDetail" id="sample6_detailAddress" placeholder="상세주소" value='<%=EAddrM%>'>
+						<input type="text" class="bottom-border" name="AddrRefer" id="sample6_extraAddress" placeholder="참고항목" hidden>
 						
 		          	<div class="Cate">Gender</div>
 		          	<%
