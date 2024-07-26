@@ -36,7 +36,7 @@ $(document).ready(function(){
 	var UId = $('.UserId').val();
 	var UComCode = $('.UserComCode').val();
 	$.ajax({
-	    url: '${contextPath}/UnapprovalSlip/InfoSearch/UnWriterInfo.jsp',
+	    url: '${contextPath}/UnapprovalSlip/InfoSearch/WriterInfo.jsp',
 	    type: 'POST',
 	    data: { id: UId },
 	    success: function(response) {
@@ -56,6 +56,60 @@ $(document).ready(function(){
 	    }
 	});
 });
+</script>
+<script>
+function InfoSearch(event, inputFieldId){
+	event.preventDefault();
+
+	var popupWidth = 1000;
+    var popupHeight = 600;
+   /*  var ComCode = document.querySelector('#UserDepart').value; */
+    
+    // 현재 활성화된 모니터의 위치를 감지
+    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
+    
+    // 전체 화면의 크기를 감지
+    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+    var xPos, yPos;
+    
+    if (width == 2560 && height == 1440) {
+        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
+        xPos = (2560 / 2) - (popupWidth / 2);
+        yPos = (1440 / 2) - (popupHeight / 2);
+    } else if (width == 1920 && height == 1080) {
+        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
+        xPos = (1920 / 2) - (popupWidth / 2);
+        yPos = (1080 / 2) - (popupHeight / 2);
+    } else {
+        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
+        var monitorWidth = 2560;
+        var monitorHeight = 1440;
+        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+    }
+    
+    var UserComCode = $('.UserComCode').val();
+    
+    switch(inputFieldId){
+	    case "BA_Btn":
+	    	window.open("${contextPath}/UnapprovalSlip/InfoSearch/BAInfoSearch.jsp?Comcode=" + UserComCode, "테스트", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+	    	break;
+	    case "COCT_Btn":
+	    	window.open("${contextPath}/UnapprovalSlip/InfoSearch/CoCtInfoSearch.jsp?Comcode=" + UserComCode, "테스트", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    		break;
+	    case "User_Btn":
+    		break;
+	    case "UnSlip_Btn":
+    		break;
+	    case "SlipType_Btn":
+    		break;
+	    default:
+    		break;
+    		
+    }
+}
 </script>
 <meta charset="UTF-8">
 <title>전표 품의 상신 및 결재</title>
@@ -85,21 +139,23 @@ $(document).ready(function(){
 							<th>전표입력 BA : </th>
 							<td>
 								<a><input type="text" class="UserBizArea" name="UserBizArea" id="UserBizArea" readonly></a>
-								<button>&#8681;</button>
+								<input type="text" class="UserBizArea_Des" name="UserBizArea_Des" id="UserBizArea_Des" hidden>
+								<button class="BASearchBtn" id="BASearchBtn" onclick="InfoSearch(event, 'BA_Btn')";>&#8681;</button>
 							</td>
 						</tr>
 						<tr>
 							<th>전표입력부서 : </th>
 							<td>
 								<a><input class="UserDepartCd" name="UserDepartCd" id="UserDepartCd" readonly></a>
-								<button>&#8681;</button>
+								<input type="text" class="UserDepartCd_Des" name="UserDepartCd_Des" id="UserDepartCd_Des" hidden>
+								<button class="COCTSearchBtn" id="COCTSearchBtn" onclick="InfoSearch(event, 'COCT_Btn')">&#8681;</button>
 							</td>
 						</tr>
 						<tr>
 							<th>전표 입력자 : </th>
 							<td>
 								<input type="text" class="UserId" name="UserId" id="UserId" value="<%=User_Id%>" readonly>
-								<button>&#8681;</button>
+								<button class="UserSearchBtn" id="UserSearchBtn" name="UserSearchBtn" onclick="InfoSearch(event, 'User_Btn')">&#8681;</button>
 							</td>
 						</tr>
 						<tr>
@@ -124,15 +180,15 @@ $(document).ready(function(){
 						<tr>
 							<th>미승인전표 상태 : </th>
 							<td>
-								<a><input readonly></a>
-								<button>&#8681;</button>
+								<a><input type="text" class="UnSlipState" id="UnSlipState" name="UnSlipState" placeholder="선택" readonly></a>
+								<button class="UnSearchBtn" id="UnSearchBtn" name="UnSearchBtn" onclick="InfoSearch(event, 'UnSlip_Btn')">&#8681;</button>
 							</td>
 						</tr>
 						<tr>
 							<th>전표유형 : </th>
 							<td>
-								<a><input readonly></a>
-								<button>&#8681;</button>
+								<a><input type="SlipType" id="SlipType" name="SlipType" placeholder="선택" readonly></a>
+								<button class="SlipTypeBtn" id="SlipTypeBtn" name="SlipTypeBtn" onclick="InfoSearch(event, 'SlipType_Btn')">&#8681;</button>
 							</td>
 						</tr>
 				</table>

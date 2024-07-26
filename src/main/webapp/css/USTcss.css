@@ -1,4 +1,47 @@
 @charset "UTF-8";
+/* Information 팝업창 CSS START */
+    .InfoSearchBoard {
+	padding: 20px;
+	width: 80%;
+	max-height: 400px;
+	position: relative;
+	}
+	
+	.InfoSearchBoard table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+	
+	.InfoSearchBoard th,
+	.InfoSearchBoard td {
+	 border: 1px solid #ccc;
+	 padding: 10px;
+	 text-align: center;
+	 }
+	
+	.InfoSearchBoard th {
+	background-color: #f2f2f2;
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	}
+	
+	.InfoSearchBoard td a {
+	text-decoration: none;
+	color: #007bff;
+	}
+	
+	.InfoSearchBoard td a:hover {
+	text-decoration: underline;
+	}
+	.CoCtNav a{
+	font-size: 20px;
+	color: white;
+	text-decoration-line: none;
+	margin-left: 235px;
+	}
+/* Information 팝업창 CSS END */
+
 @media only screen and (min-width: 1537px) {
 	body, html {
 	height :94%;
