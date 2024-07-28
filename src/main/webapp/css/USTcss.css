@@ -94,14 +94,9 @@
 	.UserInfo .TimeStamp {
     width: 98%;
 	}
-	.GuideArea{
-	margin-left: 25%;
-	}
-	.GuideArea li,
-	.GuideArea b {
-	list-style: none;
-	margin: 15px;
-	font-size: 15px;
+	.UserInfo select{
+    width: 100%;
+    text-align: center;
 	}
 	.ButtonArea {
     margin: 5px 0px 0px 70%;

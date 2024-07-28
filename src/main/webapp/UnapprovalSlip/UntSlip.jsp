@@ -1,3 +1,4 @@
+<%@page import="java.sql.SQLException"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
@@ -180,30 +181,39 @@ function InfoSearch(event, inputFieldId){
 						<tr>
 							<th>미승인전표 상태 : </th>
 							<td>
-								<a><input type="text" class="UnSlipState" id="UnSlipState" name="UnSlipState" placeholder="선택" readonly></a>
-								<button class="UnSearchBtn" id="UnSearchBtn" name="UnSearchBtn" onclick="InfoSearch(event, 'UnSlip_Btn')">&#8681;</button>
+								<select class="UnSlipState" id="UnSlipState" name="UnSlipState">
+									<option>선택</option>
+									<option value="A">A 미상신</option>
+									<option value="B">B 결재 진행중</option>
+									<option value="C">C 승인 완료</option>
+									<option value="D">D 결재 반려</option>
+									<option value="Z">Z 불완전전표</option>
+								</select>
 							</td>
 						</tr>
 						<tr>
 							<th>전표유형 : </th>
 							<td>
-								<a><input type="SlipType" id="SlipType" name="SlipType" placeholder="선택" readonly></a>
-								<button class="SlipTypeBtn" id="SlipTypeBtn" name="SlipTypeBtn" onclick="InfoSearch(event, 'SlipType_Btn')">&#8681;</button>
+								<select class="SlipType" id="SlipType" name="SlipType">
+								<option>선택</option>
+								<%
+									try{
+										String ST_Sql = "SELECT * FROM sliptype"; // Slip Type Sql
+										PreparedStatement ST_Pstmt = conn.prepareStatement(ST_Sql);
+										ResultSet ST_rs = ST_Pstmt.executeQuery();
+									while(ST_rs.next()){	
+								%>
+									<option value="<%=ST_rs.getString("FIDocType")%>"><%=ST_rs.getString("FIDocType")%>(<%=ST_rs.getString("FIDocTypeDesc")%>)</option>
+								<%
+									}
+									}catch(SQLException e){
+										e.printStackTrace();
+									}
+								%>
+								</select>
 							</td>
 						</tr>
 				</table>
-				<div class="GuideArea">
-						<li>
-							<ul>
-								<b>※ 전표상태</b>
-								<li>A 미상신</li>
-								<li>B 결재 진행중</li>
-								<li>C 승인 완료</li>
-								<li>D 결재 반려</li>
-								<li>Z 불완전전표</li>
-							</ul>
-						</li>
-				</div>
 			</div>
 			<div class="UntSituation">
 				<div class="Area_title">미승인전표 현황</div>
