@@ -28,6 +28,7 @@
 	if(rs.next()){
 		session.setAttribute("id", UserId);
 		session.setAttribute("depart", UserBelong);
+		session.setAttribute("name", rs.getString("UserName"));
 %>
 	<script>
 		alert('로그인에 성공했습니다.');

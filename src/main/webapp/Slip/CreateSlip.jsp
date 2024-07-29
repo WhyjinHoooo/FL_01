@@ -17,6 +17,7 @@
 <%
 	String User_Id = (String)session.getAttribute("id");
 	String User_Depart = (String)session.getAttribute("depart");
+	String User_Name = (String)session.getAttribute("name");
 	LocalDateTime today = LocalDateTime.now();
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	String todayDate = today.format(formatter);
@@ -513,7 +514,6 @@ $(document).ready(function(){
 		
 		var TotalCre = document.getElementById("CreditTotal").value;
 		var TotalDe = document.getElementById("DebitTotal").value;
-		
 		if(TotalCre !== TotalDe){
 			alert("합계가 맞지 않습니다.");
 			return false;
@@ -535,8 +535,8 @@ $(document).ready(function(){
 			if(!confirm("결재경로와 품의를 신청하시겠습니까?")){
 				return false;
 			} else{
-				alert("페이지를 이동합니다.");
-				
+				alert("페이지를 이동합니다.");s
+				window.location = "${contextPath}/UnapprovalSlip/UntSlip.jsp";
 			}
 			return true;
 		}
@@ -603,6 +603,7 @@ $(document).ready(function(){
 		
 		var TotalCre = document.getElementById("CreditTotal").value;
 		var TotalDe = document.getElementById("DebitTotal").value;
+		var DocCodeNumber = $('.SlipNo').val();
 		
 		if((TotalCre !== TotalDe) ){
 			alert("합계가 맞지 않습니다.");
@@ -627,6 +628,8 @@ $(document).ready(function(){
 		    	        dataType: 'json', // 수정: datatype -> dataType
 		    	        success: function(response){
 		    	            if(response.result === "Success"){
+		    	            	popupWidth = 750;
+		    	        	    popupHeight = 400;
 		    	                console.log("Success");
 		    	                // 2. 결제경로가 등럭되어 있으면 바로 품의 상신 진행
 		    	                $.ajax({
@@ -638,7 +641,18 @@ $(document).ready(function(){
 		    	                    success: function(response) {
 		    	                        if (response.status === 'success') {
 		    	                            console.log("ApprovalProcess Success");
-		    	                            location.reload();
+		    	                            window.open(
+		    	            		                "${contextPath}/Slip/Info/OpinionWrite.jsp?SlipCode=" + DocCodeNumber, 
+		    	            		                "테스트", 
+		    	            		                "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
+		    	            		            );
+		    	                            
+		    	                            var timer = setInterval(function() {
+		    	                                if (popup.closed) {
+		    	                                    clearInterval(timer);
+		    	                                    location.reload();
+		    	                                }
+		    	                            }, 500);
 		    	                        } else {
 		    	                            console.log("ApprovalProcess Error:", response.message);
 		    	                        }
@@ -657,7 +671,7 @@ $(document).ready(function(){
 		    	                    "테스트", 
 		    	                    "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
 		    	                );
-		    	            }
+		    	            } // if(response.result === "Success"){...}의 끝
 		    	        },
 		    	        error: function(jqXHR, textStatus, errorThrown) { // 수정: 오류 핸들러 추가
 		    	            console.log("WFCheck Error:", textStatus, errorThrown);

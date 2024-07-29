@@ -40,6 +40,7 @@
 	String SlipType = null;
 	String briefs = null;
 	String TableKeyIndex = null;
+	String WriterName = (String)session.getAttribute("name");
 	
 	try{
 		// '품의상신' 버튼을 클릭했을 때, 임시저장테이블에 있던 데이터 저장 기능 추가
@@ -172,7 +173,44 @@
 				String WFInfo_Sql = "SELECT * FROM workflow WHERE DocNum = '"+ SlipCode +"'";
 	            PreparedStatement WFI_Pstmt = conn.prepareStatement(WFInfo_Sql);
 	            ResultSet WFI_Rs = WFI_Pstmt.executeQuery();
-
+				
+	            String Writer_Info_SSql = "SELECT * FROM emp WHERE EMPLOYEE_ID = '" + UserId + "'"; // Writer_Info_S(earch)
+	            PreparedStatement Writer_Info_SPstmt = conn.prepareStatement(Writer_Info_SSql);
+	            ResultSet Writer_Info_SRs = Writer_Info_SPstmt.executeQuery();
+	            if(Writer_Info_SRs.next()){
+	            	String Writer_Sql = "INSERT INTO docworkflowline ("
+	                        + "`DocNum`,"
+	                        + "`WFStep`,"
+	                        + "`WFType`,"
+	                        + "`ResponsePerson`,"
+	                        + "`RespPersonName`,"
+	                        + "`RespOffice`,"
+	                        + "`RepsDepart`,"
+	                        + "`WFResult`,"
+	                        + "`DocReviewOpinion`,"
+	                        + "`ReviewTime`,"
+	                        + "`ElapsedHour1`,"
+	                        + "`ComCode`,"
+	                        + "`Index`"
+	                        + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		            PreparedStatement Writer_Pstmt = conn.prepareStatement(Writer_Sql);
+		            Writer_Pstmt.setString(1, SlipCode);
+		            Writer_Pstmt.setString(2, "0");
+		            Writer_Pstmt.setString(3, "S");
+		            Writer_Pstmt.setString(4, UserId);
+		            Writer_Pstmt.setString(5, WriterName);
+		            Writer_Pstmt.setString(6, Writer_Info_SRs.getString("POSITION"));
+		            Writer_Pstmt.setString(7, Writer_Info_SRs.getString("COCT"));
+		            Writer_Pstmt.setString(8, "0");
+		            Writer_Pstmt.setString(9, "없음");
+		            Writer_Pstmt.setString(10, todayDate);
+		            Writer_Pstmt.setString(11, "00:00");
+		            Writer_Pstmt.setString(12, UserComCode);
+		            Writer_Pstmt.setString(13, UserComCode + SlipCode + "0");
+		            
+		            Writer_Pstmt.executeUpdate();
+	            }
+	            
 	            int index = 1;
 	            while (WFI_Rs.next()) {
 	                String DWFL_Sql = "INSERT INTO docworkflowline ("

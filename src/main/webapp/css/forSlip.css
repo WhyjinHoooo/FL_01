@@ -70,6 +70,42 @@
 	    background-color: #80bdff;
 	    border-color: #80bdff;
 	}
+	.PayPathBanner {
+    text-align: center;
+    background: #002060;
+    font-size: x-large;
+    color: white;
+    padding: 10px;
+    border: 1px solid;
+	}
+	.OpinionBanner {
+    text-align: center;
+    background: #002060;
+    font-size: x-large;
+    color: white;
+    padding: 10px;
+    border: 1px solid;
+	}
+	.OpinionTable th{
+	text-align: right;
+	}
+	.OpinionTable .UserOp{
+		width: 543px;
+		height: 208px;
+	}
+	.OpinionDiv button{
+    margin-left: 150px;
+    padding: 10px 20px 10px 20px;
+    width: 150px;
+    background: purple;
+    color: white;
+    font-size: 20px;
+    border: 1px solid purple;
+    border-radius: 5px;
+	} 
+	.testBody{
+	background: #F2F2F2;
+	}
 	.PayPathDiv table {
 		width: 100%;
 		border-collapse: collapse;
@@ -96,18 +132,12 @@
 	text-decoration: underline;
 	}
 	
-	.PayPathBanner {
-    text-align: center;
-    background: #002060;
-    font-size: x-large;
-    color: white;
-    padding: 10px;
-    border: 1px solid;
-	}
 	.PayPathDiv input[type="text"]{
 		width: 100px;
 	}
-	.PayPathDiv .tableBody .Approval, .PayPathDiv .tableBody .AppCoCtName, .PayPathDiv .tableBody .DelBtn {
+	.PayPathDiv .tableBody .Approval,
+	.PayPathDiv .tableBody .AppCoCtName,
+	.PayPathDiv .tableBody .DelBtn {
     width: 105px;
     height: 50px;
     border-radius: 10px;
@@ -120,6 +150,7 @@
     margin-left: 3px;
     text-align: center;
 	}
+	
 	/* 결재경로 팝업창 CSS 끝 */
 @media only screen and (min-width: 1537px) {
 	
