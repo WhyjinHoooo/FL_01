@@ -28,9 +28,9 @@ function OpinionBtn(event, FieldName){
             success: function(response) {
                 if (response.status === 'success') {
                     console.log('데이터를 수정했습니다');
-                    // 부모 페이지를 새로고침
-                    window.opener.location.reload();
-                    window.close();
+                    // 팝업 창 닫기
+                    window.opener.location.reload(); // 부모 창 새로 고침
+                    window.close(); // 팝업 창 닫기
                 } else {
                     console.log('Error:', response.message);
                 }
