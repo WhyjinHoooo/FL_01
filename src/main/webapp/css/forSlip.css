@@ -480,19 +480,46 @@
 	}
 	img#DownBtn {
     margin-right: 70%;
+    width: 40px;
 	}
 	.input-btn {
-    width: 100px;
-    height: 50px;
+    width: 200px;
+    height: 40px;
     border-radius: 10px;
-    font-size: 25px;
+    font-size: 15px;
     background: #002060;
     color: white;
     border: 1px solid;
     border-color: #002060;
     border-width: 2px;
 	}
-	.FuncArea .input-btn:hover {
+	.FuncArea .PayPath {
+    width: 200px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 11px;
+    background: #002060;
+    color: white;
+    border: 1px solid;
+    border-color: #002060;
+    border-width: 2px;
+    margin-left: 3px;
+	}
+	.FuncArea .Approval {
+    width: 200px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 11px;
+    background: #002060;
+    color: white;
+    border: 1px solid;
+    border-color: #002060;
+    border-width: 2px;
+    margin-left: 3px;
+	}
+	.FuncArea .input-btn:hover,
+	.FuncArea .Approval:hover,
+	.FuncArea .PayPath:hover {
     background-color: #80bdff;
     border-color: #80bdff;
 	}
@@ -521,12 +548,13 @@
 	z-index: 2;
 	padding: 8px;
 	border: 1px solid #fff;
-	font-size: 14px;
+	font-size: 11px;
     }
     .SlipFoot .SlipTable td {
     border: 1px solid #ddd;
     text-align: center;
     padding: 8px;
+    font-size: 11px;
 	}
 	.TotalPrice {
     display: flex;
@@ -639,7 +667,7 @@
 	/* SlipHeader와 관련된 CSS 끝 */
 	/* SlipBody와 관련된 CSS 시작 */
 	.BodyChildSet01 {
-    margin-top: 30px;
+    margin-top: 15px;
 	}
 	table.Child01 {
     margin-left: 9.5%;
@@ -668,12 +696,17 @@
 	.Child05 .DealPrice, .Child05 .ledPrice{
 	text-align: center;
 	}
-	
 	table.Child06 {
-	    margin: 10px 0px 0px 0%;
-	}
+    margin: 10px 0px 0px 0%;
+    }
 	.Child06 .AdminAlloc, .Child06 .Deptd, .Child06 .DeptdDes{
 		text-align: center;
+	}
+	table.Child07 {
+	margin: 10px 0px 0px 38px;
+	}
+	.Child07 .LineBriefs{
+	width: 200%;
 	}
 	/* SlipBody와 관련된 CSS 끝 */
 	/* SlipOptionTable와 관련된 CSS 시작*/

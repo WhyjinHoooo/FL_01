@@ -525,7 +525,6 @@ $(document).ready(function(){
 		    	url : 'CreateSlip_Ok.jsp',
 		    	type: 'POST',
 		    	success: function(response) {
-		    		alert("Success");
 		    		location.reload();
 	            },
 	            error: function() {
@@ -535,7 +534,7 @@ $(document).ready(function(){
 			if(!confirm("결재경로와 품의를 신청하시겠습니까?")){
 				return false;
 			} else{
-				alert("페이지를 이동합니다.");s
+				alert("페이지를 이동합니다.");
 				window.location = "${contextPath}/UnapprovalSlip/UntSlip.jsp";
 			}
 			return true;

@@ -57,7 +57,7 @@ function OpinionBtn(event, FieldName){
         		<th>품의자 :</th>
         			<td>
         				 <input type="text" class="UserCode" id="UserCode" name="UserCode" value="<%=UserId%>" readonly>
-        				 <input type="text" class="SlipCode" value="<%=SlipCode%>"> 
+        				 <input type="text" class="SlipCode" value="<%=SlipCode%>" hidden> 
         			</td>
         	</tr>
         	<tr>
