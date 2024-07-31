@@ -15,13 +15,13 @@
 	$(document).ready(function() {
 	    $('#SearcjBtn').click(function() {
 	        var LF_Info = $('.Info_LF').val();
-	        var CoCtCate = $('.CoCtCategory').val();
+	        var USerCate = $('.UserCategory').val();
 	        console.log("확인용01 : " + LF_Info);
-	        console.log("확인용02 : " + CoCtCate);
+	        console.log("확인용02 : " + USerCate);
 	        $.ajax({
-	            url: '${contextPath}/UnapprovalSlip/InfoSearch/AjaxInfo/CoCtAjax.jsp',
+	            url: '${contextPath}/UnapprovalSlip/InfoSearch/AjaxInfo/InputerAjax.jsp',
 	            type: 'POST',
-	            data: { LF_Information: LF_Info, CoCt_Category : CoCtCate },
+	            data: { LF_Information: LF_Info, USer_Category : USerCate },
 	            success: function(response) {
 	                $('.SearchedTable tbody').html(response);
 	            }
@@ -36,33 +36,15 @@
 	    		$('#Reset').trigger("click");
 	    	} */
 	    });
-	    
-	    $('nav a').click(function() {
-	        var startChar = $(this).text();
-	        $.ajax({
-	            url: '${contextPath}/UnapprovalSlip/InfoSearch/AjaxInfo/DeptSearch.jsp',
-	            type: 'GET',
-	            data: { startChar: startChar },
-	            success: function(response) {
-	                $('.SearchedTable tbody').html(response);
-	            }
-	        });
-	    });
 	});
 </script>
 <body>
-<h1>BizArea 검색</h1>
+<h1>전표 입력자 검색</h1>
 <hr>
-<nav class="CoCtNav" style="background-color: #002060;margin-bottom: 9px;">
-	<a href="#">A</a>
-	<a href="#">B</a>
-	<a href="#">C</a>
-</nav>
 	<center>
 		<div>
-			<select class="CoCtCategory">
-				<option value="Code">COCT Code</option>
-				<option value="Name">COCT Name</option>
+			<select class="UserCategory">
+				<option value="Name">이름</option>
 			</select>
 			<input type="text" class="Info_LF" placeholder="검색"> <!-- Information Look For -->
 			<button id="SearcjBtn" onkeyup="enterKey()">검색</button>
@@ -72,7 +54,7 @@
 			<table class="SearchedTable">
 				<thead>
 					<tr>
-						<th>COCT</th><th>COCT Name</th>
+						<th>사원 코드</th><th>사원 이름</th><th>부서 코드</th><th>부서 이름</th><th>사원 직급</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -80,11 +62,11 @@
 						try{
 							String ComCode = request.getParameter("Comcode");
 						
-							String sql = "SELECT * FROM dept WHERE ComCode = ?";
+							String sql = "SELECT * FROM emp WHERE COMCODE = ?";
 							PreparedStatement pstmt = null;
 							ResultSet rs = null;
 							pstmt = conn.prepareStatement(sql);
-							pstmt.setString(1,ComCode);
+							pstmt.setString(1, ComCode);
 							rs = pstmt.executeQuery();
 							
 							while(rs.next()){
@@ -93,17 +75,21 @@
 						<td>
 							<a href="javascript:void(0)"
 								onClick="
-									var CoCtCode = '<%=rs.getString("COCT") %>';
-									var CpCtCode_Des = '<%=rs.getString("COCT_NAME") %>';
-									window.opener.document.querySelector('.UserDepartCd').value=CoCtCode;
-									window.opener.document.querySelector('.UserDepartCd_Des').value=CpCtCode_Des;
-									window.opener.document.querySelector('.UserDepartCd').dispatchEvent(new Event('change'));
+									var UserCode = '<%=rs.getString("EMPLOYEE_ID") %>';
+									var UserCode_Des = '<%=rs.getString("EMPLOYEE_NAME") %>';
+									window.opener.document.querySelector('.InputerId').value=UserCode;
+									window.opener.document.querySelector('.Inputer_Name').value=UserCode_Des;
+									window.opener.document.querySelector('.InputerId').dispatchEvent(new Event('change'));
 									window.close();
 							">
-							<%=rs.getString("COCT")%>
+							<%=rs.getString("EMPLOYEE_ID")%>
 							</a>
 						</td>
-						<td><%=rs.getString("COCT_NAME") %></td>
+						<td><%=rs.getString("EMPLOYEE_NAME") %></td>
+						<td><%=rs.getString("COCT") %></td>
+						<td><%=rs.getString("COCT_DES") %></td>
+						<td><%=rs.getString("POSITION") %></td>
+						
 					</tr>
 					<%
 							}

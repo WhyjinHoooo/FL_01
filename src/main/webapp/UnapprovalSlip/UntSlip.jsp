@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 $(document).ready(function(){
-	var UId = $('.UserId').val();
+	/* var UId = $('.UserId').val();
 	var UComCode = $('.UserComCode').val();
 	$.ajax({
 	    url: '${contextPath}/UnapprovalSlip/InfoSearch/WriterInfo.jsp',
@@ -55,7 +55,7 @@ $(document).ready(function(){
 	    error: function(xhr, status, error) {
 	        console.error("Ajax request failed: ", status, error);
 	    }
-	});
+	}); */
 });
 </script>
 <script>
@@ -100,7 +100,11 @@ function InfoSearch(event, inputFieldId){
 	    case "COCT_Btn":
 	    	window.open("${contextPath}/UnapprovalSlip/InfoSearch/CoCtInfoSearch.jsp?Comcode=" + UserComCode, "테스트", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     		break;
-	    case "User_Btn":
+	    case "Inputer_Btn":
+	    	window.open("${contextPath}/UnapprovalSlip/InfoSearch/InputerInfoSearch.jsp?Comcode=" + UserComCode, "테스트", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    		break;
+	    case "Approver_Btn":
+	    	window.open("${contextPath}/UnapprovalSlip/InfoSearch/ApproverInfoSearch.jsp?Comcode=" + UserComCode, "테스트", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     		break;
 	    case "UnSlip_Btn":
     		break;
@@ -155,15 +159,17 @@ function InfoSearch(event, inputFieldId){
 						<tr>
 							<th>전표 입력자 : </th>
 							<td>
-								<input type="text" class="UserId" name="UserId" id="UserId" value="<%=User_Id%>" readonly>
-								<button class="UserSearchBtn" id="UserSearchBtn" name="UserSearchBtn" onclick="InfoSearch(event, 'User_Btn')">&#8681;</button>
+								<input type="text" class="InputerId" name="InputerId" id="InputerId" readonly>
+								<input type="text" class="Inputer_Name" name="Inputer_Name" id="Inputer_Name" hidden>
+								<button class="InputerSearchBtn" id="InputerSearchBtn" name="InputerSearchBtn" onclick="InfoSearch(event, 'Inputer_Btn')">&#8681;</button>
 							</td>
 						</tr>
 						<tr>
 							<th>결재 합의자 : </th>
 							<td>
-								<a><input readonly></a>
-								<button>&#8681;</button>
+								<input type="text" class="ApproverId" name="ApproverId" id="ApproverId" readonly>
+								<input type="text" class="Approver_Name" name="Approver_Name" id="Approver_Name" hidden>
+								<button class="ApproverSearchBtn" id="ApproverSearchBtn" name="ApproverSearchBtn" onclick="InfoSearch(event, 'Approver_Btn')">&#8681;</button>
 							</td>
 						</tr>
 						<tr>
@@ -214,6 +220,7 @@ function InfoSearch(event, inputFieldId){
 							</td>
 						</tr>
 				</table>
+				<button class="Inquiry">조회</button>
 			</div>
 			<div class="UntSituation">
 				<div class="Area_title">미승인전표 현황</div>

@@ -514,6 +514,12 @@ $(document).ready(function(){
 		
 		var TotalCre = document.getElementById("CreditTotal").value;
 		var TotalDe = document.getElementById("DebitTotal").value;
+		var SlipDocCode = $('.SlipNo').val();
+		var InPuter = $('.User').val();
+		var InPuterCom = $('.UserDepart').val();
+		var InPuterBA = $('.UserBA').val();
+		var InPuterCoCt = $('.UserCoCT').val();
+		
 		if(TotalCre !== TotalDe){
 			alert("합계가 맞지 않습니다.");
 			return false;
@@ -524,6 +530,7 @@ $(document).ready(function(){
 			$.ajax({
 		    	url : 'CreateSlip_Ok.jsp',
 		    	type: 'POST',
+		    	data: {SlipCode : SlipDocCode, User : InPuter, ComCode : InPuterCom, BA : InPuterBA, COCT : InPuterCoCt},
 		    	success: function(response) {
 		    		location.reload();
 	            },
@@ -741,7 +748,7 @@ $(document).ready(function(){
 								
 							<th>전표입력 BA : </th>
 								<td>
-									<input type="text" class="Head" name="UserBizArea" id="UserBizArea" readonly>
+									<input type="text" class="Head UserBA" name="UserBizArea" id="UserBizArea" readonly>
 								</td>
 							
 							<td class="EmptyCell_18-9"> <!-- 빈 공간 크기 18.9% --></td>
@@ -762,7 +769,7 @@ $(document).ready(function(){
 								
 							<th>전표 입력 부서 : </th>
 								<td>
-									<input type="text" class="Head" id="TargetDepartCd" name="TargetDepartCd" readonly>
+									<input type="text" class="Head UserCoCT" id="TargetDepartCd" name="TargetDepartCd" readonly>
 									<input type="text" id="TargetDepartDes" name="TargetDepartDes" readonly>
 								</td>					
 						</tr>

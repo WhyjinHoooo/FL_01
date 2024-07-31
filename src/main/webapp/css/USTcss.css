@@ -62,6 +62,22 @@
     margin: 0% 10px 0% 5%;
 	border-radius: 5px;
 	}
+	.slip_Search_Area button.Inquiry {
+    width: 200px;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #002060;
+    background: #002060;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    margin-left: 150px;
+	}
+	.slip_Search_Area button.Inquiry:hover {
+    border: 1px solid #6FA7E6;
+    background: #6FA7E6;
+    color: white;
+	}
 	.UntSituation {
     overflow-y: auto;
     border: 1px solid rgb(111, 167, 235);

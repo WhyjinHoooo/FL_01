@@ -11,6 +11,17 @@
 <body>
 <%
 	request.setCharacterEncoding("UTF-8");
+	String SlipCode = request.getParameter("SlipCode");
+	String Inputer = request.getParameter("User");
+	String InputerComCode = request.getParameter("ComCode");
+	String InputerBA = request.getParameter("BA");
+	String InputerCoCt = request.getParameter("COCT");
+	
+	System.out.println("SlipCode : " + SlipCode);
+	System.out.println("Inputer : " + Inputer);
+	System.out.println("InputerComCode : " + InputerComCode);
+	System.out.println("InputerBA : " + InputerBA);
+	System.out.println("InputerCoCt : " + InputerCoCt);
 	
 	try{
 
@@ -55,6 +66,113 @@
 			PreparedStatement DL_pstmt = conn.prepareStatement(DelLine);
 			DL_pstmt.executeUpdate();
 		}
+		
+		String FinalSearchSql = "SELECT * FROM workflow WHERE DocNum = ?";
+		PreparedStatement FSS_Pstmt = conn.prepareStatement(FinalSearchSql);
+		FSS_Pstmt.setString(1, SlipCode);
+		ResultSet FSS_rs = FSS_Pstmt.executeQuery();
+		if(!FSS_rs.next()){
+			// WorkFlow에 데이터가 없는 경우
+			System.out.println("테스트010101010101010101010101");
+			SearchHead = "SELECT * FROM fldochead WHERE DocNum = '"+ SlipCode +"'";
+			SH_Pstmt = conn.prepareStatement(SearchHead);
+			SH_rs =SH_Pstmt.executeQuery();
+			if(SH_rs.next()){
+				System.out.println("테스트22222222222222222222222222");
+				String DWFH_In_Sql = "INSERT INTO docworkflowhead ("
+						+ "`DocNum`,"
+						+ "`DocType`,"
+						+ "`BizArea`,"
+						+ "`DocInputDepart`,"
+						+ "`InputPerson`,"
+						+ "`DocDescrip`,"
+						+ "`WFStatus`,"
+						+ "`WFStep`,"
+						+ "`ElapsedHour`,"
+						+ "`ComCode`,"
+						+ "`TableKeyIndex`"
+						+ ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				PreparedStatement DWFH_In_Pstmt = conn.prepareStatement(DWFH_In_Sql);
+				DWFH_In_Pstmt.setString(1, SlipCode);
+				DWFH_In_Pstmt.setString(2, SlipCode.substring(0, 3));
+				DWFH_In_Pstmt.setString(3, InputerBA);
+				DWFH_In_Pstmt.setString(4, InputerCoCt);
+				DWFH_In_Pstmt.setString(5, Inputer);
+				DWFH_In_Pstmt.setString(6, SH_rs.getString("DocDescrip"));
+				DWFH_In_Pstmt.setString(7, "A");
+				DWFH_In_Pstmt.setInt(8, 0);
+				DWFH_In_Pstmt.setInt(9, 0);
+				DWFH_In_Pstmt.setString(10, InputerComCode);
+				DWFH_In_Pstmt.setString(11, InputerComCode + SlipCode);
+				
+				DWFH_In_Pstmt.executeUpdate();
+			} // if(SH_rs.next()){...}의 끝
+		} else{
+			// workflow에 데이터가 있는 경우
+			SearchHead = "SELECT * FROM fldochead WHERE DocNum = '"+ SlipCode +"'";
+			SH_Pstmt = conn.prepareStatement(SearchHead);
+			SH_rs =SH_Pstmt.executeQuery();
+			if(SH_rs.next()){
+				String DWFH_In_Sql = "INSERT INTO docworkflowhead ("
+						+ "`DocNum`,"
+						+ "`DocType`,"
+						+ "`BizArea`,"
+						+ "`DocInputDepart`,"
+						+ "`InputPerson`,"
+						+ "`DocDescrip`,"
+						+ "`WFStatus`,"
+						+ "`WFStep`,"
+						+ "`ElapsedHour`,"
+						+ "`ComCode`,"
+						+ "`TableKeyIndex`"
+						+ ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				PreparedStatement DWFH_In_Pstmt = conn.prepareStatement(DWFH_In_Sql);
+				DWFH_In_Pstmt.setString(1, SlipCode);
+				DWFH_In_Pstmt.setString(2, SlipCode.substring(0, 3));
+				DWFH_In_Pstmt.setString(3, InputerBA);
+				DWFH_In_Pstmt.setString(4, InputerCoCt);
+				DWFH_In_Pstmt.setString(5, Inputer);
+				DWFH_In_Pstmt.setString(6, SH_rs.getString("DocDescrip"));
+				DWFH_In_Pstmt.setString(7, "A");
+				DWFH_In_Pstmt.setInt(8, 0);
+				DWFH_In_Pstmt.setInt(9, 0);
+				DWFH_In_Pstmt.setString(10, InputerComCode);
+				DWFH_In_Pstmt.setString(11, InputerComCode + SlipCode);
+				
+				DWFH_In_Pstmt.executeUpdate();
+			}
+			int index = 1;
+			while(FSS_rs.next()){
+				String DWFL_Sql = "INSERT INTO docworkflowline ("
+                        + "`DocNum`,"
+                        + "`WFStep`,"
+                        + "`WFType`,"
+                        + "`ResponsePerson`,"
+                        + "`RespPersonName`,"
+                        + "`RespOffice`,"
+                        + "`RepsDepart`,"
+                        + "`WFResult`,"
+                        + "`ComCode`,"
+                        + "`Index`"
+                        + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement DWFL_In_Pstmt = conn.prepareStatement(DWFL_Sql);
+                DWFL_In_Pstmt.setString(1, SlipCode);
+                DWFL_In_Pstmt.setString(2, FSS_rs.getString("WFStep"));
+                DWFL_In_Pstmt.setString(3, FSS_rs.getString("WFType"));
+                DWFL_In_Pstmt.setString(4, FSS_rs.getString("ResponsePerson"));
+                DWFL_In_Pstmt.setString(5, FSS_rs.getString("RespPersonName"));
+                DWFL_In_Pstmt.setString(6, FSS_rs.getString("RespOffice"));
+                DWFL_In_Pstmt.setString(7, FSS_rs.getString("RepsDepart"));
+                DWFL_In_Pstmt.setString(8, "0");
+                DWFL_In_Pstmt.setString(9, InputerComCode);
+                DWFL_In_Pstmt.setString(10, InputerComCode + SlipCode + index);
+                
+                DWFL_In_Pstmt.executeUpdate();
+                index++;
+			}
+		
+		}
+		
 		out.println("데이터 처리가 완료되었습니다.");
 	}catch(SQLException e){
 		e.printStackTrace();
