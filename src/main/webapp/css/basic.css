@@ -327,20 +327,20 @@ input[type="radio"] {
 	    width: 400px;
     }
     .Id-Area {
-		margin: 40px 0px 0 70px;
-	    width: 400px;
+		margin: 40px 0px 0 100px;
+	    width: 420px;
     }
     .PW-Area {
-		margin: 40px 0px 0 70px;
-	    width: 400px;
+		margin: 40px 0px 0 100px;
+	    width: 420px;
     }
 	.ComChoice {
 		width: 150%;
 		height: 30px;
 		box-sizing: border-box;
-	  	border-radius: 4px;
-	  	border: 1px solid #d9d6d6;
-	  	color: #383838;
+	  	border-radius: 5px;
+	  	border: 2px solid #000000;
+	  	color: #000000;
 	  	background-color: #ffffff;
 	  	font-family: 'Montserrat', 'Pretendard', sans-serif;
 	  	text-align: center;
@@ -358,8 +358,11 @@ input[type="radio"] {
 		font-size: 20px;
 	}
 	.User{
-		width: 100px;
+		width: 150px;
 		height: 25px;
+		margin-left: 30px;
+		text-align: center;
+		border-radius: 5px;
 	}
 	.Login_Btn{
         width: 440px;

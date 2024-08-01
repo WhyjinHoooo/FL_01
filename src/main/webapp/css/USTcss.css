@@ -107,7 +107,8 @@
 	.UserInfo input{
 	text-align: center;
 	}
-	.UserInfo .TimeStamp {
+	.UserInfo .TimeStampF,
+	.UserInfo .TimeStampE {
     width: 98%;
 	}
 	.UserInfo select{

@@ -23,39 +23,70 @@ document.addEventListener("DOMContentLoaded", function() {
     var timeOff = new Date().getTimezoneOffset() * 60000;
     var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
     var TS_From = document.getElementById("TimeStamp_From");
-    var TS_To = document.getElementById("TimeStamp_To");
+    var TS_To = document.getElementById("TimeStamp_End");
 
     if (TS_From && TS_To) {
         TS_From.setAttribute("max", today);
         TS_To.setAttribute("max", today);
     } else {
-        console.error("Element with id 'TimeStamp_From' or 'TimeStamp_To' not found.");
+        console.error("Element with id 'TimeStamp_From' or 'TimeStamp_End' not found.");
     }
 });
 
 $(document).ready(function(){
-	/* var UId = $('.UserId').val();
-	var UComCode = $('.UserComCode').val();
-	$.ajax({
-	    url: '${contextPath}/UnapprovalSlip/InfoSearch/WriterInfo.jsp',
-	    type: 'POST',
-	    data: { id: UId },
-	    success: function(response) {
-	        // response는 JSON 배열 형태로 받습니다.
-	        if (response.length > 0) {
-	            // JSON 배열의 첫 번째 요소를 사용합니다.
-	            var data = response[0];
-	            // HTML 입력 필드에 값을 배분합니다.
-	            $('#UserBizArea').val(data.UserBA);
-	            $('#UserDepartCd').val(data.UserCoct);
-	        } else {
-	            console.log("No data found.");
-	        }
-	    },
-	    error: function(xhr, status, error) {
-	        console.error("Ajax request failed: ", status, error);
-	    }
-	}); */
+	var OP_ComCode = $('.UserComCode').val(); // 검색 조건 중 회사코드
+	var OP_BA = $('.UserBizArea').val(); // 검색 조건 중 BA
+	var OP_COCT = $('.UserDepartCd').val(); // 검색 조건 중 COCT
+	var OP_Inputer = $('.InputerId').val(); // 검색 조건 중 전표 입력자
+	var OP_Approver = $('.ApproverId').val(); // 검색 조건 중 결재합의자
+	var OP_TFrom = $('.TimeStampF').val(); // 검색 조건 중 기표일자 From
+	var OP_TEnd = $('.TimeStampE').val(); // 검색 조건 중 기표일자 End
+	var OP_SlipState = $('.UnSlipState').val(); // 검색 조건 중 전표 상태
+	var OP_SlipType = $('.SlipType').val(); // 검색 조건 중 전요유형
+	
+	var OptionList = {};
+	$('.Option').each(function(){
+		var name = $(this).attr("name");
+		var value = $(this).val();
+		OptionList[name] = value;
+	})
+	console.log("검색할 조건들 : ", OptionList);
+	
+	function SlipSearch(event){
+		event.preventDefault();
+		
+		$.ajax({
+			url: '${contextPath}/UnapprovalSlip/InfoSearch/FacetSearch.jsp',
+			type: 'POST',
+			data: JSON.stringify(OptionList),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			async: false,
+			success: function(data){
+				
+			}
+		});
+	}
+	 $('.Inquiry').on('click', SlipSearch);
+	/* 
+	사용자 인터랙션 처리:
+
+	1. 웹 페이지에서 사용자와 상호작용할 수 있는 요소(버튼, 링크, 폼 등)는 여러 가지가 있습니다. 이벤트 리스너를 통해 이러한 요소들이 클릭되거나 다른 방식으로 상호작용될 때 실행할 코드를 정의할 수 있습니다.
+	예: 사용자가 버튼을 클릭하면 특정 작업(알림 표시, 폼 데이터 제출 등)이 수행됩니다.
+	비동기 이벤트 처리:
+	
+	2. 이벤트 리스너는 비동기적으로 동작합니다. 즉, 웹 페이지가 로드된 후에도 이벤트가 발생할 때마다 지정된 함수를 호출합니다. 이를 통해 사용자의 액션에 실시간으로 반응할 수 있습니다.
+	코드의 분리와 유지보수:
+	
+	3. 이벤트 리스너를 사용하면 코드를 더 모듈화하고 관리하기 쉽게 만들 수 있습니다. 특정 이벤트에 대한 처리를 별도의 함수로 정의하고, 필요할 때 그 함수를 호출하는 구조로 만들면 코드가 더 깔끔하고 유지보수하기 쉬워집니다.
+	다양한 이벤트 처리 가능:
+	
+	4. 이벤트 리스너를 사용하면 클릭, 마우스 이동, 키보드 입력, 페이지 로드 등 다양한 이벤트를 처리할 수 있습니다. 이를 통해 더 복잡하고 풍부한 사용자 경험을 제공할 수 있습니다.
+	
+	이벤트 리스너의 역할:
+		이벤트 연결: 이벤트 리스너는 특정 이벤트와 이를 처리할 함수를 연결하는 역할을 합니다. 예를 들어, 버튼 클릭 이벤트와 SlipSearch 함수를 연결합니다.
+		이벤트 발생 시 함수 호출: 이벤트가 발생할 때 이벤트 리스너가 연결된 함수를 호출하여 정의된 동작을 수행합니다. 예를 들어, 버튼이 클릭될 때 SlipSearch 함수가 호출됩니다.
+	*/
 });
 </script>
 <script>
@@ -106,10 +137,6 @@ function InfoSearch(event, inputFieldId){
 	    case "Approver_Btn":
 	    	window.open("${contextPath}/UnapprovalSlip/InfoSearch/ApproverInfoSearch.jsp?Comcode=" + UserComCode, "테스트", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     		break;
-	    case "UnSlip_Btn":
-    		break;
-	    case "SlipType_Btn":
-    		break;
 	    default:
     		break;
     		
@@ -137,13 +164,13 @@ function InfoSearch(event, inputFieldId){
 						<tr>
 							<th>법인(ComCode) : </th>
 							<td>
-								<input type="text" class="UserComCode" name="UserComCode" id="UserComCode" value="<%=User_Depart%>" readonly>
+								<input type="text" class="UserComCode Option" name="UserComCode" id="UserComCode" value="<%=User_Depart%>" readonly>
 							</td>
 						</tr>
 						<tr>
 							<th>전표입력 BA : </th>
 							<td>
-								<a><input type="text" class="UserBizArea" name="UserBizArea" id="UserBizArea" readonly></a>
+								<a><input type="text" class="UserBizArea Option" name="UserBizArea" id="UserBizArea" readonly></a>
 								<input type="text" class="UserBizArea_Des" name="UserBizArea_Des" id="UserBizArea_Des" hidden>
 								<button class="BASearchBtn" id="BASearchBtn" onclick="InfoSearch(event, 'BA_Btn')";>&#8681;</button>
 							</td>
@@ -151,7 +178,7 @@ function InfoSearch(event, inputFieldId){
 						<tr>
 							<th>전표입력부서 : </th>
 							<td>
-								<a><input class="UserDepartCd" name="UserDepartCd" id="UserDepartCd" readonly></a>
+								<a><input class="UserDepartCd Option" name="UserDepartCd" id="UserDepartCd" readonly></a>
 								<input type="text" class="UserDepartCd_Des" name="UserDepartCd_Des" id="UserDepartCd_Des" hidden>
 								<button class="COCTSearchBtn" id="COCTSearchBtn" onclick="InfoSearch(event, 'COCT_Btn')">&#8681;</button>
 							</td>
@@ -159,7 +186,7 @@ function InfoSearch(event, inputFieldId){
 						<tr>
 							<th>전표 입력자 : </th>
 							<td>
-								<input type="text" class="InputerId" name="InputerId" id="InputerId" readonly>
+								<input type="text" class="InputerId Option" name="InputerId" id="InputerId" readonly>
 								<input type="text" class="Inputer_Name" name="Inputer_Name" id="Inputer_Name" hidden>
 								<button class="InputerSearchBtn" id="InputerSearchBtn" name="InputerSearchBtn" onclick="InfoSearch(event, 'Inputer_Btn')">&#8681;</button>
 							</td>
@@ -167,7 +194,7 @@ function InfoSearch(event, inputFieldId){
 						<tr>
 							<th>결재 합의자 : </th>
 							<td>
-								<input type="text" class="ApproverId" name="ApproverId" id="ApproverId" readonly>
+								<input type="text" class="ApproverId Option" name="ApproverId" id="ApproverId" readonly>
 								<input type="text" class="Approver_Name" name="Approver_Name" id="Approver_Name" hidden>
 								<button class="ApproverSearchBtn" id="ApproverSearchBtn" name="ApproverSearchBtn" onclick="InfoSearch(event, 'Approver_Btn')">&#8681;</button>
 							</td>
@@ -175,19 +202,19 @@ function InfoSearch(event, inputFieldId){
 						<tr>
 							<th>기표일자(From) : </th>
 							<td>
-								<input type="date" class="TimeStamp" name="TimeStamp From" id="TimeStamp_From">
+								<input type="date" class="TimeStampF Option" name="TimeStamp From" id="TimeStamp_From">
 							</td>
 						</tr>
 						<tr>
 							<th>기표일자(To) : </th>
 							<td>
-								<input type="date" class="TimeStamp" name="TimeStamp To" id="TimeStamp_To">
+								<input type="date" class="TimeStampE Option" name="TimeStamp To" id="TimeStamp_End">
 							</td>
 						</tr>
 						<tr>
 							<th>미승인전표 상태 : </th>
 							<td>
-								<select class="UnSlipState" id="UnSlipState" name="UnSlipState">
+								<select class="UnSlipState Option" id="UnSlipState" name="UnSlipState">
 									<option>선택</option>
 									<option value="A">A 미상신</option>
 									<option value="B">B 결재 진행중</option>
@@ -200,7 +227,7 @@ function InfoSearch(event, inputFieldId){
 						<tr>
 							<th>전표유형 : </th>
 							<td>
-								<select class="SlipType" id="SlipType" name="SlipType">
+								<select class="SlipType Option" id="SlipType" name="SlipType">
 								<option>선택</option>
 								<%
 									try{
