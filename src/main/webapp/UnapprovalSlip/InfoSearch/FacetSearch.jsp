@@ -29,11 +29,21 @@
 		String OP_BA = (String)OptionData.get("UserBizArea");
 		String OP_COCT = (String)OptionData.get("UserDepartCd");
 		String OP_Inputer = (String)OptionData.get("InputerId");
+		
 		String OP_Approver = (String)OptionData.get("ApproverId");
+		
 		String OP_From = (String)OptionData.get("TimeStamp From");
 		String OP_End = (String)OptionData.get("TimeStamp To");
 		String OP_State = (String)OptionData.get("UnSlipState");
-		String OP_Type = (String)OptionData.get("SlipType");
+		
+		String sql = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		if(OP_Approver != null || OP_Approver != ""){
+			String DocSearch_Sql = "SELECT DocNum FROM docworkflowline WHERE ResponsePerson = '" + OP_Approver + "'";
+			PreparedStatement DocSearch_Pstmt = conn.prepareStatement(DocSearch_Sql);
+		}
 		
 	}catch(Exception e){
 		e.printStackTrace();

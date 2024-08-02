@@ -10,6 +10,13 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../mydbcon.jsp" %>
+<%
+	String User_Id = (String)session.getAttribute("id");
+	String User_Depart = (String)session.getAttribute("depart");
+	LocalDateTime Calendar = LocalDateTime.now();
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	String formattedToday = Calendar.format(formatter);
+%>
 <link rel="stylesheet" href="../css/USTcss.css?after">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
@@ -18,20 +25,6 @@
 <html>
 <head>
 <script type="text/javascript">
-document.addEventListener("DOMContentLoaded", function() {
-    var now_utc = Date.now();
-    var timeOff = new Date().getTimezoneOffset() * 60000;
-    var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
-    var TS_From = document.getElementById("TimeStamp_From");
-    var TS_To = document.getElementById("TimeStamp_End");
-
-    if (TS_From && TS_To) {
-        TS_From.setAttribute("max", today);
-        TS_To.setAttribute("max", today);
-    } else {
-        console.error("Element with id 'TimeStamp_From' or 'TimeStamp_End' not found.");
-    }
-});
 
 $(document).ready(function(){
 	var OP_ComCode = $('.UserComCode').val(); // 검색 조건 중 회사코드
@@ -44,6 +37,10 @@ $(document).ready(function(){
 	var OP_SlipState = $('.UnSlipState').val(); // 검색 조건 중 전표 상태
 	var OP_SlipType = $('.SlipType').val(); // 검색 조건 중 전요유형
 	
+	var FromDate = new Date("<%=formattedToday%>");
+	$(".TimeStampF").val(formatDate(FromDate));
+	$(".TimeStampE").val(formatDate(FromDate));
+	
 	var OptionList = {};
 	$('.Option').each(function(){
 		var name = $(this).attr("name");
@@ -51,6 +48,14 @@ $(document).ready(function(){
 		OptionList[name] = value;
 	})
 	console.log("검색할 조건들 : ", OptionList);
+
+	function formatDate(date) {
+	    var dd = String(date.getDate()).padStart(2, '0');
+	    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+	    var yyyy = date.getFullYear();
+	
+	   return yyyy + '-' + mm + '-' + dd;
+	}
 	
 	function SlipSearch(event){
 		event.preventDefault();
@@ -145,13 +150,6 @@ function InfoSearch(event, inputFieldId){
 </script>
 <meta charset="UTF-8">
 <title>전표 품의 상신 및 결재</title>
-<%
-	String User_Id = (String)session.getAttribute("id");
-	String User_Depart = (String)session.getAttribute("depart");
-	LocalDateTime today = LocalDateTime.now();
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	String todayDate = today.format(formatter);
-%>
 </head>
 <body>
 <jsp:include page="../HeaderTest.jsp"></jsp:include>
@@ -221,28 +219,6 @@ function InfoSearch(event, inputFieldId){
 									<option value="C">C 승인 완료</option>
 									<option value="D">D 결재 반려</option>
 									<option value="Z">Z 불완전전표</option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<th>전표유형 : </th>
-							<td>
-								<select class="SlipType Option" id="SlipType" name="SlipType">
-								<option>선택</option>
-								<%
-									try{
-										String ST_Sql = "SELECT * FROM sliptype"; // Slip Type Sql
-										PreparedStatement ST_Pstmt = conn.prepareStatement(ST_Sql);
-										ResultSet ST_rs = ST_Pstmt.executeQuery();
-									while(ST_rs.next()){	
-								%>
-									<option value="<%=ST_rs.getString("FIDocType")%>"><%=ST_rs.getString("FIDocType")%>(<%=ST_rs.getString("FIDocTypeDesc")%>)</option>
-								<%
-									}
-									}catch(SQLException e){
-										e.printStackTrace();
-									}
-								%>
 								</select>
 							</td>
 						</tr>

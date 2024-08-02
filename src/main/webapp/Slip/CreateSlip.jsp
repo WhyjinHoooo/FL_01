@@ -690,7 +690,6 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-	<h5>일반 데체전표 입력</h5>
 	<jsp:include page="../HeaderTest.jsp"></jsp:include>
 		<form name="SlipInoutForm" id="SlipInoutForm" action="CreateSlip_Ok.jsp" method="POST" enctype="UTF-8">
 			<div class="SlipHeader">
