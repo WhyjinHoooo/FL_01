@@ -73,7 +73,6 @@
 		ResultSet FSS_rs = FSS_Pstmt.executeQuery();
 		if(!FSS_rs.next()){
 			// WorkFlow에 데이터가 없는 경우
-			System.out.println("테스트010101010101010101010101");
 			SearchHead = "SELECT * FROM fldochead WHERE DocNum = '"+ SlipCode +"'";
 			SH_Pstmt = conn.prepareStatement(SearchHead);
 			SH_rs =SH_Pstmt.executeQuery();
@@ -86,6 +85,7 @@
 						+ "`DocInputDepart`,"
 						+ "`InputPerson`,"
 						+ "`DocDescrip`,"
+						+ "`SubmitTime`,"
 						+ "`WFStatus`,"
 						+ "`WFStep`,"
 						+ "`ElapsedHour`,"
@@ -141,6 +141,13 @@
 				
 				DWFH_In_Pstmt.executeUpdate();
 			}
+			FSS_rs.beforeFirst();
+			/* 
+			workflow에 데이터가 2개 있음에도 불구하고 if(!FSS_rs.next()) 때문에 workflow에에 저장된 첫번째 데이터를 읽어서 
+			2개의 데이터 중 2번째 데이터만 입력되는 문제가 발생
+			그래서 ResultSet 포인터를 처음으로 재설정하기 위해 FSS_rs.beforeFirst();를 추가
+			*/
+			
 			int index = 1;
 			while(FSS_rs.next()){
 				String DWFL_Sql = "INSERT INTO docworkflowline ("

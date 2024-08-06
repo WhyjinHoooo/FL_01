@@ -61,7 +61,7 @@ $(document).ready(function(){
 		event.preventDefault();
 		
 		$.ajax({
-			url: '${contextPath}/UnapprovalSlip/InfoSearch/FacetSearch.jsp',
+			url: '${contextPath}/UnapprovalSlip/InfoSearch/FacetSearch.jsp', // Facet: 조건검색
 			type: 'POST',
 			data: JSON.stringify(OptionList),
 			contentType: 'application/json; charset=utf-8',
@@ -168,7 +168,7 @@ function InfoSearch(event, inputFieldId){
 						<tr>
 							<th>전표입력 BA : </th>
 							<td>
-								<a><input type="text" class="UserBizArea Option" name="UserBizArea" id="UserBizArea" readonly></a>
+								<a><input type="text" class="UserBizArea Option" name="UserBizArea" id="UserBizArea" placeholder="선택" readonly></a>
 								<input type="text" class="UserBizArea_Des" name="UserBizArea_Des" id="UserBizArea_Des" hidden>
 								<button class="BASearchBtn" id="BASearchBtn" onclick="InfoSearch(event, 'BA_Btn')";>&#8681;</button>
 							</td>
@@ -176,7 +176,7 @@ function InfoSearch(event, inputFieldId){
 						<tr>
 							<th>전표입력부서 : </th>
 							<td>
-								<a><input class="UserDepartCd Option" name="UserDepartCd" id="UserDepartCd" readonly></a>
+								<a><input class="UserDepartCd Option" name="UserDepartCd" id="UserDepartCd" placeholder="선택" readonly></a>
 								<input type="text" class="UserDepartCd_Des" name="UserDepartCd_Des" id="UserDepartCd_Des" hidden>
 								<button class="COCTSearchBtn" id="COCTSearchBtn" onclick="InfoSearch(event, 'COCT_Btn')">&#8681;</button>
 							</td>
@@ -184,7 +184,7 @@ function InfoSearch(event, inputFieldId){
 						<tr>
 							<th>전표 입력자 : </th>
 							<td>
-								<input type="text" class="InputerId Option" name="InputerId" id="InputerId" readonly>
+								<input type="text" class="InputerId Option" name="InputerId" id="InputerId" placeholder="선택" readonly>
 								<input type="text" class="Inputer_Name" name="Inputer_Name" id="Inputer_Name" hidden>
 								<button class="InputerSearchBtn" id="InputerSearchBtn" name="InputerSearchBtn" onclick="InfoSearch(event, 'Inputer_Btn')">&#8681;</button>
 							</td>
@@ -192,7 +192,7 @@ function InfoSearch(event, inputFieldId){
 						<tr>
 							<th>결재 합의자 : </th>
 							<td>
-								<input type="text" class="ApproverId Option" name="ApproverId" id="ApproverId" readonly>
+								<input type="text" class="ApproverId Option" name="ApproverId" id="ApproverId" placeholder="선택" readonly>
 								<input type="text" class="Approver_Name" name="Approver_Name" id="Approver_Name" hidden>
 								<button class="ApproverSearchBtn" id="ApproverSearchBtn" name="ApproverSearchBtn" onclick="InfoSearch(event, 'Approver_Btn')">&#8681;</button>
 							</td>
@@ -213,7 +213,6 @@ function InfoSearch(event, inputFieldId){
 							<th>미승인전표 상태 : </th>
 							<td>
 								<select class="UnSlipState Option" id="UnSlipState" name="UnSlipState">
-									<option>선택</option>
 									<option value="A">A 미상신</option>
 									<option value="B">B 결재 진행중</option>
 									<option value="C">C 승인 완료</option>
@@ -226,7 +225,7 @@ function InfoSearch(event, inputFieldId){
 				<button class="Inquiry">조회</button>
 			</div>
 			<div class="UntSituation">
-				<div class="Area_title">미승인전표 현황</div>
+				<div class="Area_title">전표 현황</div>
 				<div class="ButtonArea">				
 					<button>수정</button>
 					<button>결재경로</button>
