@@ -138,9 +138,42 @@
 				DWFH_In_Pstmt.setInt(9, 0);
 				DWFH_In_Pstmt.setString(10, InputerComCode);
 				DWFH_In_Pstmt.setString(11, InputerComCode + SlipCode);
-				
 				DWFH_In_Pstmt.executeUpdate();
 			}
+			
+			String UserInfo_Sql = "SELECT * FROM emp WHERE EMPLOYEE_ID = '"+ Inputer +"'";
+			PreparedStatement UserInfo_Pstmt = conn.prepareStatement(UserInfo_Sql);
+			ResultSet UserInfo_Rs = UserInfo_Pstmt.executeQuery();
+			if(UserInfo_Rs.next()){
+				String Writer_Sql = "INSERT INTO docworkflowline ("
+                        + "`DocNum`,"
+                        + "`WFStep`,"
+                        + "`WFType`,"
+                        + "`ResponsePerson`,"
+                        + "`RespPersonName`,"
+                        + "`RespOffice`,"
+                        + "`RepsDepart`,"
+                        + "`WFResult`,"
+                        + "`DocReviewOpinion`,"
+                        + "`ComCode`,"
+                        + "`Index`"
+                        + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				PreparedStatement Writer_Pstmt = conn.prepareStatement(Writer_Sql);
+				Writer_Pstmt.setString(1, SlipCode);
+				Writer_Pstmt.setString(2, "0");
+				Writer_Pstmt.setString(3, "NS"); // Not 상신
+				Writer_Pstmt.setString(4, Inputer);
+				Writer_Pstmt.setString(5, UserInfo_Rs.getString("EMPLOYEE_NAME"));
+				Writer_Pstmt.setString(6, UserInfo_Rs.getString("POSITION"));
+				Writer_Pstmt.setString(7, UserInfo_Rs.getString("COCT"));
+				Writer_Pstmt.setString(8, "0");
+				Writer_Pstmt.setString(9, "품의 상신 안됌");
+				Writer_Pstmt.setString(10, InputerComCode);
+				Writer_Pstmt.setString(11, InputerComCode + SlipCode + "0");
+				
+				Writer_Pstmt.executeUpdate();
+			}
+			
 			FSS_rs.beforeFirst();
 			/* 
 			workflow에 데이터가 2개 있음에도 불구하고 if(!FSS_rs.next()) 때문에 workflow에에 저장된 첫번째 데이터를 읽어서 
@@ -164,7 +197,7 @@
                         + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement DWFL_In_Pstmt = conn.prepareStatement(DWFL_Sql);
                 DWFL_In_Pstmt.setString(1, SlipCode);
-                DWFL_In_Pstmt.setString(2, FSS_rs.getString("WFStep"));
+                DWFL_In_Pstmt.setInt(2, index);
                 DWFL_In_Pstmt.setString(3, FSS_rs.getString("WFType"));
                 DWFL_In_Pstmt.setString(4, FSS_rs.getString("ResponsePerson"));
                 DWFL_In_Pstmt.setString(5, FSS_rs.getString("RespPersonName"));

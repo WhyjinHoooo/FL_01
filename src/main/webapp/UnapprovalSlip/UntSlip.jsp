@@ -27,7 +27,7 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-	var OP_ComCode = $('.UserComCode').val(); // 검색 조건 중 회사코드
+/* 	var OP_ComCode = $('.UserComCode').val(); // 검색 조건 중 회사코드
 	var OP_BA = $('.UserBizArea').val(); // 검색 조건 중 BA
 	var OP_COCT = $('.UserDepartCd').val(); // 검색 조건 중 COCT
 	var OP_Inputer = $('.InputerId').val(); // 검색 조건 중 전표 입력자
@@ -35,19 +35,20 @@ $(document).ready(function(){
 	var OP_TFrom = $('.TimeStampF').val(); // 검색 조건 중 기표일자 From
 	var OP_TEnd = $('.TimeStampE').val(); // 검색 조건 중 기표일자 End
 	var OP_SlipState = $('.UnSlipState').val(); // 검색 조건 중 전표 상태
-	var OP_SlipType = $('.SlipType').val(); // 검색 조건 중 전요유형
+	var OP_SlipType = $('.SlipType').val(); // 검색 조건 중 전요유형 */
+	var OP_table = $('.UnAppSlipTable');
 	
 	var FromDate = new Date("<%=formattedToday%>");
 	$(".TimeStampF").val(formatDate(FromDate));
 	$(".TimeStampE").val(formatDate(FromDate));
 	
-	var OptionList = {};
+	/* var OptionList = {};
 	$('.Option').each(function(){
 		var name = $(this).attr("name");
 		var value = $(this).val();
 		OptionList[name] = value;
 	})
-	console.log("검색할 조건들 : ", OptionList);
+	console.log("검색할 조건들 : ", OptionList); */
 
 	function formatDate(date) {
 	    var dd = String(date.getDate()).padStart(2, '0');
@@ -60,6 +61,30 @@ $(document).ready(function(){
 	function SlipSearch(event){
 		event.preventDefault();
 		
+		var OP_ComCode = $('.UserComCode').val(); // 검색 조건 중 회사코드
+		var OP_BA = $('.UserBizArea').val(); // 검색 조건 중 BA
+		var OP_COCT = $('.UserDepartCd').val(); // 검색 조건 중 COCT
+		var OP_Inputer = $('.InputerId').val(); // 검색 조건 중 전표 입력자
+		var OP_Approver = $('.ApproverId').val(); // 검색 조건 중 결재합의자
+		var OP_TFrom = $('.TimeStampF').val(); // 검색 조건 중 기표일자 From
+		var OP_TEnd = $('.TimeStampE').val(); // 검색 조건 중 기표일자 End
+		var OP_SlipState = $('.UnSlipState').val(); // 검색 조건 중 전표 상태
+		var OP_SlipType = $('.SlipType').val(); // 검색 조건 중 전요유형
+		
+		
+		
+		var FromDate = new Date("<%=formattedToday%>");
+		$(".TimeStampF").val(formatDate(FromDate));
+		$(".TimeStampE").val(formatDate(FromDate));
+		
+		var OptionList = {};
+		$('.Option').each(function(){
+			var name = $(this).attr("name");
+			var value = $(this).val();
+			OptionList[name] = value;
+		})
+		console.log("검색할 조건들01 : ", OptionList);
+		
 		$.ajax({
 			url: '${contextPath}/UnapprovalSlip/InfoSearch/FacetSearch.jsp', // Facet: 조건검색
 			type: 'POST',
@@ -67,8 +92,35 @@ $(document).ready(function(){
 			contentType: 'application/json; charset=utf-8',
 			dataType: 'json',
 			async: false,
-			success: function(data){
-				
+			success: function(response){
+				console.log(response);
+				if(response.length > 0){
+					//var data = JSON.parse(response);
+					OP_table.find('tr:gt(0)').remove();
+					for(var i = 0 ; i < response.length; i++){
+						var row = '<tr>' +
+						'<td>' + (i + 1) + '</td>' + // 항번
+						'<td><input type="checkbox" class="checkboxBtn"></td>' + //체크 박스
+						'<td class="SubmitDate">' + response[i].Date + '</td>' + // 기표일자
+						'<td class="SubmitDate">' + response[i].DocCode + '</td>' + // 전표번호
+						'<td class="SubmitDate">' + response[i].Script + '</td>' + // 적요
+						'<td class="SubmitDate">' + response[i].BA + '</td>' + // BA
+						'<td class="SubmitDate">' + response[i].CoCt + '</td>' + // COCT
+						'<td class="SubmitDate">' + response[i].Inputer + '</td>' + // 입력자
+						'<td class="SubmitDate">' + response[i].DSum + '</td>' + // 차변 합계
+						'<td class="SubmitDate">' + response[i].CSum + '</td>' + // 대변 합계
+						'<td class="SubmitDate">' + response[i].Status + '</td>' + // 전표상태
+						'<td class="SubmitDate">' + response[i].Step + '</td>' + // 결재단계
+						'<td class="SubmitDate">' + response[i].Approver + '</td>' + // 결재/합의자
+						'<td class="SubmitDate">' + response[i].Time + '</td>' + // 경과일수
+						'<td class="SubmitDate">' + response[i].Type + '</td>' + // 전표유형
+						'</tr>';
+						OP_table.append(row);
+					};
+				}
+			},
+			error: function(){
+		          alert("에러 발생");
 			}
 		});
 	}
@@ -163,6 +215,7 @@ function InfoSearch(event, inputFieldId){
 							<th>법인(ComCode) : </th>
 							<td>
 								<input type="text" class="UserComCode Option" name="UserComCode" id="UserComCode" value="<%=User_Depart%>" readonly>
+								<checkbox></checkbox>
 							</td>
 						</tr>
 						<tr>
@@ -225,7 +278,7 @@ function InfoSearch(event, inputFieldId){
 				<button class="Inquiry">조회</button>
 			</div>
 			<div class="UntSituation">
-				<div class="Area_title">전표 현황</div>
+				<div class="Area_title">미승인전표 현황</div>
 				<div class="ButtonArea">				
 					<button>수정</button>
 					<button>결재경로</button>
