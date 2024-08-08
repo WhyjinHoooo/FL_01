@@ -72,10 +72,12 @@ $(document).ready(function(){
 		var OP_SlipType = $('.SlipType').val(); // 검색 조건 중 전요유형
 		
 		
-		
-		var FromDate = new Date("<%=formattedToday%>");
-		$(".TimeStampF").val(formatDate(FromDate));
-		$(".TimeStampE").val(formatDate(FromDate));
+		const Date_From = new Date(OP_TFrom); // 검색 조건 중 기표일자 From -> 날짜의 형식으로 변환
+		const Date_End = new Date(OP_TEnd); // 검색 조건 중 기표일자 End -> 날짜의 형식으로 변환
+		if(Date_From.getTime() > Date_End.getTime()){
+			alert("날짜를 정확하게 입력해주세요.");
+			return false;
+		};
 		
 		var OptionList = {};
 		$('.Option').each(function(){
@@ -84,6 +86,7 @@ $(document).ready(function(){
 			OptionList[name] = value;
 		})
 		console.log("검색할 조건들01 : ", OptionList);
+		
 		
 		$.ajax({
 			url: '${contextPath}/UnapprovalSlip/InfoSearch/FacetSearch.jsp', // Facet: 조건검색
@@ -99,7 +102,7 @@ $(document).ready(function(){
 					OP_table.find('tr:gt(0)').remove();
 					for(var i = 0 ; i < response.length; i++){
 						var row = '<tr>' +
-						'<td>' + (i + 1) + '</td>' + // 항번
+						'<td>' + (i+1) + '</td>' + // 항번
 						'<td><input type="checkbox" class="checkboxBtn"></td>' + //체크 박스
 						'<td class="SubmitDate">' + response[i].Date + '</td>' + // 기표일자
 						'<td class="SubmitDate">' + response[i].DocCode + '</td>' + // 전표번호
@@ -117,12 +120,15 @@ $(document).ready(function(){
 						'</tr>';
 						OP_table.append(row);
 					};
+				} else{
+					alert("해당 조건을 만족하는 미승인 전표가 없습니다.");
 				}
 			},
 			error: function(){
 		          alert("에러 발생");
 			}
 		});
+		
 	}
 	 $('.Inquiry').on('click', SlipSearch);
 	/* 

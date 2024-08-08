@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="org.json.simple.JSONArray"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDateTime"%>
@@ -35,6 +36,7 @@
 		
 		String OP_From = (String)OptionData.get("TimeStamp From"); // 오늘 날짜
 		String OP_End = (String)OptionData.get("TimeStamp To"); // 오늘 날짜
+		
 		String OP_State = (String)OptionData.get("UnSlipState"); // A
 		
 		String sql = null;
@@ -45,11 +47,14 @@
 		int C_Sum = 0;
 		int D_Sum = 0;
 		
+		String SqlVer01 = null;
+		String DocSearch_Sql = null;
+		
 		JSONArray jsonArray = new JSONArray();
 		 if (OP_Approver != null && !OP_Approver.isEmpty()) {
 			 // 결재합의자가 있는 경우
-			 System.out.println("결재합의자01");
-			String DocSearch_Sql = "SELECT * FROM docworkflowline WHERE ResponsePerson = '" + OP_Approver + "'";
+			System.out.println("결재합의자01");
+			DocSearch_Sql = "SELECT * FROM docworkflowline WHERE ResponsePerson = '" + OP_Approver + "'";
 			PreparedStatement DocSearch_Pstmt = conn.prepareStatement(DocSearch_Sql);
 			ResultSet DocSearch_Rs = DocSearch_Pstmt.executeQuery();
 			while(DocSearch_Rs.next()){
@@ -57,23 +62,48 @@
 				JSONObject josnobject = new JSONObject();
 				DocNum = DocSearch_Rs.getString("DocNum");
 				// 어떤 결재자가 등록된 전표 번호를 가져온다.
+				if(!OP_From.equals(OP_End)){
+					System.out.println("결재합의자02 case01");
+					System.out.println("결재합의자02 case01 : " + DocNum);
+					SqlVer01 = "SELECT " +
+						      "    DATE(SubmitTime) AS DateOnly, " +
+						      "    DocNum, " +
+						      "    BizArea, " +
+						      "    DocInputDepart, " +
+						      "    InputPerson, " +
+						      "    DocDescrip, " +
+						      "    WFStatus, " +
+						      "    WFStep, " +
+						      "    ElapsedHour, " +
+						      "    DocType " +
+						      "FROM " +
+						      "    docworkflowhead " +
+						      "WHERE " +
+						      "    DocNum = '" + DocNum + "' AND " +
+						      "    DATE(SubmitTime) > '" + OP_From + "' AND " +
+						      "    DATE(SubmitTime) < '" + OP_End + "' AND " +
+						      "    WFStatus = '" + OP_State + "'";
+				}else{
+					System.out.println("결재합의자02 case02");
+					SqlVer01 = "SELECT " +
+						      "    DATE(SubmitTime) AS DateOnly, " +
+						      "    DocNum, " +
+						      "    BizArea, " +
+						      "    DocInputDepart, " +
+						      "    InputPerson, " +
+						      "    DocDescrip, " +
+						      "    WFStatus, " +
+						      "    WFStep, " +
+						      "    ElapsedHour, " +
+						      "    DocType " +
+						      "FROM " +
+						      "    docworkflowhead " +
+						      "WHERE " +
+						      "    DocNum = '" + DocNum + "' AND " +
+						      "    DATE(SubmitTime) = '" + OP_From + "' AND " +
+						      "    WFStatus = '" + OP_State + "'";
+				};
 				
-				String SqlVer01 = "SELECT " +
-					      "    DATE(SubmitTime) AS DateOnly, " +
-					      "    DocNum, " +
-					      "    BizArea, " +
-					      "    DocInputDepart, " +
-					      "    InputPerson, " +
-					      "    DocDescrip, " +
-					      "    WFStatus, " +
-					      "    WFStep, " +
-					      "    ElapsedHour, " +
-					      "    DocType " +
-					      "FROM " +
-					      "    docworkflowhead " +
-					      "WHERE " +
-					      "    DocNum = '" + DocNum + "' " +
-					      "    AND WFStatus = '" + OP_State + "'";
 				// 그 전표 번호를 갖는 전표의 상신 일자, 전표번호, 발생회계단위, 입력부서, 입력자, 적요, 전표상태, 결재단계, 경과일수, 전표유형을 가져온다.
 				PreparedStatement PstmtVer01 = conn.prepareStatement(SqlVer01);
 				ResultSet RsVer01 = PstmtVer01.executeQuery();
@@ -115,21 +145,42 @@
 		}else if(OP_Inputer != null && !OP_Inputer.isEmpty()){
 			// 전표입력자가 있는 경우
 			System.out.println("전표입력자01");
-			String DocSearch_Sql = "SELECT " +
-				      "    DATE(SubmitTime) AS DateOnly, " +
-				      "    DocNum, " +
-				      "    BizArea, " +
-				      "    DocInputDepart, " +
-				      "    InputPerson, " +
-				      "    DocDescrip, " +
-				      "    WFStatus, " +
-				      "    WFStep, " +
-				      "    ElapsedHour, " +
-				      "    DocType " +
-				      "FROM " +
-				      "    docworkflowhead " +
-				      "WHERE " +
-				      "    InputPerson = '"+ OP_Inputer + "'";
+			if(!OP_From.equals(OP_End)){
+				DocSearch_Sql = "SELECT " +
+					      "    DATE(SubmitTime) AS DateOnly, " +
+					      "    DocNum, " +
+					      "    BizArea, " +
+					      "    DocInputDepart, " +
+					      "    InputPerson, " +
+					      "    DocDescrip, " +
+					      "    WFStatus, " +
+					      "    WFStep, " +
+					      "    ElapsedHour, " +
+					      "    DocType " +
+					      "FROM " +
+					      "    docworkflowhead " +
+					      "WHERE " +
+					      "    InputPerson = '"+ OP_Inputer + "' AND " +
+						  "    DATE(SubmitTime) > '" + OP_From + "' AND " +
+						  "    DATE(SubmitTime) < '" + OP_End + "'";
+			}else{
+				DocSearch_Sql = "SELECT " +
+					      "    DATE(SubmitTime) AS DateOnly, " +
+					      "    DocNum, " +
+					      "    BizArea, " +
+					      "    DocInputDepart, " +
+					      "    InputPerson, " +
+					      "    DocDescrip, " +
+					      "    WFStatus, " +
+					      "    WFStep, " +
+					      "    ElapsedHour, " +
+					      "    DocType " +
+					      "FROM " +
+					      "    docworkflowhead " +
+					      "WHERE " +
+					      "    InputPerson = '"+ OP_Inputer + "' AND " +
+						  "    DATE(SubmitTime) = '" + OP_From + "'";
+			};
 			PreparedStatement DocSearch_Pstmt = conn.prepareStatement(DocSearch_Sql);
 			ResultSet DocSearch_Rs = DocSearch_Pstmt.executeQuery();
 			if(DocSearch_Rs.next()){
@@ -176,30 +227,53 @@
 			}
 		} else if(OP_COCT != null && !OP_COCT.isEmpty()){
 			// 전표입력부서가 입력된 경우
-			String DocSearch_Sql = "SELECT " +
-				      "    DATE(SubmitTime) AS DateOnly, " +
-				      "    DocNum, " +
-				      "    BizArea, " +
-				      "    DocInputDepart, " +
-				      "    InputPerson, " +
-				      "    DocDescrip, " +
-				      "    WFStatus, " +
-				      "    WFStep, " +
-				      "    ElapsedHour, " +
-				      "    DocType " +
-				      "FROM " +
-				      "    docworkflowhead " +
-				      "WHERE " +
-				      "    DocInputDepart = '"+ OP_COCT + "'";
+			System.out.println("전표입력부서01");
+			if(!OP_From.equals(OP_End)){
+				DocSearch_Sql = "SELECT " +
+					      "    DATE(SubmitTime) AS DateOnly, " +
+					      "    DocNum, " +
+					      "    BizArea, " +
+					      "    DocInputDepart, " +
+					      "    InputPerson, " +
+					      "    DocDescrip, " +
+					      "    WFStatus, " +
+					      "    WFStep, " +
+					      "    ElapsedHour, " +
+					      "    DocType " +
+					      "FROM " +
+					      "    docworkflowhead " +
+					      "WHERE " +
+					      "    DocInputDepart = '"+ OP_COCT + "' AND " + 
+						  "    DATE(SubmitTime) > '" + OP_From + "' AND " +
+						  "    DATE(SubmitTime) < '" + OP_End + "'";
+			}else{
+				DocSearch_Sql = "SELECT " +
+					      "    DATE(SubmitTime) AS DateOnly, " +
+					      "    DocNum, " +
+					      "    BizArea, " +
+					      "    DocInputDepart, " +
+					      "    InputPerson, " +
+					      "    DocDescrip, " +
+					      "    WFStatus, " +
+					      "    WFStep, " +
+					      "    ElapsedHour, " +
+					      "    DocType " +
+					      "FROM " +
+					      "    docworkflowhead " +
+					      "WHERE " +
+					      "    DocInputDepart = '"+ OP_COCT + "' AND " +
+						  "    DATE(SubmitTime) = '" + OP_From + "'";
+			};
 			PreparedStatement DocSearch_Pstmt = conn.prepareStatement(DocSearch_Sql);
 			ResultSet DocSearch_Rs = DocSearch_Pstmt.executeQuery();
 			if(DocSearch_Rs.next()){
 				DocNum = DocSearch_Rs.getString("DocNum");
-			}
+			};
 			
 			DocSearch_Rs.beforeFirst();
 			
 			while(DocSearch_Rs.next()){
+				System.out.println("전표입력부서02");
 				JSONObject josnobject = new JSONObject();
 				
 				if(DocSearch_Rs.getString("DateOnly") != null && !DocSearch_Rs.getString("DateOnly").isEmpty()){
@@ -236,21 +310,43 @@
 			}
 		}else if(OP_BA != null && !OP_BA.isEmpty()){
 			// 전표입력 BA가 입력된 경우
-			String DocSearch_Sql = "SELECT " +
-				      "    DATE(SubmitTime) AS DateOnly, " +
-				      "    DocNum, " +
-				      "    BizArea, " +
-				      "    DocInputDepart, " +
-				      "    InputPerson, " +
-				      "    DocDescrip, " +
-				      "    WFStatus, " +
-				      "    WFStep, " +
-				      "    ElapsedHour, " +
-				      "    DocType " +
-				      "FROM " +
-				      "    docworkflowhead " +
-				      "WHERE " +
-				      "    BizArea = '"+ OP_BA + "'";
+			System.out.println("전표입력BA01");
+			if(!OP_From.equals(OP_End)){
+				DocSearch_Sql = "SELECT " +
+					      "    DATE(SubmitTime) AS DateOnly, " +
+					      "    DocNum, " +
+					      "    BizArea, " +
+					      "    DocInputDepart, " +
+					      "    InputPerson, " +
+					      "    DocDescrip, " +
+					      "    WFStatus, " +
+					      "    WFStep, " +
+					      "    ElapsedHour, " +
+					      "    DocType " +
+					      "FROM " +
+					      "    docworkflowhead " +
+					      "WHERE " +
+					      "    BizArea = '"+ OP_BA + "' AND " + 
+						  "    DATE(SubmitTime) > '" + OP_From + "' AND " +
+						  "    DATE(SubmitTime) < '" + OP_End + "'";
+			}else{
+				DocSearch_Sql = "SELECT " +
+					      "    DATE(SubmitTime) AS DateOnly, " +
+					      "    DocNum, " +
+					      "    BizArea, " +
+					      "    DocInputDepart, " +
+					      "    InputPerson, " +
+					      "    DocDescrip, " +
+					      "    WFStatus, " +
+					      "    WFStep, " +
+					      "    ElapsedHour, " +
+					      "    DocType " +
+					      "FROM " +
+					      "    docworkflowhead " +
+					      "WHERE " +
+					      "    BizArea = '"+ OP_BA + "' AND " +
+						  "    DATE(SubmitTime) = '" + OP_From + "'";
+			};
 			PreparedStatement DocSearch_Pstmt = conn.prepareStatement(DocSearch_Sql);
 			ResultSet DocSearch_Rs = DocSearch_Pstmt.executeQuery();
 			if(DocSearch_Rs.next()){
@@ -260,6 +356,7 @@
 			DocSearch_Rs.beforeFirst();
 			
 			while(DocSearch_Rs.next()){
+				System.out.println("전표입력BA02");
 				JSONObject josnobject = new JSONObject();
 				
 				if(DocSearch_Rs.getString("DateOnly") != null && !DocSearch_Rs.getString("DateOnly").isEmpty()){
@@ -278,6 +375,92 @@
 				josnobject.put("Time", DocSearch_Rs.getInt("ElapsedHour")); // 경과일수
 				josnobject.put("Type", DocSearch_Rs.getString("DocType")); // 전표유형	
 				jsonArray.add(josnobject);
+				
+				String SqlVer02 = "SELECT * FROM fldocline WHERE DocNum = '"+ DocNum +"'";
+				PreparedStatement PstmtVer02 = conn.prepareStatement(SqlVer02);
+				ResultSet RsVer02 = PstmtVer02.executeQuery();
+				while(RsVer02.next()){
+					if(RsVer02.getString("DebCre").equals("D")){
+						D_Sum += RsVer02.getInt("TAmount"); // 차변의 합계
+					} else{
+						C_Sum += RsVer02.getInt("TAmount"); // 대변의 합계
+					}
+				}
+				josnobject.put("CSum", C_Sum); // 대변 합계
+				josnobject.put("DSum", D_Sum); // 차변 합계
+				
+				jsonArray.add(josnobject);
+			}
+		}else if(OP_ComCode != null && !OP_ComCode.isEmpty()){
+			// 법인이 입력된 경우
+			System.out.println("법인01");
+			if(!OP_From.equals(OP_End)){
+				System.out.println("case01");
+				DocSearch_Sql = "SELECT " +
+					      "    DATE(SubmitTime) AS DateOnly, " +
+					      "    DocNum, " +
+					      "    BizArea, " +
+					      "    DocInputDepart, " +
+					      "    InputPerson, " +
+					      "    DocDescrip, " +
+					      "    WFStatus, " +
+					      "    WFStep, " +
+					      "    ElapsedHour, " +
+					      "    DocType " +
+					      "FROM " +
+					      "    docworkflowhead " +
+					      "WHERE " +
+					      "    ComCode = '"+ OP_ComCode + "' AND " + 
+						  "    DATE(SubmitTime) > '" + OP_From + "' AND " +
+						  "    DATE(SubmitTime) < '" + OP_End + "'";
+			}else{
+				System.out.println("case02");
+				System.out.println("OP_From : " + OP_From + ", OP_End : " + OP_End);
+				DocSearch_Sql = "SELECT " +
+					      "    DATE(SubmitTime) AS DateOnly, " +
+					      "    DocNum, " +
+					      "    BizArea, " +
+					      "    DocInputDepart, " +
+					      "    InputPerson, " +
+					      "    DocDescrip, " +
+					      "    WFStatus, " +
+					      "    WFStep, " +
+					      "    ElapsedHour, " +
+					      "    DocType " +
+					      "FROM " +
+					      "    docworkflowhead " +
+					      "WHERE " +
+					      "    ComCode = '"+ OP_ComCode + "' AND" +
+						  "    DATE(SubmitTime) = '" + OP_From + "'";
+			};
+			PreparedStatement DocSearch_Pstmt = conn.prepareStatement(DocSearch_Sql);
+			ResultSet DocSearch_Rs = DocSearch_Pstmt.executeQuery();
+			if(DocSearch_Rs.next()){
+				DocNum = DocSearch_Rs.getString("DocNum");
+			}
+			
+			DocSearch_Rs.beforeFirst();
+			
+			while(DocSearch_Rs.next()){
+				System.out.println("법인02");
+				JSONObject josnobject = new JSONObject();
+				
+				if(DocSearch_Rs.getString("DateOnly") != null && !DocSearch_Rs.getString("DateOnly").isEmpty()){
+					josnobject.put("Date", DocSearch_Rs.getString("DateOnly")); // 기표일자
+				} else{
+					josnobject.put("Date", "미상신 전표"); // 기표일자	
+				}
+				josnobject.put("DocCode", DocSearch_Rs.getString("DocNum")); // 전표번호
+				josnobject.put("Script", DocSearch_Rs.getString("DocDescrip")); // 적요
+				josnobject.put("BA", DocSearch_Rs.getString("BizArea")); // 전표입력 BA
+				josnobject.put("CoCt", DocSearch_Rs.getString("DocInputDepart")); // 입력부서
+				josnobject.put("Inputer", DocSearch_Rs.getString("InputPerson")); // 입력자
+				josnobject.put("Status", DocSearch_Rs.getString("WFStatus")); // 전표상태
+				josnobject.put("Step", DocSearch_Rs.getString("WFStep")); // 결재단계
+				josnobject.put("Approver", "없음"); // 결재 또는 합의자
+				josnobject.put("Time", DocSearch_Rs.getInt("ElapsedHour")); // 경과일수
+				josnobject.put("Type", DocSearch_Rs.getString("DocType")); // 전표유형	
+				//jsonArray.add(josnobject);
 				
 				String SqlVer02 = "SELECT * FROM fldocline WHERE DocNum = '"+ DocNum +"'";
 				PreparedStatement PstmtVer02 = conn.prepareStatement(SqlVer02);
