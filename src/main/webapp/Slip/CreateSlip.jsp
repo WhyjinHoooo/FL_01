@@ -519,6 +519,9 @@ $(document).ready(function(){
 		var InPuterCom = $('.UserDepart').val();
 		var InPuterBA = $('.UserBA').val();
 		var InPuterCoCt = $('.UserCoCT').val();
+		var EntryDate = $('.ConsumeDate').val();
+		
+		console.log("기표일자 : " + EntryDate);
 		
 		if(TotalCre !== TotalDe){
 			alert("합계가 맞지 않습니다.");
@@ -530,7 +533,7 @@ $(document).ready(function(){
 			$.ajax({
 		    	url : 'CreateSlip_Ok.jsp',
 		    	type: 'POST',
-		    	data: {SlipCode : SlipDocCode, User : InPuter, ComCode : InPuterCom, BA : InPuterBA, COCT : InPuterCoCt},
+		    	data: {SlipCode : SlipDocCode, User : InPuter, ComCode : InPuterCom, BA : InPuterBA, COCT : InPuterCoCt, EntryDay : EntryDate},
 		    	success: function(response) {
 		    		location.reload();
 	            },
@@ -545,7 +548,7 @@ $(document).ready(function(){
 				window.location = "${contextPath}/UnapprovalSlip/UntSlip.jsp";
 			}
 			return true;
-		}
+		} 
 	}
 
 	function PayRequest(event, inputFieldId){
@@ -615,7 +618,7 @@ $(document).ready(function(){
 			alert("합계가 맞지 않습니다.");
 			return false;
 		} else{
-			if(inputFieldId === "SelPayPath"){
+			if(inputFieldId === "SelPayPath"){ // 결재경로
 		    	window.open(
 		                "${contextPath}/Slip/Info/DecPayPath.jsp?" + queryString, 
 		                "테스트", 
@@ -624,7 +627,7 @@ $(document).ready(function(){
 		     } else if(!briefsValid){
 		    	 alert("적요를 입력해주세요.");
 		    	 return false;
-		     } else if(inputFieldId === "ApprovalPage" && briefsValid){
+		     } else if(inputFieldId === "ApprovalPage" && briefsValid){ // 품의 상신
 		    	 //1. 입력하려는 데이터의 결제경로가 등록되어 있는지 확인
 		    	    $.ajax({
 		    	        url: '${contextPath}/Slip/Info/WFCheck.jsp',
@@ -761,7 +764,7 @@ $(document).ready(function(){
 						<tr>
 							<th>기표일자 : </th>
 								<td>
-									<input type="date" class="ConsumeDate child" id="Date" name="Date">
+									<input type="date" class="ConsumeDate child Head" id="Date" name="Date">
 								</td>
 							
 							<td class="EmptyCell_23"><!-- 빈 공간 크기 23% --></td>

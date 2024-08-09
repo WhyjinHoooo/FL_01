@@ -41,10 +41,10 @@
 	String briefs = null;
 	String TableKeyIndex = null;
 	String WriterName = (String)session.getAttribute("name");
+	String EntryDate = null;
 	
 	try{
 		// '품의상신' 버튼을 클릭했을 때, 임시저장테이블에 있던 데이터 저장 기능 추가
-		// 
 		String SearchHead = "SELECT * FROM tmpaccfldochead";
 		PreparedStatement SH_Pstmt = conn.prepareStatement(SearchHead);
 		ResultSet SH_rs =SH_Pstmt.executeQuery();
@@ -98,6 +98,7 @@
 			UserComCode = (String)ApprovalData.get("UserDepart");
 			briefs = (String)ApprovalData.get("briefs");
 			TableKeyIndex = UserComCode + SlipCode;
+			EntryDate = (String)ApprovalData.get("Date");
 			
 			
 			System.out.println(SlipCode);
@@ -107,6 +108,7 @@
 			System.out.println(USerCoCt);
 			System.out.println(UserComCode);
 			System.out.println(briefs);
+			System.out.println(EntryDate);
 			/* 
 			1st Success
 			FIG20240718S0001 : 전펴번호
@@ -141,6 +143,7 @@
 				String DWFH_In_Sql = "INSERT INTO docworkflowhead ("
 					+ "`DocNum`,"
 					+ "`DocType`,"
+					+ "`postingDay`,"
 					+ "`BizArea`,"
 					+ "`DocInputDepart`,"
 					+ "`InputPerson`,"
@@ -152,21 +155,22 @@
 					+ "`ElapsedHour`,"
 					+ "`ComCode`,"
 					+ "`TableKeyIndex`"
-					+ ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					+ ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 				PreparedStatement DWFH_In_Pstmt = conn.prepareStatement(DWFH_In_Sql);
 				DWFH_In_Pstmt.setString(1, SlipCode);
 				DWFH_In_Pstmt.setString(2, SlipType);
-				DWFH_In_Pstmt.setString(3, UserBizArea);
-				DWFH_In_Pstmt.setString(4, USerCoCt);
-				DWFH_In_Pstmt.setString(5, UserId);
-				DWFH_In_Pstmt.setString(6, briefs);
-				DWFH_In_Pstmt.setString(7, todayDate);
-				DWFH_In_Pstmt.setNull(8, java.sql.Types.TIMESTAMP);
-				DWFH_In_Pstmt.setString(9, "B");
-				DWFH_In_Pstmt.setInt(10, 1);
-				DWFH_In_Pstmt.setInt(11, 0);
-				DWFH_In_Pstmt.setString(12, UserComCode);
-				DWFH_In_Pstmt.setString(13, TableKeyIndex);
+				DWFH_In_Pstmt.setString(3, EntryDate);
+				DWFH_In_Pstmt.setString(4, UserBizArea);
+				DWFH_In_Pstmt.setString(5, USerCoCt);
+				DWFH_In_Pstmt.setString(6, UserId);
+				DWFH_In_Pstmt.setString(7, briefs);
+				DWFH_In_Pstmt.setString(8, todayDate);
+				DWFH_In_Pstmt.setNull(9, java.sql.Types.TIMESTAMP);
+				DWFH_In_Pstmt.setString(10, "B");
+				DWFH_In_Pstmt.setInt(11, 1);
+				DWFH_In_Pstmt.setInt(12, 0);
+				DWFH_In_Pstmt.setString(13, UserComCode);
+				DWFH_In_Pstmt.setString(14, TableKeyIndex);
 				
 				DWFH_In_Pstmt.executeUpdate();
 				
@@ -222,12 +226,10 @@
 	                        + "`RespOffice`,"
 	                        + "`RepsDepart`,"
 	                        + "`WFResult`,"
-	                        + "`DocReviewOpinion`,"
-	                        + "`ReviewTime`,"
 	                        + "`ElapsedHour1`,"
 	                        + "`ComCode`,"
 	                        + "`Index`"
-	                        + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	                        + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	                PreparedStatement DWFL_In_Pstmt = conn.prepareStatement(DWFL_Sql);
 
 	                DWFL_In_Pstmt.setString(1, SlipCode);
@@ -238,11 +240,9 @@
 	                DWFL_In_Pstmt.setString(6, WFI_Rs.getString("RespOffice"));
 	                DWFL_In_Pstmt.setString(7, WFI_Rs.getString("RepsDepart"));
 	                DWFL_In_Pstmt.setString(8, "0");
-	                DWFL_In_Pstmt.setString(9, "없음");
-	                DWFL_In_Pstmt.setString(10, todayDate);
-	                DWFL_In_Pstmt.setString(11, "00:00");
-	                DWFL_In_Pstmt.setString(12, UserComCode);
-	                DWFL_In_Pstmt.setString(13, UserComCode + SlipCode + index);
+	                DWFL_In_Pstmt.setString(9, "00:00");
+	                DWFL_In_Pstmt.setString(10, UserComCode);
+	                DWFL_In_Pstmt.setString(11, UserComCode + SlipCode + index);
 	                DWFL_In_Pstmt.executeUpdate();
 
 	                index++;

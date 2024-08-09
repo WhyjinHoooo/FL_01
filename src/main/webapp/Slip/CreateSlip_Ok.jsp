@@ -1,3 +1,5 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDateTime"%>
 <%@page import="java.sql.SQLException"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -16,12 +18,18 @@
 	String InputerComCode = request.getParameter("ComCode");
 	String InputerBA = request.getParameter("BA");
 	String InputerCoCt = request.getParameter("COCT");
+	String PostingDate = request.getParameter("EntryDay");
+	
+	LocalDateTime today = LocalDateTime.now();
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	String TodayDate = today.format(formatter);
 	
 	System.out.println("SlipCode : " + SlipCode);
 	System.out.println("Inputer : " + Inputer);
 	System.out.println("InputerComCode : " + InputerComCode);
 	System.out.println("InputerBA : " + InputerBA);
 	System.out.println("InputerCoCt : " + InputerCoCt);
+	System.out.println("PostingDate : " + PostingDate);
 	
 	try{
 
@@ -77,33 +85,33 @@
 			SH_Pstmt = conn.prepareStatement(SearchHead);
 			SH_rs =SH_Pstmt.executeQuery();
 			if(SH_rs.next()){
-				System.out.println("테스트22222222222222222222222222");
 				String DWFH_In_Sql = "INSERT INTO docworkflowhead ("
-						+ "`DocNum`,"
-						+ "`DocType`,"
-						+ "`BizArea`,"
-						+ "`DocInputDepart`,"
-						+ "`InputPerson`,"
-						+ "`DocDescrip`,"
-						+ "`SubmitTime`,"
-						+ "`WFStatus`,"
-						+ "`WFStep`,"
-						+ "`ElapsedHour`,"
-						+ "`ComCode`,"
-						+ "`TableKeyIndex`"
-						+ ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+						+ "`DocNum`," // 1, 
+						+ "`DocType`," // 2
+						+ "`postingDay`," // 3
+						+ "`BizArea`," // 4
+						+ "`DocInputDepart`," // 5
+						+ "`InputPerson`," // 6
+						+ "`DocDescrip`," // 7
+						+ "`WFStatus`," // 8
+						+ "`WFStep`," // 9
+						+ "`ElapsedHour`," // 10
+						+ "`ComCode`," // 11
+						+ "`TableKeyIndex`" // 12
+						+ ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 				PreparedStatement DWFH_In_Pstmt = conn.prepareStatement(DWFH_In_Sql);
 				DWFH_In_Pstmt.setString(1, SlipCode);
 				DWFH_In_Pstmt.setString(2, SlipCode.substring(0, 3));
-				DWFH_In_Pstmt.setString(3, InputerBA);
-				DWFH_In_Pstmt.setString(4, InputerCoCt);
-				DWFH_In_Pstmt.setString(5, Inputer);
-				DWFH_In_Pstmt.setString(6, SH_rs.getString("DocDescrip"));
-				DWFH_In_Pstmt.setString(7, "A");
-				DWFH_In_Pstmt.setInt(8, 0);
+				DWFH_In_Pstmt.setString(3, PostingDate);
+				DWFH_In_Pstmt.setString(4, InputerBA);
+				DWFH_In_Pstmt.setString(5, InputerCoCt);
+				DWFH_In_Pstmt.setString(6, Inputer);
+				DWFH_In_Pstmt.setString(7, SH_rs.getString("DocDescrip"));
+				DWFH_In_Pstmt.setString(8, "A");
 				DWFH_In_Pstmt.setInt(9, 0);
-				DWFH_In_Pstmt.setString(10, InputerComCode);
-				DWFH_In_Pstmt.setString(11, InputerComCode + SlipCode);
+				DWFH_In_Pstmt.setInt(10, 0);
+				DWFH_In_Pstmt.setString(11, InputerComCode);
+				DWFH_In_Pstmt.setString(12, InputerComCode + SlipCode);
 				
 				DWFH_In_Pstmt.executeUpdate();
 			} // if(SH_rs.next()){...}의 끝
@@ -116,6 +124,7 @@
 				String DWFH_In_Sql = "INSERT INTO docworkflowhead ("
 						+ "`DocNum`,"
 						+ "`DocType`,"
+						+ "`postingDay`," // 3
 						+ "`BizArea`,"
 						+ "`DocInputDepart`,"
 						+ "`InputPerson`,"
@@ -125,19 +134,20 @@
 						+ "`ElapsedHour`,"
 						+ "`ComCode`,"
 						+ "`TableKeyIndex`"
-						+ ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+						+ ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 				PreparedStatement DWFH_In_Pstmt = conn.prepareStatement(DWFH_In_Sql);
 				DWFH_In_Pstmt.setString(1, SlipCode);
 				DWFH_In_Pstmt.setString(2, SlipCode.substring(0, 3));
-				DWFH_In_Pstmt.setString(3, InputerBA);
-				DWFH_In_Pstmt.setString(4, InputerCoCt);
-				DWFH_In_Pstmt.setString(5, Inputer);
-				DWFH_In_Pstmt.setString(6, SH_rs.getString("DocDescrip"));
-				DWFH_In_Pstmt.setString(7, "A");
-				DWFH_In_Pstmt.setInt(8, 0);
+				DWFH_In_Pstmt.setString(3, PostingDate);
+				DWFH_In_Pstmt.setString(4, InputerBA);
+				DWFH_In_Pstmt.setString(5, InputerCoCt);
+				DWFH_In_Pstmt.setString(6, Inputer);
+				DWFH_In_Pstmt.setString(7, SH_rs.getString("DocDescrip"));
+				DWFH_In_Pstmt.setString(8, "A");
 				DWFH_In_Pstmt.setInt(9, 0);
-				DWFH_In_Pstmt.setString(10, InputerComCode);
-				DWFH_In_Pstmt.setString(11, InputerComCode + SlipCode);
+				DWFH_In_Pstmt.setInt(10, 0);
+				DWFH_In_Pstmt.setString(11, InputerComCode);
+				DWFH_In_Pstmt.setString(12, InputerComCode + SlipCode);
 				DWFH_In_Pstmt.executeUpdate();
 			}
 			
@@ -161,13 +171,13 @@
 				PreparedStatement Writer_Pstmt = conn.prepareStatement(Writer_Sql);
 				Writer_Pstmt.setString(1, SlipCode);
 				Writer_Pstmt.setString(2, "0");
-				Writer_Pstmt.setString(3, "NS"); // Not 상신
+				Writer_Pstmt.setString(3, "A"); // Not 상신
 				Writer_Pstmt.setString(4, Inputer);
 				Writer_Pstmt.setString(5, UserInfo_Rs.getString("EMPLOYEE_NAME"));
 				Writer_Pstmt.setString(6, UserInfo_Rs.getString("POSITION"));
 				Writer_Pstmt.setString(7, UserInfo_Rs.getString("COCT"));
 				Writer_Pstmt.setString(8, "0");
-				Writer_Pstmt.setString(9, "품의 상신 안됌");
+				Writer_Pstmt.setString(9, "품의 상신 안 됨");
 				Writer_Pstmt.setString(10, InputerComCode);
 				Writer_Pstmt.setString(11, InputerComCode + SlipCode + "0");
 				

@@ -65,6 +65,7 @@
 				if(!OP_From.equals(OP_End)){
 					System.out.println("결재합의자02 case01");
 					System.out.println("결재합의자02 case01 : " + DocNum);
+					// SELECT * FROM docworkflowhead WHERE DocNum = '" + DocNum + "' AND postingDay >= '" + OP_From + "' AND postingDay <= '" + OP_End + "' AND WFStatus = '" + OP_State + "'";
 					SqlVer01 = "SELECT " +
 						      "    DATE(SubmitTime) AS DateOnly, " +
 						      "    DocNum, " +
@@ -80,9 +81,8 @@
 						      "    docworkflowhead " +
 						      "WHERE " +
 						      "    DocNum = '" + DocNum + "' AND " +
-						      "    DATE(SubmitTime) > '" + OP_From + "' AND " +
-						      "    DATE(SubmitTime) < '" + OP_End + "' AND " +
-						      "    WFStatus = '" + OP_State + "'";
+						      "    DATE(SubmitTime) >= '" + OP_From + "' AND " +
+						      "    DATE(SubmitTime) <= '" + OP_End + "'";
 				}else{
 					System.out.println("결재합의자02 case02");
 					SqlVer01 = "SELECT " +
@@ -100,8 +100,7 @@
 						      "    docworkflowhead " +
 						      "WHERE " +
 						      "    DocNum = '" + DocNum + "' AND " +
-						      "    DATE(SubmitTime) = '" + OP_From + "' AND " +
-						      "    WFStatus = '" + OP_State + "'";
+						      "    DATE(SubmitTime) = '" + OP_From + "'";
 				};
 				
 				// 그 전표 번호를 갖는 전표의 상신 일자, 전표번호, 발생회계단위, 입력부서, 입력자, 적요, 전표상태, 결재단계, 경과일수, 전표유형을 가져온다.
@@ -110,7 +109,7 @@
 				
 				while(RsVer01.next()){
 					if(RsVer01.getString("DateOnly") != null && !RsVer01.getString("DateOnly").isEmpty()){
-						josnobject.put("Date", RsVer01.getString("DateOnly")); // 기표일자
+						josnobject.put("Date", RsVer01.getString("DateOnly")); // 기표일자가 입력되어 있
 					} else{
 						josnobject.put("Date", "미상신 전표"); // 기표일자	
 					}
@@ -147,39 +146,23 @@
 			System.out.println("전표입력자01");
 			if(!OP_From.equals(OP_End)){
 				DocSearch_Sql = "SELECT " +
-					      "    DATE(SubmitTime) AS DateOnly, " +
-					      "    DocNum, " +
-					      "    BizArea, " +
-					      "    DocInputDepart, " +
-					      "    InputPerson, " +
-					      "    DocDescrip, " +
-					      "    WFStatus, " +
-					      "    WFStep, " +
-					      "    ElapsedHour, " +
-					      "    DocType " +
+					      " * " +
 					      "FROM " +
 					      "    docworkflowhead " +
 					      "WHERE " +
 					      "    InputPerson = '"+ OP_Inputer + "' AND " +
-						  "    DATE(SubmitTime) > '" + OP_From + "' AND " +
-						  "    DATE(SubmitTime) < '" + OP_End + "'";
+						  "    WFStatus = '"+ OP_State + "' AND " +
+						  "    postingDay >= '" + OP_From + "' AND " +
+						  "    postingDay <= '" + OP_End + "'";
 			}else{
 				DocSearch_Sql = "SELECT " +
-					      "    DATE(SubmitTime) AS DateOnly, " +
-					      "    DocNum, " +
-					      "    BizArea, " +
-					      "    DocInputDepart, " +
-					      "    InputPerson, " +
-					      "    DocDescrip, " +
-					      "    WFStatus, " +
-					      "    WFStep, " +
-					      "    ElapsedHour, " +
-					      "    DocType " +
+					      " * " +
 					      "FROM " +
 					      "    docworkflowhead " +
 					      "WHERE " +
 					      "    InputPerson = '"+ OP_Inputer + "' AND " +
-						  "    DATE(SubmitTime) = '" + OP_From + "'";
+						  "    WFStatus = '"+ OP_State + "' AND " +
+						  "    postingDay = '" + OP_From + "'";
 			};
 			PreparedStatement DocSearch_Pstmt = conn.prepareStatement(DocSearch_Sql);
 			ResultSet DocSearch_Rs = DocSearch_Pstmt.executeQuery();
@@ -194,11 +177,7 @@
 				System.out.println("전표입력자02");
 				JSONObject josnobject = new JSONObject();
 				
-				if(DocSearch_Rs.getString("DateOnly") != null && !DocSearch_Rs.getString("DateOnly").isEmpty()){
-					josnobject.put("Date", DocSearch_Rs.getString("DateOnly")); // 기표일자
-				} else{
-					josnobject.put("Date", "미상신 전표"); // 기표일자	
-				}
+				josnobject.put("Date", DocSearch_Rs.getString("postingDay")); // 기표일자
 				josnobject.put("DocCode", DocSearch_Rs.getString("DocNum")); // 전표번호
 				josnobject.put("Script", DocSearch_Rs.getString("DocDescrip")); // 적요
 				josnobject.put("BA", DocSearch_Rs.getString("BizArea")); // 전표입력 BA
@@ -230,39 +209,23 @@
 			System.out.println("전표입력부서01");
 			if(!OP_From.equals(OP_End)){
 				DocSearch_Sql = "SELECT " +
-					      "    DATE(SubmitTime) AS DateOnly, " +
-					      "    DocNum, " +
-					      "    BizArea, " +
-					      "    DocInputDepart, " +
-					      "    InputPerson, " +
-					      "    DocDescrip, " +
-					      "    WFStatus, " +
-					      "    WFStep, " +
-					      "    ElapsedHour, " +
-					      "    DocType " +
+					      " * " +
 					      "FROM " +
 					      "    docworkflowhead " +
 					      "WHERE " +
 					      "    DocInputDepart = '"+ OP_COCT + "' AND " + 
-						  "    DATE(SubmitTime) > '" + OP_From + "' AND " +
-						  "    DATE(SubmitTime) < '" + OP_End + "'";
+						  "    WFStatus = '"+ OP_State + "' AND " +
+						  "    postingDay >= '" + OP_From + "' AND " +
+						  "    postingDay <= '" + OP_End + "'";
 			}else{
 				DocSearch_Sql = "SELECT " +
-					      "    DATE(SubmitTime) AS DateOnly, " +
-					      "    DocNum, " +
-					      "    BizArea, " +
-					      "    DocInputDepart, " +
-					      "    InputPerson, " +
-					      "    DocDescrip, " +
-					      "    WFStatus, " +
-					      "    WFStep, " +
-					      "    ElapsedHour, " +
-					      "    DocType " +
+					      " * " +
 					      "FROM " +
 					      "    docworkflowhead " +
 					      "WHERE " +
 					      "    DocInputDepart = '"+ OP_COCT + "' AND " +
-						  "    DATE(SubmitTime) = '" + OP_From + "'";
+						  "    WFStatus = '"+ OP_State + "' AND " +
+						  "    postingDay = '" + OP_From + "'";
 			};
 			PreparedStatement DocSearch_Pstmt = conn.prepareStatement(DocSearch_Sql);
 			ResultSet DocSearch_Rs = DocSearch_Pstmt.executeQuery();
@@ -276,11 +239,7 @@
 				System.out.println("전표입력부서02");
 				JSONObject josnobject = new JSONObject();
 				
-				if(DocSearch_Rs.getString("DateOnly") != null && !DocSearch_Rs.getString("DateOnly").isEmpty()){
-					josnobject.put("Date", DocSearch_Rs.getString("DateOnly")); // 기표일자
-				} else{
-					josnobject.put("Date", "미상신 전표"); // 기표일자	
-				}
+				josnobject.put("Date", DocSearch_Rs.getString("postingDay")); // 기표일자
 				josnobject.put("DocCode", DocSearch_Rs.getString("DocNum")); // 전표번호
 				josnobject.put("Script", DocSearch_Rs.getString("DocDescrip")); // 적요
 				josnobject.put("BA", DocSearch_Rs.getString("BizArea")); // 전표입력 BA
@@ -313,39 +272,23 @@
 			System.out.println("전표입력BA01");
 			if(!OP_From.equals(OP_End)){
 				DocSearch_Sql = "SELECT " +
-					      "    DATE(SubmitTime) AS DateOnly, " +
-					      "    DocNum, " +
-					      "    BizArea, " +
-					      "    DocInputDepart, " +
-					      "    InputPerson, " +
-					      "    DocDescrip, " +
-					      "    WFStatus, " +
-					      "    WFStep, " +
-					      "    ElapsedHour, " +
-					      "    DocType " +
+					      " * " +
 					      "FROM " +
 					      "    docworkflowhead " +
 					      "WHERE " +
 					      "    BizArea = '"+ OP_BA + "' AND " + 
-						  "    DATE(SubmitTime) > '" + OP_From + "' AND " +
-						  "    DATE(SubmitTime) < '" + OP_End + "'";
+						  "    WFStatus = '"+ OP_State + "' AND " +
+						  "    postingDay >= '" + OP_From + "' AND " +
+						  "    postingDay <= '" + OP_End + "'";
 			}else{
 				DocSearch_Sql = "SELECT " +
-					      "    DATE(SubmitTime) AS DateOnly, " +
-					      "    DocNum, " +
-					      "    BizArea, " +
-					      "    DocInputDepart, " +
-					      "    InputPerson, " +
-					      "    DocDescrip, " +
-					      "    WFStatus, " +
-					      "    WFStep, " +
-					      "    ElapsedHour, " +
-					      "    DocType " +
+					      " * " +
 					      "FROM " +
 					      "    docworkflowhead " +
 					      "WHERE " +
 					      "    BizArea = '"+ OP_BA + "' AND " +
-						  "    DATE(SubmitTime) = '" + OP_From + "'";
+						  "    WFStatus = '"+ OP_State + "' AND " +
+						  "    postingDay = '" + OP_From + "'";
 			};
 			PreparedStatement DocSearch_Pstmt = conn.prepareStatement(DocSearch_Sql);
 			ResultSet DocSearch_Rs = DocSearch_Pstmt.executeQuery();
@@ -359,11 +302,7 @@
 				System.out.println("전표입력BA02");
 				JSONObject josnobject = new JSONObject();
 				
-				if(DocSearch_Rs.getString("DateOnly") != null && !DocSearch_Rs.getString("DateOnly").isEmpty()){
-					josnobject.put("Date", DocSearch_Rs.getString("DateOnly")); // 기표일자
-				} else{
-					josnobject.put("Date", "미상신 전표"); // 기표일자	
-				}
+				josnobject.put("Date", DocSearch_Rs.getString("postingDay")); // 기표일자
 				josnobject.put("DocCode", DocSearch_Rs.getString("DocNum")); // 전표번호
 				josnobject.put("Script", DocSearch_Rs.getString("DocDescrip")); // 적요
 				josnobject.put("BA", DocSearch_Rs.getString("BizArea")); // 전표입력 BA
@@ -397,41 +336,26 @@
 			if(!OP_From.equals(OP_End)){
 				System.out.println("case01");
 				DocSearch_Sql = "SELECT " +
-					      "    DATE(SubmitTime) AS DateOnly, " +
-					      "    DocNum, " +
-					      "    BizArea, " +
-					      "    DocInputDepart, " +
-					      "    InputPerson, " +
-					      "    DocDescrip, " +
-					      "    WFStatus, " +
-					      "    WFStep, " +
-					      "    ElapsedHour, " +
-					      "    DocType " +
+					      " * " +
 					      "FROM " +
 					      "    docworkflowhead " +
 					      "WHERE " +
-					      "    ComCode = '"+ OP_ComCode + "' AND " + 
-						  "    DATE(SubmitTime) > '" + OP_From + "' AND " +
-						  "    DATE(SubmitTime) < '" + OP_End + "'";
+					      "    ComCode = '"+ OP_ComCode + "' AND " +
+					      "    WFStatus = '"+ OP_State + "' AND " +
+						  "    postingDay >= '" + OP_From + "' AND " +
+						  "    postingDay <= '" + OP_End + "'";
+//				DocSearch_Sql = "SELCT * FROM docworkflowhead WHERE ";
 			}else{
 				System.out.println("case02");
 				System.out.println("OP_From : " + OP_From + ", OP_End : " + OP_End);
 				DocSearch_Sql = "SELECT " +
-					      "    DATE(SubmitTime) AS DateOnly, " +
-					      "    DocNum, " +
-					      "    BizArea, " +
-					      "    DocInputDepart, " +
-					      "    InputPerson, " +
-					      "    DocDescrip, " +
-					      "    WFStatus, " +
-					      "    WFStep, " +
-					      "    ElapsedHour, " +
-					      "    DocType " +
+					      " * " +
 					      "FROM " +
 					      "    docworkflowhead " +
 					      "WHERE " +
 					      "    ComCode = '"+ OP_ComCode + "' AND" +
-						  "    DATE(SubmitTime) = '" + OP_From + "'";
+						  "    WFStatus = '"+ OP_State + "' AND " +
+						  "    postingDay = '" + OP_From + "'";
 			};
 			PreparedStatement DocSearch_Pstmt = conn.prepareStatement(DocSearch_Sql);
 			ResultSet DocSearch_Rs = DocSearch_Pstmt.executeQuery();
@@ -445,11 +369,7 @@
 				System.out.println("법인02");
 				JSONObject josnobject = new JSONObject();
 				
-				if(DocSearch_Rs.getString("DateOnly") != null && !DocSearch_Rs.getString("DateOnly").isEmpty()){
-					josnobject.put("Date", DocSearch_Rs.getString("DateOnly")); // 기표일자
-				} else{
-					josnobject.put("Date", "미상신 전표"); // 기표일자	
-				}
+				josnobject.put("Date", DocSearch_Rs.getString("postingDay")); // 기표일자
 				josnobject.put("DocCode", DocSearch_Rs.getString("DocNum")); // 전표번호
 				josnobject.put("Script", DocSearch_Rs.getString("DocDescrip")); // 적요
 				josnobject.put("BA", DocSearch_Rs.getString("BizArea")); // 전표입력 BA
