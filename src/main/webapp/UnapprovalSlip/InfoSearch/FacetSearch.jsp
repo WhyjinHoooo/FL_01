@@ -44,6 +44,8 @@
 		ResultSet rs = null;
 		
 		String DocNum = null;
+		String Step = null;
+		int Number = 0;
 		int C_Sum = 0;
 		int D_Sum = 0;
 		
@@ -55,90 +57,111 @@
 			 // 결재합의자가 있는 경우
 			System.out.println("결재합의자01");
 			DocSearch_Sql = "SELECT * FROM docworkflowline WHERE ResponsePerson = '" + OP_Approver + "'";
+			/* 
+			1. 결재합의자가 입력된 상태에서 검색을 진행
+			2. 먼저 결재자가 결재해야할 전표를 검색
+			*/
 			PreparedStatement DocSearch_Pstmt = conn.prepareStatement(DocSearch_Sql);
 			ResultSet DocSearch_Rs = DocSearch_Pstmt.executeQuery();
 			while(DocSearch_Rs.next()){
 				System.out.println("결재합의자02");
 				JSONObject josnobject = new JSONObject();
-				DocNum = DocSearch_Rs.getString("DocNum");
-				// 어떤 결재자가 등록된 전표 번호를 가져온다.
-				if(!OP_From.equals(OP_End)){
-					System.out.println("결재합의자02 case01");
-					System.out.println("결재합의자02 case01 : " + DocNum);
-					// SELECT * FROM docworkflowhead WHERE DocNum = '" + DocNum + "' AND postingDay >= '" + OP_From + "' AND postingDay <= '" + OP_End + "' AND WFStatus = '" + OP_State + "'";
-					SqlVer01 = "SELECT " +
-						      "    DATE(SubmitTime) AS DateOnly, " +
-						      "    DocNum, " +
-						      "    BizArea, " +
-						      "    DocInputDepart, " +
-						      "    InputPerson, " +
-						      "    DocDescrip, " +
-						      "    WFStatus, " +
-						      "    WFStep, " +
-						      "    ElapsedHour, " +
-						      "    DocType " +
-						      "FROM " +
-						      "    docworkflowhead " +
-						      "WHERE " +
-						      "    DocNum = '" + DocNum + "' AND " +
-						      "    DATE(SubmitTime) >= '" + OP_From + "' AND " +
-						      "    DATE(SubmitTime) <= '" + OP_End + "'";
-				}else{
-					System.out.println("결재합의자02 case02");
-					SqlVer01 = "SELECT " +
-						      "    DATE(SubmitTime) AS DateOnly, " +
-						      "    DocNum, " +
-						      "    BizArea, " +
-						      "    DocInputDepart, " +
-						      "    InputPerson, " +
-						      "    DocDescrip, " +
-						      "    WFStatus, " +
-						      "    WFStep, " +
-						      "    ElapsedHour, " +
-						      "    DocType " +
-						      "FROM " +
-						      "    docworkflowhead " +
-						      "WHERE " +
-						      "    DocNum = '" + DocNum + "' AND " +
-						      "    DATE(SubmitTime) = '" + OP_From + "'";
-				};
-				
-				// 그 전표 번호를 갖는 전표의 상신 일자, 전표번호, 발생회계단위, 입력부서, 입력자, 적요, 전표상태, 결재단계, 경과일수, 전표유형을 가져온다.
-				PreparedStatement PstmtVer01 = conn.prepareStatement(SqlVer01);
-				ResultSet RsVer01 = PstmtVer01.executeQuery();
-				
-				while(RsVer01.next()){
-					if(RsVer01.getString("DateOnly") != null && !RsVer01.getString("DateOnly").isEmpty()){
-						josnobject.put("Date", RsVer01.getString("DateOnly")); // 기표일자가 입력되어 있
-					} else{
-						josnobject.put("Date", "미상신 전표"); // 기표일자	
-					}
-					josnobject.put("DocCode", RsVer01.getString("DocNum")); // 전표번호
-					josnobject.put("Script", RsVer01.getString("DocDescrip")); // 적요
-					josnobject.put("BA", RsVer01.getString("BizArea")); // 전표입력 BA
-					josnobject.put("CoCt", RsVer01.getString("DocInputDepart")); // 입력부서
-					josnobject.put("Inputer", RsVer01.getString("InputPerson")); // 입력자
-					josnobject.put("Status", RsVer01.getString("WFStatus")); // 전표상태
-					josnobject.put("Step", RsVer01.getString("WFStep")); // 결재단계
-					josnobject.put("Approver", OP_Approver); // 결재 또는 합의자
-					josnobject.put("Time", RsVer01.getInt("ElapsedHour")); // 결과일수
-					josnobject.put("Type", RsVer01.getString("DocType")); // 전표유형	
-					
-					String SqlVer02 = "SELECT * FROM fldocline WHERE DocNum = '"+ DocNum +"'";
-					PreparedStatement PstmtVer02 = conn.prepareStatement(SqlVer02);
-					ResultSet RsVer02 = PstmtVer02.executeQuery();
-					while(RsVer02.next()){
-						if(RsVer02.getString("DebCre").equals("D")){
-							D_Sum += RsVer02.getInt("TAmount"); // 차변의 합계
-						} else{
-							C_Sum += RsVer02.getInt("TAmount"); // 대변의 합계
+				DocNum = DocSearch_Rs.getString("DocNum"); // 전표 번호
+				Step = DocSearch_Rs.getString("WFStep"); // 결재합의자의 Level
+				Number = Integer.parseInt(Step);
+				/* 
+				3. 전표가 있으면 그 전표 번호를 가져온다.
+				*/
+				String Refer_Slip_Query = "SELECT * FROM docworkflowline WHERE DocNum = '" + DocNum + "' AND WFType = 'S'";
+				PreparedStatement Refer_Slip_Pstmt = conn.prepareStatement(Refer_Slip_Query);
+				ResultSet Refer_Slip_Rs = Refer_Slip_Pstmt.executeQuery();
+				/* 
+				4. 결재자가 결재할 전표가 상신된 전표인지 확인한다.
+				*/
+				while(Refer_Slip_Rs.next()){ // 이 전표가 상신된 전표인 경우
+					if(Number == 1){ // 결재합의자의 단계가 1인 경우
+						if(!OP_From.equals(OP_End)){
+							System.out.println("결재합의자02 case01");
+							System.out.println("결재합의자02 case01 : " + DocNum);
+							// SELECT * FROM docworkflowhead WHERE DocNum = '" + DocNum + "' AND postingDay >= '" + OP_From + "' AND postingDay <= '" + OP_End + "' AND WFStatus = '" + OP_State + "'";
+							SqlVer01 = "SELECT " +
+								      "    DATE(SubmitTime) AS DateOnly, " +
+								      "    DocNum, " +
+								      "    BizArea, " +
+								      "    DocInputDepart, " +
+								      "    InputPerson, " +
+								      "    DocDescrip, " +
+								      "    WFStatus, " +
+								      "    WFStep, " +
+								      "    ElapsedHour, " +
+								      "    DocType " +
+								      "FROM " +
+								      "    docworkflowhead " +
+								      "WHERE " +
+								      "    DocNum = '" + DocNum + "' AND " +
+								      "    postingDay >= '" + OP_From + "' AND " +
+								      "    postingDay <= '" + OP_End + "'";
+						}else{
+							System.out.println("결재합의자02 case02");
+							SqlVer01 = "SELECT " +
+								      "    DATE(SubmitTime) AS DateOnly, " +
+								      "    DocNum, " +
+								      "    BizArea, " +
+								      "    DocInputDepart, " +
+								      "    InputPerson, " +
+								      "    DocDescrip, " +
+								      "    WFStatus, " +
+								      "    WFStep, " +
+								      "    ElapsedHour, " +
+								      "    DocType " +
+								      "FROM " +
+								      "    docworkflowhead " +
+								      "WHERE " +
+								      "    DocNum = '" + DocNum + "' AND " +
+								      "    postingDay = '" + OP_From + "'";
+						}; // if(!OP_From.equals(OP_End)){...}else{...}의 끝
+
+						// 그 전표 번호를 갖는 전표의 상신 일자, 전표번호, 발생회계단위, 입력부서, 입력자, 적요, 전표상태, 결재단계, 경과일수, 전표유형을 가져온다.
+						PreparedStatement PstmtVer01 = conn.prepareStatement(SqlVer01);
+						ResultSet RsVer01 = PstmtVer01.executeQuery();
+						
+						while(RsVer01.next()){
+							if(RsVer01.getString("DateOnly") != null && !RsVer01.getString("DateOnly").isEmpty()){
+								josnobject.put("Date", RsVer01.getString("DateOnly")); // 기표일자가 입력되어 있
+							} else{
+								josnobject.put("Date", "미상신 전표"); // 기표일자	
+							}
+							josnobject.put("DocCode", RsVer01.getString("DocNum")); // 전표번호
+							josnobject.put("Script", RsVer01.getString("DocDescrip")); // 적요
+							josnobject.put("BA", RsVer01.getString("BizArea")); // 전표입력 BA
+							josnobject.put("CoCt", RsVer01.getString("DocInputDepart")); // 입력부서
+							josnobject.put("Inputer", RsVer01.getString("InputPerson")); // 입력자
+							josnobject.put("Status", RsVer01.getString("WFStatus")); // 전표상태
+							josnobject.put("Step", RsVer01.getString("WFStep")); // 결재단계
+							josnobject.put("Approver", OP_Approver); // 결재 또는 합의자
+							josnobject.put("Time", RsVer01.getInt("ElapsedHour")); // 결과일수
+							josnobject.put("Type", RsVer01.getString("DocType")); // 전표유형	
+							
+							String SqlVer02 = "SELECT * FROM fldocline WHERE DocNum = '"+ DocNum +"'";
+							PreparedStatement PstmtVer02 = conn.prepareStatement(SqlVer02);
+							ResultSet RsVer02 = PstmtVer02.executeQuery();
+							while(RsVer02.next()){
+								if(RsVer02.getString("DebCre").equals("D")){
+									D_Sum += RsVer02.getInt("TAmount"); // 차변의 합계
+								} else{
+									C_Sum += RsVer02.getInt("TAmount"); // 대변의 합계
+								}
+							}
+							
+							josnobject.put("CSum", C_Sum); // 대변 합계
+							josnobject.put("DSum", D_Sum); // 차변 합계
+							
+							jsonArray.add(josnobject);
 						}
+						
+					} else { // 결재합의자가 1단계가 아닌 경우
+						
 					}
-					
-					josnobject.put("CSum", C_Sum); // 대변 합계
-					josnobject.put("DSum", D_Sum); // 차변 합계
-					
-					jsonArray.add(josnobject);
 				}
 			}			
 		}else if(OP_Inputer != null && !OP_Inputer.isEmpty()){
