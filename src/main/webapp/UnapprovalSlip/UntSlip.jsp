@@ -205,6 +205,38 @@ function InfoSearch(event, inputFieldId){
     		
     }
 }
+function ApprovalBtn(event, ActionField){
+	event.preventDefault();
+
+	var popupWidth = 1000;
+    var popupHeight = 600;
+   /*  var ComCode = document.querySelector('#UserDepart').value; */
+    
+    // 현재 활성화된 모니터의 위치를 감지
+    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
+    
+    // 전체 화면의 크기를 감지
+    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+    var xPos, yPos;
+    
+    if (width == 2560 && height == 1440) {
+        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
+        xPos = (2560 / 2) - (popupWidth / 2);
+        yPos = (1440 / 2) - (popupHeight / 2);
+    } else if (width == 1920 && height == 1080) {
+        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
+        xPos = (1920 / 2) - (popupWidth / 2);
+        yPos = (1080 / 2) - (popupHeight / 2);
+    } else {
+        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
+        var monitorWidth = 2560;
+        var monitorHeight = 1440;
+        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+    }
+}
 </script>
 <meta charset="UTF-8">
 <title>전표 품의 상신 및 결재</title>
@@ -286,10 +318,10 @@ function InfoSearch(event, inputFieldId){
 			<div class="UntSituation">
 				<div class="Area_title">미승인전표 현황</div>
 				<div class="ButtonArea">				
-					<button>수정</button>
-					<button>결재경로</button>
-					<button>품의상신</button>
-					<button>품의취소</button>
+					<button onclick="ApprovalBtn(event, 'Edit')">수정</button>
+					<button onclick="ApprovalBtn(event, 'Path')">결재경로</button>
+					<button onclick="ApprovalBtn(event, 'Submit')">품의상신</button>
+					<button onclick="ApprovalBtn(event, 'Cancel')">품의취소</button>
 					<button>결재/합의</button>
 				</div>
 				<div class="UnApprovalDocArea">

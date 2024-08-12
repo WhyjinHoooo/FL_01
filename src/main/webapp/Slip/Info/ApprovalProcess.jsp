@@ -206,7 +206,7 @@
 		            Writer_Pstmt.setString(6, Writer_Info_SRs.getString("POSITION"));
 		            Writer_Pstmt.setString(7, Writer_Info_SRs.getString("COCT"));
 		            Writer_Pstmt.setString(8, "0");
-		            Writer_Pstmt.setString(9, "없음");
+		            Writer_Pstmt.setString(9, "품의 상신 되었습니다.");
 		            Writer_Pstmt.setString(10, todayDate);
 		            Writer_Pstmt.setString(11, "00:00");
 		            Writer_Pstmt.setString(12, UserComCode);
