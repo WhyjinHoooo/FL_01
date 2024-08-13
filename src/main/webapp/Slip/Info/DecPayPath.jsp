@@ -64,6 +64,13 @@ function SelectOption(inputFieldId, rowNum){
 <script>
 $(document).ready(function(){
 	
+	console.log("<%= SlipNo %>");
+	console.log("<%= User %>");
+	console.log("<%= UserBizArea %>");
+	console.log("<%= TargetDepartCd %>");
+	console.log("<%= ComCode %>");
+	
+	
 	var add = 0;
 	var minus = 0;
 	
@@ -177,7 +184,7 @@ $(document).ready(function(){
 	</div>   
 	<div class="BtnDiv">
 		<button type="button" class="AddBtn btn" id="AddBtn" name="AddBtn">셀 추가</button>
-		<button class="ApproverChange btn" id="ApproverChange" name="ApproverChange">결재자 변경</button>
+		<!-- <button class="ApproverChange btn" id="ApproverChange" name="ApproverChange">결재자 변경</button> -->
 		<button class="InfoSave btn" id="ApproverChange" name="ApproverChange">저 장</button>
 		<button class="InfoCancel btn" id="ApproverCancel" name="ApproverCancel" >취 소</button>
 	</div> 

@@ -57,7 +57,7 @@
 	asdasdasdasd : 적요
 	*/
 	try{
-		String WFCH_Sql = "SELECT * FROM workflow WHERE DocNum =   ? AND DocType = ? AND BizArea = ? AND DocInputDepart = ? AND InputPerson = ? AND ComCode = ?";
+		String WFCH_Sql = "SELECT * FROM workflow WHERE DocNum = ? AND DocType = ? AND BizArea = ? AND DocInputDepart = ? AND InputPerson = ? AND ComCode = ?";
 		PreparedStatement WFCH_Pstmt = conn.prepareStatement(WFCH_Sql);
 		WFCH_Pstmt.setString(1, SlipCode); 
         WFCH_Pstmt.setString(2, SlipType); 

@@ -104,19 +104,20 @@ $(document).ready(function(){
 						var row = '<tr>' +
 						'<td>' + (i+1) + '</td>' + // 항번
 						'<td><input type="checkbox" class="checkboxBtn"></td>' + //체크 박스
-						'<td class="SubmitDate">' + response[i].Date + '</td>' + // 기표일자
-						'<td class="SubmitDate">' + response[i].DocCode + '</td>' + // 전표번호
-						'<td class="SubmitDate">' + response[i].Script + '</td>' + // 적요
-						'<td class="SubmitDate">' + response[i].BA + '</td>' + // BA
-						'<td class="SubmitDate">' + response[i].CoCt + '</td>' + // COCT
-						'<td class="SubmitDate">' + response[i].Inputer + '</td>' + // 입력자
-						'<td class="SubmitDate">' + response[i].DSum + '</td>' + // 차변 합계
-						'<td class="SubmitDate">' + response[i].CSum + '</td>' + // 대변 합계
-						'<td class="SubmitDate">' + response[i].Status + '</td>' + // 전표상태
-						'<td class="SubmitDate">' + response[i].Step + '</td>' + // 결재단계
-						'<td class="SubmitDate">' + response[i].Approver + '</td>' + // 결재/합의자
-						'<td class="SubmitDate">' + response[i].Time + '</td>' + // 경과일수
-						'<td class="SubmitDate">' + response[i].Type + '</td>' + // 전표유형
+						'<td class="SubmitDate" name="PostingDate">' + response[i].Date + '</td>' + // 기표일자
+						'<td class="SubmitDate Head" name="SlipNo">' + response[i].DocCode + '</td>' + // 전표번호
+						'<td class="SubmitDate" name="Script">' + response[i].Script + '</td>' + // 적요
+						'<td class="SubmitDate Head" name="UserBizArea">' + response[i].BA + '</td>' + // BA
+						'<td class="SubmitDate Head" name="TargetDepartCd">' + response[i].CoCt + '</td>' + // COCT
+						'<td class="SubmitDate Head" name="User">' + response[i].Inputer + '</td>' + // 입력자
+						'<td class="SubmitDate" name="DSum">' + response[i].DSum + '</td>' + // 차변 합계
+						'<td class="SubmitDate" name="CSum">' + response[i].CSum + '</td>' + // 대변 합계
+						'<td class="SubmitDate" name="DocState">' + response[i].Status + '</td>' + // 전표상태
+						'<td class="SubmitDate" name="ApprovalLevel">' + response[i].Step + '</td>' + // 결재단계
+						'<td class="SubmitDate" name="Approver">' + response[i].Approver + '</td>' + // 결재/합의자
+						'<td class="SubmitDate" name="Time">' + response[i].Time + '</td>' + // 경과일수
+						'<td class="SubmitDate" name="DocType">' + response[i].Type + '</td>' + // 전표유형
+						'<td class="SubmitDate Head" name="UserDepart" hidden>' + response[i].ComCode + '</td>' + // 법인
 						'</tr>';
 						OP_table.append(row);
 					};
@@ -207,7 +208,7 @@ function InfoSearch(event, inputFieldId){
 }
 function ApprovalBtn(event, ActionField){
 	event.preventDefault();
-
+	
 	var popupWidth = 1000;
     var popupHeight = 600;
    /*  var ComCode = document.querySelector('#UserDepart').value; */
@@ -236,6 +237,57 @@ function ApprovalBtn(event, ActionField){
         xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
         yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
     }
+    
+    var HeadList = {};
+    $('input.checkboxBtn:checked').closest('tr').find('.Head').each(function(){
+    	var name = $(this).attr("name");
+    	/* var value = $(this).val(); */
+    	var value = $(this).text();
+    	HeadList[name] = value;
+    });
+    console.log("HeadList : " , HeadList);
+    
+    var queryString = Object.keys(HeadList).map(function(key) {
+        return encodeURIComponent(key) + '=' + encodeURIComponent(HeadList[key]);
+    }).join('&');
+    
+	switch(ActionField){
+	case "Path":
+		$.ajax({
+			url: '${contextPath}/Slip/Info/WFCheck.jsp',
+			 type: 'POST',
+			 data: JSON.stringify(HeadList),
+			 contentType: 'application/json; charset=utf-8',
+ 	         dataType: 'json', // 수정: datatype -> dataType
+ 	        success: function(response){
+ 	        	if(response.result === "Fail"){ // 미상신 전표 중 결재경로가 등록되지 않는 전표인 경우
+ 	        		popupWidth = 1200;
+ 	        	    popupHeight = 600;
+ 	                console.log("Success");
+ 	        		window.open(
+ 	                        "${contextPath}/Slip/Info/DecPayPath.jsp?" + queryString, 
+ 	                        "테스트", 
+ 	                        "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
+ 	                    );
+ 	        	}
+ 	        	/* 
+ 	        	'품의 상신'을 진행할 지 묻고, 긍정이면 '품의 상신' 팝업창을 띄워준다. 아니면 결재경로까지 등록하고 해당 팝업창 종료 
+ 	        	*/
+ 	        }
+		})
+		break
+	case "Submit":
+		/* 
+		먼저 '결재경로' 등록됐는지 확인, 부정이면 '결재경로등록' 팝업창을 띄워주고 등록 후 '품의 상신' 팝업창의 띄워준다. 
+		*/
+		break;
+	case "Cancel":
+		break;
+	case "Approve":
+		break;
+	default:
+			break;
+	}
 }
 </script>
 <meta charset="UTF-8">
@@ -317,12 +369,11 @@ function ApprovalBtn(event, ActionField){
 			</div>
 			<div class="UntSituation">
 				<div class="Area_title">미승인전표 현황</div>
-				<div class="ButtonArea">				
-					<button onclick="ApprovalBtn(event, 'Edit')">수정</button>
+				<div class="ButtonArea">
 					<button onclick="ApprovalBtn(event, 'Path')">결재경로</button>
 					<button onclick="ApprovalBtn(event, 'Submit')">품의상신</button>
 					<button onclick="ApprovalBtn(event, 'Cancel')">품의취소</button>
-					<button>결재/합의</button>
+					<button onclick="ApprovalBtn(event, 'Approve')">결재/합의</button>
 				</div>
 				<div class="UnApprovalDocArea">
 					<table class="UnAppSlipTable">

@@ -110,6 +110,7 @@
 							josnobject.put("Approver", OP_Approver); // 결재 또는 합의자
 							josnobject.put("Time", RsVer01.getInt("ElapsedHour")); // 결과일수
 							josnobject.put("Type", RsVer01.getString("DocType")); // 전표유형	
+							josnobject.put("ComCode", RsVer01.getString("ComCode")); // 법인
 							
 							String SqlVer02 = "SELECT * FROM fldocline WHERE DocNum = '"+ DocNum +"'";
 							PreparedStatement PstmtVer02 = conn.prepareStatement(SqlVer02);
@@ -176,6 +177,7 @@
 									josnobject.put("Approver", OP_Approver); // 결재 또는 합의자
 									josnobject.put("Time", RsVer01.getInt("ElapsedHour")); // 결과일수
 									josnobject.put("Type", RsVer01.getString("DocType")); // 전표유형	
+									josnobject.put("ComCode", RsVer01.getString("ComCode")); // 법인
 									
 									String SqlVer02 = "SELECT * FROM fldocline WHERE DocNum = '"+ DocNum +"'";
 									PreparedStatement PstmtVer02 = conn.prepareStatement(SqlVer02);
@@ -246,6 +248,7 @@
 				josnobject.put("Approver", "없음"); // 결재 또는 합의자
 				josnobject.put("Time", DocSearch_Rs.getInt("ElapsedHour")); // 경과일수
 				josnobject.put("Type", DocSearch_Rs.getString("DocType")); // 전표유형	
+				josnobject.put("ComCode", DocSearch_Rs.getString("ComCode")); // 법인
 				
 				String SqlVer02 = "SELECT * FROM fldocline WHERE DocNum = '"+ DocNum +"'";
 				PreparedStatement PstmtVer02 = conn.prepareStatement(SqlVer02);
@@ -308,7 +311,7 @@
 				josnobject.put("Approver", "없음"); // 결재 또는 합의자
 				josnobject.put("Time", DocSearch_Rs.getInt("ElapsedHour")); // 경과일수
 				josnobject.put("Type", DocSearch_Rs.getString("DocType")); // 전표유형	
-				//jsonArray.add(josnobject);
+				josnobject.put("ComCode", DocSearch_Rs.getString("ComCode")); // 법인
 				
 				String SqlVer02 = "SELECT * FROM fldocline WHERE DocNum = '"+ DocNum +"'";
 				PreparedStatement PstmtVer02 = conn.prepareStatement(SqlVer02);
@@ -371,7 +374,7 @@
 				josnobject.put("Approver", "없음"); // 결재 또는 합의자
 				josnobject.put("Time", DocSearch_Rs.getInt("ElapsedHour")); // 경과일수
 				josnobject.put("Type", DocSearch_Rs.getString("DocType")); // 전표유형	
-				//jsonArray.add(josnobject);
+				josnobject.put("ComCode", DocSearch_Rs.getString("ComCode")); // 법인
 				
 				String SqlVer02 = "SELECT * FROM fldocline WHERE DocNum = '"+ DocNum +"'";
 				PreparedStatement PstmtVer02 = conn.prepareStatement(SqlVer02);
@@ -438,7 +441,7 @@
 				josnobject.put("Approver", "없음"); // 결재 또는 합의자
 				josnobject.put("Time", DocSearch_Rs.getInt("ElapsedHour")); // 경과일수
 				josnobject.put("Type", DocSearch_Rs.getString("DocType")); // 전표유형	
-				//jsonArray.add(josnobject);
+				josnobject.put("ComCode", DocSearch_Rs.getString("ComCode")); // 법인
 				
 				String SqlVer02 = "SELECT * FROM fldocline WHERE DocNum = '"+ DocNum +"'";
 				PreparedStatement PstmtVer02 = conn.prepareStatement(SqlVer02);
