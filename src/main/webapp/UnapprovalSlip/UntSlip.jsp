@@ -25,8 +25,8 @@
 <html>
 <head>
 <script type="text/javascript">
-
 $(document).ready(function(){
+	BtnAccess();
 /* 	var OP_ComCode = $('.UserComCode').val(); // 검색 조건 중 회사코드
 	var OP_BA = $('.UserBizArea').val(); // 검색 조건 중 BA
 	var OP_COCT = $('.UserDepartCd').val(); // 검색 조건 중 COCT
@@ -42,14 +42,6 @@ $(document).ready(function(){
 	$(".TimeStampF").val(formatDate(FromDate));
 	$(".TimeStampE").val(formatDate(FromDate));
 	
-	/* var OptionList = {};
-	$('.Option').each(function(){
-		var name = $(this).attr("name");
-		var value = $(this).val();
-		OptionList[name] = value;
-	})
-	console.log("검색할 조건들 : ", OptionList); */
-
 	function formatDate(date) {
 	    var dd = String(date.getDate()).padStart(2, '0');
 	    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -57,7 +49,16 @@ $(document).ready(function(){
 	
 	   return yyyy + '-' + mm + '-' + dd;
 	}
-	
+	function InfoReset(event){
+		$('.UserBizArea').val('');
+		$('.UserBizArea_Des').val('');
+		$('.UserDepartCd').val('');
+		$('.UserDepartCd_Des').val('');
+		$('.InputerId').val('');
+		$('.Inputer_Name').val('');
+		$('.ApproverId').val('');
+		$('.Approver_Name').val('');
+	}
 	function SlipSearch(event){
 		event.preventDefault();
 		
@@ -131,7 +132,8 @@ $(document).ready(function(){
 		});
 		
 	}
-	 $('.Inquiry').on('click', SlipSearch);
+	$('.Inquiry').on('click', SlipSearch);
+	$('.ResetBtn').on('click', InfoReset);
 	/* 
 	사용자 인터랙션 처리:
 
@@ -154,6 +156,28 @@ $(document).ready(function(){
 });
 </script>
 <script>
+function BtnAccess(){
+    var loginId = <%=User_Id%>;
+    var InputerId = $('.InputerId').val(); // 전표입력자
+    var ApproverId = $('.ApproverId').val(); // 결재합의자
+    
+    if ((InputerId && InputerId !== loginId) || (ApproverId && ApproverId !== loginId)) {
+        // InputerId 또는 ApproverId가 존재하며, 둘 중 하나라도 loginId와 다를 경우
+        console.log("DisabledBtn 실행됨");
+        DisabledBtn();
+    } else {
+        // 둘 다 loginId와 같거나, 비어있는 경우
+        console.log("EnabledBtn 실행됨");
+        EnabledBtn();
+    }
+};
+function DisabledBtn(){
+	$('.ButtonArea Button').attr('disabled', true);
+};
+function EnabledBtn(){
+	$('.ButtonArea Button').attr('disabled', false);
+};
+
 function InfoSearch(event, inputFieldId){
 	event.preventDefault();
 
@@ -209,6 +233,10 @@ function InfoSearch(event, inputFieldId){
 function ApprovalBtn(event, ActionField){
 	event.preventDefault();
 	
+	/* if ($('.ButtonArea button').attr('disabled')) {
+        return; // 버튼이 비활성화된 경우, 아무 동작도 하지 않음
+    } */
+	
 	var popupWidth = 1000;
     var popupHeight = 600;
    /*  var ComCode = document.querySelector('#UserDepart').value; */
@@ -263,12 +291,14 @@ function ApprovalBtn(event, ActionField){
  	        	if(response.result === "Fail"){ // 미상신 전표 중 결재경로가 등록되지 않는 전표인 경우
  	        		popupWidth = 1200;
  	        	    popupHeight = 600;
- 	                console.log("Success");
+ 	                console.log("백곰파Success");
  	        		window.open(
  	                        "${contextPath}/Slip/Info/DecPayPath.jsp?" + queryString, 
  	                        "테스트", 
  	                        "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
  	                    );
+ 	        	} else{
+ 	        		alert("결재경로가 등록된 미승인 전표입니다.");
  	        	}
  	        	/* 
  	        	'품의 상신'을 진행할 지 묻고, 긍정이면 '품의 상신' 팝업창을 띄워준다. 아니면 결재경로까지 등록하고 해당 팝업창 종료 
@@ -366,6 +396,7 @@ function ApprovalBtn(event, ActionField){
 						</tr>
 				</table>
 				<button class="Inquiry">조회</button>
+				<button class="ResetBtn">초기화</button>
 			</div>
 			<div class="UntSituation">
 				<div class="Area_title">미승인전표 현황</div>
@@ -376,10 +407,12 @@ function ApprovalBtn(event, ActionField){
 					<button onclick="ApprovalBtn(event, 'Approve')">결재/합의</button>
 				</div>
 				<div class="UnApprovalDocArea">
-					<table class="UnAppSlipTable">
+					<table class="UnAppSlipTable" id="UnAppSlipTable">
+					<thead>
 						<th>항번</th><th>선택</th><th>기표일자</th><th>전표번호</th><th>적요</th><th>전표입력 BA</th>
 						<th>전표입력부서</th><th>전표입력자</th><th>차변합계</th><th>대변합계</th><th>전표상태</th>
 						<th>결재단계</th><th>결재/합의자</th><th>경과일수</th><th>전표유형</th>
+					</thead>
 					</table>
 				</div>
 			</div>

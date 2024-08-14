@@ -27,7 +27,7 @@
 	JSONObject ApprovalData = (JSONObject) parser.parse(jsonData); // DecPatPath.jsp에서 받은 list IntegratedList
 	
 	LocalDateTime today = LocalDateTime.now();
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd HH:mm:ss");
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	String todayDate = today.format(formatter);
 
 	String SlipCode = (String)ApprovalData.get("SlipNo");

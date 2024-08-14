@@ -63,7 +63,7 @@
 	border-radius: 5px;
 	}
 	.slip_Search_Area button.Inquiry {
-    width: 200px;
+    width: 150px;
     padding: 15px;
     border-radius: 5px;
     border: 1px solid #002060;
@@ -71,9 +71,24 @@
     color: white;
     font-size: 20px;
     font-weight: 700;
-    margin-left: 150px;
+    margin-left: 100px;
 	}
 	.slip_Search_Area button.Inquiry:hover {
+    border: 1px solid #6FA7E6;
+    background: #6FA7E6;
+    color: white;
+	}
+	.slip_Search_Area button.ResetBtn {
+    width: 150px;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #002060;
+    background: #002060;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+	}
+	.slip_Search_Area button.ResetBtn:hover {
     border: 1px solid #6FA7E6;
     background: #6FA7E6;
     color: white;
