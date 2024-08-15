@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../../mydbcon.jsp" %>
-<link rel="stylesheet" href="../../css/forSlip.css?after">
+<link rel="stylesheet" href="../css/USTcss.css?after">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -21,7 +21,7 @@ function OpinionBtn(event, FieldName){
     var UserOpinion = $('.UserOp').val();
     if(FieldName === "Save"){
         $.ajax({
-            url: 'OpinionSave.jsp',
+            url: '${contextPath}/Slip/Info/UnSlipOpinionSave.jsp',
             type:'POST',
             data: {SlipCode : DocCode, Opinion : UserOpinion},
             dataType: 'json',
@@ -39,8 +39,8 @@ function OpinionBtn(event, FieldName){
                 console.log('Error:', textStatus, errorThrown);
             }
         });
-    } else{
-    	window.close();
+    } else {
+    	 window.close();
     }
 }
 </script>

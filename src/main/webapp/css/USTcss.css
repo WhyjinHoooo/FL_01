@@ -41,7 +41,31 @@
 	margin-left: 235px;
 	}
 /* Information 팝업창 CSS END */
-
+	.OpinionBanner {
+    text-align: center;
+    background: #002060;
+    font-size: x-large;
+    color: white;
+    padding: 10px;
+    border: 1px solid;
+	}
+	.OpinionTable th{
+	text-align: right;
+	}
+	.OpinionTable .UserOp{
+		width: 543px;
+		height: 208px;
+	}
+	.OpinionDiv button{
+    margin-left: 150px;
+    padding: 10px 20px 10px 20px;
+    width: 150px;
+    background: purple;
+    color: white;
+    font-size: 20px;
+    border: 1px solid purple;
+    border-radius: 5px;
+	}
 @media only screen and (min-width: 1537px) {
 	body, html {
 	height :94%;

@@ -106,7 +106,7 @@ $(document).ready(function(){
 						'<td>' + (i+1) + '</td>' + // 항번
 						'<td><input type="checkbox" class="checkboxBtn"></td>' + //체크 박스
 						'<td class="SubmitDate" name="PostingDate">' + response[i].Date + '</td>' + // 기표일자
-						'<td class="SubmitDate Head" name="SlipNo">' + response[i].DocCode + '</td>' + // 전표번호
+						'<td class="SubmitDate Head" id="SlipNo" name="SlipNo">' + response[i].DocCode + '</td>' + // 전표번호
 						'<td class="SubmitDate" name="Script">' + response[i].Script + '</td>' + // 적요
 						'<td class="SubmitDate Head" name="UserBizArea">' + response[i].BA + '</td>' + // BA
 						'<td class="SubmitDate Head" name="TargetDepartCd">' + response[i].CoCt + '</td>' + // COCT
@@ -279,6 +279,9 @@ function ApprovalBtn(event, ActionField){
         return encodeURIComponent(key) + '=' + encodeURIComponent(HeadList[key]);
     }).join('&');
     
+    var SilpCode = $('input.checkboxBtn:checked').closest('tr').find('#SlipNo').text();
+    console.log("전표코드를 확인용 코드 : " + SilpCode);
+    
 	switch(ActionField){
 	case "Path":
 		$.ajax({
@@ -300,16 +303,17 @@ function ApprovalBtn(event, ActionField){
  	        	} else{
  	        		alert("결재경로가 등록된 미승인 전표입니다.");
  	        	}
- 	        	/* 
- 	        	'품의 상신'을 진행할 지 묻고, 긍정이면 '품의 상신' 팝업창을 띄워준다. 아니면 결재경로까지 등록하고 해당 팝업창 종료 
- 	        	*/
  	        }
 		})
 		break
 	case "Submit":
-		/* 
-		먼저 '결재경로' 등록됐는지 확인, 부정이면 '결재경로등록' 팝업창을 띄워주고 등록 후 '품의 상신' 팝업창의 띄워준다. 
-		*/
+		popupWidth = 750;
+	    popupHeight = 400;
+		window.open(
+                 "UnslipOpWirte.jsp?SlipCode=" + SilpCode, 
+                 "테스트", 
+                 "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
+             );
 		break;
 	case "Cancel":
 		break;
