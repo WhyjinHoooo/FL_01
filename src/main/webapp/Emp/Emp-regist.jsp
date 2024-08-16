@@ -159,7 +159,7 @@ function sample6_execDaumPostcode() {
 						
 						<tr class="spacer-row"></tr>
 						
-						<tr><th class="info">Description : </th>
+						<tr><th class="info">Employee Name : </th>
 							<td class="input-info">
 								<input type="text" name="Des" size="47">
 							</td>

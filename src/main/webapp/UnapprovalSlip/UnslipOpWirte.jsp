@@ -21,7 +21,7 @@ function OpinionBtn(event, FieldName){
     var UserOpinion = $('.UserOp').val();
     if(FieldName === "Save"){
         $.ajax({
-            url: '${contextPath}/Slip/Info/UnSlipOpinionSave.jsp',
+            url: '${contextPath}/UnapprovalSlip/InfoSearch/UnSlipOpinionSave.jsp',
             type:'POST',
             data: {SlipCode : DocCode, Opinion : UserOpinion},
             dataType: 'json',

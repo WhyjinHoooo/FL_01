@@ -29,6 +29,7 @@
 		session.setAttribute("id", UserId);
 		session.setAttribute("depart", UserBelong);
 		session.setAttribute("name", rs.getString("UserName"));
+		session.setAttribute("UserCode", rs.getString("Id"));
 %>
 	<script>
 		alert('로그인에 성공했습니다.');
