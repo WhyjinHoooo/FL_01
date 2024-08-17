@@ -98,9 +98,11 @@ $(document).ready(function(){
 			async: false,
 			success: function(response){
 				console.log(response);
+				 var $tbody = $('#UnAppSlipTable tbody');
 				if(response.length > 0){
+					$tbody.empty(); // 기존 데이터 삭제
 					//var data = JSON.parse(response);
-					OP_table.find('tr:gt(0)').remove();
+					// OP_table.find('tr:gt(0)').remove();
 					for(var i = 0 ; i < response.length; i++){
 						var row = '<tr>' +
 						'<td>' + (i+1) + '</td>' + // 항번
@@ -120,10 +122,12 @@ $(document).ready(function(){
 						'<td class="SubmitDate" name="DocType">' + response[i].Type + '</td>' + // 전표유형
 						'<td class="SubmitDate Head" name="UserDepart" hidden>' + response[i].ComCode + '</td>' + // 법인
 						'</tr>';
-						OP_table.append(row);
+						//OP_table.append(row);
+						$tbody.append(row);
 					};
 				} else{
 					alert("해당 조건을 만족하는 미승인 전표가 없습니다.");
+					$tbody.empty();
 				}
 			},
 			error: function(){
@@ -156,28 +160,36 @@ $(document).ready(function(){
 });
 </script>
 <script>
-function BtnAccess(){
-    var loginId = <%=User_Id%>;
+function BtnAccess() {
+    var loginId = "<%=User_Id%>"; // loginId를 문자열로 처리합니다.
     var InputerId = $('.InputerId').val(); // 전표입력자
     var ApproverId = $('.ApproverId').val(); // 결재합의자
     
-    if ((InputerId && InputerId !== loginId) || (ApproverId && ApproverId !== loginId)) {
-        // InputerId 또는 ApproverId가 존재하며, 둘 중 하나라도 loginId와 다를 경우
-        console.log("DisabledBtn 실행됨");
-        DisabledBtn();
-    } else {
-        // 둘 다 loginId와 같거나, 비어있는 경우
+    if (
+        // 1. InputerId와 ApproverId가 모두 없고 loginId만 있는 경우
+        (!InputerId && !ApproverId && loginId) ||
+
+        // 2. ApproverId가 없고 InputerId가 loginId와 같은 경우
+        (!ApproverId && InputerId === loginId) ||
+
+        // 3. InputerId의 유무에 상관없이 ApproverId가 loginId와 같은 경우
+        (ApproverId === loginId)
+    ) {
         console.log("EnabledBtn 실행됨");
         EnabledBtn();
+    } else {
+        console.log("DisabledBtn 실행됨");
+        DisabledBtn();
     }
 };
+
 function DisabledBtn(){
-	$('.ButtonArea Button').attr('disabled', true);
-};
-function EnabledBtn(){
-	$('.ButtonArea Button').attr('disabled', false);
+    $('.ButtonArea Button').attr('disabled', true);
 };
 
+function EnabledBtn(){
+    $('.ButtonArea Button').attr('disabled', false);
+};
 function InfoSearch(event, inputFieldId){
 	event.preventDefault();
 
@@ -265,7 +277,6 @@ function ApprovalBtn(event, ActionField){
         xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
         yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
     }
-    
     var HeadList = {};
     $('input.checkboxBtn:checked').closest('tr').find('.Head').each(function(){
     	var name = $(this).attr("name");
@@ -278,6 +289,8 @@ function ApprovalBtn(event, ActionField){
     	alert("1개의 미승인 전표만 선택해주세요.");
     	return false;
     }
+    
+    var row = $('input.checkboxBtn:checked').closest('tr');
     
     console.log("HeadList : " , HeadList);
     
@@ -400,6 +413,7 @@ function ApprovalBtn(event, ActionField){
 			success: function(response){
 				if(response.status === 'success'){
 					alert('데이터 삭제 완료');
+					row.remove();
 				} else {
 					alert('삭제 실패');
 					console.log('Error : ', response.message);
@@ -510,6 +524,9 @@ function ApprovalBtn(event, ActionField){
 						<th>전표입력부서</th><th>전표입력자</th><th>차변합계</th><th>대변합계</th><th>전표상태</th>
 						<th>결재단계</th><th>결재/합의자</th><th>경과일수</th><th>전표유형</th>
 					</thead>
+					<tbody>
+				        <!-- 데이터가 여기에 로드됩니다 -->
+				    </tbody>
 					</table>
 				</div>
 			</div>

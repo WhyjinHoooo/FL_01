@@ -18,21 +18,18 @@
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, Slipcode);
 				pstmt.executeUpdate();
-				jsonResponse.put("status", "fldochead success");
 				break;
 			case "fldocline":
 				sql = "DELETE FROM fldocline WHERE DocNum = ?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, Slipcode);
 				pstmt.executeUpdate();
-				jsonResponse.put("status", "fldocline success");
 				break;			
 			case "fidoclineinform":
 				sql = "DELETE FROM fidoclineinform WHERE DocNum_LineDetail LIKE ?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, Slipcode + "%");
 				pstmt.executeUpdate();
-				jsonResponse.put("status", "fidoclineinform success");
 				break;
 			case "workflow":
 				sql = "DELETE FROM workflow WHERE DocNum = ?";
@@ -46,27 +43,31 @@
 				Reset01.executeUpdate();
 				Reset02.executeUpdate();
 				pstmt.executeUpdate();
-				jsonResponse.put("status", "workflow success");
 				break;
 			case "docworkflowhead":
-				sql = "DELETE FROM fldocline WHERE DocNum = ?";
+				sql = "DELETE FROM docworkflowhead WHERE DocNum = ?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, Slipcode);
 				pstmt.executeUpdate();
-				jsonResponse.put("status", "docworkflowhead success");
 				break;
 			case "docworkflowline":
 				sql = "DELETE FROM docworkflowline WHERE DocNum = ?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, Slipcode);
 				pstmt.executeUpdate();
-				jsonResponse.put("status", "docworkflowline success");
 				break;
 			}
 		}
+		jsonResponse.put("status", "success");
 	}catch(SQLException e){
 		jsonResponse.put("status", "error");
 		jsonResponse.put("message", e.getMessage());
 		e.printStackTrace();
+	}finally{
+        if (pstmt != null) try {
+        	pstmt.close(); 
+        	} catch (SQLException ignore) {}
 	}
+	out.print(jsonResponse.toString());
+    out.flush();
 %>
