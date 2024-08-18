@@ -49,6 +49,7 @@ $(document).ready(function(){
 	
 	   return yyyy + '-' + mm + '-' + dd;
 	}
+	
 	function InfoReset(event){
 		$('.UserBizArea').val('');
 		$('.UserBizArea_Des').val('');
@@ -120,8 +121,16 @@ $(document).ready(function(){
 						'<td class="SubmitDate" name="Approver">' + response[i].Approver + '</td>' + // 결재/합의자
 						'<td class="SubmitDate" name="Time">' + response[i].Time + '</td>' + // 경과일수
 						'<td class="SubmitDate" name="DocType">' + response[i].Type + '</td>' + // 전표유형
-						'<td class="SubmitDate Head" name="UserDepart" hidden>' + response[i].ComCode + '</td>' + // 법인
-						'</tr>';
+						'<td class="SubmitDate Head" name="UserDepart" hidden>' + response[i].ComCode + '</td>'; // 법인
+
+						// 조건에 따른 LineInfo 열 추가
+					    if (response[i].LineInfo == "Yes") {
+					    	 row += '<td class="SubmitDate" name="LineInfo" id="LineInfo"><a href="javascript:void(0)" onClick="LinfInfoShow(\'' + response[i].DocCode + '\')">&#128172;</a></td>';
+					    } else {
+					        row += '<td class="SubmitDate" name="LineInfo" id="LineInfo"></td>';
+					    }
+						
+						 row += '</tr>';
 						//OP_table.append(row);
 						$tbody.append(row);
 					};
@@ -160,6 +169,38 @@ $(document).ready(function(){
 });
 </script>
 <script>
+function LinfInfoShow(docCode){
+    console.log("Selected DocCode:", docCode);
+    var popupWidth = 1030;
+    var popupHeight = 360;
+   /*  var ComCode = document.querySelector('#UserDepart').value; */
+    
+    // 현재 활성화된 모니터의 위치를 감지
+    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
+    
+    // 전체 화면의 크기를 감지
+    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+    var xPos, yPos;
+    
+    if (width == 2560 && height == 1440) {
+        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
+        xPos = (2560 / 2) - (popupWidth / 2);
+        yPos = (1440 / 2) - (popupHeight / 2);
+    } else if (width == 1920 && height == 1080) {
+        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
+        xPos = (1920 / 2) - (popupWidth / 2);
+        yPos = (1080 / 2) - (popupHeight / 2);
+    } else {
+        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
+        var monitorWidth = 2560;
+        var monitorHeight = 1440;
+        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+    }
+    window.open("${contextPath}/UnapprovalSlip/InfoSearch/LineinfoShow.jsp?SlipCode=" + docCode, "테스트", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+}
 function BtnAccess() {
     var loginId = "<%=User_Id%>"; // loginId를 문자열로 처리합니다.
     var InputerId = $('.InputerId').val(); // 전표입력자
@@ -190,6 +231,7 @@ function DisabledBtn(){
 function EnabledBtn(){
     $('.ButtonArea Button').attr('disabled', false);
 };
+
 function InfoSearch(event, inputFieldId){
 	event.preventDefault();
 
@@ -522,7 +564,7 @@ function ApprovalBtn(event, ActionField){
 					<thead>
 						<th>항번</th><th>선택</th><th>기표일자</th><th>전표번호</th><th>적요</th><th>전표입력 BA</th>
 						<th>전표입력부서</th><th>전표입력자</th><th>차변합계</th><th>대변합계</th><th>전표상태</th>
-						<th>결재단계</th><th>결재/합의자</th><th>경과일수</th><th>전표유형</th>
+						<th>결재단계</th><th>결재/합의자</th><th>경과일수</th><th>전표유형</th><th>상세</th>
 					</thead>
 					<tbody>
 				        <!-- 데이터가 여기에 로드됩니다 -->

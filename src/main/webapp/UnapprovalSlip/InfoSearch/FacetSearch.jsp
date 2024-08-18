@@ -45,6 +45,7 @@
 		
 		String DocNum = null;
 		String Step = null;
+		String YesNo = null;
 		int Number = 0;
 		int C_Sum = 0;
 		int D_Sum = 0;
@@ -65,7 +66,18 @@
 				DocNum = DocSearch_Rs.getString("DocNum"); // 전표 번호
 				Step = DocSearch_Rs.getString("WFStep"); // 결재합의자의 Level
 				Number = Integer.parseInt(Step);
-				// 결재합의자가 결재할 전표가 있다면 전표번호,본인의 결재 Level(String을 int로 변환)을 가져오기 
+				// 결재합의자가 결재할 전표가 있다면 전표번호,본인의 결재 Level(String을 int로 변환)을 가져오기
+				
+				String LineInfo_Sql = "SELECT * FROM fidoclineinform WHERE DocNum_LineDetail LIKE ?";
+				PreparedStatement LineINfo_Pstmt = conn.prepareStatement(LineInfo_Sql);
+				LineINfo_Pstmt.setString(1, DocNum + "%");
+				ResultSet LioneInfo_Rs = LineINfo_Pstmt.executeQuery();
+				if(LioneInfo_Rs.next()){
+					YesNo = "Yes";
+				} else{
+					YesNo = "No";
+				}
+				
 				String Refer_Slip_Query = "SELECT * FROM docworkflowline WHERE DocNum = '" + DocNum + "' AND WFType = 'S'";
 				// 전표가 있으면 그 전표가 상신된 상태인지 확인하는 쿼리문
 				PreparedStatement Refer_Slip_Pstmt = conn.prepareStatement(Refer_Slip_Query);
@@ -93,10 +105,12 @@
 								      "    DocNum = '" + DocNum + "' AND " +
 								      "    postingDay = '" + OP_From + "'";
 						}; // if(!OP_From.equals(OP_End)){...}else{...}의 끝
-
+						
 						// 그 전표 번호를 갖는 전표의 상신 일자, 전표번호, 발생회계단위, 입력부서, 입력자, 적요, 전표상태, 결재단계, 경과일수, 전표유형을 가져온다.
 						PreparedStatement PstmtVer01 = conn.prepareStatement(SqlVer01);
 						ResultSet RsVer01 = PstmtVer01.executeQuery();
+						
+						
 						
 						while(RsVer01.next()){
 							josnobject.put("Date", RsVer01.getString("postingDay"));
@@ -111,6 +125,7 @@
 							josnobject.put("Time", RsVer01.getInt("ElapsedHour")); // 결과일수
 							josnobject.put("Type", RsVer01.getString("DocType")); // 전표유형	
 							josnobject.put("ComCode", RsVer01.getString("ComCode")); // 법인
+							josnobject.put("LineInfo", YesNo); // 해당 전표의 상세 정보(카드 번호 등등)
 							
 							String SqlVer02 = "SELECT * FROM fldocline WHERE DocNum = '"+ DocNum +"'";
 							PreparedStatement PstmtVer02 = conn.prepareStatement(SqlVer02);
@@ -178,6 +193,7 @@
 									josnobject.put("Time", RsVer01.getInt("ElapsedHour")); // 결과일수
 									josnobject.put("Type", RsVer01.getString("DocType")); // 전표유형	
 									josnobject.put("ComCode", RsVer01.getString("ComCode")); // 법인
+									josnobject.put("LineInfo", YesNo); // 해당 전표의 상세 정보(카드 번호 등등)
 									
 									String SqlVer02 = "SELECT * FROM fldocline WHERE DocNum = '"+ DocNum +"'";
 									PreparedStatement PstmtVer02 = conn.prepareStatement(SqlVer02);
@@ -200,7 +216,7 @@
 					}
 				} // while(Refer_Slip_Rs.next()){...}의 끝(상신된 전표가 있는 경우)
 			} // while(DocSearch_Rs.next()){...}의 끝
-		}else if(OP_Inputer != null && !OP_Inputer.isEmpty()){
+		} else if(OP_Inputer != null && !OP_Inputer.isEmpty()){
 			// 전표입력자가 있는 경우
 			System.out.println("전표입력자01");
 			System.out.println("OP_State : " + OP_State);
@@ -229,8 +245,18 @@
 			if(DocSearch_Rs.next()){
 				DocNum = DocSearch_Rs.getString("DocNum");
 			}
-			System.out.println("전표입력자01-1 : " + OP_Inputer);
 			
+			String LineInfo_Sql = "SELECT * FROM fidoclineinform WHERE DocNum_LineDetail LIKE ?";
+			PreparedStatement LineINfo_Pstmt = conn.prepareStatement(LineInfo_Sql);
+			LineINfo_Pstmt.setString(1, DocNum + "%");
+			ResultSet LioneInfo_Rs = LineINfo_Pstmt.executeQuery();
+			if(LioneInfo_Rs.next()){
+				YesNo = "Yes";
+			} else{
+				YesNo = "No";
+			}
+			System.out.println("전표입력자01-1 : " + OP_Inputer);
+			System.out.println("YesNo : " + YesNo);
 			DocSearch_Rs.beforeFirst();
 			
 			while(DocSearch_Rs.next()){
@@ -249,6 +275,7 @@
 				josnobject.put("Time", DocSearch_Rs.getInt("ElapsedHour")); // 경과일수
 				josnobject.put("Type", DocSearch_Rs.getString("DocType")); // 전표유형	
 				josnobject.put("ComCode", DocSearch_Rs.getString("ComCode")); // 법인
+				josnobject.put("LineInfo", YesNo);
 				
 				String SqlVer02 = "SELECT * FROM fldocline WHERE DocNum = '"+ DocNum +"'";
 				PreparedStatement PstmtVer02 = conn.prepareStatement(SqlVer02);
@@ -293,7 +320,15 @@
 			if(DocSearch_Rs.next()){
 				DocNum = DocSearch_Rs.getString("DocNum");
 			};
-			
+			String LineInfo_Sql = "SELECT * FROM fidoclineinform WHERE DocNum_LineDetail LIKE ?";
+			PreparedStatement LineINfo_Pstmt = conn.prepareStatement(LineInfo_Sql);
+			LineINfo_Pstmt.setString(1, DocNum + "%");
+			ResultSet LioneInfo_Rs = LineINfo_Pstmt.executeQuery();
+			if(LioneInfo_Rs.next()){
+				YesNo = "Yes";
+			} else{
+				YesNo = "No";
+			}
 			DocSearch_Rs.beforeFirst();
 			
 			while(DocSearch_Rs.next()){
@@ -312,6 +347,7 @@
 				josnobject.put("Time", DocSearch_Rs.getInt("ElapsedHour")); // 경과일수
 				josnobject.put("Type", DocSearch_Rs.getString("DocType")); // 전표유형	
 				josnobject.put("ComCode", DocSearch_Rs.getString("ComCode")); // 법인
+				josnobject.put("LineInfo", YesNo);
 				
 				String SqlVer02 = "SELECT * FROM fldocline WHERE DocNum = '"+ DocNum +"'";
 				PreparedStatement PstmtVer02 = conn.prepareStatement(SqlVer02);
@@ -356,7 +392,15 @@
 			if(DocSearch_Rs.next()){
 				DocNum = DocSearch_Rs.getString("DocNum");
 			}
-			
+			String LineInfo_Sql = "SELECT * FROM fidoclineinform WHERE DocNum_LineDetail LIKE ?";
+			PreparedStatement LineINfo_Pstmt = conn.prepareStatement(LineInfo_Sql);
+			LineINfo_Pstmt.setString(1, DocNum + "%");
+			ResultSet LioneInfo_Rs = LineINfo_Pstmt.executeQuery();
+			if(LioneInfo_Rs.next()){
+				YesNo = "Yes";
+			} else{
+				YesNo = "No";
+			}
 			DocSearch_Rs.beforeFirst();
 			
 			while(DocSearch_Rs.next()){
@@ -375,7 +419,7 @@
 				josnobject.put("Time", DocSearch_Rs.getInt("ElapsedHour")); // 경과일수
 				josnobject.put("Type", DocSearch_Rs.getString("DocType")); // 전표유형	
 				josnobject.put("ComCode", DocSearch_Rs.getString("ComCode")); // 법인
-				
+				josnobject.put("LineInfo", YesNo);
 				String SqlVer02 = "SELECT * FROM fldocline WHERE DocNum = '"+ DocNum +"'";
 				PreparedStatement PstmtVer02 = conn.prepareStatement(SqlVer02);
 				ResultSet RsVer02 = PstmtVer02.executeQuery();
@@ -423,7 +467,15 @@
 			if(DocSearch_Rs.next()){
 				DocNum = DocSearch_Rs.getString("DocNum");
 			}
-			
+			String LineInfo_Sql = "SELECT * FROM fidoclineinform WHERE DocNum_LineDetail LIKE ?";
+			PreparedStatement LineINfo_Pstmt = conn.prepareStatement(LineInfo_Sql);
+			LineINfo_Pstmt.setString(1, DocNum + "%");
+			ResultSet LioneInfo_Rs = LineINfo_Pstmt.executeQuery();
+			if(LioneInfo_Rs.next()){
+				YesNo = "Yes";
+			} else{
+				YesNo = "No";
+			}
 			DocSearch_Rs.beforeFirst();
 			
 			while(DocSearch_Rs.next()){
@@ -442,6 +494,7 @@
 				josnobject.put("Time", DocSearch_Rs.getInt("ElapsedHour")); // 경과일수
 				josnobject.put("Type", DocSearch_Rs.getString("DocType")); // 전표유형	
 				josnobject.put("ComCode", DocSearch_Rs.getString("ComCode")); // 법인
+				josnobject.put("LineInfo", YesNo);
 				
 				String SqlVer02 = "SELECT * FROM fldocline WHERE DocNum = '"+ DocNum +"'";
 				PreparedStatement PstmtVer02 = conn.prepareStatement(SqlVer02);

@@ -34,6 +34,31 @@
 	.InfoSearchBoard td a:hover {
 	text-decoration: underline;
 	}
+	
+	.LineInfoBoard {
+	padding: 20px;
+	width: 80%;
+	max-height: 400px;
+	position: relative;
+	}
+	.LineInfoBoard table{
+	width: 100%;
+	border-collapse: collapse;
+	}	
+	.LineInfoBoard th,
+	.LineInfoBoard td {
+	 border: 1px solid #ccc;
+	 padding: 10px;
+	 text-align: center;
+	 }
+	 .LineInfoBoard th {
+	background-color: rgb(111,167,235);
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	color: white;
+	}
+	
 	.CoCtNav a{
 	font-size: 20px;
 	color: white;
