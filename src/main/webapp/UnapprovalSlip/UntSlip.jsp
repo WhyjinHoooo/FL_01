@@ -27,6 +27,13 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	BtnAccess();
+	$('.InputerId').on('change', function() {
+		BtnAccess();
+	});
+	    
+	$('.ApproverId').on('change', function() {
+		BtnAccess();
+	});
 /* 	var OP_ComCode = $('.UserComCode').val(); // 검색 조건 중 회사코드
 	var OP_BA = $('.UserBizArea').val(); // 검색 조건 중 BA
 	var OP_COCT = $('.UserDepartCd').val(); // 검색 조건 중 COCT
@@ -204,8 +211,7 @@ function LinfInfoShow(docCode){
 function BtnAccess() {
     var loginId = "<%=User_Id%>"; // loginId를 문자열로 처리합니다.
     var InputerId = $('.InputerId').val(); // 전표입력자
-    var ApproverId = $('.ApproverId').val(); // 결재합의자
-    
+    var ApproverId = $('.ApproverId').val(); // 결재합의자  
     if (
         // 1. InputerId와 ApproverId가 모두 없고 loginId만 있는 경우
         (!InputerId && !ApproverId && loginId) ||
@@ -327,8 +333,12 @@ function ApprovalBtn(event, ActionField){
     	HeadList[name] = value;
     });
     var Ch_Count = $('input.checkboxBtn:checked').length;
+    console.log(Ch_Count);
     if(Ch_Count > 1){
-    	alert("1개의 미승인 전표만 선택해주세요.");
+    	alert("전표 1개만 선택해주세요.");
+    	return false;
+    } else if(Ch_Count === 0){
+    	alert("전표 1개를 선택해주세요.");
     	return false;
     }
     
@@ -467,6 +477,86 @@ function ApprovalBtn(event, ActionField){
 		});
 		break;
 	case "Approve":
+		$.ajax({
+			url: '${contextPath}/UnapprovalSlip/InfoSearch/SlipStateCheck.jsp',
+			type: 'POST',
+			data: {EntryCode : SilpCode},
+			data: {DocCode : SilpCode},
+			dataType: 'json',
+			success: function(response){
+				if(response.status === 'C'){
+					console.log("저장 전표")
+						$.ajax({
+						url: '${contextPath}/Slip/Info/WFCheck.jsp',
+						type: 'POST',
+						data: JSON.stringify(HeadList),
+						contentType: 'application/json; charset=utf-8',
+			 	        dataType: 'json', // 수정: datatype -> dataType
+			 	        success: function(response){
+			 	        	if(response.result === "Fail"){ // 미상신 전표 중 결재경로가 등록되지 않는 전표인 경우
+			 	        		popupWidth = 1200;
+								popupHeight = 600;
+			 	                console.log("백곰파Success");
+			 	               	var popup = window.open(
+			 	                        "${contextPath}/Slip/Info/DecPayPath.jsp?" + queryString, 
+			 	                        "테스트", 
+			 	                        "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
+			 	                    );
+			 	               
+			 	              	var timer = setInterval(function() { 
+									if (popup.closed) {
+			 	            	    	clearInterval(timer);
+			 	            	        if (confirm("품의 상신을 진행하시겠습니까?")) {
+			 	            	        	popupWidth = 750;
+				 	            	   	    popupHeight = 400;
+				 	            	   		window.open(
+			 	            	                    "UnslipOpWirte.jsp?SlipCode=" + SilpCode, 
+			 	            	                    "테스트", 
+			 	            	                    "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
+			 	            	                );
+			 	            	        } else {
+			 	            	        	alert("품의 상신을 취소합니다.");
+			 	            	        }
+			 	            	    }
+			 	            	}, 500);
+			 	        	} else{
+			 	        		if (confirm("결재경로가 등록된 전표입니다.\n품의 상신을 진행하시겠습니까?")) {
+			         	        	popupWidth = 750;
+				            	   	popupHeight = 400;
+				            	   	window.open(
+			         	            	"UnslipOpWirte.jsp?SlipCode=" + SilpCode, 
+			         	                "테스트", 
+			         	                "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
+			         	                );
+			         	        } else {
+			         	            // 취소 버튼을 눌렀을 때 실행할 코드
+			         	            console.log("작업을 취소합니다.");
+			         	        }
+			 	        	}
+			 	        }
+					})
+				} else if(response.status === 'B'){
+					console.log("품의 상신 진행");
+					if (confirm("결재경로가 등록된 전표입니다.\n품의 상신을 진행하시겠습니까?")) {
+         	        	popupWidth = 750;
+	            	   	    popupHeight = 400;
+	            	   		window.open(
+         	                    "UnslipOpWirte.jsp?SlipCode=" + SilpCode, 
+         	                    "테스트", 
+         	                    "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
+         	                );
+         	        } else {
+         	            alert("품의 상신을 취소합니다.");
+         	        }
+				} else{
+					console.log("결재 진행");
+					window.location.href="${contextPath}/UnapprovalSlip/AppAgree.jsp?EnrtyNumber=" + SilpCode;
+				}
+			}, 
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('Error:', textStatus, errorThrown);
+            }
+		})
 		break;
 	default:
 			break;

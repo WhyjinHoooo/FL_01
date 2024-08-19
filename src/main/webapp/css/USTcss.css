@@ -238,4 +238,64 @@
     border: 1px solid #ddd;
     padding: 8px;
 	}
+	
+	/* ------------------------------- */
+	.BodyArea{
+	display: flex;
+    flex-direction: row;
+	margin-top: 3%;
+	height: 100%;
+	}
+	.BodyArea .AppAgreeHeader{
+	border: 1px solid rgb(111, 167, 235);
+	width: 20%;
+	height: 98%;
+	margin: 0% 10px 0% 5%;
+	border-radius: 5px;
+	}
+	.BodyArea .AppAgreeLine{
+	overflow-y: auto;
+	border: 1px solid rgb(111, 167, 235);
+	width: 70%;
+	height: 98%;
+	border-radius: 5px;	
+	}
+	.AppAgreBtnArea {
+    margin: 5px 0px 0px 87%;
+	}
+	.AppAgreBtnArea button {
+    box-sizing: border-box;
+	appearance: none;
+	background-color: transparent;
+	border: 2px solid #7030A0; /* 변수를 실제 색상으로 대체 */
+	border-radius: 0.6em;
+	color: #7030A0; /* 변수를 실제 색상으로 대체 */
+	cursor: pointer;
+	align-self: center;
+	font-size: 1rem;
+	font-weight: 700; /* font-weight를 700으로 변경하여 중복 제거 */
+	line-height: 1;
+	padding: 10px;
+	text-decoration: none;
+	text-align: center;
+	text-transform: uppercase;
+	font-family: 'Montserrat', sans-serif;
+	width: 100px;
+	}
+	.AppAgreBtnArea button:hover,
+	.AppAgreBtnArea button:focus {
+	color: #fff;
+	outline: 0;
+	}
+	.AppAgreBtnArea button {
+	transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+	}
+	.AppAgreBtnArea button:hover {
+	box-shadow: 0 0 40px 40px #7030A0 inset; /* 변수를 실제 색상으로 대체 */
+	borde-radius: #7030A0;
+	}
+	.AppAgreBtnArea button:focus {
+	borde-radius: #7030A0;
+	}
+	
 }
