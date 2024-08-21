@@ -297,5 +297,24 @@
 	.AppAgreBtnArea button:focus {
 	borde-radius: #7030A0;
 	}
-	
+	.FinalAppTable {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 5px;
+	}
+	.FinalAppTable th {
+	background-color: rgb(111, 167, 235);
+	position: sticky;
+	top: 0;
+	color: white;
+	text-align: center;
+	z-index: 2;
+	padding: 8px;
+	border: 1px solid #fff;
+    }
+	.FinalAppTable td {
+	text-align: center;
+	border: 1px solid #ddd;
+	padding: 8px;
+    }
 }

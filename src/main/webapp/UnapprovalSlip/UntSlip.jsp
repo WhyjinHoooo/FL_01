@@ -442,11 +442,11 @@ function ApprovalBtn(event, ActionField){
  	        	} else{
  	        		if (confirm("결재경로가 등록된 전표입니다.\n품의 상신을 진행하시겠습니까?")) {
          	        	popupWidth = 750;
-	            	   	    popupHeight = 400;
-	            	   		window.open(
-         	                    "UnslipOpWirte.jsp?SlipCode=" + SilpCode, 
-         	                    "테스트", 
-         	                    "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
+	            	   	popupHeight = 400;
+	            	   	window.open(
+							"UnslipOpWirte.jsp?SlipCode=" + SilpCode, 
+							"테스트", 
+         	                "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
          	                );
          	        } else {
          	            // 취소 버튼을 눌렀을 때 실행할 코드
