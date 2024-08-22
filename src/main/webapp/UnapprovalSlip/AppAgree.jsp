@@ -116,13 +116,22 @@ function ApprovalBtn(event, Action){
     }
     switch(Action){
     case "Agree":
-    	window.open(
-				"DispositionPopUp.jsp?SlipCode=" + SlipCode, 
-				"테스트", 
-	            "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
-	            );
+    	yPose = 150;
+    	var popup = window.open(
+					"${contextPath}/UnapprovalSlip/DispositionPopUp.jsp?SlipCode=" + SlipCode, 
+					"DispositionPopUp", 
+		            "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
+		            );
+    	var timer = setInterval(function(){
+    		if (dispositionPopup.closed) {
+                clearInterval(timer);
+                alert("결재 의견을 등록했습니다.");
+                window.close(); // AppAgree.jsp 팝업을 닫습니다.
+            }
+    	}, 500);
     	break;
     case "Cancel":
+    	
     	break;
     }
 }

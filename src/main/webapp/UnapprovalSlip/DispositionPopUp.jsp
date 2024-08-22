@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,32 +18,35 @@ function OpinionBtn(event, Field){
 	
 	var SlipCode = $('.SlipCode').val();
 	var U_Op = $('.UserOp').val();
+	console.log(SlipCode);
+	console.log(U_Op);
 	
 	if(Field === "Save"){
-		if(FieldName === "Save"){
+			console.log("asdasdasdasdasdasdasdasdas");
 	        $.ajax({
 	            url: '${contextPath}/UnapprovalSlip/InfoSearch/DispositionOPSave.jsp',
 	            type:'POST',
-	            data: {SlipCode : SlipCode, Opinion : U_Op, id : U_Id},
+	            data: {SlipCode : SlipCode, Opinion : U_Op},
 	            dataType: 'json',
 	            success: function(response) {
 	                if (response.status === 'success') {
 	                    console.log('데이터를 수정했습니다');
 	                    // 팝업 창 닫기
-	                    window.opener.location.reload(); // 부모 창 새로 고침
 	                    window.close(); // 팝업 창 닫기
+	                    if (window.opener) {
+	                        window.opener.close(); // AppAgree.jsp가 닫힙니다.
+	                    }
 	                } else {
 	                    console.log('Error:', response.message);
 	                }
-	            },
+	            } ,
 	            error: function(jqXHR, textStatus, errorThrown) {
 	                console.log('Error:', textStatus, errorThrown);
 	            }
 	        });
-	    } else {
-	    	 window.close();
-	    }
-	}
+	} else {
+   	 	window.close();
+    }
 }
 </script>
 </head>

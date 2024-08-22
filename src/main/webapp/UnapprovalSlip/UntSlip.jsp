@@ -503,7 +503,7 @@ function ApprovalBtn(event, ActionField){
 			 	                        "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
 			 	                    );
 			 	               
-			 	              	var timer = setInterval(function() { 
+			 	              	var timer = setInterval(function() {
 									if (popup.closed) {
 			 	            	    	clearInterval(timer);
 			 	            	        if (confirm("품의 상신을 진행하시겠습니까?")) {
@@ -539,8 +539,8 @@ function ApprovalBtn(event, ActionField){
 					console.log("품의 상신 진행");
 					if (confirm("결재경로가 등록된 전표입니다.\n품의 상신을 진행하시겠습니까?")) {
          	        	popupWidth = 750;
-	            	   	    popupHeight = 400;
-	            	   		window.open(
+	            	   	popupHeight = 400;
+	            	   	window.open(
          	                    "UnslipOpWirte.jsp?SlipCode=" + SilpCode, 
          	                    "테스트", 
          	                    "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
@@ -550,7 +550,18 @@ function ApprovalBtn(event, ActionField){
          	        }
 				} else{
 					console.log("결재 진행");
-					window.location.href="${contextPath}/UnapprovalSlip/AppAgree.jsp?EnrtyNumber=" + SilpCode;
+					//window.location.href="${contextPath}/UnapprovalSlip/AppAgree.jsp?EnrtyNumber=" + SilpCode;
+					popupWidth = 2300;
+            	   	popupHeight = 900;
+            	   	xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+                    yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+            	   	console.log("xPos : " + xPos);
+            	   	console.log("yPos : " + yPos);
+            	   	window.open(
+     	                    "${contextPath}/UnapprovalSlip/AppAgree.jsp?EnrtyNumber=" + SilpCode, 
+     	                    "테스트", 
+     	                    "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
+     	                );
 				}
 			}, 
             error: function(jqXHR, textStatus, errorThrown) {
