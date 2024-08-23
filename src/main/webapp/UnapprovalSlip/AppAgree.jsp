@@ -131,7 +131,19 @@ function ApprovalBtn(event, Action){
     	}, 500);
     	break;
     case "Cancel":
-    	
+    	yPose = 150;
+    	var popup = window.open(
+				"${contextPath}/UnapprovalSlip/CancelPopUp.jsp?SlipCode=" + SlipCode, 
+				"CancelPopUp", 
+	            "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
+	            );
+	var timer = setInterval(function(){
+		if (dispositionPopup.closed) {
+            clearInterval(timer);
+            alert("반려 의견을 등록했습니다.");
+            window.close(); // AppAgree.jsp 팝업을 닫습니다.
+        }
+	}, 500);
     	break;
     }
 }

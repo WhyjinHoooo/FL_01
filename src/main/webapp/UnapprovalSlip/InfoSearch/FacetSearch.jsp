@@ -92,9 +92,10 @@
 								      "FROM " +
 								      "    docworkflowhead " +
 								      "WHERE " +
-								      "    DocNum = '" + DocNum + "' AND " +
-								      "    postingDay >= '" + OP_From + "' AND " +
-								      "    postingDay <= '" + OP_End + "'";
+							          "    DocNum = '" + DocNum + "' AND " +
+							          "    postingDay >= '" + OP_From + "' AND " +
+							          "    postingDay <= '" + OP_End + "' AND " +
+							          "    WFStatus NOT IN ('E', 'D')";
 						}else{
 							System.out.println("결재합의자02 case02");
 							SqlVer01 = "SELECT " +
@@ -103,7 +104,8 @@
 								      "    docworkflowhead " +
 								      "WHERE " +
 								      "    DocNum = '" + DocNum + "' AND " +
-								      "    postingDay = '" + OP_From + "'";
+								      "    postingDay = '" + OP_From + "' AND " + 
+									  "    WFStatus NOT IN ('E', 'D')";
 						}; // if(!OP_From.equals(OP_End)){...}else{...}의 끝
 						
 						// 그 전표 번호를 갖는 전표의 상신 일자, 전표번호, 발생회계단위, 입력부서, 입력자, 적요, 전표상태, 결재단계, 경과일수, 전표유형을 가져온다.
@@ -164,7 +166,8 @@
 										      "WHERE " +
 										      "    DocNum = '" + DocNum + "' AND " +
 										      "    postingDay >= '" + OP_From + "' AND " +
-										      "    postingDay <= '" + OP_End + "'";
+										      "    postingDay <= '" + OP_End + "' AND " +
+									          "    WFStatus NOT IN ('E', 'D')";
 								}else{
 									System.out.println("결재합의자02 case02-1");
 									SqlVer01 = "SELECT " +
@@ -173,7 +176,8 @@
 										      "    docworkflowhead " +
 										      "WHERE " +
 										      "    DocNum = '" + DocNum + "' AND " +
-										      "    postingDay = '" + OP_From + "'";
+										      "    postingDay = '" + OP_From + "' AND " +
+									          "    WFStatus NOT IN ('E', 'D')";
 								}; // if(!OP_From.equals(OP_End)){...}else{...}의 끝
 
 								// 그 전표 번호를 갖는 전표의 상신 일자, 전표번호, 발생회계단위, 입력부서, 입력자, 적요, 전표상태, 결재단계, 경과일수, 전표유형을 가져온다.
