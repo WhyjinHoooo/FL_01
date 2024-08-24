@@ -142,7 +142,7 @@ $(document).ready(function(){
 						$tbody.append(row);
 					};
 				} else{
-					alert("해당 조건을 만족하는 미승인 전표가 없습니다.");
+					alert("해당 조건을 만족하는 전표가 없습니다.");
 					$tbody.empty();
 				}
 			},
@@ -555,13 +555,17 @@ function ApprovalBtn(event, ActionField){
             	   	popupHeight = 900;
             	   	xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
                     yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
-            	   	console.log("xPos : " + xPos);
-            	   	console.log("yPos : " + yPos);
-            	   	window.open(
-     	                    "${contextPath}/UnapprovalSlip/AppAgree.jsp?EnrtyNumber=" + SilpCode, 
-     	                    "테스트", 
-     	                    "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
-     	                );
+            	   	var popUp = window.open(
+		     	                    "${contextPath}/UnapprovalSlip/AppAgree.jsp?EnrtyNumber=" + SilpCode, 
+		     	                    "AppAgreePopUp", 
+		     	                    "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos
+		     	                );
+            	   	var timer = setInterval(function(){
+            	   		if(popUp.closed){
+            	   			clearInterval(timer);
+            	   			document.getElementById('Inquiry').click();
+            	   			}
+            	   	}, 500);
 				}
 			}, 
             error: function(jqXHR, textStatus, errorThrown) {
@@ -649,7 +653,7 @@ function ApprovalBtn(event, ActionField){
 							</td>
 						</tr>
 				</table>
-				<button class="Inquiry">조회</button>
+				<button class="Inquiry" id="Inquiry">조회</button>
 				<button class="ResetBtn">초기화</button>
 			</div>
 			<div class="UntSituation">

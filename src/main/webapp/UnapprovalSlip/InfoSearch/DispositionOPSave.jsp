@@ -79,6 +79,22 @@
 			Update_Pstmt.setString(6, UserCode);
 			Update_Pstmt.executeUpdate();
         }
+       	String HData_Search = "SELECT * FROM docworkflowhead WHERE DocNum = ?";
+       	PreparedStatement HData_PStmt = conn.prepareStatement(HData_Search);
+       	HData_PStmt.setString(1, SlipCode);
+        ResultSet HData_Rs = HData_PStmt.executeQuery();
+        if(HData_Rs.getString("WFStatus").equals("B")){
+        	String UpDate_Head_Slip = "UPDATE " +
+                    "    docworkflowhead " +
+                    "SET " +
+                    "    WFStatus = ?" +
+                    "WHERE " +
+                    "    DocNum = ? ";
+			PreparedStatement Update_Head_Pstmt = conn.prepareStatement(UpDate_Head_Slip);
+			Update_Head_Pstmt.setString(1, "C");
+			Update_Head_Pstmt.setString(2, SlipCode);
+			Update_Head_Pstmt.executeUpdate();
+        }
        jsonResponse.put("status", "success");
     } catch (SQLException e) {
         jsonResponse.put("status", "error");

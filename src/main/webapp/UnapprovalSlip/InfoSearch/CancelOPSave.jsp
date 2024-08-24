@@ -18,6 +18,7 @@
         String UserCode = (String)session.getAttribute("UserCode"); // 결재자의 사원 코드 또는 ID
         
         System.out.println("ajax가 실행되는 확인하기 위해 전달받은 반려할 전표 : " + SlipCode);
+        System.out.println("ajax가 실행되는 확인하기 위해 전달받은 반려할 결재자 : " + UserCode);
         
         String Text_Lv = null;
         int Num_Lv = 0;
@@ -58,7 +59,7 @@
         	long minute = TimeGap.toMinutes()%60;
         	long second = TimeGap.toSeconds()%60;
 
-        	System.out.println("시간 차이 : " + hour + "시간, " + minute + "분, " + second + "초");
+        	System.out.println("반려 시간 차이 : " + hour + "시간, " + minute + "분, " + second + "초");
         	
         	String Update_Sql = "UPDATE " +
                     "    docworkflowline " +
@@ -66,7 +67,7 @@
                     "    WFResult = ?, " +
                     "    DocReviewOpinion = ?, " +
                     "    ReviewTime = ?, " +
-                    "    ElapsedHour1 = ? " +
+                    "    ElapsedHour1 = ?, " +
                     "    WFType = ? " +
                     "WHERE " +
                     "    DocNum = ? " +
@@ -90,6 +91,7 @@
 			PreparedStatement Update_Head_Pstmt = conn.prepareStatement(UpDate_Head_Slip);
 			Update_Head_Pstmt.setString(1, "E");
 			Update_Head_Pstmt.setString(2, SlipCode);
+			Update_Head_Pstmt.executeUpdate();
         }
        jsonResponse.put("status", "success");
     } catch (SQLException e) {
