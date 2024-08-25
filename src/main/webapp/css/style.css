@@ -1524,11 +1524,13 @@
 .emp-sub-info .NewAddr{
 	margin-bottom: 5px;
 }
-.emp-sub-info .AddrCode {
+.emp-sub-info .AddrCode,
+.plant-sub-info .AddrCode {
     width: 105px;
 	text-align: center;
 }
-.emp-sub-info .Addr, .emp-sub-info .AddrDetail, .emp-sub-info .AddrRefer {
+.emp-sub-info .Addr, .emp-sub-info .AddrDetail, .emp-sub-info .AddrRefer,
+.plant-sub-info .Addr, .plant-sub-info .AddrDetail, .plant-sub-info .AddrRefer {
     width: 99%;
 }
 .emp-sub-info .PosCode{

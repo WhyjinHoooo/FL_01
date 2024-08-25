@@ -3,6 +3,8 @@
 <%@page import="java.time.LocalDateTime"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,10 +25,10 @@
 	
 	String Biz_Area = request.getParameter("Biz_Des");
 	
-	String Post_Code = request.getParameter("PosCode");
+	String Post_Code = request.getParameter("AddrCode");
 	
-	String Addr1 = request.getParameter("PlantAddr1");
-	String Addr2 = request.getParameter("PlantAddr2");
+	String Addr1 = request.getParameter("Addr");
+	String Addr2 = request.getParameter("AddrDetail");
 	
 	String LocalCurr = request.getParameter("money");
 	String Lang = request.getParameter("lang");
@@ -74,22 +76,9 @@
 		}
 	}
 	conn.close();
-	
-	System.out.println("Plant_id: " + Plant_id);
-	System.out.println("Plant_Des: " + Plant_Des);
-	System.out.println("ComCode: " + ComCode);
-	System.out.println("Biz_Area: " + Biz_Area);
-	System.out.println("Post_Code: " + Post_Code);
-	System.out.println("Addr1: " + Addr1);
-	System.out.println("Addr2: " + Addr2);
-	System.out.println("LocalCurr: " + LocalCurr);
-	System.out.println("Lang: " + Lang);
-	System.out.println("Start: " + Start);
-	System.out.println("End: " + End);
-	System.out.println("Yn: " + Yn);
-	System.out.println("Formatted Now: " + formattedNow);
-	System.out.println("id1: " + id1);
-	System.out.println("id2: " + id2);
 %>
+	<script>
+		window.location.href="${contextPath}/Plant/plant_regist.jsp";
+	</script>
 </body>
 </html>

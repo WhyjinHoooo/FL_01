@@ -39,7 +39,17 @@
 			    	do{
 			%>
 			<tr>
-			    <td><a href="javascript:void(0)" onClick="window.opener.document.querySelector('.Biz_Code').value= <%=rs.getString("BIZ_AREA") %>;window.opener.document.querySelector('.Biz_Code_Des').value= <%=rs.getString("BA_Name") %>;window.opener.document.querySelector('.BAG-code').dispatchEvent(new Event('change')); window.close();"><%=rs.getString("BIZ_AREA") %></a></td>
+			    <td>
+				    <a href="javascript:void(0)" 
+				       onClick="
+				           window.opener.document.querySelector('.Biz_Code').value = '<%= rs.getString("BIZ_AREA") %>';
+				           window.opener.document.querySelector('.Biz_Code_Des').value = '<%= rs.getString("BA_Name") %>';
+				           window.opener.document.querySelector('.Biz_Code').dispatchEvent(new Event('change'));
+				           window.close();
+				       ">
+				       <%= rs.getString("BIZ_AREA") %>
+				    </a>
+				</td>
 			    <td><%=rs.getString("BA_Name") %></td>
 			</tr>
 

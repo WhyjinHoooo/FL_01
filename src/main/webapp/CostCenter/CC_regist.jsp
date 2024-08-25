@@ -177,10 +177,6 @@
 							<tr><th class="info">유효기간 : </th>
 								<td class="input-info">
 									<input type="date" class='date01' name='start_date'>
-									<!-- <select class='date01' name='start_date'>
-									</select> --> ~ 
-									<!-- <select class='date02' name='end_date'>
-									</select> -->
 									<input type="date" class='date02' name='end_date'>
 								</td>
 							</tr>
@@ -190,9 +186,6 @@
 							<tr><th class="info">Cost Center Group : </th>
 								<td class="input-info">
 									<a href="javascript:CCGSearch()"><input type="text" class="ccc" name="ccc" placeholder="SELECT" readonly></a>
-									<!-- <select class="ccc" name="ccc">
-										<option value="Nope">Select</option>
-									</select> -->
 									<input type="text" class="CCG_Des" name="CCG_Des" size="31" readonly>
 								</td>
 							</tr>
