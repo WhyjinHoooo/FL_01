@@ -1511,10 +1511,12 @@
 
 .Nationality-Des {
     text-align: center;
+    width:	200px;
 }
 .Nationality-Code{
 	text-align: center;
 	padding-right: 20px;
+	width: 85px;
 }
 
 .emp-sub-info .CCSelect , .PosCode, .duty , .title{
@@ -1525,12 +1527,14 @@
 	margin-bottom: 5px;
 }
 .emp-sub-info .AddrCode,
-.plant-sub-info .AddrCode {
+.plant-sub-info .AddrCode,
+.ba-sub-info .AddrCode{
     width: 105px;
 	text-align: center;
 }
 .emp-sub-info .Addr, .emp-sub-info .AddrDetail, .emp-sub-info .AddrRefer,
-.plant-sub-info .Addr, .plant-sub-info .AddrDetail, .plant-sub-info .AddrRefer {
+.plant-sub-info .Addr, .plant-sub-info .AddrDetail, .plant-sub-info .AddrRefer,
+.ba-sub-info .Addr, .ba-sub-info .AddrDetail, .ba-sub-info .AddrRefer {
     width: 99%;
 }
 .emp-sub-info .PosCode{

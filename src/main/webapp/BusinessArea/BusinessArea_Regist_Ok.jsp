@@ -24,9 +24,9 @@
     String NaCode = request.getParameter("Na-Code");
     String NaName = request.getParameter("Na-Des");
 
-    String PostCode = request.getParameter("Pos-code");
-    String Addr1 = request.getParameter("Addr1");
-    String Addr2 = request.getParameter("Addr2");
+    String PostCode = request.getParameter("AddrCode");
+    String Addr1 = request.getParameter("Addr");
+    String Addr2 = request.getParameter("AddrDetail");
 
     String MoUnit = request.getParameter("money");
     String Lan = request.getParameter("lang");
@@ -75,19 +75,6 @@
     	}
     }
     conn.close();
-    
-    System.out.println("BAC: " + BaCd);
-    System.out.println("Des: " + Des);
-    System.out.println("Com-code: " + ComCode);
-    System.out.println("Na-Code: " + NaCode);
-    System.out.println("Na-Des: " + NaName);
-    System.out.println("Pos-code: " + PostCode);
-    System.out.println("Addr1: " + Addr1);
-    System.out.println("Addr2: " + Addr2);
-    System.out.println("money: " + MoUnit);
-    System.out.println("lang: " + Lan);
-    System.out.println("TA-code: " + Tax);
-    System.out.println("BAG-code: " + Biz); 
 %>
 <script>
 	alert("Complete");

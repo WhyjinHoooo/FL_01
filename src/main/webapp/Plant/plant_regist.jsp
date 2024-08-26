@@ -99,7 +99,7 @@
 	    	break;
 	    }
 	}
-	function sample6_execDaumPostcode() {
+	function execDaumPostcode() {
 	    new daum.Postcode({
 	        oncomplete: function(data) {
 	            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -200,7 +200,7 @@
 							<td class="input-info">
 								<!-- <input type="text" class="PosCode" name="PosCode"> -->
 								<input type="text" class="AddrCode NewAddr" name="AddrCode" id="postcode" placeholder="우편번호" readonly>
-						        <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
+						        <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기">
 							</td>
 						</tr>
 						

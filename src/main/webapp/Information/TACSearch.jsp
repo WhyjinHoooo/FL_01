@@ -39,7 +39,17 @@
 			    	do{
 			%>
 			<tr>
-			    <td><a href="javascript:void(0)" onClick="var TaxArea = '<%=rs.getString("TaxArea")%>';window.opener.document.querySelector('.TA-code').value= TaxArea ;window.opener.document.querySelector('.TA-code').dispatchEvent(new Event('change')); window.close();"><%=rs.getString("TaxArea") %></a></td>
+			    <td>
+				    <a href="javascript:void(0)" 
+				       onClick="
+				           var TaxArea = '<%= rs.getString("TaxArea") %>';
+				           window.opener.document.querySelector('.TA-code').value = TaxArea;
+				           window.opener.document.querySelector('.TA-code').dispatchEvent(new Event('change'));
+				           window.close();
+				       ">
+				       <%= rs.getString("TaxArea") %>
+				    </a>
+				</td>
 			    <td><%=rs.getString("TA_Name") %></td>
 			</tr>
 
