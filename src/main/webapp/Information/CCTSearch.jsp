@@ -30,7 +30,17 @@
 			    while(rs.next()){
 			%>
 			<tr>
-			    <td><a href="javascript:void(0)" onClick="window.opener.document.querySelector('.cct').value= <%=rs.getString("COCT_Type") %>;window.opener.document.querySelector('.CCT_Des').value= <%=rs.getString("COCT_Description") %>;window.opener.document.querySelector('.cct').dispatchEvent(new Event('change')); window.close();"><%=rs.getString("COCT_Type") %></a></td>
+			    <td>
+				    <a href="javascript:void(0)" 
+				       onClick="
+				           window.opener.document.querySelector('.cct').value = '<%= rs.getString("COCT_Type") %>';
+				           window.opener.document.querySelector('.CCT_Des').value = '<%= rs.getString("COCT_Description") %>';
+				           window.opener.document.querySelector('.cct').dispatchEvent(new Event('change'));
+				           window.close();
+				       ">
+				       <%= rs.getString("COCT_Type") %>
+				    </a>
+				</td>
 			    <td><%=rs.getString("COCT_Description") %></td>
 			</tr>
 

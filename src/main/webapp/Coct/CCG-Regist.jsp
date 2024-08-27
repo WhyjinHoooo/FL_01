@@ -44,33 +44,6 @@
 	    window.open("${contextPath}/Information/UpCCTSearch.jsp?ComCode=" + Code + "&Level=" + lv, "테스트", "width=600,height=495, left=500 ,top=" + yPos);
 	}
 	</script>
-<!-- 	<script type="text/javascript">
-		$(document).ready(function() {
-			$('.Com-code').change(function() {
-				var selectedCode = $(this).val();
-				console.log('selectedCode: ' + selectedCode);
-						
-				$.ajax({
-					type: 'POST',
-					url: 'getMaxLevel.jsp',  // 요청을 보낼 JSP 파일의 URL
-					data: { 
-							ComCode: selectedCode  // 선택된 회사 코드
-							},
-					success: function(response) {
-					// 서버로부터 받은 응답 처리
-					var maxLevel = response;  // 응답은 최대 레벨이어야 함
-					var options = '';
-					for(var i=1; i<=maxLevel; i++){
-					options += '<option value="' + i + '">' + i + ' Level</option>';
-					}
-						                
-					$('.CCTR-level').html(options);
-					}
-				});
-			});
-			
-		});
-	</script>  --> 
 </head>
 <body>
 	<h1>Cost Center Group 등록</h1>

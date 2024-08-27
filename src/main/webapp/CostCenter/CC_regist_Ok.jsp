@@ -21,20 +21,20 @@
 	String CC_Des = request.getParameter("Des");
 	
 	String COM_code = request.getParameter("Com_Des");
-	String BIZ_Des = request.getParameter("Biz_Code_Des");
+	String BIZ_Des = request.getParameter("Biz_Code");
 	
-	String POS_code = request.getParameter("PoCd");
+	String POS_code = request.getParameter("AddrCode");
 	
-	String Addr1 = request.getParameter("addr1");
-	String Addr2 = request.getParameter("addr2");
+	String Addr1 = request.getParameter("Addr");
+	String Addr2 = request.getParameter("AddrDetail");
 	
-	String Money = request.getParameter("Local_Cur");
-	String Lan = request.getParameter("Lang");
+	String Money = request.getParameter("money");
+	String Lan = request.getParameter("lang");
 	
 	String Start = request.getParameter("start_date");
 	String End = request.getParameter("end_date");
 	
-	String CCG_Des = request.getParameter("CCG_Des");
+	String CCG_Des = request.getParameter("ccc");
 	String CCT_Des = request.getParameter("cct");
 	
 	String person = request.getParameter("RPescon_Dese"); //아직 없음
@@ -44,34 +44,35 @@
 	int id1 = 17011381;
 	int id2 = 17011382;
 			
-	String sql = "INSERT INTO dept VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	
-	PreparedStatement pstmt = conn.prepareStatement(sql);
-	
-	try{
-		pstmt.setString(1, CC_code);
-		pstmt.setString(2, CC_Des);
-		pstmt.setString(3, COM_code);
-		pstmt.setString(4, BIZ_Des);
-		pstmt.setString(5, POS_code);
-		pstmt.setString(6, Addr1);
-		pstmt.setString(7, Addr2);
-		pstmt.setString(8, Money);
-		pstmt.setString(9, Lan);
-		pstmt.setString(10, Start);
-		pstmt.setString(11, End);
-		pstmt.setString(12, CCG_Des);
-		pstmt.setString(13, CCT_Des);
-		pstmt.setString(14, person);
-		pstmt.setBoolean(15, yes_no);
-		pstmt.setString(16, formattedNow);
-		pstmt.setInt(17, id1);
-		pstmt.setString(18, formattedNow);
-		pstmt.setInt(19, id2);
+	// INSERT 쿼리 수정: 19번째 컬럼 REST_PERSON을 제외하고, 명시적으로 모든 컬럼을 나열합니다.
+	String sql = "INSERT INTO dept (COCT, COCT_NAME, ComCode, BIZ_AREA, POST_ID, COCT_ADD1, COCT_ADD2, LO_CURRENCY, LANGUAGE, VALID_FR, VALID_TO, COCT_GROUP, COCT_TYPE, USEYN, CreateDate, CreateID, ChangeDate, ChangerID) "
+	           + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-		pstmt.executeUpdate();
-	}catch(SQLException e){
-		e.printStackTrace();
+	PreparedStatement pstmt = conn.prepareStatement(sql);
+
+	try {
+	    pstmt.setString(1, CC_code);       // COCT
+	    pstmt.setString(2, CC_Des);        // COCT_NAME
+	    pstmt.setString(3, COM_code);      // ComCode
+	    pstmt.setString(4, BIZ_Des);       // BIZ_AREA
+	    pstmt.setString(5, POS_code);      // POST_ID
+	    pstmt.setString(6, Addr1);         // COCT_ADD1
+	    pstmt.setString(7, Addr2);         // COCT_ADD2
+	    pstmt.setString(8, Money);         // LO_CURRENCY
+	    pstmt.setString(9, Lan);           // LANGUAGE
+	    pstmt.setString(10, Start);        // VALID_FR
+	    pstmt.setString(11, End);          // VALID_TO
+	    pstmt.setString(12, CCG_Des);      // COCT_GROUP
+	    pstmt.setString(13, CCT_Des);      // COCT_TYPE
+	    pstmt.setBoolean(14, yes_no);      // USEYN
+	    pstmt.setString(15, formattedNow); // CreateDate
+	    pstmt.setInt(16, id1);             // CreateID
+	    pstmt.setString(17, formattedNow); // ChangeDate
+	    pstmt.setInt(18, id2);             // ChangerID
+
+	    pstmt.executeUpdate();
+	} catch (SQLException e) {
+	    e.printStackTrace();
 	} finally{
 		try{
 			if(pstmt != null && !pstmt.isClosed()){
@@ -82,25 +83,6 @@
 		}
 	}
 	conn.close();
-	
-	System.out.println("Formatted Now: " + formattedNow);
-	System.out.println("CC_code: " + CC_code);
-	System.out.println("CC_Des: " + CC_Des);
-	System.out.println("COM_code: " + COM_code);
-	System.out.println("BIZ_Des: " + BIZ_Des);
-	System.out.println("POS_code: " + POS_code);
-	System.out.println("Addr1: " + Addr1);
-	System.out.println("Addr2: " + Addr2);
-	System.out.println("Money: " + Money);
-	System.out.println("Lan: " + Lan);
-	System.out.println("Start: " + Start);
-	System.out.println("End: " + End);
-	System.out.println("CCG_Des: " + CCG_Des);
-	System.out.println("CCT_Des: " + CCT_Des);
-	System.out.println("Person: " + person);
-	System.out.println("Yes_No: " + yes_no);
-	System.out.println("ID1: " + id1);
-	System.out.println("ID2: " + id2);
 %>
 <script>
 	alert("Complete");

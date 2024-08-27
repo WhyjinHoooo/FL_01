@@ -1344,6 +1344,10 @@
 	text-align: center;
 	width: 103px;
 }
+.cc-sub-info .table-container .rp{
+	text-align: center;
+	width: 110px;
+}
 /* Cost Center END */
 
 /* Plant START */
@@ -1434,36 +1438,15 @@
 .table-container table td.spaceCell-200{
 	width: 200px;
 }
-/* .table-container table td.spaceCell-230{
-	width: 230px;
-} */
 .table-container table td.spaceCell-240{
 	width: 240px;
 }
-/* .table-container table td.spaceCell-250{
-	width: 250px;
-} */
-/* .table-container table td.spaceCell-300{
-	width: 300px;
-} */
-/* .table-container table td.spaceCell-400{
-	width: 400px;
-} */
 .table-container table td.spaceCell-ss{
 	width: 50px;
 }
-/* .table-container table td.spaceCell-515{
-	width: 515px;
-} */
-/* .table-container table td.spaceCell-ss-1{
-	width: 50px;
-} */
 .table-container table td.spaceCell-ss-1-1{
 	width: 130px;
 }
-/* .table-container table td.spaceCell-ss-2{
-	width: 190px;
-} */
 .table-container table td.spaceCell-sss{
 	width: 5px;
 }
@@ -1528,13 +1511,15 @@
 }
 .emp-sub-info .AddrCode,
 .plant-sub-info .AddrCode,
-.ba-sub-info .AddrCode{
+.ba-sub-info .AddrCode,
+.cc-sub-info .AddrCode{
     width: 105px;
 	text-align: center;
 }
 .emp-sub-info .Addr, .emp-sub-info .AddrDetail, .emp-sub-info .AddrRefer,
 .plant-sub-info .Addr, .plant-sub-info .AddrDetail, .plant-sub-info .AddrRefer,
-.ba-sub-info .Addr, .ba-sub-info .AddrDetail, .ba-sub-info .AddrRefer {
+.ba-sub-info .Addr, .ba-sub-info .AddrDetail, .ba-sub-info .AddrRefer,
+.cc-sub-info .Addr, .cc-sub-info .AddrDetail, .cc-sub-info .AddrRefer {
     width: 99%;
 }
 .emp-sub-info .PosCode{
@@ -1627,80 +1612,6 @@ text-decoration: underline;
 .table-tr{
         cursor: default;
 }
-	/* 네비게이션 부분 CSS START */
-/* ul{
-	list-style-type:none;
-	margin: 0;
-    padding: 0;
-}  
-.navi > li{
-	float: left;
-	width: 200px;
-}
-
-.navi > li > a{
-	padding: 10px 50px;
-}
-
-li a{
-	background-color: #39f;
-    text-decoration: none;
-    font-weight: bold;
-    color: #000000;
-    display: block;
-    text-align: center;
-    padding: 10px;
-}
-
-li a:hover{
-	background-color:#33f;
-	color: white;
-}
-
-.navi li ul{	
-	display: none;
-}
-.navi li:hover ul{
-	display: block;
-}  
- 
--------------------------------
-    .navi{
-        list-style-type:none;
-        margin: 0;
-        padding: 0;
-    }  
-    .navi .testnav > li{
-        float: left;
-        width: 200px;
-    }
-    .navi .testnav > li > a{
-        padding: 10px 50px;
-    }
-
-    .navi .testnav li a{
-        background-color: #DDDDFF;
-        text-decoration: none;
-        font-weight: bold;
-        color: white;
-        display: block;
-        text-align: center;
-        padding: 10px;
-        border-radius: 5px; 
-        border: 1px #DDDDFF; 
-    }
-     
-    .navi .testnav li a:hover{
-        background-color:#FFDDDD;
-        color: white;
-    }
-    .navi .testnav li ul{    
-        display: none;
-    }
-    .navi .testnav li:hover ul{
-        display: block;
-    }
-*/
 	/* 네비게이션 부분 CSS END */
 /* 실험 부분 끝 */
 .emp-sub-info .table-container .CC_Code, .CC_Name , .Com_Name, .duty_Des , .title_Des{
@@ -1743,36 +1654,6 @@ li a:hover{
 .ven-sub-info .table-container .NationCode, .NationDes{
 	text-align: center;
 }
-
-
-/* 화살표 START*/
-/* .container {
-    position: relative;
-}
-
-.container img {
-    position: absolute;
-    margin-top: 30px; 이미지들의 상단 여백
-}
-
-.container img[name="Down"] {
-    left: 1200px; 첫 번째 이미지를 왼쪽으로 800px 이동
-    margin-right: 90px; 첫 번째 이미지의 오른쪽 여백 100px 설정
-} */
-
-/* .input-btn {
-    margin-top: 30px;
-    margin-left: 60%;
-    display: inline-block;
-    vertical-align: middle;
-} */
-/* 화살표 END */
-/* 작성표 START */
-/* .WirteForm {
-	margin-top: 30px;
-    border-collapse: collapse; 테이블 셀 경계를 합치도록 설정
-    width: 2050px; 테이블 전체 너비를 100%로 설정
-} */
 /* Data 검색용 테이블 CSS */
 .DataForm {
 	margin-top: 5px;
