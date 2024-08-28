@@ -22,7 +22,7 @@ $(document).ready(function(){
 	console.log(DateForId);
 	
 	$.ajax({
-		url: 'EmpIdMake.jsp',
+		url: '${contextPath}/Emp/EmpIdMake.jsp',
 		type: 'POST',
 		data: {DateId: DateForId},
 		success: function(response){
@@ -60,34 +60,54 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error("Element with id 'test' not found.");
     }
 });
-function Search() {
-    var xPos = (window.screen.width-2560) / 2;
-    var yPos = (window.screen.height-1440) / 2;
 
-    window.open("${contextPath}/Information/CompanySerach.jsp", "테스트", "width=500,height=500, left=500 ,top=" + yPos);
+function InfoSearch(field){
+	var popupWidth = 1000;
+    var popupHeight = 600;
+    
+    // 현재 활성화된 모니터의 위치를 감지
+    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
+    
+    // 전체 화면의 크기를 감지
+    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+    var xPos, yPos;
+    
+    if (width == 2560 && height == 1440) {
+        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
+        xPos = (2560 / 2) - (popupWidth / 2);
+        yPos = (1440 / 2) - (popupHeight / 2);
+    } else if (width == 1920 && height == 1080) {
+        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
+        xPos = (1920 / 2) - (popupWidth / 2);
+        yPos = (1080 / 2) - (popupHeight / 2);
+    } else {
+        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
+        var monitorWidth = 2560;
+        var monitorHeight = 1440;
+        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+    }
+    var ComCode = document.querySelector('.ComCode').value;
+    
+    switch(field){
+    case "ComSearch":
+    	window.open("${contextPath}/Information/CompanySerach.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    case "CCSearch":
+    	window.open("${contextPath}/Information/CostCenterSearch.jsp?ComCode=" + ComCode, "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    case "DutySearch":
+    	 window.open("${contextPath}/Information/DutySearch.jsp", "PopUp03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    case "titleSearch":
+    	window.open("${contextPath}/Information/titleSearch.jsp", "PopUp04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    }
 }
-function CCSearch() {
-    var xPos = (window.screen.width-2560) / 2;
-    var yPos = (window.screen.height-1440) / 2;
-    var comCode = document.querySelector('.ComCode').value;
 
-    window.open("${contextPath}/Information/CostCenterSearch.jsp?ComCode=" + comCode, "테스트", "width=500,height=500, left=500 ,top=" + yPos);
-}
-function DutySearch() {
-    var xPos = (window.screen.width-2560) / 2;
-    var yPos = (window.screen.height-1440) / 2;
-    var comCode = document.querySelector('.ComCode').value;
-
-    window.open("${contextPath}/Information/DutySearch.jsp", "테스트", "width=595,height=545, left=500 ,top=" + yPos);	
-}
-function titleSearch() {
-    var xPos = (window.screen.width-2560) / 2;
-    var yPos = (window.screen.height-1440) / 2;
-    var comCode = document.querySelector('.ComCode').value;
-
-    window.open("${contextPath}/Information/titleSearch.jsp", "테스트", "width=500,height=500, left=500 ,top=" + yPos);	
-}
-function sample6_execDaumPostcode() {
+function execDaumPostcode() {
     new daum.Postcode({
         oncomplete: function(data) {
             // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -120,17 +140,17 @@ function sample6_execDaumPostcode() {
                     extraAddr = ' (' + extraAddr + ')';
                 }
                 // 조합된 참고항목을 해당 필드에 넣는다.
-                document.getElementById("sample6_extraAddress").value = extraAddr;
+                document.getElementById("ExtraAddress").value = extraAddr;
             
             } else {
-                document.getElementById("sample6_extraAddress").value = '';
+                document.getElementById("ExtraAddress").value = '';
             }
 
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
-            document.getElementById('sample6_postcode').value = data.zonecode;
-            document.getElementById("sample6_address").value = addr;
+            document.getElementById('Postcode').value = data.zonecode;
+            document.getElementById("Address").value = addr;
             // 커서를 상세주소 필드로 이동한다.
-            document.getElementById("sample6_detailAddress").focus();
+            document.getElementById("DetailAddress").focus();
         }
     }).open();
 }
@@ -175,8 +195,7 @@ function sample6_execDaumPostcode() {
 					<table>
 						<tr><th class="info">Company Code : </th>
 							<td class="input-info">
-								<a href="javascript:Search()"><input type="text" class="ComCode" name="ComCode" id="ComCode" size="10" readonly placeholder="SELECT"></a>
-									<!-- <a href="javascript:Search()" class="Com-Search"><img src="../img/edit_glass2.png" alt=""></a> -->
+								<a href="javascript:void(0);" onclick="InfoSearch('ComSearch')"><input type="text" class="ComCode" name="ComCode" id="ComCode" size="10" readonly placeholder="SELECT"></a>
 								<input type="text" name="Com_Name" class="Com_Name" size="31" readonly>
 							</td>
 						</tr>
@@ -185,7 +204,7 @@ function sample6_execDaumPostcode() {
 						
 						<tr><th class="info">Cost Center : </th>
 							<td class="input-info">
-								<a href="javascript:CCSearch()"><input type="text" name="CC_Code" class="CC_Code" size="11" readonly placeholder="SELECT"></a>
+								<a href="javascript:void(0);" onclick="InfoSearch('CCSearch')"><input type="text" name="CC_Code" class="CC_Code" size="11" readonly placeholder="SELECT"></a>
 								<input type="text" name="CC_Name" class="CC_Name" size="31" readonly>
 							</td>
 						</tr>
@@ -194,9 +213,8 @@ function sample6_execDaumPostcode() {
 						
 						<tr><th class="info">Postal Code : </th>
 							<td class="input-info">
-								<!-- <input type="text" class="PosCode" name="PosCode"> -->
-								<input type="text" class="AddrCode NewAddr" name="AddrCode" id="sample6_postcode" placeholder="우편번호">
-						        <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
+								<input type="text" class="AddrCode NewAddr" name="AddrCode" id="Postcode" placeholder="우편번호">
+						        <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기">
 							</td>
 						</tr>
 						
@@ -205,13 +223,13 @@ function sample6_execDaumPostcode() {
 						<tr><th class="info">Address : </th>
 							<td class="input-info">
 						        <div>
-						            <input type="text" class="Addr NewAddr" name="Addr" id="sample6_address" placeholder="주소">
+						            <input type="text" class="Addr NewAddr" name="Addr" id="Address" placeholder="주소">
 						        </div>
 						        <div>
-						            <input type="text" class="AddrDetail NewAddr" name="AddrDetail" id="sample6_detailAddress" placeholder="상세주소" required>
+						            <input type="text" class="AddrDetail NewAddr" name="AddrDetail" id="DetailAddress" placeholder="상세주소" required>
 						        </div>
 						        <div>
-						            <input type="text" class="AddrRefer NewAddr" id="sample6_extraAddress" placeholder="참고항목" hidden>
+						            <input type="text" class="AddrRefer NewAddr" id="ExtraAddress" placeholder="참고항목" hidden>
 						        </div>
 							</td>
 						</tr>
@@ -249,8 +267,8 @@ function sample6_execDaumPostcode() {
 						
 						<tr><th class="info">직책 : </th>
 							<td class="input-info">
-								<a href="javascript:DutySearch()"><input type="text" class="duty_code" name="duty_code" placeholder="SELECT" readonly></a>
-								<input type="text" class="duty_Des" name="duty_Des" readonly>
+								<a href="javascript:void(0);" onclick="InfoSearch('DutySearch')"><input type="text" class="duty_code" name="duty_code" placeholder="SELECT" readonly></a>
+								<input type="text" class="duty_Des" name="duty_Des" size="31" readonly>
 							</td>
 							<th>직책 발령 일자 : </th>
 							<td>
@@ -262,7 +280,7 @@ function sample6_execDaumPostcode() {
 						
 						<tr><th class="info">직위 : </th>
 							<td class="input-info">
-								<a href="javascript:titleSearch()"><input type="text" class="title_Code" name="title_Code" placeholder="SELECT" readonly></a>
+								<a href="javascript:void(0);" onclick="InfoSearch('titleSearch')"><input type="text" class="title_Code" name="title_Code" placeholder="SELECT" readonly></a>
 								<input type="text" class="title_Des" name="title_Des" size="31" readonly>
 							</td>
 							<th class="info">승격 일자 : </th>

@@ -20,11 +20,8 @@ try{
 	rs = pstmt.executeQuery();
 	
 	if(!rs.next()) {
-		// 데이터가 없다면
 		firstId = firstId;
 	} else {
-		// 데이터가 있다면 가장 최근에 등록된 데이터에 1을 더하여 저장
-		/* System.out.println("Data found. Saving the incremented value of the most recent one."); */
 		String recentData = rs.getString("EMPLOYEE_ID"); // 2024060001
 		String numberPart = recentData.substring(6, 10); // PURO20240420S00001일 경우, 00001이 출력
 		int incrementedValue = Integer.parseInt(numberPart) + 1;

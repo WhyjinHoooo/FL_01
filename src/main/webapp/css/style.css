@@ -1617,11 +1617,11 @@ text-decoration: underline;
 .emp-sub-info .table-container .CC_Code, .CC_Name , .Com_Name, .duty_Des , .title_Des{
 	text-align: center;
 }
-.emp-sub-info .table-container .duty_Des{
+/* .emp-sub-info .table-container .duty_Des{
 	width: 245px;
 	height: 15px;
 	font-size: 10px;
-}
+} */
 .storage-sub-info .table-container .Storage_Type_Des{
 	width: 275px;
 	height: 15px;
