@@ -1516,10 +1516,24 @@
     width: 105px;
 	text-align: center;
 }
+@media only screen and (min-width: 1536px) {
+	.ven-sub-info .AddrCode{
+	text-align: center;
+	width: 100px;
+	}	
+}
+@media only screen and (max-width: 1536px) {
+	.ven-sub-info .AddrCode{
+	text-align: center;
+	width: 95px;
+	}	
+}
+
 .emp-sub-info .Addr, .emp-sub-info .AddrDetail, .emp-sub-info .AddrRefer,
 .plant-sub-info .Addr, .plant-sub-info .AddrDetail, .plant-sub-info .AddrRefer,
 .ba-sub-info .Addr, .ba-sub-info .AddrDetail, .ba-sub-info .AddrRefer,
-.cc-sub-info .Addr, .cc-sub-info .AddrDetail, .cc-sub-info .AddrRefer {
+.cc-sub-info .Addr, .cc-sub-info .AddrDetail, .cc-sub-info .AddrRefer,
+.ven-sub-info .Addr, .ven-sub-info .AddrDetail, .ven-sub-info .AddrRefer {
     width: 99%;
 }
 .emp-sub-info .PosCode{
@@ -1617,11 +1631,6 @@ text-decoration: underline;
 .emp-sub-info .table-container .CC_Code, .CC_Name , .Com_Name, .duty_Des , .title_Des{
 	text-align: center;
 }
-/* .emp-sub-info .table-container .duty_Des{
-	width: 245px;
-	height: 15px;
-	font-size: 10px;
-} */
 .storage-sub-info .table-container .Storage_Type_Des{
 	width: 275px;
 	height: 15px;
@@ -1651,8 +1660,13 @@ text-decoration: underline;
 .ven-main-info .table-container .ComCode{
 	text-align: center;
 }
-.ven-sub-info .table-container .NationCode, .NationDes{
+.ven-sub-info .table-container .NationCode,
+.ven-sub-info .table-container .NationDes {
 	text-align: center;
+}
+.ven-main-info .table-container .vendorInput{
+	text-align: center;
+	width: 103px;
 }
 /* Data 검색용 테이블 CSS */
 .DataForm {

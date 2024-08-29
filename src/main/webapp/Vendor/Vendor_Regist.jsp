@@ -9,18 +9,93 @@
 <%@ include file="../mydbcon.jsp" %>
 <link rel="stylesheet" href="../css/style.css?after">
 <title>Vendor Master 등록</title>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type='text/javascript'>
-function NationSearch(){
-	var xPos = (window.screen.width-2560) / 2;
-    var yPos = (window.screen.height-1440) / 2;
+function execDaumPostcode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-	window.open("${contextPath}/Information/NationSearch.jsp", "테스트", "width=500,height=500, left=500 ,top=" + yPos);	
+            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var addr = ''; // 주소 변수
+            var extraAddr = ''; // 참고항목 변수
+
+            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                addr = data.roadAddress;
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+            }
+
+            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+            if(data.userSelectedType === 'R'){
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if(extraAddr !== ''){
+                    extraAddr = ' (' + extraAddr + ')';
+                }
+                // 조합된 참고항목을 해당 필드에 넣는다.
+                document.getElementById("ExtraAddress").value = extraAddr;
+            
+            } else {
+                document.getElementById("ExtraAddress").value = '';
+            }
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('Postcode').value = data.zonecode;
+            document.getElementById("Address").value = addr;
+            // 커서를 상세주소 필드로 이동한다.
+            document.getElementById("DetailAddress").focus();
+        }
+    }).open();
 }
-function ComSearch(){
-	var xPos = (window.screen.width-2560) / 2;
-    var yPos = (window.screen.height-1440) / 2;
 
-	window.open("${contextPath}/Information/ComSearch.jsp", "테스트", "width=500,height=500, left=500 ,top=" + yPos);	
+function InfoSearch(field){
+	var popupWidth = 1000;
+    var popupHeight = 600;
+    
+    // 현재 활성화된 모니터의 위치를 감지
+    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
+    
+    // 전체 화면의 크기를 감지
+    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+    var xPos, yPos;
+    
+    if (width == 2560 && height == 1440) {
+        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
+        xPos = (2560 / 2) - (popupWidth / 2);
+        yPos = (1440 / 2) - (popupHeight / 2);
+    } else if (width == 1920 && height == 1080) {
+        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
+        xPos = (1920 / 2) - (popupWidth / 2);
+        yPos = (1080 / 2) - (popupHeight / 2);
+    } else {
+        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
+        var monitorWidth = 2560;
+        var monitorHeight = 1440;
+        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+    }
+    
+    switch(field){
+    case "ComSearch":
+    	window.open("${contextPath}/Information/ComSearch.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    case "NationSearch":
+    	window.open("${contextPath}/Information/NationSearch.jsp", "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    }
 }
 </script>
 </head>
@@ -35,7 +110,7 @@ function ComSearch(){
 					<table>
 						<tr><th class="info">Company Code : </th>
 							<td class="input-info">
-								<a href="javascript:ComSearch()"><input type="text" name="ComCode" class="Com-code" size="10" readonly></a>
+								<input type="text" name="ComCode" class="Com-code" size="10" onclick="InfoSearch('ComSearch')" readonly>
 							</td>
 						</tr>
 						
@@ -65,8 +140,8 @@ function ComSearch(){
 					<table>
 						<tr><th class="info">Nationality : </th>
 							<td class="input-info">
-								<a href="javascript:NationSearch()"><input type="text" name="NationCode" class="NationCode" size="10" readonly></a>
-								<input type="text" name="NationDes" class="NationDes" size="41">
+								<input type="text" name="NationCode" id="NationCode" class="NationCode" size="10" onclick="InfoSearch('NationSearch')" readonly>
+								<input type="text" name="NationDes" id="NationDes" class="NationDes" size="41">
 							</td>
 						</tr>
 						
@@ -74,23 +149,24 @@ function ComSearch(){
 						
 						<tr><th class="info">Postal Code : </th>
 							<td class="input-info">
-								<input type="text" name="PostalCode" class="PostalCode" size="10">
+								<input type="text" class="AddrCode NewAddr" name="AddrCode" id="Postcode" placeholder="우편번호" readonly>
+						        <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기">
 							</td>
 						</tr>
 						
 						<tr class="spacer-row"></tr>
 						
-						<tr><th class="info">Address 1 : </th>
+						<tr><th class="info">Address : </th>
 							<td class="input-info">
-								<input type="text" name="Addr1" class="Addr1" size="57">
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">Address 2 : </th>
-							<td class="input-info">
-								<input type="text" name="Addr2" class="Addr2" size="57">
+						        <div>
+						            <input type="text" class="Addr NewAddr" name="Addr" id="Address" placeholder="주소">
+						        </div>
+						        <div>
+						            <input type="text" class="AddrDetail NewAddr" name="AddrDetail" id="DetailAddress" placeholder="상세주소" required>
+						        </div>
+						        <div>
+						            <input type="text" class="AddrRefer NewAddr" id="ExtraAddress" placeholder="참고항목" hidden>
+						        </div>
 							</td>
 						</tr>
 						

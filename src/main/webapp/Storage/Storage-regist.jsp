@@ -13,13 +13,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <script type='text/javascript'>
-/* function CompanyName(d){
-	var v = d.value;
-	var ComCode = v.split(',')[0];
-	var ComName = v.split(',')[1];
-	document.StorageResgistForm.ComCode_Name.value = ComName;
-} */
-
 window.addEventListener('DOMContentLoaded', (event) => {
     const comCodeInput = document.querySelector('.ComCode');
     const comNameInput = document.querySelector('.Com_Name');
@@ -34,30 +27,48 @@ window.addEventListener('DOMContentLoaded', (event) => {
     comCodeInput.addEventListener('change', resetPlantInputs);
     comNameInput.addEventListener('change', resetPlantInputs);
 });
-
-/* function LocationType(d){
-	var v = d.value;
-	document.StorageResgistForm.Storage_Type_Des.value = v;
-} */
-
-function ComSearch(){
-    var xPos = (window.screen.width-2560) / 2;
-    var yPos = (window.screen.height-1440) / 2;
-
-    window.open("${contextPath}/Information/CompanySerach.jsp", "테스트", "width=500,height=500, left=500 ,top=" + yPos);
-}
-function PlantSearch(){
-    var xPos = (window.screen.width-2560) / 2;
-    var yPos = (window.screen.height-1440) / 2;
+function InfoSearch(field){
+	var popupWidth = 1000;
+    var popupHeight = 600;
+    
+    // 현재 활성화된 모니터의 위치를 감지
+    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
+    
+    // 전체 화면의 크기를 감지
+    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+    var xPos, yPos;
+    
+    if (width == 2560 && height == 1440) {
+        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
+        xPos = (2560 / 2) - (popupWidth / 2);
+        yPos = (1440 / 2) - (popupHeight / 2);
+    } else if (width == 1920 && height == 1080) {
+        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
+        xPos = (1920 / 2) - (popupWidth / 2);
+        yPos = (1080 / 2) - (popupHeight / 2);
+    } else {
+        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
+        var monitorWidth = 2560;
+        var monitorHeight = 1440;
+        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+    }
+    
 	var ComCode = document.querySelector('.ComCode').value;
 	
-    window.open("${contextPath}/Information/PlantSerach.jsp?ComCode=" + ComCode, "테스트", "width=500,height=500, left=500 ,top=" + yPos);
-}
-function StorageSearch(){
-    var xPos = (window.screen.width-2560) / 2;
-    var yPos = (window.screen.height-1440) / 2;
-
-    window.open("${contextPath}/Information/StorageSerach.jsp", "테스트", "width=500,height=500, left=500 ,top=" + yPos);
+	switch(field){
+	case "ComSearch":
+		window.open("${contextPath}/Information/CompanySerach.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+		break;
+	case "PlantSearch":
+		window.open("${contextPath}/Information/PlantSerach.jsp?ComCode=" + ComCode, "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+		break;
+	case "StorageSearch":
+		window.open("${contextPath}/Information/StorageSerach.jsp", "PopUp03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+		break;
+	}
 }
 </script>
 <body>
@@ -93,59 +104,16 @@ function StorageSearch(){
 					<table>
 						<tr><th class="info">Company Code : </th>
 							<td class="input-info">
-								<a href="javascript:ComSearch()"><input type="text" class="ComCode" name="ComCode" placeholder="선택" readonly></a>
+								<a href="javascript:void(0);" onclick="InfoSearch('ComSearch')"><input type="text" class="ComCode" name="ComCode" placeholder="선택" readonly></a>
 								<input type="text" class="Com_Name" name="Com_Name" readonly>
 							</td>	
 						</tr>
-						
-						
-						<!-- <script type="text/javascript">
-						$(document).ready(function(){
-							$('.ComCode').change(function(){
-								var CompanyCode = $(this).val();s
-								var ComCode = CompanyCode.split(',')[0];
-								console.log('Edited CompanyCode : ' + ComCode);
-								$.ajax({
-									type : 'post',
-									url : 'plant-find.jsp',
-									data : {ComCode : ComCode},
-									datatype : 'json',
-									success : function(response){
-										var plantoption = '';
-										try{
-											for(var i = 0 ; i < response.PLANT.length ; i++){
-												plantoption += '<option value="'+response.PLANT[i]+'">'+response.PLANT[i] + '</option>';
-											}
-											
-											$('.Plant_Select').html(plantoption);
-											$('select[name="Plant_Select"]').change(function() {
-						                         var selectedOption = $(this).children("option:selected");
-						                         $('input[name="Plant_Select_Des"]').val(selectedOption.val()); // 수정된 부분
-						                     });
-											$('#Plant_Select').prop('selectedIndex', 0).change();
-											
-											var firstPlantOption = response.PLANT[0];
-					                        $('input[name="Plant_Select_Des"]').val(firstPlantOption);
-										} catch(error){
-											console.error("JSON 파싱 중 오류 발생:", error, response);
-										}
-									}, 
-									error : function(xhr, status, error) {
-						                console.error("AJAX 요청 중 오류 발생:", error);
-						            }
-								});
-							});
-						});
-						</script> -->
 
 						<tr class="spacer-row"></tr>
 						
 						<tr><th class="info">Plant : </th>
 							<td class="input-info">
-								<a href="javascript:PlantSearch()"><input type="text" class="Plant_Select" name="Plant_Select" placeholder="선택" readonly></a>
-								<!-- <select class="Plant_Select" name="Plant_Select">
-									<option value="NOPE">SELECT</option>
-								</select> -->
+								<a href="javascript:void(0);" onclick="InfoSearch('PlantSearch')"><input type="text" class="Plant_Select" name="Plant_Select" placeholder="선택" readonly></a>
 								<input type="text" class="Plant_Name" name="Plant_Name" readonly>
 							</td>
 						</tr>
@@ -154,30 +122,7 @@ function StorageSearch(){
 						
 						<tr><th class="info">Storage Location Type : </th>
 							<td class="input-info">
-							<a href="javascript:StorageSearch()"><input type="text" class="Stor_Code" name="Stor_Code" placeholder="선택" readonly></a> 
-								<%-- <select class="Storage_Type" name="Storage_Type" onchange="LocationType(this)">
-									<option value="NOPE">SELECT</option>
-									<%
-									try{
-										PreparedStatement pstmt = null;
-										ResultSet rs = null;
-										String sql = "SELECT * FROM warehouse ORDER BY code ASC";
-										pstmt = conn.prepareStatement(sql);
-										
-										rs = pstmt.executeQuery();
-										
-										while(rs.next()){
-											String code = rs.getString("code");
-											String name = rs.getString("name");
-									%>
-										<option value="<%=name%>"><%=code%></option>
-									<%
-										}
-									}catch(Exception e){
-										e.printStackTrace();
-									}
-									%>
-								</select> --%>
+							<a href="javascript:void(0);" onclick="InfoSearch('StorageSearch')"><input type="text" class="Stor_Code" name="Stor_Code" placeholder="선택" readonly></a>
 								<input type="text" class="Stor_Des" name="Stor_Des" readonly>
 							</td>
 						</tr>

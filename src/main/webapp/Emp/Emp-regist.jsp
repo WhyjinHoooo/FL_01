@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="../css/style.css?after">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="http://code.jquery.com/jquery-latest.js"></script> 
+<script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type='text/javascript'>
 $(document).ready(function(){
@@ -213,7 +213,7 @@ function execDaumPostcode() {
 						
 						<tr><th class="info">Postal Code : </th>
 							<td class="input-info">
-								<input type="text" class="AddrCode NewAddr" name="AddrCode" id="Postcode" placeholder="우편번호">
+								<input type="text" class="AddrCode NewAddr" name="AddrCode" id="Postcode" placeholder="우편번호" readonly>
 						        <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기">
 							</td>
 						</tr>

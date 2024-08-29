@@ -2,6 +2,8 @@
 <%@page import="java.time.LocalDateTime"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +13,7 @@
 <title>자재발주</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
- 	<script type="text/javascript">
+<script type="text/javascript">
 	var path = window.location.pathname;
 	var Address = path.split("/").pop();
 	window.addEventListener('unload', (event) => {
@@ -26,9 +28,9 @@
 		}
 	    navigator.sendBeacon('../DeleteOrder', JSON.stringify(data));
 	});
-	</script>
+</script>
 <script type='text/javascript'>
-function PlantSearch(){
+/* function PlantSearch(){
     var xPos = (window.screen.width-2560) / 2;
     var yPos = (window.screen.height-1440) / 2;
     
@@ -50,12 +52,60 @@ function VendorSearch(){
 function MatSearch(){
 	var xPos = (window.screen.width-2560) / 2;
     var yPos = (window.screen.height-1440) / 2;
-    /* var ComCode = document.querySelector('.plantComCode').value; */
+    var ComCode = document.querySelector('.plantComCode').value;
     var ComCode = document.querySelector('.plantComCode').value;
     var VenCode = document.querySelector('.VendorCode').value;
 
 	window.open("MaterialSerach.jsp?ComCode=" + ComCode + "&Vendor=" + VenCode, "테스트", "width=1000,height=800, left=500 ,top=" + yPos); 
+}*/
+function InfoSearch(field){
+	var popupWidth = 1000;
+    var popupHeight = 600;
+    
+    // 현재 활성화된 모니터의 위치를 감지
+    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
+    
+    // 전체 화면의 크기를 감지
+    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+    var xPos, yPos;
+    
+    if (width == 2560 && height == 1440) {
+        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
+        xPos = (2560 / 2) - (popupWidth / 2);
+        yPos = (1440 / 2) - (popupHeight / 2);
+    } else if (width == 1920 && height == 1080) {
+        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
+        xPos = (1920 / 2) - (popupWidth / 2);
+        yPos = (1080 / 2) - (popupHeight / 2);
+    } else {
+        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
+        var monitorWidth = 2560;
+        var monitorHeight = 1440;
+        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+    }
+    
+    var ComCode = document.querySelector('.plantComCode').value;
+    var VenCode = document.querySelector('.VendorCode').value;
+    
+    switch(field){
+    case "PlantSearch":
+    	window.open("${contextPath}/Material/PlantSerach.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    case "OrdTypeSearch":
+    	window.open("${contextPath}/Material_Order/OrdTypeSerach.jsp", "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    case "VendorSearch":
+    	window.open("${contextPath}/Material_Order/VendorSerach.jsp?ComCode=" + ComCode, "PopUp03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    case "MatSearch":
+    	window.open("${contextPath}/Material_Order/MaterialSerach.jsp?ComCode=" + ComCode + "&Vendor=" + VenCode, "PopUp04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    }
 }
+
 document.addEventListener("DOMContentLoaded", function() {
     var now_utc = Date.now();
     var timeOff = new Date().getTimezoneOffset() * 60000;
@@ -80,16 +130,11 @@ window.addEventListener('DOMContentLoaded',(event) => {
 	const date = document.querySelector('.Date');
 	const sCode = document.querySelector('.SlocaCode');
 	const sDes = document.querySelector('.SlocaDes');
-/* 	const orPrice = document.querySelector('.Oriprice');
-	const priUnit = document.querySelector('.PriUnit');
-	const ordPrice = document.querySelector('.OrdPrice');
-	const monUnit = document.querySelector('.MonUnit'); */
 	
 	const resetInputs = (inputs) => {
         inputs.forEach(input => input.value = '');
     };
 	
-    /* const Subinfo = [matCode, matDes, matType, count, orUnit, stUnit, date, sCode, sDes, orPrice, priUnit, ordPrice, monUnit]; */
     const Subinfo = [matCode, matDes, matType, count, orUnit, stUnit, date, sCode, sDes];
     ORDTYPE.addEventListener('change', () => resetInputs(Subinfo));
 });
@@ -215,7 +260,6 @@ $(document).ready(function(){
 });
 </script>
 <%
-	/* int user_id = (Integer)session.getAttribute(""); */
 	request.setCharacterEncoding("UTF-8");
 	LocalDateTime today = LocalDateTime.now();
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -226,9 +270,6 @@ $(document).ready(function(){
 	String plantComCode = (String) session.getAttribute("pComCode");
 	
 	String User_Id = (String) session.getAttribute("id");
-/* 	out.println("PlantCode: " + PlantCode);
-	out.println("PlantDes: " + PlantDes);
-	out.println("PlantComCode: " + PlantComCode); */
 %>
 </head>
 <body>
@@ -237,103 +278,83 @@ $(document).ready(function(){
 		<form name="OrderRegistForm" id="OrderRegistForm" action="OrderRegist_Ok.jsp" method="POST" enctype="UTF-8">
 		<div class="content-wrapper">
 			<aside id="SideMenu" class="side-menu-container">
-						<li>Plant</li>
-							<td class="input-info">
-								<%
-									if( plantCode == null){
-								%>
-									<a href="javascript:PlantSearch()"><input type="text" class="plantCode Key-Com" name="plantCode" placeholder="선택" readonly></a> <!-- 전송 -->
-									<input type="text" class="plantDes" name="plantDes" readonly> 
-									<input type="text" name="plantComCode" class="plantComCode" hidden>
-								<%
-									} else{
-								%>
-									<a href="javascript:PlantSearch()"><input type="text" class="plantCode Key-Com" name="plantCode" readonly value="<%= plantCode %>"></a>
-									<input type="text" class="plantDes" name="plantDes" readonly value="<%= plantDes %>">
-									<input type="text" name="plantComCode" class="plantComCode" hidden value="<%= plantComCode %>">
-								<%
-									}
-								 %>
-							</td>
-							<br><br>
-						<li>Vendor</li>
-							<td class="input-info" colspan="2">
-								<a href="javascript:VendorSearch()"><input type="text" class="VendorCode" name="VendorCode" readonly></a>
-								<input type="text" class="VendorDes" name="VendorDes" readonly>
-							</td>
-							<br><br>
-						<li>PO Number</li>
-							<td class="input-info"> 
-								<input type="text" class="OrderNum Key-Com" name="OrderNum"> <!-- 전송 --> 
-							</td>
-							<br><br>
-						<li>ORD type</th></li>
-							<td>
-								<a href="javascript:OrdTypeSearch()"><input type="text" class="ordType Key-Com" name="ordType" value=PURO readonly></a>
-							</td>
-							<br><br>
-						<li>발주자 사번</th></li>
-							<td class="input-info">
-								<%
-								if(User_Id != null){
-								%>
-								<input type="text" class="UserID" name="UserID" value="<%=User_Id%>" readonly>
-								<%
-								} else{
-								%>
-								<input type="text" class="UserID" name="UserID" readonly>
-								<%
-								}
-								%>
-							</td>
-							<br><br>
-						<li>발주일자</li>
-							<td class="input-info">
-									<input type="text" class="date" name="date" value="<%=Today%>" readonly>
-							</td>
-					</aside>
-					<script type="text/javascript">
-						$(document).ready(function(){
-							function CallORD() {
-								var type=$('.ordType').val();
-								var date = $('.date').val();
-								console.log('ORD type : ' + type);
-								
-								$.ajax({
-						            type: "POST",
-						            url: "MakeNumber.jsp", // 실제 요청을 보낼 URL을 입력해주세요.
-						            data: { type: type, date: date }, // 서버로 보낼 데이터를 입력해주세요.
-						            success: function(response) {
-						                console.log(response);
-						                $('input[name="OrderNum"]').val($.trim(response));
-						                $('input[name="OIN"]').val("0001");  // OrderNum이 변경되면 Item 번호를 '0001'로 초기화
-						            }
-						        });
-							}
-							CallORD();
-							 $('.ordType').change(CallORD);
-						   /*  $('.ordType').change(function() {
-						        var type = $(this).val();
-						        var date = $('.date').val();
-						        console.log('ORD type : ' + type);
-						        $.ajax({
-						            type: "POST",
-						            url: "MakeNumber.jsp", // 실제 요청을 보낼 URL을 입력해주세요.
-						            data: { type: type, date: date }, // 서버로 보낼 데이터를 입력해주세요.
-						            success: function(response) {
-						                console.log(response);
-						                $('input[name="OrderNum"]').val($.trim(response));
-						                $('input[name="OIN"]').val("0001");  // OrderNum이 변경되면 Item 번호를 '0001'로 초기화
-						            }
-						        });
-						    }); */
-						});
-						</script>
-			<!-- <div class="order-main-info">
-				<div class="table-container">
-					
-				</div>
-			</div> -->
+				<li>Plant</li>
+				<td class="input-info">
+				<%
+					if( plantCode == null){
+				%>
+				<a href="javascript:void(0);" onclick="InfoSearch('PlantSearch')"><input type="text" class="plantCode Key-Com" name="plantCode" placeholder="선택" readonly></a> <!-- 전송 -->
+				<input type="text" class="plantDes" name="plantDes" readonly> 
+				<input type="text" name="plantComCode" class="plantComCode" hidden>
+				<%
+					} else{
+					%>
+				<a href="javascript:void(0);" onclick="InfoSearch('PlantSearch')"><input type="text" class="plantCode Key-Com" name="plantCode" readonly value="<%= plantCode %>"></a>
+				<input type="text" class="plantDes" name="plantDes" readonly value="<%= plantDes %>">
+				<input type="text" name="plantComCode" class="plantComCode" hidden value="<%= plantComCode %>">
+				<%
+					}
+				%>
+				</td>
+				<br><br>
+				<li>Vendor</li>
+					<td class="input-info" colspan="2">
+						<a href="javascript:void(0);" onclick="InfoSearch('VendorSearch')"><input type="text" class="VendorCode" name="VendorCode" placeholder="선택" readonly></a>
+						<input type="text" class="VendorDes" name="VendorDes" readonly>
+				</td>
+					<br><br>
+				<li>PO Number</li>
+					<td class="input-info"> 
+						<input type="text" class="OrderNum Key-Com" name="OrderNum"> <!-- 전송 --> 
+					</td>
+					<br><br>
+				<li>ORD type</th></li>
+					<td>
+						<a href="javascript:void(0);" onclick="InfoSearch('OrdTypeSearch')"><input type="text" class="ordType Key-Com" name="ordType" value=PURO readonly></a>
+					</td>
+					<br><br>
+				<li>발주자 사번</th></li>
+					<td class="input-info">
+						<%
+						if(User_Id != null){
+						%>
+						<input type="text" class="UserID" name="UserID" value="<%=User_Id%>" readonly>
+						<%
+						} else{
+						%>
+						<input type="text" class="UserID" name="UserID" value="없음" readonly>
+						<%
+						}
+						%>
+					</td>
+					<br><br>
+				<li>발주일자</li>
+					<td class="input-info">
+							<input type="text" class="date" name="date" value="<%=Today%>" readonly>
+					</td>
+			</aside>
+				<script type="text/javascript">
+					$(document).ready(function(){
+						function CallORD() {
+							var type=$('.ordType').val();
+							var date = $('.date').val();
+							console.log('ORD type : ' + type);
+							
+							$.ajax({
+					            type: "POST",
+					            url: "${contextPath}/Material_Order/MakeNumber.jsp", // 실제 요청을 보낼 URL을 입력해주세요.
+					            data: { type: type, date: date }, // 서버로 보낼 데이터를 입력해주세요.
+					            success: function(response) {
+					                console.log(response);
+					                $('input[name="OrderNum"]').val($.trim(response));
+					                $('input[name="OIN"]').val("0001");  // OrderNum이 변경되면 Item 번호를 '0001'로 초기화
+					            }
+					        });
+						}
+						CallORD();
+						$('.ordType').change(CallORD);
+					});
+					</script>
 			
 			<section class="main-content-container">
 			<div class="order-sub-info">
@@ -349,7 +370,7 @@ $(document).ready(function(){
 					<table class="table_2">
 						<tr><th class="info">Material : </th>
 							<td class="input-info" id="twoLines" colspan="2"> 
-								<a href="javascript:MatSearch()"><input type="text" class="MatCode Key-Com" name="MatCode" size="10" readonly></a> <!-- 전송 -->
+								<a href="javascript:void(0);" onclick="InfoSearch('MatSearch')"><input type="text" class="MatCode Key-Com" name="MatCode" size="10" readonly></a> <!-- 전송 -->
 								<!-- <input type="text" class="MatDes Key-Com" name="MatDes" readonly> 전송 -->
 								<input type="text" class="MatDes Key-Com" name="MatDes" readonly><!--  전송 -->
 							</td> 
@@ -368,7 +389,6 @@ $(document).ready(function(){
 							<th class="info">발주수량 : </th>
 								<td class="input-info"> 
 									<input type="text" class="OrderCount Key-Com" name="OrderCount" size="10"><!-- 전송 -->
-									<!-- <input type="text" class="OrderCount Key-Com" name="OrderCount"> 전송 -->
 								</td>
 								
 								<td class="spaceCell-ss"></td>
@@ -407,7 +427,7 @@ $(document).ready(function(){
 										    console.log('Storage Code : ' + Code);
 										    $.ajax({
 										      type: "POST",
-										      url: "StorageCodeFind.jsp",
+										      url: "${contextPath}/Material_Order/StorageCodeFind.jsp",
 										      data: { SCode: Code },
 										      success: function(response) {
 										        console.log(response);
@@ -477,7 +497,7 @@ $(document).ready(function(){
 			</div>
 			
 			<div class="container">
-				<img name="Down" src="../img/Dvector.png" alt="">
+				<img name="Down" src="${contextPath}/img/Dvector.png" alt="">
 				<input class="input-btn" id="btn" type="submit" value="Insert">
 			</div>
 			
@@ -487,9 +507,6 @@ $(document).ready(function(){
 						<tr style="cursor: default;">
 							<th>항번</th><th>삭제</th><th>PO번호</th><th>Item번호</th><th>Material</th><th>Material Description</th><th>Material유형</th><th>수량</th><th>구매단위</th><th>구입단가</th><th>가격단위</th><th>발주금액</th><th>거래통화</th><th>납품희망일자</th><th>납품창고</th><th>Plant</th>
 						</tr>
-						<!-- <tr>
-							<td class="datasize">1</td><td class="datasize">1</td><td class="datasize">1</td><td class="datasize">1</td><td class="datasize">1</td><td class="datasize">1</td><td class="datasize">1</td><td class="datasize">1</td><td class="datasize">1</td><td class="datasize">1</td><td class="datasize">1</td><td class="datasize">1</td><td class="datasize">1</td><td class="datasize">1</td><td class="datasize">1</td><td class="datasize">1</td>
-						</tr> -->
 					</table>
 					</div>
 				</div>
