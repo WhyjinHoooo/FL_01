@@ -13,7 +13,7 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <script type='text/javascript'>
 $(document).ready(function(){
-    $('.matlv3Code').change(function(){
+	$('.matlv3Code').change(function(){
         var lv3 = $(this).val();
         console.log('lv3 Code : ' + lv3);
         $.ajax({
@@ -43,7 +43,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
     
     
     const resetInputs = (inputs) => {
-        inputs.forEach(input => input.value = '');
+        inputs.forEach(input => {
+            if (input === DescriptionInput) {
+                const parts = input.value.split(',');
+                if (parts.length > 1) {
+                    input.value = parts[0] + ',';
+                }
+            } else {
+                input.value = '';
+            }
+        });
     };
     
     const updateDes = () => {
@@ -53,15 +62,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         DescriptionInput.value = [lv1Des, lv2Des, lv3Des].join(',');
     };
-
-    lv1DesInput.addEventListener('change', updateDes);
-    lv2DesInput.addEventListener('change', updateDes);
+    
     lv3DesInput.addEventListener('change', updateDes);
 
     const matTypeInputs = [lv1CodeInput, lv1DesInput, lv2CodeInput, lv2DesInput, lv3CodeInput, lv3DesInput, GroupCodeInput, GroupDesInput, matCodeInput, DescriptionInput];
-    const lv1Inputs = [lv2CodeInput, lv2DesInput, lv3CodeInput, lv3DesInput, GroupCodeInput, GroupDesInput, matCodeInput];
-    const lv2Inputs = [lv3CodeInput, lv3DesInput, GroupCodeInput, GroupDesInput, matCodeInput];
-
+    const lv1Inputs = [lv2CodeInput, lv2DesInput, lv3CodeInput, lv3DesInput, GroupCodeInput, GroupDesInput, matCodeInput, DescriptionInput];
+    const lv2Inputs = [lv3CodeInput, lv3DesInput, GroupCodeInput, GroupDesInput, matCodeInput,DescriptionInput];
+    
     matTypeCodeInput.addEventListener('change', () => resetInputs(matTypeInputs));
     lv1CodeInput.addEventListener('change', () => resetInputs(lv1Inputs));
     lv2CodeInput.addEventListener('change', () => resetInputs(lv2Inputs));
@@ -234,7 +241,7 @@ function InfoSearch(field){
 						
 						<tr><th class="info">Default 입고창고 : </th>
 							<td class="input-info">
-								<input type="text" name="StorageCode" class="StorageCode" size="10" onclick="InfoSearch('WareSearch')" readonly>
+								<input type="text" name="StorageCode" class="StorageCode" size="10" onclick="InfoSearch('WareSearch')" placeholder="선택" readonly>
 								<input type="text" name="StorageDes" class="StorageDes" size="31" readonly> 
 							</td>
 						</tr>
@@ -260,7 +267,7 @@ function InfoSearch(field){
 						
 						<tr><th class="info">Material 적용단계 : </th>
 							<td class="input-info">
-								<input type="text" name="matadjustCode" class="matadjustCode" size="10" onclick="InfoSearch('AdjustSearch')" readonly>
+								<input type="text" name="matadjustCode" class="matadjustCode" size="10" onclick="InfoSearch('AdjustSearch')" placeholder="선택" readonly>
 								<input type="text" name="matadjustDes" class="matadjustDes" size="31" readonly> 
 							</td>
 						</tr>

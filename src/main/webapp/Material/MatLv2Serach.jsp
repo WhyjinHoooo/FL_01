@@ -49,7 +49,34 @@
 			%>
 			            <tr>
 			                <td><%=rs.getString("MatGroup") %></td>
-							<td><a href="javascript:void(0)" onClick="var lv2Group = '<%=rs.getString("MatGroup")%>'; var lv2Des = '<%=rs.getString("Des")%>'; window.opener.document.querySelector('.matlv2Code').value=lv2Group; window.opener.document.querySelector('.matlv2Code').dispatchEvent(new Event('change')); window.opener.document.querySelector('.matlv2Des').value=lv2Des; var existingDes = window.opener.document.querySelector('.Des').value; if (existingDes) { window.opener.document.querySelector('.Des').value = existingDes + ', ' + lv2Des; } else { window.opener.document.querySelector('.Des').value = lv2Des; } window.opener.console.log('Selected lv2Group ' + lv2Group + ', lv2Des ' + lv2Des); window.close();"><%=rs.getString("Des") %></a></td>
+							<td>
+							    <a href="javascript:void(0)"
+							       onClick="
+							           var lv2Group = '<%=rs.getString("MatGroup")%>';
+							           var lv2Des = '<%=rs.getString("Des")%>';
+							           
+							           var matlv2CodeField = window.opener.document.querySelector('.matlv2Code');
+							           matlv2CodeField.value = lv2Group;
+							           matlv2CodeField.dispatchEvent(new Event('change'));
+							           
+							           var matlv2DesField = window.opener.document.querySelector('.matlv2Des');
+							           matlv2DesField.value = lv2Des;
+							           
+							           var existingDesField = window.opener.document.querySelector('.Des');
+							           var existingDes = existingDesField.value;
+							           if (existingDes) {
+							               existingDesField.value = existingDes + ', ' + lv2Des;
+							           } else {
+							               existingDesField.value = lv2Des;
+							           }
+							           
+							           window.opener.console.log('Selected lv2Group ' + lv2Group + ', lv2Des ' + lv2Des);
+							           
+							           window.close();
+							       ">
+							       <%=rs.getString("Des") %>
+							    </a>
+							</td>
 			            </tr>
 			<%
 			                } while(rs.next());

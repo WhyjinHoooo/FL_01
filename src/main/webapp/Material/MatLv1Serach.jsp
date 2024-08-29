@@ -47,7 +47,32 @@
 			%>
 			            <tr>
 							<td><%=rs.getString("MatGroup") %></td>
-							<td><a href="javascript:void(0)" onClick="var lv1Group = '<%=rs.getString("MatGroup")%>'; var lv1Des = '<%=rs.getString("Des")%>'; window.opener.document.querySelector('.matlv1Code').value=lv1Group; window.opener.document.querySelector('.matlv1Code').dispatchEvent(new Event('change')); window.opener.document.querySelector('.matlv1Des').value=lv1Des; var existingDes = window.opener.document.querySelector('.Des').value; if (existingDes) { window.opener.document.querySelector('.Des').value = existingDes + ', ' + lv1Des; } else { window.opener.document.querySelector('.Des').value = lv1Des; } window.opener.console.log('Selected lv1Group ' + lv1Group + ', lv1Des ' + lv1Des); window.close();"><%=rs.getString("Des") %></a></td>
+							<td>
+							    <a href="javascript:void(0)" 
+							       onClick="
+							           var lv1Group = '<%=rs.getString("MatGroup")%>';
+							           var lv1Des = '<%=rs.getString("Des")%>';
+							           
+							           window.opener.document.querySelector('.matlv1Code').value = lv1Group;
+							           window.opener.document.querySelector('.matlv1Code').dispatchEvent(new Event('change'));
+							           
+							           window.opener.document.querySelector('.matlv1Des').value = lv1Des;
+							           
+							           var existingDes = window.opener.document.querySelector('.Des').value;
+							           if (existingDes) {
+							               window.opener.document.querySelector('.Des').value = existingDes + ', ' + lv1Des;
+							           } else {
+							               window.opener.document.querySelector('.Des').value = lv1Des;
+							           }
+							           
+							           window.opener.console.log('Selected lv1Group ' + lv1Group + ', lv1Des ' + lv1Des);
+							           
+							           window.close();
+							       ">
+							       <%=rs.getString("Des") %>
+							    </a>
+							</td>
+
 			            </tr>
 			<%
 			                } while(rs.next());

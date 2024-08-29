@@ -21,12 +21,8 @@ try{
 	rs = pstmt.executeQuery();
 	
 	if(!rs.next()) {
-		// 데이터가 없다면
-		/* System.out.println("No data found. Appending '-00001' to the initial value."); */
 		first = first + "-00001";
 	} else {
-		// 데이터가 있다면 가장 최근에 등록된 데이터에 1을 더하여 저장
-		/* System.out.println("Data found. Saving the incremented value of the most recent one."); */
 		String recentData = rs.getString("Material_code");
 		String[] splitData = recentData.split("-");
 		int incrementedValue = Integer.parseInt(splitData[1]) + 1;
