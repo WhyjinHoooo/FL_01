@@ -14,17 +14,43 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <title>Insert title here</title>
 <script>
-	function IdFind(){
-		var xPos = (window.screen.width-2560) / 2;
-	    var yPos = (window.screen.height-1440) / 2;
+	function InfoSearch(field){
+		var popupWidth = 1000;
+	    var popupHeight = 600;
 	    
-	    window.open("${contextPath}/Basic/idFind.jsp", "테스트", "width=683,height=495, right=500 ,top=" + yPos);
-	}
-	function PwFind(){
-		var xPos = (window.screen.width-2560) / 2;
-	    var yPos = (window.screen.height-1440) / 2;
+	    // 현재 활성화된 모니터의 위치를 감지
+	    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+	    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
 	    
-	    window.open("${contextPath}/Basic/PwFind.jsp", "테스트", "width=683,height=495, right=500 ,top=" + yPos);
+	    // 전체 화면의 크기를 감지
+	    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+	    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+	    var xPos, yPos;
+	    
+	    if (width == 2560 && height == 1440) {
+	        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
+	        xPos = (2560 / 2) - (popupWidth / 2);
+	        yPos = (1440 / 2) - (popupHeight / 2);
+	    } else if (width == 1920 && height == 1080) {
+	        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
+	        xPos = (1920 / 2) - (popupWidth / 2);
+	        yPos = (1080 / 2) - (popupHeight / 2);
+	    } else {
+	        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
+	        var monitorWidth = 2560;
+	        var monitorHeight = 1440;
+	        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+	        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+	    }
+	    
+	    switch(field){
+	    case "IdFind":
+	    	window.open("${contextPath}/Basic/idFind.jsp", "IdPopUp", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+	    	break;
+	    case "PwFind":
+	    	window.open("${contextPath}/Basic/PwFind.jsp", "PwPopUp", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+	    	break;
+	    }
 	}
 	function NewComer(){
 	    var EmpNum;
@@ -40,10 +66,7 @@
 	                if (response.trim() === "No") {
 	                    alert(response.trim()); // 사원 코드가 없는 경우 알림 표시
 	                } else if(response.trim() === "Yes") {
-	                    alert("사원 코드가 있습니다."); // 사원 코드가 있는 경우 알림 표시
-	                } else{
-	                	alert("사원 페이지로 이동합니다."); // 사원 코드가 있는 경우 알림 표시
-	                	 window.location.href = "RegistMember.jsp?Number=" + EmpNum;
+	                	window.location.href = "RegistMember.jsp?Number=" + EmpNum; // 사원 코드가 있는 경우 알림 표시
 	                }
 	            }
 	        });
@@ -107,20 +130,19 @@
 							<tr class="JoinSec">
 								<th>※ 신규 회원 가입 신청</th>
 									<td>
-										<!-- <Button class="Join CommonBtn" name="Join" type="button" onclick="location.href='RegistMember.jsp'">회원가입</Button> -->
 										<Button class="Join CommonBtn" name="Join" type="button" onclick="NewComer()">회원가입</Button>
 									</td>
 							</tr>
 							<tr class="JoinSec">
 								<th>※ ID 확인 </th>
 									<td>
-										<a href="javascript:IdFind()"><Button class="IdFind CommonBtn" name="IdFind" type="button">ID 찾기</Button></a>
+										<Button class="IdFind CommonBtn" name="IdFind" type="button" onclick="InfoSearch('IdFind')">ID 찾기</Button>
 									</td>
 							</tr>
 							<tr class="JoinSec">
 								<th>※ Password 찾기 </th>
 									<td>
-										<a href="javascript:PwFind()"><Button class="PWCh CommonBtn" name="PwFind" type="button">비밀번호 찾기</Button></a>
+										<Button class="PWCh CommonBtn" name="PwFind" type="button" onclick="InfoSearch('PwFind')">비밀번호 찾기</Button>
 									</td>
 							</tr>				
 						</table>

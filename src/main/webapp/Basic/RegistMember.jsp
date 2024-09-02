@@ -379,8 +379,6 @@
 			<button  type="submit" class="RegistBtn">가입하기</button>
         </div>
        	</form>
-        
-        
       </div>
     </div>
 </body>

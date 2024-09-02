@@ -59,11 +59,11 @@
 							           window.opener.document.querySelector('.matlv1Des').value = lv1Des;
 							           
 							           var existingDes = window.opener.document.querySelector('.Des').value;
-							           if (existingDes) {
-							               window.opener.document.querySelector('.Des').value = existingDes + ', ' + lv1Des;
-							           } else {
-							               window.opener.document.querySelector('.Des').value = lv1Des;
-							           }
+							           
+							           var Array = existingDes.split(',');
+							           var length = Array.length;
+							           
+							           window.opener.document.querySelector('.Des').value = lv1Des;
 							           
 							           window.opener.console.log('Selected lv1Group ' + lv1Group + ', lv1Des ' + lv1Des);
 							           
@@ -72,7 +72,6 @@
 							       <%=rs.getString("Des") %>
 							    </a>
 							</td>
-
 			            </tr>
 			<%
 			                } while(rs.next());

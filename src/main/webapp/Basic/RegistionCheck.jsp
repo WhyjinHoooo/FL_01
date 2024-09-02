@@ -32,9 +32,6 @@ try{
 		if(rs2.next()){	
 			// membership에 등록이 돼있는 경우
 			Coment = "Yes";
-		} else{
-			// membership에 등록이 안 된 경우
-			Coment = "Move";
 		}
 	}
 	out.print(Coment.trim());

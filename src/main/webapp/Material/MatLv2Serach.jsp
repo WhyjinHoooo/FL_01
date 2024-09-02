@@ -64,10 +64,17 @@
 							           
 							           var existingDesField = window.opener.document.querySelector('.Des');
 							           var existingDes = existingDesField.value;
-							           if (existingDes) {
+							           
+							           var Array = existingDes.split(',');
+							           var length = Array.length;
+							           
+							           window.opener.console.log('2Lv-Array ', Array);
+							           window.opener.console.log('2Lv-length ' + length);
+							           
+							           if(Array == 1){
 							               existingDesField.value = existingDes + ', ' + lv2Des;
 							           } else {
-							               existingDesField.value = lv2Des;
+							               existingDesField.value = Array[0] + ', ' + lv2Des
 							           }
 							           
 							           window.opener.console.log('Selected lv2Group ' + lv2Group + ', lv2Des ' + lv2Des);

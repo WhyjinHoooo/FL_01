@@ -49,7 +49,6 @@
 			%>
 			            <tr>
 			                <td><%=rs.getString("MatGroup") %></td>
-							<%-- <td><a href="javascript:void(0)" onClick="var lv3Group = '<%=rs.getString("MatGroup")%>'; var lv3Des = '<%=rs.getString("Des")%>'; window.opener.document.querySelector('.matlv3Code').value=lv3Group; window.opener.document.querySelector('.matlv3Code').dispatchEvent(new Event('change')); window.opener.document.querySelector('.matlv3Des').value=lv3Des; window.opener.document.querySelector('.matlv3Des').dispatchEvent(new Event('change')); window.opener.document.querySelector('.matGroupCode').value=lv3Group; window.opener.document.querySelector('.matGroupDes').value=lv3Des; var existingDes = window.opener.document.querySelector('.Des').value; if (existingDes) { window.opener.document.querySelector('.Des').value = existingDes + ', ' + lv3Des; } else { window.opener.document.querySelector('.Des').value = lv3Des; } window.opener.console.log('Selected lv3Group ' + lv3Group + ', lv3Des ' + lv3Des); window.close();"><%=rs.getString("Des") %></a></td> --%>
 							<td>
 							    <a href="javascript:void(0)" 
 							       onClick="

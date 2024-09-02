@@ -19,8 +19,8 @@ body#MyPEdit {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	width: 670px;
-	height: 450px;
+	width: 100%;
+	height: 640px;
 	margin-top: 20px;
 	background: #ffffff;
 	border: 1px solid #aacdff;

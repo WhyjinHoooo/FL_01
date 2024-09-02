@@ -40,19 +40,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const GroupDesInput = document.querySelector('.matGroupDes');
     const matCodeInput = document.querySelector('.matCode');
     const DescriptionInput = document.querySelector('.Des');
-    
+    const DescriptionInput1Lv = document.querySelector('.Des');
+    const DescriptionInput2Lv = document.querySelector('.Des');
     
     const resetInputs = (inputs) => {
-        inputs.forEach(input => {
-            if (input === DescriptionInput) {
-                const parts = input.value.split(',');
-                if (parts.length > 1) {
-                    input.value = parts[0] + ',';
-                }
-            } else {
-                input.value = '';
-            }
-        });
+        inputs.forEach(input => input.value = '');
     };
     
     const updateDes = () => {
@@ -66,8 +58,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     lv3DesInput.addEventListener('change', updateDes);
 
     const matTypeInputs = [lv1CodeInput, lv1DesInput, lv2CodeInput, lv2DesInput, lv3CodeInput, lv3DesInput, GroupCodeInput, GroupDesInput, matCodeInput, DescriptionInput];
-    const lv1Inputs = [lv2CodeInput, lv2DesInput, lv3CodeInput, lv3DesInput, GroupCodeInput, GroupDesInput, matCodeInput, DescriptionInput];
-    const lv2Inputs = [lv3CodeInput, lv3DesInput, GroupCodeInput, GroupDesInput, matCodeInput,DescriptionInput];
+    const lv1Inputs = [lv2CodeInput, lv2DesInput, lv3CodeInput, lv3DesInput, GroupCodeInput, GroupDesInput, matCodeInput];
+    const lv2Inputs = [lv3CodeInput, lv3DesInput, GroupCodeInput, GroupDesInput, matCodeInput];
     
     matTypeCodeInput.addEventListener('change', () => resetInputs(matTypeInputs));
     lv1CodeInput.addEventListener('change', () => resetInputs(lv1Inputs));
