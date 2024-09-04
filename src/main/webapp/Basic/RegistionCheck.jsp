@@ -30,7 +30,7 @@ try{
 	} else {
 		// emp에 사원 번호가 있는 경우
 		if(rs2.next()){	
-			// membership에 등록이 돼있는 경우
+			// membership에도 사원 번호가 있는 경우
 			Coment = "Yes";
 		}
 	}

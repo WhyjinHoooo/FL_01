@@ -24,10 +24,10 @@
 	String NaCode = request.getParameter("NationCode");
 	String NaName = request.getParameter("NationName_input");
 	
-	String PtCd = request.getParameter("PtCd");
+	String PtCd = request.getParameter("AddrCode");
 	
-	String Addr1 = request.getParameter("Addr01");
-	String Addr2 = request.getParameter("Addr02");
+	String Addr = request.getParameter("Addr");
+	String AddrDetail = request.getParameter("AddrDetail");
 	
 	String money = request.getParameter("money");
 	String lang = request.getParameter("lang");
@@ -56,8 +56,8 @@
 		pstmt.setString(3, NaCode);
 		pstmt.setString(4, NaName);
 		pstmt.setString(5, PtCd);
-		pstmt.setString(6, Addr1);
-		pstmt.setString(7, Addr2);
+		pstmt.setString(6, Addr);
+		pstmt.setString(7, AddrDetail);
 		pstmt.setString(8, money);
 		pstmt.setString(9, lang);
 		pstmt.setBoolean(10, BA);
@@ -123,8 +123,8 @@ console.log("Description: " + '<%= Des %>');
 console.log("NaCode: " + '<%= NaCode %>');
 console.log("Nationality Name: " + '<%= NaName %>');
 console.log("Postal Code: " + '<%= PtCd %>');
-console.log("Address 1: " + '<%= Addr1 %>');
-console.log("Address 2: " + '<%= Addr2 %>');
+console.log("Address 1: " + '<%= Addr %>');
+console.log("Address 2: " + '<%= AddrDetail %>');
 console.log("Local Currency: " + '<%= money %>');
 console.log("Language: " + '<%= lang %>');
 console.log("Business Area 사용: " + '<%= BA %>');

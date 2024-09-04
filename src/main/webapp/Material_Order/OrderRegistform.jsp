@@ -30,34 +30,6 @@
 	});
 </script>
 <script type='text/javascript'>
-/* function PlantSearch(){
-    var xPos = (window.screen.width-2560) / 2;
-    var yPos = (window.screen.height-1440) / 2;
-    
-    window.open("../Material/PlantSerach.jsp", "테스트", "width=500,height=500, left=500 ,top=" + yPos);	 
-}
-function OrdTypeSearch(){
-    var xPos = (window.screen.width-2560) / 2;
-    var yPos = (window.screen.height-1440) / 2;
-    
-    window.open("OrdTypeSerach.jsp", "테스트", "width=500,height=500, left=500 ,top=" + yPos);	 
-}
-function VendorSearch(){
-	var xPos = (window.screen.width-2560) / 2;
-    var yPos = (window.screen.height-1440) / 2;
-    var ComCode = document.querySelector('.plantComCode').value;
-
-	window.open("VendorSerach.jsp?ComCode=" + ComCode, "테스트", "width=500,height=500, left=500 ,top=" + yPos); 
-}
-function MatSearch(){
-	var xPos = (window.screen.width-2560) / 2;
-    var yPos = (window.screen.height-1440) / 2;
-    var ComCode = document.querySelector('.plantComCode').value;
-    var ComCode = document.querySelector('.plantComCode').value;
-    var VenCode = document.querySelector('.VendorCode').value;
-
-	window.open("MaterialSerach.jsp?ComCode=" + ComCode + "&Vendor=" + VenCode, "테스트", "width=1000,height=800, left=500 ,top=" + yPos); 
-}*/
 function InfoSearch(field){
 	var popupWidth = 1000;
     var popupHeight = 600;
@@ -187,21 +159,15 @@ $(document).ready(function(){
             success: function(data) {
             	var Del = "Delete";
                 var newRow = "<tr class='dTitle'>";
-                var rowNum = $(".WirteForm tr").length; 
-                /* var newRowNum;
-                if (deletedRowNums.length > 0) {  // 삭제한 항번이 있으면
-                    newRowNum = deletedRowNums.shift();  // 가장 작은 항번을 가져와서 사용
-                } else {  // 삭제한 항번이 없으면
-                    newRowNum = rowNum++;  // 새 항번을 생성
-                } */
-                newRow += "<td>" + rowNum + "</td>";  // 항번 추가
-                newRow += "<td><input type='button' name='deleteBTN' value='" + Del + "'></td>";
+                var rowNum = $(".WirteForm tr").length;
+                newRow += "<td class='datasize'>" + rowNum + "</td>";  // 항번 추가
+                newRow += "<td class='datasize'><input type='button' name='deleteBTN' value='" + Del + "'></td>";
                 
                 // 데이터 순서를 정하고, 순서대로 행에 추가합니다.
                 var order = ["OrderNum", "OIN", "MatCode", "MatDes", "MatType", "OrderCount", "OrderUnit", "Oriprice", "PriUnit", "OrdPrice", "MonUnit", "Date", "SlocaCode", "plantCode"];
                 $.each(order, function(index, key){
                     if (key === "OIN") {  // Item 번호인 경우
-                        newRow += "<td>" + ("0000" + itemNum).slice(-4) + "</td>";  // '0001' 형식으로 추가
+                        newRow += "<td class='datasize'>" + ("0000" + itemNum).slice(-4) + "</td>";  // '0001' 형식으로 추가
                     } else {
                         newRow += "<td class='datasize'>" + data[key] + "</td>";
                     }
@@ -209,7 +175,6 @@ $(document).ready(function(){
 
                 newRow += "</tr>";
                 $(".WirteForm").append(newRow);
-                /* $('.OIN').val(("0000" + itemNum++).slice(-4));  // 화면에 보이는 OIN 값 업데이트 */
                 $('.OIN').val(("0000" + (currentOIN + 1)).slice(-4));
                 maxRowNum = rowNum;
             } // success: function(data) 의 끝

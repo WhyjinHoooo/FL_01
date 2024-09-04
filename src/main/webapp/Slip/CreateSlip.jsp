@@ -96,9 +96,6 @@ function UserBAInput(inputFieldId){
         yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
     }
     var docNumber, slipNo;
-    /* if(inputFieldId === "NowUserBA"){
-   		window.open("${contextPath}/Slip/Info/UserBAInput.jsp?ComCode=" + ComCode, "테스트", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);	
-    } else  */
     if(inputFieldId === "UsedUserBA"){
     	window.open("${contextPath}/Slip/Info/UsedCom.jsp", "테스트", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     } else if(inputFieldId === "BizMoneyCode"){

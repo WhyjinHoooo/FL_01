@@ -28,9 +28,7 @@
         	if(e.which == 13){
         		$('#searchButton').trigger("click");
         		return false;
-        	} /* else if(e.which == 8){
-        		$('#Reset').trigger("click");
-        	} */
+        	}
         });
     });
 </script>
