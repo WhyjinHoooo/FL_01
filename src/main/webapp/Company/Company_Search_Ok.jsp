@@ -6,7 +6,7 @@
 <%
 	String S_ComCode = request.getParameter("CompanyCode");
 	try{
-		String sql = "SELECT * FROM company WHERE Com_Cd = '"+ S_ComCode + "'";
+		String sql = "SELECT * FROM company WHERE Com_Des = '"+ S_ComCode + "'";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		
