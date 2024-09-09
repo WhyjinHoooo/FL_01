@@ -1,3 +1,5 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDateTime"%>
 <%@page import="java.sql.SQLException"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -10,6 +12,13 @@
 </head>
 <body>
 <%
+	LocalDateTime now = LocalDateTime.now();
+	String CreateDate = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+	String FromDate = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+	
+	LocalDateTime sixMonthsLater = now.plusMonths(6);
+    String ValidDateFrom = sixMonthsLater.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    
 	request.setCharacterEncoding("UTF-8");
 
 	String UserName = request.getParameter("UserName"); //사용자 이름
@@ -19,25 +28,42 @@
 	String Email = request.getParameter("UserEm") + "@" + request.getParameter("UserDom_txt");
 	String Birth = request.getParameter("UserY") + "-" + request.getParameter("UserM") + "-" + request.getParameter("UserD"); // 생일
 	String AddressNum = request.getParameter("ZipCd"); // 도로명주소
-	String Address = request.getParameter("Addr") + "," +  request.getParameter("AddrRefer"); // 집주소
+	String Address = request.getParameter("Addr") + "," +  request.getParameter("AddrDetail"); // 집주소
 	String gender = request.getParameter("gender"); // 성별
 	String Digit = request.getParameter("Ph_F") + "-" + request.getParameter("Ph_M") + "-" + request.getParameter("Ph_E"); // 전화번호
-	String Belong = request.getParameter("Belong"); // 소속(부서)
-
-	String sql = "INSERT INTO membership VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+	String Belong = request.getParameter("Belong"); // 기업
+	String CoCt = request.getParameter("CoCtSelect"); // 부소 
+	String EmpId = request.getParameter("Employee_ID");
+	
+	String YN_Sql = "SELECT * FROM emp WHERE EMPLOYEE_NAME = ?";
+	PreparedStatement YN_pstmt = conn.prepareStatement(YN_Sql);
+	YN_pstmt.setString(1, UserName);
+	ResultSet YN_rs = YN_pstmt.executeQuery();
+	
+	String sql = "INSERT INTO membership VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	try{
-		pstmt.setString(1, UserName);
-		pstmt.setString(2, Id);
-		pstmt.setString(3, Password);
-		pstmt.setString(4, UserIdCard);
-		pstmt.setString(5, Email);
-		pstmt.setString(6, Birth);
-		pstmt.setString(7, AddressNum);
-		pstmt.setString(8, Address);
-		pstmt.setString(9, gender);
-		pstmt.setString(10, Digit);
-		pstmt.setString(11, Belong);
+		pstmt.setString(1, UserName); // 사용자 이름
+		pstmt.setString(2, Id); // 아이디
+		pstmt.setString(3, Password); // 비밀번호
+		pstmt.setString(4, EmpId); // 사원번호
+		pstmt.setString(5, UserIdCard); // 사원번호
+		pstmt.setString(6, Email);
+		pstmt.setString(7, Birth);
+		pstmt.setString(8, AddressNum);
+		pstmt.setString(9, Address);
+		pstmt.setString(10, gender);
+		pstmt.setString(11, Digit);
+		pstmt.setString(12, Belong);
+		pstmt.setString(13, CoCt);
+		if(YN_rs.next()){
+			pstmt.setString(14, "Y");
+		} else{
+			pstmt.setString(14, "N");
+		}
+		pstmt.setString(15, CreateDate);
+		pstmt.setString(16, FromDate);
+		pstmt.setString(17, ValidDateFrom);
 		pstmt.executeUpdate();
 	}catch(SQLException e){
 		e.printStackTrace();
@@ -53,7 +79,6 @@
 	
 %>
 <script>
-	alert("가입되었습니다. 로그인 페이지로 이동합니다.");
 	window.location.href="Login.jsp";
 </script>
 </body>

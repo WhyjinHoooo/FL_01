@@ -110,7 +110,7 @@
 		pstmt.setInt(21, id2);
 		pstmt.executeUpdate();
 		
-		OW_Reg_Pstmt.setString(1, Id_Des);
+		/* OW_Reg_Pstmt.setString(1, Id_Des);
 		OW_Reg_Pstmt.setString(2, ID);
 		OW_Reg_Pstmt.setString(3, "0000");
 		OW_Reg_Pstmt.setString(4, Jumin_1st + "-" + Jumin_2nd);
@@ -121,7 +121,7 @@
 		OW_Reg_Pstmt.setString(9, gender);
 		OW_Reg_Pstmt.setString(10, "000-0000-0000");
 		OW_Reg_Pstmt.setString(11, ComCode);
-		OW_Reg_Pstmt.executeUpdate();
+		OW_Reg_Pstmt.executeUpdate(); */
 		
 		response.sendRedirect("Emp-regist.jsp");
 	}catch(SQLException e){

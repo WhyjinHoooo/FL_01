@@ -11,7 +11,7 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> 
 <title>Company 등록</title>
 <script>
-	function infoSearch(field){
+	function InfoSearch(field){
 		event.preventDefault();
 		
 		var popupWidth = 1000;
@@ -148,7 +148,7 @@
 						<tr><th class="info">Company Code : </th>
 							<td class="input_info">
 								<input type="text" name="Com_code" size="10">
-								<input type="button" class="search-link" value="Search" onclick="infoSearch('ComSearch')" readonly>	
+								<input type="button" class="search-link" value="Search" onclick="InfoSearch('ComSearch')" readonly>	
 							</td>
 						</tr>
 						
@@ -170,7 +170,7 @@
 				<table>
 					<tr><th class="info">Nationality : </th>
 						<td class="input_info">
-							<input type="text" id="NationCode" name="NationCode" onclick="infoSearch('NationSearch')" readonly>	
+							<input type="text" id="NationCode" name="NationCode" onclick="InfoSearch('NationSearch')" readonly>	
 							<input type="text" id="NationDes" name="NationName_input" readonly>
 						</td>
 					</tr>	
@@ -204,12 +204,12 @@
 					
 					<tr><th class="info">Local Currency : </th>
 						<td class="input_info">
-							<input type="text" class="money-code" name="money" onclick="infoSearch('MoneySearch')" readonly>
+							<input type="text" class="money-code" name="money" onclick="InfoSearch('MoneySearch')" readonly>
 						</td>
 						
 						<th class="info">Language : </th>
 							<td class="input_info">
-								<input type="text" class="language-code" name="lang" onclick="infoSearch('LanSearch')" readonly>
+								<input type="text" class="language-code" name="lang" onclick="InfoSearch('LanSearch')" readonly>
 							</td>
 					</tr>	
 					

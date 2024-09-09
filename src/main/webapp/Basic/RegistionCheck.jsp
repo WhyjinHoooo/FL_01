@@ -20,19 +20,11 @@ try{
 	pstmt.setString(1, EmpNumber);
 	rs = pstmt.executeQuery();
 	
-	String sql2 = "SELECT * FROM membership WHERE Id = ?";
-	pstmt2 = conn.prepareStatement(sql2);
-	pstmt2.setString(1, EmpNumber);
-	rs2 = pstmt2.executeQuery();
 	if(!rs.next()) {
 		// emp에 사원 번호가 없는 경우
-		Coment = "No";
+		Coment = "사원코드가 등록되지 않았습니다.";
 	} else {
-		// emp에 사원 번호가 있는 경우
-		if(rs2.next()){	
-			// membership에도 사원 번호가 있는 경우
-			Coment = "Yes";
-		}
+		Coment = "Yes";
 	}
 	out.print(Coment.trim());
 } catch(SQLException e){

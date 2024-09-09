@@ -53,24 +53,8 @@
 	    }
 	}
 	function NewComer(){
-	    var EmpNum;
-	    var Check = prompt("사원 번호를 입력해주세요.");
-	    if(Check != null){
-	        EmpNum = Check;
-	        $.ajax({
-	            url: 'RegistionCheck.jsp',
-	            type: 'POST',
-	            data: {EmpCode : EmpNum},
-	            success: function(response){
-	                console.log(response); // 서버 응답 확인
-	                if (response.trim() === "No") {
-	                    alert(response.trim()); // 사원 코드가 없는 경우 알림 표시
-	                } else if(response.trim() === "Yes") {
-	                	window.location.href = "RegistMember.jsp?Number=" + EmpNum; // 사원 코드가 있는 경우 알림 표시
-	                }
-	            }
-	        });
-	    }
+		/* window.location.href = "${contextPath}/Basic/RegistMember.jsp"; */
+		location.href = "${contextPath}/Basic/RegistMember.jsp";
 	}
 </script>
 </head>
@@ -111,7 +95,7 @@
 							<tr class="Area">
 								<th class="IdTitle main-title">Login-ID : </th>
 									<td class="ComSec">
-										<input type="text" class="UserId User" name="UserId" value="2024060001"> <!-- 매번 입력하기 번거로워서 미리 입력함 -->
+										<input type="text" class="UserId User" name="UserId" placeholder="입력"> <!-- 매번 입력하기 번거로워서 미리 입력함 -->
 									</td>
 							</tr>
 						</table>
@@ -119,7 +103,7 @@
 							<tr class="Area">
 								<th class="PwTitle main-title">Password : </th>
 									<td class="ComSec">
-										<input type="password" class="UserPw User" name="UserPw" value="admin1234!"> <!-- 매번 입력하기 번거로워서 미리 입력함 -->
+										<input type="password" class="UserPw User" name="UserPw" placeholder="입력"> <!-- 매번 입력하기 번거로워서 미리 입력함 -->
 									</td>
 							</tr>
 						</table>

@@ -6,8 +6,9 @@
 <%
 	String S_ComCode = request.getParameter("CompanyCode");
 	try{
-		String sql = "SELECT * FROM company WHERE Com_Des = '"+ S_ComCode + "'";
+		String sql = "SELECT * FROM company WHERE Com_Des LIKE ?";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, "%" + S_ComCode + "%" );
 		ResultSet rs = pstmt.executeQuery();
 		
 		if(!rs.next()){
