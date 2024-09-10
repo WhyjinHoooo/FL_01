@@ -17,10 +17,9 @@
 	ResultSet rs = pstmt.executeQuery();
 	try{
 		if(!rs.next()){
-			pass = "No"; // 직원이 아닌 경우
+			pass = "No"; // 중복되는 데이터가 없는 경우 -> 직원의 정보가 없다
 		} else{
-		// 직원인 경우
-			pass = "yes";
+			pass = "Yes"; // 중복되는 데이터가 있는 경우 -> 직원의 정보가 있다.
 		}
 		out.print(pass);
 }catch(SQLException e){

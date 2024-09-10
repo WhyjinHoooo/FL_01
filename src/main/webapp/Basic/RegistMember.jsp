@@ -135,6 +135,7 @@
 	    }).open();
 	}
 	function emptyCheck(){
+		event.preventDefault();
 		
 		var UName = document.Registform.UserName.value;
 		
@@ -173,7 +174,8 @@
 			type: 'POST',
 			data: {SendCom : Be, SendCoCt : CoCt, SendID : EMP_ID},
 			success: function(response){
-				if(response === 'Yes'){
+				console.log(response);
+				if(response.trim() === 'Yes'){
 					if (
 						!UName || !UIdCd1 || !UIdCd2 || !Id || 
 						!Pw1 || !Pw2 || !EmF || !EmD || 
@@ -203,13 +205,18 @@
 							alert('전화번호를 올바르게 입력하세요.');
 							return false;
 						}
-						return true;
+	                    document.Registform.submit();
 					}
 				} else{
-					alert("서버에서 입력 검증이 실패했습니다.");
+					alert(EMP_ID + "는 등록된 사번입니다.\n 다시 입력해주세요.");
 	                return false;
 				}
-			}
+			},
+		    error: function(xhr, status, error) {
+		        console.error("AJAX 요청에 실패했습니다.");
+		        console.error("상태: " + status);
+		        console.error("에러: " + error);
+		    }
 		});
 	}
 </script>
