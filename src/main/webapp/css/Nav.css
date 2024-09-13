@@ -162,12 +162,7 @@ a#UserBtn:hover {
 a#LogOutBtn {
     color: white;
 }
-@media only screen and (max-width: 1537px) {
-	a#LogOutBtn {
-	    color: white;
-	    margin-left: 10px;
-	}	
-}
+
 a#LogOutBtn:hover {
     color: #FFD700;
 }
@@ -518,13 +513,9 @@ pre code {
     overflow-y: scroll
 }
 .LoginArea {
-    margin-left: 40%;
+    margin-left: 8%;
 }
-@media only screen and (max-width: 1537px){
-	.LoginArea {
-    margin-left: 5%;
-	}
-}
+
 /* .container,.container-fluid,.container-lg,.container-md,.container-sm,.container-xl {
     width: 100%;
     padding-right: 15px;
@@ -3233,36 +3224,46 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
 }
 
 .dropdown,.dropleft,.dropright,.dropup {
-    position: relative
+    position: relative;
+    width: 180px;
+    text-align: center;
+	border: solid 1px white;
+    margin-right: 10px;
 }
 
-.dropdown-toggle {
-    white-space: nowrap
-}
-
-.dropdown-toggle::after {
-    display: inline-block;
-    margin-left: .255em;
-    vertical-align: .255em;
-    content: "";
-    border-top: .3em solid;
-    border-right: .3em solid transparent;
-    border-bottom: 0;
-    border-left: .3em solid transparent
-}
-
-.dropdown-toggle:empty::after {
-    margin-left: 0
-}
-
-.dropdown-menu {
+@media only screen and (max-width: 1537px) {
+	.dropdown,
+	.dropleft,
+	.dropright,
+	.dropup {
+    position: relative;
+    width: 110px;
+    text-align: center;
+	border: solid 1px white;
+    margin-right: 10px;
+    font-size: 11px;
+	}
+	a#LogOutBtn {
+	color: white;
+	margin-left: 10px;
+	}	
+	
+	.LoginArea {
+    margin-left: 3%;
+	}
+	a#UserBtn {
+    margin-right: 20px;
+    color: white;
+    font-size: 17px;
+    text-decoration-line: none;
+	}
+	.dropdown-menu {
     position: absolute;
     top: 100%;
     left: 0;
     z-index: 1000;
     display: none;
     float: left;
-    min-width: 10rem;
     padding: .5rem 0;
     margin: .125rem 0 0;
     font-size: 1rem;
@@ -3273,7 +3274,63 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     background-clip: padding-box;
     border: 1px solid rgba(0,0,0,.15);
     border-radius: .25rem;
-    width: 290px;
+    width: 185px;
+    text-align: center;
+    white-space: normal;  /* 줄바꿈 허용 */
+    word-wrap: break-word; /* 긴 단어가 자동으로 줄바꿈 */
+	}
+	.Sang{
+	background-color: #94a9ff;
+	width: 120px;
+	text-align: center;
+	}
+	.dropdown-item {
+    display: block;
+    width: 76%;
+    padding: .25rem .8rem;
+    clear: both;
+    font-weight: 400;
+    font-size: 10.6px;
+    color: #212529;
+    text-align: center;
+    white-space: normal; /* 줄바꿈 허용 */
+    word-break: break-all; /* 긴 단어가 자동으로 줄바꿈 */
+    background-color: transparent;
+    border: 0;
+    text-decoration-line: none;
+	}
+	.dropdown-item:focus,
+	.dropdown-item:hover {
+    color: #16181b;
+    text-decoration: none;
+    background-color: #f8f9fa;
+    font-size: 12px;
+    width: 77%;
+    white-space: normal;
+    word-wrap: break-word;
+	}
+	.navbar-expand-lg .navbar-nav .nav-link {
+        padding-right: .5rem;
+        padding-left: .5rem
+    }
+}
+
+.dropdown-toggle {
+    white-space: nowrap
+}
+
+.dropdown-toggle::after {
+    display: inline-block;
+    margin-left: .255em;
+    vertical-align: .255em;
+    border-top: .3em solid;
+    border-right: .3em solid transparent;
+    border-bottom: 0;
+    border-left: .3em solid transparent
+}
+
+.dropdown-toggle:empty::after {
+    margin-left: 0
 }
 
 .dropdown-menu-left {
@@ -3430,26 +3487,6 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     margin: .5rem 0;
     overflow: hidden;
     border-top: 1px solid #e9ecef
-}
-
-.dropdown-item {
-    display: block;
-    width: 70%;
-    padding: .25rem 1.5rem;
-    clear: both;
-    font-weight: 400;
-    color: #212529;
-    text-align: inherit;
-    white-space: nowrap;
-    background-color: transparent;
-    border: 0
-}
-
-.dropdown-item:focus,.dropdown-item:hover {
-    color: #16181b;
-    text-decoration: none;
-    background-color: #f8f9fa;
-    width: 245px;
 }
 
 .dropdown-item.active,.dropdown-item:active {
@@ -4484,6 +4521,65 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     }
 }
 
+@media only screen and (min-width: 1537px) {
+	.Sang{
+	background-color: #94a9ff !important; 
+	width: 180px;
+	text-align: center;
+	}
+	.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 10rem;
+    padding: .5rem 0;
+    margin: .125rem 0 0;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #ffc107;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: .25rem;
+    width: 180px;
+    text-align: center;
+    white-space: normal;  /* 줄바꿈 허용 */
+    word-wrap: break-word; /* 긴 단어가 자동으로 줄바꿈 */
+	}
+	.dropdown-item {
+    display: block;
+    width: 76%;
+    padding: .25rem 1.3rem;
+    clear: both;
+    font-weight: 400;
+    font-size: 10.6px;
+    color: #212529;
+    text-align: inherit;
+    /* white-space: nowrap; */
+    white-space: normal; /* 줄바꿈 허용 */
+    word-wrap: break-word; /* 긴 단어가 자동으로 줄바꿈 */
+    background-color: transparent;
+    border: 0;
+    text-decoration-line: none;
+	}
+	.dropdown-item:focus,.dropdown-item:hover {
+    color: #16181b;
+    text-decoration: none;
+    background-color: #f8f9fa;
+    font-size: 12px;
+    width: 76%;
+	}
+	.navbar-expand-lg .navbar-nav .nav-link {
+        padding-right: .5rem;
+        padding-left: .5rem
+    }
+}
+
+
 @media (min-width: 992px) {
     .navbar-expand-lg {
         -ms-flex-flow:row nowrap;
@@ -4499,14 +4595,6 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
 
     .navbar-expand-lg .navbar-nav .dropdown-menu {
         position: absolute
-    }
-	.Sang{
-	background-color: #94a9ff;
-	width: 290px;
-	}
-    .navbar-expand-lg .navbar-nav .nav-link {
-        padding-right: .5rem;
-        padding-left: .5rem
     }
 
     .navbar-expand-lg>.container,.navbar-expand-lg>.container-fluid,.navbar-expand-lg>.container-lg,.navbar-expand-lg>.container-md,.navbar-expand-lg>.container-sm,.navbar-expand-lg>.container-xl {
@@ -4621,9 +4709,12 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
 .navbar-light .navbar-brand:focus,.navbar-light .navbar-brand:hover {
     color: rgba(0,0,0,.9)
 }
-
+.navbar-light .navbar-nav .nav-link:hover{
+	background-color: #ffc107c7;
+}
 .navbar-light .navbar-nav .nav-link {
 	color: rgb(255 255 255);
+	text-decoration-line: none;
 }
 
 .navbar-light .navbar-nav .nav-link:focus,.navbar-light .navbar-nav .nav-link:hover {

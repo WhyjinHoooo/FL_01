@@ -1509,7 +1509,8 @@
 .emp-sub-info .AddrCode,
 .plant-sub-info .AddrCode,
 .ba-sub-info .AddrCode,
-.cc-sub-info .AddrCode{
+.cc-sub-info .AddrCode,
+.tax-sub-info .AddrCode{
     width: 105px;
 	text-align: center;
 }
@@ -1530,7 +1531,8 @@
 .plant-sub-info .Addr, .plant-sub-info .AddrDetail, .plant-sub-info .AddrRefer,
 .ba-sub-info .Addr, .ba-sub-info .AddrDetail, .ba-sub-info .AddrRefer,
 .cc-sub-info .Addr, .cc-sub-info .AddrDetail, .cc-sub-info .AddrRefer,
-.ven-sub-info .Addr, .ven-sub-info .AddrDetail, .ven-sub-info .AddrRefer {
+.ven-sub-info .Addr, .ven-sub-info .AddrDetail, .ven-sub-info .AddrRefer,
+.tax-sub-info .Addr, .tax-sub-info .AddrDetail, .tax-sub-info .AddrRefer {
     width: 99%;
 }
 .emp-sub-info .PosCode{

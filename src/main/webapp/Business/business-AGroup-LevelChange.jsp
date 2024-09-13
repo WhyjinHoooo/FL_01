@@ -22,8 +22,8 @@ try {
     
     if(Biz_Lv == 0){
     	JSONObject obj=new JSONObject();
-    	obj.put("ComCode","nothing"); // Check this line
-    	obj.put("BAGroup","nothing"); // Add this line for BAGroup
+    	obj.put("BAGroup","nothing"); // Check this line
+    	obj.put("BAG_Name","nothing"); // Add this line for BAGroup
     	array.add(obj);
     } else{
         String sql = "SELECT * FROM bizareagroup WHERE ComCode = ? AND BAGLevel = ?";
@@ -34,8 +34,8 @@ try {
     	rs = pstmt.executeQuery();	
 		while(rs.next()){
 			JSONObject obj=new JSONObject();
-			obj.put("ComCode",rs.getString("ComCode")); // Check this line
-			obj.put("BAGroup",rs.getString("BAGroup"));
+			obj.put("BAGroup",rs.getString("BAGroup")); // Check this line
+			obj.put("BAG_Name",rs.getString("BAG_Name"));
 			array.add(obj);   
  		}
     }

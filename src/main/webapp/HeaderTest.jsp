@@ -335,7 +335,7 @@ $(document).ready(function(){
 		              </ul>
 	            	</li>
 	            	<li class="dropdown-submenu">
-		              <a class="dropdown-item dropdown-toggle" href="#">관세환급 가능 수입면장 현황 Rep</a>
+		              <a class="dropdown-item dropdown-toggle" href="#">관세환급 가능<br>수입면장 현황 Rep</a>
 		              <ul class="dropdown-menu">
 		                <li><a class="dropdown-item" href="#">소멸시효 도래 수입면장 현황</a></li>
 		                <li><a class="dropdown-item" href="#">환급 불능 관세 현황</a></li>

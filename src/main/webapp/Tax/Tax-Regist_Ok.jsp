@@ -23,19 +23,13 @@
 	String ComCode = request.getParameter("Com-code");
 	String NaCode = request.getParameter("Na-Code");
 	
-	String PosCode = request.getParameter("Pos-code");
+	String PosCode = request.getParameter("AddrCode");
 	
-	String Addr1 = request.getParameter("Addr1");
-	String Addr2 = request.getParameter("Addr2");
+	String Addr1 = request.getParameter("Addr");
+	String Addr2 = request.getParameter("AddrDetail");
 	
 	String Select = request.getParameter("Select_MS");
-	String MainTa = null; 
-	
-	if(Select.equals("1")){
-		MainTa = request.getParameter("main-TA-Code");
-	} else{
-		MainTa = request.getParameter("main-TA-Code");
-	}
+	String MainTa = request.getParameter("main-TA-Code");
 	
 	String Use = request.getParameter("Use-Useless");
 	

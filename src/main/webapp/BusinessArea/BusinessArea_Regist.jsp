@@ -46,9 +46,26 @@
 		        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
 		    }
 		    
+		    $.ajax({
+	            type: 'post',
+	            url: '${contextPath}/Tax/Com-Na-Output.jsp',
+	            data: { Company_Code : CompanyCode }, // 수정된 부분
+	            success: function(response) {
+	                if (response !== 'error') {
+	                    var dataArr = response.split("|");
+	                    var NaCodeInput = document.getElementById("Na-Code");
+	                    var NaDesInput = document.getElementById("na-Des");
+
+	                    NaCodeInput.value = dataArr[0];
+	                    NaDesInput.value = dataArr[1];
+	                } else {
+	                    console.error('An error occurred while retrieving the nationality.');
+	                }
+	            }
+	        });
+		    
 		    console.log('2. 선택된 값: ' + CompanyCode);
-		    window.open("${contextPath}/Information/TACSearch.jsp?CoCd=" + CompanyCode, "yangjinho", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-		    //window.open("${contextPath}/Information/TACSearch.jsp?CoCd=" + CompanyCode, "asdfasdfasdf", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+		    window.open("${contextPath}/Information/TACSearch.jsp?CoCd=" + CompanyCode, "Pop01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	    });
 	});
 	function execDaumPostcode() {
@@ -149,9 +166,6 @@
 	    }
 	}
 </script>
-<script>
-
-</script>
 <title>Business Area 등록</title>
 </head>
 <body>
@@ -187,38 +201,11 @@
 					<table>
 						<tr><th class="info">Company Code : </th>
 							<td class="input-info">
-								<a href="javascript:void(0);" onclick="InfoFunction('ComSearch')"><input type="text" class="Com-code" name="Com-code" readonly></a>
+								<input type="text" class="Com-code" name="Com-code" onclick="InfoFunction('ComSearch')" readonly>
 							</td>
 						</tr>
 						
-						<tr class="spacer-row"></tr>
-						
-						<script type="text/javascript">
-						$(document).ready(function(){
-						    $('.Com-code').change(function(){
-						        var Company_Code = $(this).val(); // 수정된 부분
-						        
-						        $.ajax({
-						            type: 'post',
-						            url: '${contextPath}/Tax/Com-Na-Output.jsp',
-						            data: { Company_Code : Company_Code }, // 수정된 부분
-						            success: function(response) {
-						                if (response !== 'error') {
-						                    var dataArr = response.split("|");
-						                    var NaCodeInput = document.getElementById("Na-Code");
-						                    var NaDesInput = document.getElementById("na-Des");
-
-						                    NaCodeInput.value = dataArr[0];
-						                    NaDesInput.value = dataArr[1];
-						                } else {
-						                    console.error('An error occurred while retrieving the nationality.');
-						                }
-						            }
-						        });
-						    });
-						});
-						</script>
-						
+						<tr class="spacer-row"></tr>						
 				
 						<tr><th class="info">Nationality : </th>
 							<td class="input-info">
@@ -231,7 +218,6 @@
 						
 						<tr><th class="info">Postal Code : </th>
 							<td class="input-info">
-								<!-- <input type="text" class="PosCode" name="PosCode"> -->
 								<input type="text" class="AddrCode NewAddr" name="AddrCode" id="postcode" placeholder="우편번호" readonly>
 						        <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기">
 							</td>
@@ -257,12 +243,13 @@
 					
 					<tr><th class="info">Local Currency : </th>
 						<td class="input_info">
-							<a href="javascript:void(0);" onclick="InfoFunction('MoneySearch')"><input type="text" class="money-code" name="money" placeholder="SELECT" readonly></a>
+							<!-- <a href="javascript:void(0);" onclick="InfoFunction('MoneySearch')"></a> -->
+							<input type="text" class="money-code" name="money" placeholder="SELECT" onclick="InfoFunction('MoneySearch')" readonly>
 						</td>
 						
 						<th class="info">Language : </th>
 							<td class="input_info">
-								<a href="javascript:void(0);" onclick="InfoFunction('LanSearch')"><input type="text" class="language-code" name="lang" placeholder="SELECT" readonly></a>
+								<input type="text" class="language-code" name="lang" placeholder="SELECT" onclick="InfoFunction('LanSearch')" readonly>
 							</td>
 					</tr>	
 					
@@ -270,7 +257,7 @@
 					
 						<tr><th class="info">Tax Area Code : </th>
 							<td class="input-info">
-								<a href="javascript:void(0);" onclick="InfoFunction('TACSearch')"><input type="text" class="TA-code" name="TA-code" placeholder="SELECT" readonly></a>
+								<input type="text" class="TA-code" name="TA-code" placeholder="SELECT" onclick="InfoFunction('TACSearch')" readonly>
 							</td>
 						</tr>
 
@@ -278,7 +265,7 @@
 						
 						<tr><th class="info">Biz.Area Group : </th>
 							<td class="input-info">
-								<a href="javascript:void(0);" onclick="InfoFunction('BAGSearch')"><input type="text" class="BAG-code" name="BAG-code" placeholder="SELECT" readonly></a>
+								<input type="text" class="BAG-code" name="BAG-code" placeholder="SELECT" onclick="InfoFunction('BAGSearch')" readonly>
 							</td>
 						</tr>
 						

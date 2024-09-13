@@ -58,8 +58,8 @@
 	                response = JSON.parse(response);
 	                var options = '';
 	                for(var i=0; i<response.length; i++){
-	                    if (response[i].ComCode !== undefined && response[i].BAGroup !== undefined) {
-	                        options += '<option value="' + response[i].BAGroup + '">' + response[i].ComCode + '</option>';
+	                    if (response[i].BAGroup !== undefined && response[i].BAG_Name !== undefined) {
+	                        options += '<option value="' + response[i].BAG_Name + '">' + response[i].BAGroup + '</option>';
 	                    } else {
 	                        console.error('응답의 ' + i.toString() + '번째 항목에 ComCode 속성이 없습니다:', response[i]);
 	                    }
@@ -85,7 +85,6 @@
 	    });
 	    
 	    $('.Com-code').change(function(){
-	        //var Biz_level = $('.Biz-level').val();
 	        var Biz_level = 1;
 	        var CompanyCode = $(this).val();
 	      	
@@ -94,11 +93,10 @@
 	        
 	        sendData(Biz_level, CompanyCode);
 	        
-	         // Top Biz.Area Group 초기화 추가
-	         $('input[name="ComName_input"]').val('');
+	        $('input[name="ComName_input"]').val('');
 	         
-	         // Description 초기화 추가
-	         $('input[name="Upper-Biz-Name"]').val('');
+	        // Description 초기화 추가
+	        $('input[name="Upper-Biz-Name"]').val('');
 	    });
 	});
 	function InfoSearch(field){

@@ -22,7 +22,7 @@ try {
 	String TAXCode = "";
 
 	if(rs.next()){
-		TAXCode = rs.getString("Main_TA");
+		TAXCode = rs.getString("TaxArea");
 	}
 
 	out.print(TAXCode);

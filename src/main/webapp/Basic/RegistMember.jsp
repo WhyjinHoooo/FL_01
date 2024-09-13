@@ -208,7 +208,7 @@
 	                    document.Registform.submit();
 					}
 				} else{
-					alert(EMP_ID + "는 등록된 사번입니다.\n 다시 입력해주세요.");
+					alert(" 해당 사번(" + EMP_ID + ")은 등록되지 않았습니다.");
 	                return false;
 				}
 			},
@@ -230,7 +230,7 @@
 	int Year = Integer.parseInt(now.format(DateTimeFormatter.ofPattern("yyyy")));
 	%>
 <div class="container">
-	<div class="member-container"><!-- registOk.jsp -->
+	<div class="member-container">
 		<form class="user-info" name="Registform" id="Registform" method="POST" onSubmit="return emptyCheck()" action="registOk.jsp" enctype="UTF-8">		
 			<div class="Cate">Name</div>
 				<input type="text" class="bottom-border" name="UserName" placeholder="Input Name">
