@@ -15,86 +15,70 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> 
 <script>
-	$(document).ready(function() {
-		  $('.Com-code').change(function() {
-		      var selectedValue = $(this).val();
-		      $.ajax({
-		            type: 'post',
-		            url: 'Com-Na-Output.jsp',
-		            data: { Company_Code : selectedValue }, // 수정된 부분
-		            success: function(response) {
-		                if (response !== 'error') {
-		                    var dataArr = response.split("|");
-		                    var NaCodeInput = document.getElementById("Na-Code");
-		                    var NaDesInput = document.getElementById("na-Des");
+$(document).ready(function() {
+	$('.Com-code').change(function() {
+		var selectedValue = $(this).val();
+		$.ajax({
+			type: 'post',
+			url: 'Com-Na-Output.jsp',
+			data: { Company_Code : selectedValue }, // 수정된 부분
+			success: function(response) {
+				if (response !== 'error') {
+		        var dataArr = response.split("|");
+		        var NaCodeInput = document.getElementById("Na-Code");
+		        var NaDesInput = document.getElementById("na-Des");
 
-		                    NaCodeInput.value = dataArr[0];
-		                    NaDesInput.value = dataArr[1];
+		        NaCodeInput.value = dataArr[0];
+		        NaDesInput.value = dataArr[1];
 		                    
-		                } else {
-		                    console.error('An error occurred while retrieving the nationality.');
-		                }
-		            }
-		        });
-		  });
-
-		  $('.TAC').on('input', function() {
-			  var testValue = $(this).val();
-			  var taxAreaValue = $('.TaxArea_MS:checked').val();
-			  console.log(taxAreaValue);
-			  if (taxAreaValue === '1') {
-		    	  $('input[name="main-TA-Code"]').val(testValue);
-		      } else {
-		    	  $.ajax({
-		              type: 'POST',
-		              url: 'FindMainTax.jsp',
-		              data: { Company_Code: selectedValue },
-		              success: function(response) {
-		                  console.log("FindMainTax Response: ", response);
-		                  if (response !== 'error' && response !== null && response.trim() !== '') {
-		                      $('input[name="main-TA-Code"]').val($.trim(response));
-		                  } else {
-		                      alert("Main Tax Area를 등록해주세요.");
-		                      $('input[name="main-TA-Code"]').val(testValue);
-		                      $('input.TaxArea_MS[value="1"]').prop('checked', true);
-		                  }
-		              },
-		              error: function(xhr, status, error) {
-		                  console.error("Error: ", error);
-		                  alert("서버 요청에 실패했습니다. 다시 시도해주세요.");
-		              }
-		          });
-		      }
-			  
-		  });
-		  
-		  $('.TaxArea_MS').change(function() {
-		        var selectedValue = $('.Com-code').val();
-		        var taxAreaValue = $(this).val();
-		        console.log("Tax Area changed to: ", taxAreaValue);
-
-		        // Sub Tax Area가 선택된 경우에만 AJAX 요청
-		        if (taxAreaValue === '2') { // Sub Tax Area 인 경우
-		            $.ajax({
-		                type: 'POST',
-		                url: 'FindMainTax.jsp',
-		                data: { Company_Code: selectedValue },
-		                success: function(response) {
-		                	if (response !== 'error' && response !== null && response.trim() !== '') {
-			                      $('input[name="main-TA-Code"]').val($.trim(response));
-			                  } else {
-			                      alert("Main Tax Area를 등록해주세요.");
-			                      $('input[name="main-TA-Code"]').val($('.TAC').val());
-			                      $('input.TaxArea_MS[value="1"]').prop('checked', true);
-			                  }
-		                }
-		            });
-		        } else {
-		        	$('input[name="main-TA-Code"]').val($('.TAC').val());
-		        }
-		    });
-		  
+				} else {
+					console.error('An error occurred while retrieving the nationality.');
+				}
+			}
 		});
+	});
+	function MainSubFunc(Value){
+		var ComValue = $('.Com-code').val();
+		var taxAreaValue = $('.TaxArea_MS:checked').val();
+		if(taxAreaValue === "1"){
+			console.log(taxAreaValue);
+			$('input[name="main-TA-Code"]').val(Value);
+			$('#main-tax-area-code-row button').prop('disabled', false);
+		} else if(taxAreaValue === "2"){
+			console.log(taxAreaValue);
+			$.ajax({
+				type: 'POST',
+				url: 'FindMainTax.jsp',
+				data: { Company_Code: ComValue },
+				success: function(response) {
+					console.log("FindMainTax Response: ", response);
+					if (response !== 'error' && response !== null && response.trim() !== '') {
+						$('input[name="main-TA-Code"]').val($.trim(response));
+						$('#main-tax-area-code-row button').prop('disabled', true);
+					} else {
+						alert("Main Tax Area를 등록해주세요.");
+						$('input[name="main-TA-Code"]').val(Value);
+		                $('input.TaxArea_MS[value="1"]').prop('checked', true);
+					}
+				},
+				error: function(xhr, status, error) {
+					console.error("Error: ", error);
+					alert("서버 요청에 실패했습니다. 다시 시도해주세요.");
+					}
+				});
+		}
+	}
+	
+	$('.TAC').on('input', function() {
+		var MainValue = $(this).val();
+		MainSubFunc(MainValue);
+	});
+	  
+	$('.TaxArea_MS').change(function() {
+		var MainValue = $('.TAC').val();
+		MainSubFunc(MainValue);
+	});
+});
 
 	function execDaumPostcode() {
 	    new daum.Postcode({
@@ -216,7 +200,7 @@
 	    		success: function(response){
 	    			if(response.trim() === 'No'){
 	    				alert('해당 기업의 Main 사업장등록번호는 이미 등록됐습니다. \n 다시 입력해주세요.');
-	    				$('input[name="TAC"]').val('');
+	    				//$('input[name="TAC"]').val('');
 	    				$('input[name="main-TA-Code"]').val('');
 	    			} else{
 	    				alert('사용 가능합니다.');

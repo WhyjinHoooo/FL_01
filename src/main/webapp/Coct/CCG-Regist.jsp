@@ -14,14 +14,14 @@
 <title>Cost Center Group Regist</title> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/path/to/jquery.min.js"></script> 
-
-	<script type="text/javascript"> 
-		window.onload = function() { 
-			document.querySelector('.Com-code').addEventListener('change', function() { 
-			var v = this.value; 
-			document.querySelector('input[name="tccg"]').value = v; 
-			});  
-      };
+<script type="text/javascript"> 
+	window.onload = function() { 
+		document.querySelector('.Com-code').addEventListener('change', function() { 
+		var v = this.value; 
+		document.querySelector('input[name="tccg"]').value = v; 
+		});  
+	};
+	
   	function ComSearch(){
 	    var xPos = (window.screen.width-2560) / 2;
 	    var yPos = (window.screen.height-1440) / 2;
@@ -43,7 +43,7 @@
 	    
 	    window.open("${contextPath}/Information/UpCCTSearch.jsp?ComCode=" + Code + "&Level=" + lv, "테스트", "width=600,height=495, left=500 ,top=" + yPos);
 	}
-	</script>
+</script>
 </head>
 <body>
 	<h1>Cost Center Group 등록</h1>
@@ -106,8 +106,7 @@
 										<input type="text" class="Upper-Cct-Name" name="Upper-Cct-Name" readonly>
 									</td>								
 							</td>
-						</tr>	
-						<!-- TEST END -->
+						</tr>
 						<tr class="spacer-row"></tr>
 						
 						<tr><th class="info">사용 여부: </th>

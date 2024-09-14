@@ -6,6 +6,7 @@
 <%
 try {
     String companyCode = request.getParameter("Company_Code");
+    System.out.println(companyCode);
     String MainSub = "1";
     
     PreparedStatement pstmt = null;
