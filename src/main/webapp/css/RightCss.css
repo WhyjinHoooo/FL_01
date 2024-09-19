@@ -1,0 +1,61 @@
+@charset "UTF-8";
+@media only screen and (min-width: 1537px){
+	.AccessArea{
+	height: 90vh;
+	}
+	.UserInfoArea {
+    border: 3px solid rgb(111, 167, 235);
+    border-radius: 20px;
+    width: 80%;
+    height: 20%;
+    margin: 1% 0% 0% 10%;
+	}
+	.AccessInfoArea {
+    border: 2px solid red;
+    width: 80%;
+    height: 67%;
+    border-radius: 5px;
+    margin: 3% 0% 0% 10%;
+	}
+	.UInfiInputArea {
+    display: flex;
+    flex-direction: column;
+	margin: 1%;
+	}
+	.UserInfo {
+	    display: flex;
+	    align-items: center;
+	    margin-bottom: 10px; /* 항목 사이의 간격을 조절합니다. */
+	}
+	.UserInfo > * {
+	    margin-right: 10px; /* 오른쪽 여백을 부여합니다. */
+	    font-weight: bold;
+	}
+	/* 예를 들어 입력 칸과 텍스트 사이의 간격을 조절하고 싶다면, 아래와 같이 추가 스타일을 설정할 수 있습니다. */
+	.UserInfo > input,
+	.UserInfo > select {
+	    margin-left: 5px; /* 입력 칸과 텍스트 사이의 간격을 조절합니다. */
+	    text-align: center;
+	}
+	.UserInfo label {
+    flex: 0 0 150px; /* 레이블 너비 조정 */
+    text-align: right;
+    margin-right: 10px; /* 레이블과 입력 필드 간의 간격 */
+    /* font-weight: bold; */
+  	}
+  	.UserInfo .MainInfo{
+  	width: 150px;
+  	}
+  	.UserInfo .SubInfo{
+  	width: 200px;
+  	}
+  	.UserInfo > select{
+  	width: 160px;
+  	text-align: center;
+  	}
+  	.UserInfo .UserDutyDes{
+  	width: 100px;
+  	text-align: center;
+  	}
+}
+	

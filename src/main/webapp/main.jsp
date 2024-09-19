@@ -33,6 +33,46 @@
 	    });
 	});
 </script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var UserId = "<%= (String)session.getAttribute("id") %>";
+		console.log("Header 사용자의 아이디 : " + UserId);
+		$.ajax({
+			url: '${contextPath}/Information/AjaxSet/UserRightCheck.jsp',
+			type: 'POST',
+			data: {User_Id : UserId},
+			success:function(response){
+				var popupWidth = 2514;
+			    var popupHeight = 1054;
+
+			    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+			    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
+			    
+			    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+			    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+			    var xPos, yPos;
+				
+			    if (width == 2560 && height == 1440) {
+			        xPos = (2560 / 2) - (popupWidth / 2);
+			        yPos = (1440 / 2) - (popupHeight / 2);
+			    } else if (width == 1920 && height == 1080) {
+			        xPos = (1920 / 2) - (popupWidth / 2);
+			        yPos = (1080 / 2) - (popupHeight / 2);
+			    } else {
+			        var monitorWidth = 2560;
+			        var monitorHeight = 1440;
+			        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+			        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+			    }
+				if(response.trim() === 'NOPE'){
+					window.open("${contextPath}/Authority/AccessReq.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+				} else {
+					window.open("https://www.youtube.com/", "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+				}
+			}
+		})
+	});
+</script>
 <script>
         const data1 = {
             labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],

@@ -40,7 +40,7 @@
 	YN_pstmt.setString(1, UserName);
 	ResultSet YN_rs = YN_pstmt.executeQuery();
 	
-	String sql = "INSERT INTO membership VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	String sql = "INSERT INTO membership VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	try{
 		pstmt.setString(1, UserName); // 사용자 이름
@@ -64,6 +64,7 @@
 		pstmt.setString(15, CreateDate);
 		pstmt.setString(16, FromDate);
 		pstmt.setString(17, ValidDateFrom);
+		pstmt.setString(18, "NOPE");
 		pstmt.executeUpdate();
 	}catch(SQLException e){
 		e.printStackTrace();
