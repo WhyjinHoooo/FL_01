@@ -10,13 +10,6 @@
     height: 20%;
     margin: 1% 0% 0% 10%;
 	}
-	.AccessInfoArea {
-    border: 2px solid red;
-    width: 80%;
-    height: 67%;
-    border-radius: 5px;
-    margin: 3% 0% 0% 10%;
-	}
 	.UInfiInputArea {
     display: flex;
     flex-direction: column;
@@ -57,5 +50,68 @@
   	width: 100px;
   	text-align: center;
   	}
+	.AccessInfoArea {
+    border: 2px solid #6FA7EB; /* <-- rgb(111,167,235)의 생상 코드 */
+    width: 80%;
+    height: 67vh;
+    margin: 3% 0% 0% 10%;
+	}
+	.AccessTable{
+	border-collapse: collapse;
+	width: 100%;
+	table-layout: fixed;
+	}
+	.AccessTable .AccessTable_Head th{
+	background-color: rgb(111, 167, 235);
+	position: sticky;
+	top: 0;
+	color: white;
+	text-align: center;
+	z-index: 10;/* 2에서 10으로 변경 */
+	padding: 8px;
+	border: 1px solid #fff;
+	width: 14.28%;
+    }
+    .AccessTable .AccessTable_Head{
+    display: block;
+	width: 100%;
+    }
+    .AccessTable .AccessTable_Head tr{
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    }
+    .AccessTable .AccessTable_Body{
+    display: block;
+    max-height: 670px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100.2%;
+    }
+    
+    .AccessTable_Body::-webkit-scrollbar {
+    width: 5px;
+  	}
+  	.AccessTable_Body::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+  	}
+  	.AccessTable_Body::-webkit-scrollbar-track {
+    background-color: grey;
+    border-radius: 1px;
+    box-shadow: inset 0px 0px 5px white;
+  	}
+  	
+    .AccessTable .AccessTable_Body tr{
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    }
+    .AccessTable .AccessTable_Body td{
+    border: 1px solid #ddd;
+    width:14.28%;
+    padding: 8px;
+    text-align: center;
+    }
 }
 	
