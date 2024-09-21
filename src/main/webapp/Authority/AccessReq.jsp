@@ -84,6 +84,17 @@ $(document).ready(function(){
 		var Des = testValue.split(",");
 		$('.UserDutyDes').val(Des[1]);
 	});
+	$('.BizAreaCode, .BizAreaGroCode').change(function(){
+		var Value = $(this).val();
+		var SysDute = $('.UserDuty').val().split(",")[0];
+		const ResetValue = [$('.BizAreaCode'), $('.BizAreaName'), $('.BizAreaGroCode'), $('.BizAreaGroName')];
+		if(SysDute == '없음' || SysDute == null || SysDute == ''){
+			alert('수행 직무를 선택해 주세요.');
+			ResetValue.forEach(input => input.val(''));
+			return false;
+		}
+	}); 
+	
 })
 </script>
 <title>Insert title here</title>
