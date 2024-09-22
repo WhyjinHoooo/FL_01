@@ -87,12 +87,22 @@ $(document).ready(function(){
 	$('.BizAreaCode, .BizAreaGroCode').change(function(){
 		var Value = $(this).val();
 		var SysDute = $('.UserDuty').val().split(",")[0];
+		console.log(SysDute);
 		const ResetValue = [$('.BizAreaCode'), $('.BizAreaName'), $('.BizAreaGroCode'), $('.BizAreaGroName')];
 		if(SysDute == '없음' || SysDute == null || SysDute == ''){
 			alert('수행 직무를 선택해 주세요.');
 			ResetValue.forEach(input => input.val(''));
 			return false;
 		}
+		$.ajax({
+			url: '${contextPath}/Authority/SysDuteExpose.jsp',
+			type: 'POST',
+			data: {SelDute : SysDute},
+			success: function(response){
+				
+			}
+		});
+		
 	}); 
 	
 })
@@ -160,96 +170,6 @@ $(document).ready(function(){
 			<tbody class="AccessTable_Body">
 				<tr>
 					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				<tr>
-					<td>END</td><td>END</td><td>END</td><td>END</td><td>END</td><td>END</td><td>상산계획기준 구매요청성 생성</td>
-				</tr>
-				<tr>
-					<td>11</td><td>22</td><td>33</td><td>44</td><td>55</td><td>66</td><td>77</td>
-				</tr>
-				<tr>
-					<td>11</td><td>22</td><td>33</td><td>44</td><td>55</td><td>66</td><td>77</td>
 				</tr>
 				</tbody>
 		</table>

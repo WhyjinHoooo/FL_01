@@ -147,8 +147,6 @@ $(document).ready(function(){
         const UnitMoney = [$('.OrdPrice')];
         UnitMoney.forEach(input => input.val('0'))
         
-        
-        
         $.ajax({
             url: 'exp.jsp', // 여기에 서버 URL을 입력하세요
             type: 'POST',
