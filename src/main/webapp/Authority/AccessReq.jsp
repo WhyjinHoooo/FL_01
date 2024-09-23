@@ -99,11 +99,34 @@ $(document).ready(function(){
 			type: 'POST',
 			data: {SelDute : SysDute},
 			success: function(response){
-				
+			    // 테이블의 tbody에 데이터를 추가
+			    console.log('ajax 성공01');
+			    console.log('response : ', response);
+			    let tableBody = $('.AccessTable_Body');
+			    tableBody.empty(); // 기존 내용을 비우고 새로 추가
+			    console.log('ajax 성공02');
+			    console.log(response);
+			    response.forEach(function(item) {	
+			    	console.log('Item:', item);
+			        let row = '<tr>' +
+			            '<td>' + item.RnRCode + '</td>' +
+			            '<td>' + item.RnRDescp + '</td>' +
+			            '<td>' + item.UiGroupDescrip + '</td>' +
+			            '<td>' + item.UiGroup2LvList.join(', ') + '</td>' + // Lv2 배열을 문자열로 변환
+			            '<td>' + item.UiGroup3LvList.join(', ') + '</td>' + // Lv3 배열을 문자열로 변환
+			            '<td>' + item.UiGroup4LvList.join(', ') + '</td>' + // Lv4 배열의 설명
+			            '<td><select>' +
+			                item.UiGroup4LvList.map(function(ui) {
+			                    return '<option value="' + ui.UiNumber + '">' + ui.UiDescrip + '</option>';
+			                }).join('') +
+			            '</select></td>' +
+			            '</tr>';
+			        
+			        tableBody.append(row);
+			    });
 			}
 		});
-		
-	}); 
+	});
 	
 })
 </script>
@@ -168,10 +191,7 @@ $(document).ready(function(){
 				<th>시스템 직무코드</th><th>직무명</th><th>직무화면그룹01</th><th>직무화면그룹02</th><th>직무화면그룹03</th><th>화면번호</th><th>기본권한</th>
 			</thead>
 			<tbody class="AccessTable_Body">
-				<tr>
-					<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-				</tr>
-				</tbody>
+			</tbody>
 		</table>
 	</div>
 </div>

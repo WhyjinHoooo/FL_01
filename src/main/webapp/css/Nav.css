@@ -3274,14 +3274,14 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     background-clip: padding-box;
     border: 1px solid rgba(0,0,0,.15);
     border-radius: .25rem;
-    width: 185px;
+    width: 110px;
     text-align: center;
     white-space: normal;  /* 줄바꿈 허용 */
     word-wrap: break-word; /* 긴 단어가 자동으로 줄바꿈 */
 	}
 	.Sang{
 	background-color: #94a9ff;
-	width: 120px;
+	width: 110px;
 	text-align: center;
 	}
 	.dropdown-item {
