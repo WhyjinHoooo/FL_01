@@ -94,38 +94,48 @@ $(document).ready(function(){
 			ResetValue.forEach(input => input.val(''));
 			return false;
 		}
-		$.ajax({
+		/* $.ajax({
 			url: '${contextPath}/Authority/SysDuteExpose.jsp',
 			type: 'POST',
 			data: {SelDute : SysDute},
 			success: function(response){
-			    // 테이블의 tbody에 데이터를 추가
-			    console.log('ajax 성공01');
 			    console.log('response : ', response);
+			    let Lv3List = [];
 			    let tableBody = $('.AccessTable_Body');
 			    tableBody.empty(); // 기존 내용을 비우고 새로 추가
-			    console.log('ajax 성공02');
-			    console.log(response);
-			    response.forEach(function(item) {	
-			    	console.log('Item:', item);
+			    
+			    response.forEach(function(data) {
+			    	console.log('Data:', data);
+			    	console.log('Data:', data.UiGroup2LvList);
 			        let row = '<tr>' +
-			            '<td>' + item.RnRCode + '</td>' +
-			            '<td>' + item.RnRDescp + '</td>' +
-			            '<td>' + item.UiGroupDescrip + '</td>' +
-			            '<td>' + item.UiGroup2LvList.join(', ') + '</td>' + // Lv2 배열을 문자열로 변환
-			            '<td>' + item.UiGroup3LvList.join(', ') + '</td>' + // Lv3 배열을 문자열로 변환
-			            '<td>' + item.UiGroup4LvList.join(', ') + '</td>' + // Lv4 배열의 설명
-			            '<td><select>' +
-			                item.UiGroup4LvList.map(function(ui) {
-			                    return '<option value="' + ui.UiNumber + '">' + ui.UiDescrip + '</option>';
-			                }).join('') +
-			            '</select></td>' +
-			            '</tr>';
+			            '<td>' + data.RnRCode + '</td>' +
+			            '<td>' + data.RnRDescp + '</td>' +
+			            '<td>' + data.UiGroupDescrip + '</td>' +
+			            '<td>' + data.UiGroup2LvList.join(', ') + '</td>';
+			            
+				            let Lv2List = data.UiGroup2LvList;
+				            let Lv3List = [];
+				            
+				            for(var i = 0 ; i < Lv2List.length ; i++){
+				            	Lv3List.push(data[Lv2List[i]]);
+				            	
+				            }
+				            let Lv3OriValue = Lv3List.join(', ');
+				            let Lv3Value = Lv3OriValue.split(',');
+				            console.log(Lv3Value);
+				            
+				            row += '<td>';  // 다섯 번째 열의 첫 번째 셀 시작
+				            for(var j = 0; j < Lv3Value.length; j++) {
+				                row += '<td>' + Lv3Value[j] + '</td>';  // Lv3Value의 각 데이터를 새로운 셀에 추가
+				            }
+				            row += '</td>';
+				            
+			            row += '</tr>';
 			        
 			        tableBody.append(row);
 			    });
 			}
-		});
+		}); */
 	});
 	
 })
@@ -191,6 +201,46 @@ $(document).ready(function(){
 				<th>시스템 직무코드</th><th>직무명</th><th>직무화면그룹01</th><th>직무화면그룹02</th><th>직무화면그룹03</th><th>화면번호</th><th>기본권한</th>
 			</thead>
 			<tbody class="AccessTable_Body">
+				<tr>
+		            <td>1</td>
+		            <td>2</td>
+		            <td>3</td>
+		            <td>
+		                <div>4-1</div>
+		                <div>4-2</div>
+		            </td>
+		            <td>
+		                <div>5-1</div>
+		                <div>5-2</div>
+						<div>5-3</div>
+		                <div>5-4</div>
+		                <div>5-5</div>
+		                <div>5-6</div>
+		                <div>5-7</div>		            
+					</td>
+		            <td>
+		                <div>6-1</div>
+		                <div>6-2</div>
+		                <div>6-3</div>
+		                <div>6-4</div>
+		                <div>6-5</div>
+		                <div>6-6</div>
+		                <div>6-7</div>
+		                <div>6-8</div>
+		                <div>6-9</div>
+		            </td>
+		            <td>
+		                <div>7-1</div>
+		                <div>7-2</div>
+		                <div>7-3</div>
+		                <div>7-4</div>
+		                <div>7-5</div>
+		                <div>7-6</div>
+		                <div>7-7</div>
+		                <div>7-8</div>
+		                <div>7-9</div>
+		            </td>
+		        </tr>
 			</tbody>
 		</table>
 	</div>

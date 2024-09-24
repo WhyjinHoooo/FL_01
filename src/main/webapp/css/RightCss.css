@@ -101,7 +101,7 @@
     border-radius: 1px;
     box-shadow: inset 0px 0px 5px white;
   	}
-  	
+
     .AccessTable .AccessTable_Body tr{
     display: table;
     width: 100%;
@@ -110,8 +110,13 @@
     .AccessTable .AccessTable_Body td{
     border: 1px solid #ddd;
     width:14.28%;
-    padding: 8px;
     text-align: center;
+    height: 100%;
     }
+    
+    .AccessTable_Body td div {
+    border: 1px solid #ddd;
+    padding: 8px;
+	}
 }
 	

@@ -26,7 +26,7 @@
 			jsonObject.put("RnRDescp", RoleSysBaseUI_Rs.getString("RnRDescp"));
 			jsonObject.put("UiGroupDescrip", RoleSysBaseUI_Rs.getString("UiGroupDescrip"));
 			UiCode = RoleSysBaseUI_Rs.getString("UiGroup"); // 예: MM00
-
+			System.out.println("1 : " + jsonObject.toString());
 			String UiGrp_Sql01 = "SELECT * FROM sys_uigroup WHERE UiGroup = ? AND GroupLevel = 1";
 			PreparedStatement UiGrp_Pstmt01 = conn.prepareStatement(UiGrp_Sql01);
 			UiGrp_Pstmt01.setString(1, UiCode);
@@ -43,6 +43,7 @@
 				while(UiGrp_Rs02.next()){
 					uiGroupLv2Array.add(UiGrp_Rs02.getString("UiGroupDescrip")); // 예: 구매계획
 					Lv2_UpGrp = UiGrp_Rs02.getString("UiGroup"); // 구매계획의 UiGroup -> MMPL00
+					System.out.println("2 : " + uiGroupLv2Array.toString());
 					
 					String UiGrp_Sql03 = "SELECT * FROM sys_uigroup WHERE UpperGroup = ? AND GroupLevel = 3 ORDER BY UiGroup ASC";
 					PreparedStatement UiGrp_Pstmt03 = conn.prepareStatement(UiGrp_Sql03);
@@ -53,6 +54,7 @@
 					while(UiGrp_Rs03.next()){
 						uiGroupLv3Array.add(UiGrp_Rs03.getString("UiGroupDescrip"));
 						Lv3_UiGrp = UiGrp_Rs03.getString("UiGroup");
+						System.out.println("3 : " + uiGroupLv3Array.toString());
 						
 						String UiGrp_Sql04 = "SELECT * FROM sys_uinum WHERE UiGroup = ?";
 						PreparedStatement  UiGrp_Pstmt04 = conn.prepareStatement(UiGrp_Sql04);
@@ -63,22 +65,24 @@
 						
 						while(UiGrp_Rs04.next()){
 							uiGroupLv4Array.add(UiGrp_Rs04.getString("UiNumber"));
-							uiGroupLv4Array.add(UiGrp_Rs04.getString("UiDescrip"));
+							uiGroupLv4Array.add(UiGrp_Rs04.getString("UiDescrip"));	
 						}
 						jsonObject.put(UiGrp_Rs03.getString("UiGroupDescrip"), uiGroupLv4Array);
+						//jsonObject.put("UiGroup4LvList", uiGroupLv4Array);
 					}
 					jsonObject.put(UiGrp_Rs02.getString("UiGroupDescrip"), uiGroupLv3Array);
+					//jsonObject.put("UiGroup3LvList", uiGroupLv3Array);
 				}
 				jsonObject.put("UiGroup2LvList", uiGroupLv2Array);
+				System.out.println("최종 값: " + jsonObject.toString());
 			}
+			jsonArray.add(jsonObject);
 		}
-		System.out.println("권한 신청 ajax 성공02");
 		response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");
 	    PrintWriter jsonOut = response.getWriter();
 	    jsonOut.print(jsonArray.toString()); // JSON 배열을 클라이언트에 전송
 	    jsonOut.flush();
-	    System.out.println("권한 신청 ajax 성공03");
 }catch(SQLException e){
 	e.printStackTrace();
 }finally {
