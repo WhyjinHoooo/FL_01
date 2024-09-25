@@ -62,14 +62,11 @@
 						
 						while(UiGrp_Rs04.next()){
 							uiGroupLv4Array.add(UiGrp_Rs04.getString("UiNumber"));
-							System.out.println("UiNumber: " + UiGrp_Rs04.getString("UiNumber"));
 							uiGroupLv4Array.add(UiGrp_Rs04.getString("UiDescrip"));	
 						}
 						jsonObject.put(UiGrp_Rs03.getString("UiGroupDescrip"), uiGroupLv4Array);
-						//jsonObject.put("UiGroup4LvList", uiGroupLv4Array);
 					}
 					jsonObject.put(UiGrp_Rs02.getString("UiGroupDescrip"), uiGroupLv3Array);
-					//jsonObject.put("UiGroup3LvList", uiGroupLv3Array);
 				}
 				jsonObject.put("UiGroup2LvList", uiGroupLv2Array);
 			}

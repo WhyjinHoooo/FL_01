@@ -117,5 +117,11 @@
     border: 1px solid #ddd;
     padding: 8px;
 	}
+	.AccessTable_Body td select {
+    width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    padding: 8px;
+	}
 }
 	

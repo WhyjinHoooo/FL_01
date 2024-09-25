@@ -112,7 +112,7 @@ $(document).ready(function(){
 			            '<td>' + data.UiGroupDescrip + '</td>';
 			            
 				            let Lv2List = data.UiGroup2LvList;
-				           	let Lv2OriValue = Lv2List.join(', ');
+				           	let Lv2OriValue = Lv2List.join(',');
 				           	let Lv2Value = Lv2OriValue.split(',');
 				            console.log("Lv2Value : ", Lv2Value);
 				            
@@ -127,7 +127,7 @@ $(document).ready(function(){
 				            for(var i = 0 ; i < Lv2List.length ; i++){
 				            	Lv3List.push(data[Lv2List[i]]);
 				            }
-				            let Lv3OriValue = Lv3List.join(', ');
+				            let Lv3OriValue = Lv3List.join(',');
 				            let Lv3Value = Lv3OriValue.split(',');
 				            console.log("Lv3Value : ", Lv3Value);
 				            
@@ -144,6 +144,32 @@ $(document).ready(function(){
 				            console.log('Lv4List : ', Lv4List);
 				            console.log('Lv4List : ', Lv4List[0]);
 				            console.log('Lv4List : ', Lv4List[0][0]);
+				            
+				            row += '<td>';  // 여섯 번째 열 시작 (홀수 인덱스 데이터를 출력하는 열)
+				            for (let a = 0; a < Lv4List.length; a++) {
+				                for (let b = 0; b < Lv4List[a].length; b++) {
+				                    if (b % 2 === 1) {  // 홀수 인덱스
+				                        row += '<div>' + Lv4List[a][b] + '</div>';
+				                    }
+				                }
+				            }
+				            row += '</td>';
+
+				            row += '<td>';  // 일곱 번째 열 시작 (짝수 인덱스 데이터를 출력하는 열)
+				            for (let a = 0; a < Lv4List.length; a++) {
+				                for (let b = 0; b < Lv4List[a].length; b++) {
+				                    if (b % 2 === 0) {  // 짝수 인덱스
+				                        row += '<select>';
+				                        const options = ['가', '나', '다', '라', '마'];  // 5개의 옵션
+				                        options.forEach(function(option) {
+				                            row += '<option value="' + option + Lv4List[a][b] + '">' + option + '</option>';
+				                        });
+				                        row += '</select>';
+				                    }
+				                }
+				            }
+				            row += '</td>';
+
 			            row += '</tr>';
 			        
 			        tableBody.append(row);
