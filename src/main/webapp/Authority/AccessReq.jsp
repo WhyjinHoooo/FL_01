@@ -94,13 +94,12 @@ $(document).ready(function(){
 			ResetValue.forEach(input => input.val(''));
 			return false;
 		}
-		/* $.ajax({
+		$.ajax({
 			url: '${contextPath}/Authority/SysDuteExpose.jsp',
 			type: 'POST',
 			data: {SelDute : SysDute},
 			success: function(response){
 			    console.log('response : ', response);
-			    let Lv3List = [];
 			    let tableBody = $('.AccessTable_Body');
 			    tableBody.empty(); // 기존 내용을 비우고 새로 추가
 			    
@@ -110,34 +109,48 @@ $(document).ready(function(){
 			        let row = '<tr>' +
 			            '<td>' + data.RnRCode + '</td>' +
 			            '<td>' + data.RnRDescp + '</td>' +
-			            '<td>' + data.UiGroupDescrip + '</td>' +
-			            '<td>' + data.UiGroup2LvList.join(', ') + '</td>';
+			            '<td>' + data.UiGroupDescrip + '</td>';
 			            
 				            let Lv2List = data.UiGroup2LvList;
+				           	let Lv2OriValue = Lv2List.join(', ');
+				           	let Lv2Value = Lv2OriValue.split(',');
+				            console.log("Lv2Value : ", Lv2Value);
+				            
+				            row += '<td>';  // 다섯 번째 열의 첫 번째 셀 시작
+				            for(var Lv2 = 0; Lv2 < Lv2Value.length; Lv2++) {
+				                row += '<div>' + Lv2Value[Lv2] + '</div>';  // Lv3Value의 각 데이터를 새로운 셀에 추가
+				            }
+				            row += '</td>';
+				            
 				            let Lv3List = [];
 				            
 				            for(var i = 0 ; i < Lv2List.length ; i++){
 				            	Lv3List.push(data[Lv2List[i]]);
-				            	
 				            }
 				            let Lv3OriValue = Lv3List.join(', ');
 				            let Lv3Value = Lv3OriValue.split(',');
-				            console.log(Lv3Value);
+				            console.log("Lv3Value : ", Lv3Value);
 				            
 				            row += '<td>';  // 다섯 번째 열의 첫 번째 셀 시작
-				            for(var j = 0; j < Lv3Value.length; j++) {
-				                row += '<td>' + Lv3Value[j] + '</td>';  // Lv3Value의 각 데이터를 새로운 셀에 추가
+				            for(var Lv3 = 0; Lv3 < Lv3Value.length; Lv3++) {
+				                row += '<div>' + Lv3Value[Lv3] + '</div>';  // Lv3Value의 각 데이터를 새로운 셀에 추가
 				            }
 				            row += '</td>';
 				            
+				            let Lv4List = [];
+				            for(var j = 0 ; j < Lv3Value.length; j++){
+				            	Lv4List.push(data[Lv3Value[j]])
+				            }
+				            console.log('Lv4List : ', Lv4List);
+				            console.log('Lv4List : ', Lv4List[0]);
+				            console.log('Lv4List : ', Lv4List[0][0]);
 			            row += '</tr>';
 			        
 			        tableBody.append(row);
 			    });
 			}
-		}); */
+		});
 	});
-	
 })
 </script>
 <title>Insert title here</title>
@@ -200,8 +213,8 @@ $(document).ready(function(){
 			<thead class="AccessTable_Head">
 				<th>시스템 직무코드</th><th>직무명</th><th>직무화면그룹01</th><th>직무화면그룹02</th><th>직무화면그룹03</th><th>화면번호</th><th>기본권한</th>
 			</thead>
-			<tbody class="AccessTable_Body">
-				<tr>
+			<tbody class="AccessTable_Body"> 
+				<!--<tr>
 		            <td>1</td>
 		            <td>2</td>
 		            <td>3</td>
@@ -240,7 +253,7 @@ $(document).ready(function(){
 		                <div>7-8</div>
 		                <div>7-9</div>
 		            </td>
-		        </tr>
+		        </tr> -->
 			</tbody>
 		</table>
 	</div>
