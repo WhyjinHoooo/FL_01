@@ -191,7 +191,7 @@
 							<tr><th class="info">Company Code : </th>
 								<td class="input-info">
 									<div class="test">
-									<a href="javascript:void(0);" onclick="InfoSearch('ComSearch')"><input type="text" class="Com-code" name="Com-Code" placeholder="SELECT" onchange="CompanyCode(this)" readonly></a>
+									<input type="text" class="Com-code" name="Com-Code" placeholder="SELECT" onchange="CompanyCode(this)" onclick="InfoSearch('ComSearch')" readonly>
 										<input type="text" name="Com_Des" size="31" readonly>	
 									</div>
 								</td>
@@ -201,7 +201,7 @@
 							
 							<tr><th class="info"> Biz.Area Code : </th>
 								<td class="input-info">
-									<a href="javascript:void(0);" onclick="InfoSearch('BusiAreaSearch')"><input type="text" class="Biz_Code" name="Biz_Code" placeholder="SELECT" readonly></a>
+									<input type="text" class="Biz_Code" name="Biz_Code" placeholder="SELECT" onclick="InfoSearch('BusiAreaSearch')" readonly>
 									<input type="text" class="Biz_Code_Des" name="Biz_Code_Des" size="31" readonly>
 								</td>
 							</tr>
@@ -235,11 +235,11 @@
 							
 							<tr><th class="info">Local Currency : </th>
 								<td class="input-info">
-									<a href="javascript:void(0);" onclick="InfoSearch('MoneySearch')"><input type="text" class="money-code" name="money" readonly></a>
+									<input type="text" class="money-code" name="money" onclick="InfoSearch('MoneySearch')" readonly>
 								</td>
 								<th class="info">Language : </th>
 									<td class="input-info">
-										<a href="javascript:void(0);" onclick="InfoSearch('LanSearch')"><input type="text" class="language-code" name="lang" readonly></a>
+										<input type="text" class="language-code" name="lang" onclick="InfoSearch('LanSearch')" readonly>
 									</td>
 							</tr>		
 							
@@ -257,7 +257,6 @@
 							
 							<tr><th class="info">Cost Center Group : </th>
 								<td class="input-info">
-									<a href="javascript:void(0);" onclick="InfoSearch('CCGSearch')"><input type="text" class="ccc" name="ccc" placeholder="SELECT" readonly></a>
 									<input type="text" class="CCG_Des" name="CCG_Des" size="31" readonly>
 								</td>
 							</tr>
@@ -266,7 +265,7 @@
 							
 							<tr><th class="info">Cost Center Type : </th>
 								<td class="input-info">
-									<a href="javascript:void(0);" onclick="InfoSearch('CCTSearch')"><input type="text" class="cct" name="cct" onchange="CCTapply(this)" placeholder="SELECT" readonly></a>
+									<input type="text" class="cct" name="cct" onchange="CCTapply(this)" placeholder="SELECT" onclick="InfoSearch('CCTSearch')" readonly>
 									<input type="text" class="CCT_Des" name="CCT_Des" size="31" readonly>
 								</td>
 							</tr>

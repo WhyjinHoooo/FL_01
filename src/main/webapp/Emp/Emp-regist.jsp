@@ -195,7 +195,7 @@ function execDaumPostcode() {
 					<table>
 						<tr><th class="info">Company Code : </th>
 							<td class="input-info">
-								<a href="javascript:void(0);" onclick="InfoSearch('ComSearch')"><input type="text" class="ComCode" name="ComCode" id="ComCode" size="10" readonly placeholder="SELECT"></a>
+								<input type="text" class="ComCode" name="ComCode" id="ComCode" size="10" readonly onclick="InfoSearch('ComSearch')" placeholder="SELECT">
 								<input type="text" name="Com_Name" class="Com_Name" size="31" readonly>
 							</td>
 						</tr>
@@ -204,7 +204,7 @@ function execDaumPostcode() {
 						
 						<tr><th class="info">Cost Center : </th>
 							<td class="input-info">
-								<a href="javascript:void(0);" onclick="InfoSearch('CCSearch')"><input type="text" name="CC_Code" class="CC_Code" size="11" readonly placeholder="SELECT"></a>
+								<input type="text" name="CC_Code" class="CC_Code" size="11" readonly onclick="InfoSearch('CCSearch')" placeholder="SELECT">
 								<input type="text" name="CC_Name" class="CC_Name" size="31" readonly>
 							</td>
 						</tr>
@@ -267,7 +267,7 @@ function execDaumPostcode() {
 						
 						<tr><th class="info">직책 : </th>
 							<td class="input-info">
-								<a href="javascript:void(0);" onclick="InfoSearch('DutySearch')"><input type="text" class="duty_code" name="duty_code" placeholder="SELECT" readonly></a>
+								<input type="text" class="duty_code" name="duty_code" placeholder="SELECT" onclick="InfoSearch('DutySearch')" readonly>
 								<input type="text" class="duty_Des" name="duty_Des" size="31" readonly>
 							</td>
 							<th>직책 발령 일자 : </th>
@@ -280,7 +280,7 @@ function execDaumPostcode() {
 						
 						<tr><th class="info">직위 : </th>
 							<td class="input-info">
-								<a href="javascript:void(0);" onclick="InfoSearch('titleSearch')"><input type="text" class="title_Code" name="title_Code" placeholder="SELECT" readonly></a>
+								<input type="text" class="title_Code" name="title_Code" placeholder="SELECT" onclick="InfoSearch('titleSearch')" readonly>
 								<input type="text" class="title_Des" name="title_Des" size="31" readonly>
 							</td>
 							<th class="info">승격 일자 : </th>

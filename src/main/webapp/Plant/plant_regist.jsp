@@ -50,9 +50,7 @@
 		var v = d.value;
 		document.plant_RegistForm.Com_Des.value = v;
 	}
-	function InfoFunction(event, field){
-		event.preventDefault();
-
+	function InfoFunction(field){
 		var popupWidth = 1000;
 	    var popupHeight = 600;
 	   /*  var ComCode = document.querySelector('#UserDepart').value; */
@@ -180,7 +178,8 @@
 					<table>
 						<tr><th class="info">Company Code : </th>
 							<td class="input-info">
-								<a href="javascript:void(0);" onclick="InfoFunction(event, 'ComPany')"><input type="text" class="Com-code" name="ComCode" onchange="CompanyCode(this)" placeholder="SELECT" readonly></a>
+								<!-- <a href="javascript:void(0);" onclick="InfoFunction(event, 'ComPany')"><input type="text" class="Com-code" name="ComCode" onchange="CompanyCode(this)" placeholder="SELECT" readonly></a> -->
+								<input type="text" class="Com-code" name="ComCode" onchange="CompanyCode(this)" placeholder="SELECT" onclick="InfoFunction('ComPany')" readonly>
 								<input type="text" class="Com_Des" name="Com_Des" size="31" readonly >
 							</td>
 						</tr>
@@ -189,7 +188,8 @@
 						
 						<tr><th class="info">Biz.Area Code : </th>
 							<td class="input-info">
-								<a href="javascript:void(0);" onclick="InfoFunction(event, 'BizArea')"><input type="text" class="BizSelect" name="BizSelect" placeholder="SELECT" readonly></a>
+								<!-- <a href="javascript:void(0);" onclick="InfoFunction(event, 'BizArea')"><input type="text" class="BizSelect" name="BizSelect" placeholder="SELECT" readonly></a> -->
+								<input type="text" class="BizSelect" name="BizSelect" placeholder="SELECT" onclick="InfoFunction('BizArea')" readonly>
 								<input type="text" class="Biz_Des" name="Biz_Des" size="31" readonly>
 							</td>
 						</tr>
@@ -224,11 +224,13 @@
 						
 						<tr><th class="info">Local Currency : </th>
 							<td class="input-info">
-								<a href="javascript:void(0);" onclick="InfoFunction(event, 'Money')"><input type="text" class="money-code" name="money" placeholder="SELECT" readonly></a>
+								<!-- <a href="javascript:void(0);" onclick="InfoFunction(event, 'Money')"><input type="text" class="money-code" name="money" placeholder="SELECT" readonly></a> -->
+								<input type="text" class="money-code" name="money" placeholder="SELECT" onclick="InfoFunction('Money')" readonly>
 							</td>
 							<th class="info">Language</th>
 								<td class="input-info">
-									<a href="javascript:void(0);" onclick="InfoFunction(event, 'Language')"><input type="text" class="language-code" name="lang" placeholder="SELECT" readonly></a>
+									<!-- <a href="javascript:void(0);" onclick="InfoFunction(event, 'Language')"><input type="text" class="language-code" name="lang" placeholder="SELECT" readonly></a> -->
+									<input type="text" class="language-code" name="lang" placeholder="SELECT" onclick="InfoFunction('Language')" readonly>
 								</td>
 								
 						</tr>
