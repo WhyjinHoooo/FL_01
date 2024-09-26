@@ -107,21 +107,32 @@
     width: 100%;
     table-layout: fixed;
     }
-    .AccessTable .AccessTable_Body td{
+.AccessTable .AccessTable_Body td {
     border: 1px solid #ddd;
-    width:14.28%;
+    width: 14.28%;
     text-align: center;
-    height: 350px;
-    }
-    .AccessTable_Body td div {
+    font-size: small;
+    vertical-align: top;  /* 상단 정렬 */
+    overflow: hidden;  /* 내용이 넘칠 경우 숨김 */
+    position: relative;
+}
+
+.AccessTable_Body td div {
     border: 1px solid #ddd;
     padding: 8px;
-	}
-	.AccessTable_Body td select {
-    width: 100%;
+    font-size: small;
+    box-sizing: border-box;
+    max-height: 100%;  /* 최대 높이 고정 */
+    overflow: auto;  /* 스크롤 생성 */
+}
+
+.AccessTable_Body td select {
+    width: 97%;
     height: auto;
     border: 1px solid #ddd;
     padding: 8px;
-	}
+    text-align: center;
+}
+
 }
 	

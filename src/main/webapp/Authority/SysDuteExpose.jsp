@@ -11,8 +11,6 @@
 	String Lv3_UiGrp = null;
 	/* ----------------------------------- */
 	String S_Word = request.getParameter("SelDute"); // 예: PUR00
-	System.out.println("권한 신청 확인요 : " + S_Word);
-	System.out.println("권한 신청 ajax 성공01");
 	String RoleSysBaseUI_Sql = "SELECT * FROM sys_dutebasicui WHERE RnRCode = ?";
 	PreparedStatement RoleSysBaseUI_Pstmt = conn.prepareStatement(RoleSysBaseUI_Sql);
 	RoleSysBaseUI_Pstmt.setString(1, S_Word);
