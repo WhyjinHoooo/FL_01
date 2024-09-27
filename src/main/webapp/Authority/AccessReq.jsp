@@ -102,85 +102,96 @@ $(document).ready(function(){
 			    console.log('response : ', response);
 			    let tableBody = $('.AccessTable_Body');
 			    tableBody.empty(); // 기존 내용을 비우고 새로 추가
-			    
-			    response.forEach(function(data) {
+			   
+			    response.forEach(function(data){
 			        let row = '<tr>' +
 			            '<td>' + data.RnRCode + '</td>' +
 			            '<td>' + data.RnRDescp + '</td>' +
 			            '<td>' + data.UiGroupDescrip + '</td>';
+			            
+				            let Lv2List = data.UiGroup2LvList;
+				           	let Lv2OriValue = Lv2List.join(',');
+				           	let Lv2Value = Lv2OriValue.split(',');
+				            
+				            row += '<td>';  // 다섯 번째 열의 첫 번째 셀 시작
+				            for(var Lv2 = 0; Lv2 < Lv2Value.length; Lv2++) {
+				                row += '<div class=Lv2_'+ Lv2 +'>' + Lv2Value[Lv2] + '</div>';  // Lv3Value의 각 데이터를 새로운 셀에 추가
+				            }
+				            row += '</td>';
+				            
+				            let Lv3List = [];
+				            
+				            for(var i = 0 ; i < Lv2List.length ; i++){
+				            	Lv3List.push(data[Lv2List[i]]);
+				            }
+				            let Lv3OriValue = Lv3List.join(',');
+				            let Lv3Value = Lv3OriValue.split(',');
+				            
+				            row += '<td>';  // 다섯 번째 열의 첫 번째 셀 시작
+				            for(var Lv3 = 0; Lv3 < Lv3Value.length; Lv3++) {
+				                row += '<div class=Lv3_'+ Lv3 +'>' + Lv3Value[Lv3] + '</div>';  // Lv3Value의 각 데이터를 새로운 셀에 추가
+				            }
+				            row += '</td>';
+				            
+				            let Lv4List = [];
+				            let Lv4KeyMap = [];
+				            for(var j = 0 ; j < Lv3Value.length; j++){
+				            	Lv4List.push(data[Lv3Value[j]]);
+				            	Lv4KeyMap.push(Lv3Value[j]);  // Lv3Value에서 사용된 키 값을 Lv4KeyMap에 저장
+				            }
+				            console.log('Lv4List의 길이 : '+ Lv4List.length);
+				            console.log('Lv4List 01 : '+ Lv4List);
+				            console.log('Lv4List 02 : '+ Lv4KeyMap);
+				            
+				            row += '<td>';  // 여섯 번째 열 시작 (홀수 인덱스 데이터를 출력하는 열)
+				            for (let a = 0; a < Lv4List.length; a++) {
+				                for (let b = 0; b < Lv4List[a].length; b++) {
+				                    if (b % 2 === 1) {  // 홀수 인덱스
+				                        row += '<div class=Lv4_'+ a + '_' + b +'>' + Lv4List[a][b] + '</div>';
+				                    }
+				                }
+				            }
+				            row += '</td>';
 
-			        let Lv2List = data.UiGroup2LvList;
-			        let Lv2OriValue = Lv2List.join(',');
-			        let Lv2Value = Lv2OriValue.split(',');
+				            row += '<td>';  // 일곱 번째 열 시작 (짝수 인덱스 데이터를 출력하는 열)
+				            for (let a = 0; a < Lv4List.length; a++) {
+				                for (let b = 0; b < Lv4List[a].length; b++) {
+				                    if (b % 2 === 0) {  // 짝수 인덱스
+				                        row += '<select>';
+				                        const options = ['가', '나', '다', '라', '마'];  // 5개의 옵션
+				                        options.forEach(function(option) {
+				                            row += '<option value="' + option +','+ Lv4List[a][b] + '">' + option + '</option>';
+				                        });
+				                        row += '</select>';
+				                    }
+				                }
+				            }
+				            row += '</td>';
 
-			        // Lv3List 생성
-			        let Lv3List = [];
-			        for (var i = 0; i < Lv2List.length; i++) {
-			            Lv3List.push(data[Lv2List[i]]);
-			        }
-			        let Lv3OriValue = Lv3List.join(',');
-			        let Lv3Value = Lv3OriValue.split(',');
-
-			        // Lv4List 생성
-			        let Lv4List = [];
-			        for (var j = 0; j < Lv3Value.length; j++) {
-			            Lv4List.push(data[Lv3Value[j]]);
-			        }
-
-			        // 1. Lv4List의 높이 계산
-			        let totalHeightLv4 = 0;  // Lv4의 높이 합계
-			        for (let a = 0; a < Lv4List.length; a++) {
-			            for (let b = 0; b < Lv4List[a].length; b++) {
-			                if (b % 2 === 1) {  // 홀수 인덱스
-			                    totalHeightLv4 += 35;  // 여기에서 높이를 1로 가정
-			                }
-			            }
-			        }
-
-			        row += '<td>';  // 다섯 번째 열의 첫 번째 셀 시작
-			        for (var Lv2 = 0; Lv2 < Lv2Value.length; Lv2++) {
-			            row += '<div style="height: ' + totalHeightLv4 + 'px;">' + Lv2Value[Lv2] + '</div>';  // height 적용
-			        }
-			        row += '</td>';
-
-			        // 2. Lv3Value에 대한 height 설정
-			        let totalHeightLv3 = 0;  // Lv3의 높이 합계
-			        for (let i = 0; i < Lv3Value.length; i++) {
-			            totalHeightLv3 += 1;  // 여기에서도 높이를 1로 가정
-			        }
-			        row += '<td>';  // 여섯 번째 열 시작
-			        for (var Lv3 = 0; Lv3 < Lv3Value.length; Lv3++) {
-			            row += '<div style="height: ' + totalHeightLv3 + 'px;">' + Lv3Value[Lv3] + '</div>';  // height 적용
-			        }
-			        row += '</td>';
-
-			        row += '<td>';  // 여섯 번째 열 시작 (홀수 인덱스 데이터를 출력하는 열)
-			        for (let a = 0; a < Lv4List.length; a++) {
-			            for (let b = 0; b < Lv4List[a].length; b++) {
-			                if (b % 2 === 1) {  // 홀수 인덱스
-			                    row += '<div>' + Lv4List[a][b] + '</div>';
-			                }
-			            }
-			        }
-			        row += '</td>';
-
-			        row += '<td>';  // 일곱 번째 열 시작 (짝수 인덱스 데이터를 출력하는 열)
-			        for (let a = 0; a < Lv4List.length; a++) {
-			            for (let b = 0; b < Lv4List[a].length; b++) {
-			                if (b % 2 === 0) {  // 짝수 인덱스
-			                    row += '<select>';
-			                    const options = ['가', '나', '다', '라', '마'];  // 5개의 옵션
-			                    options.forEach(function(option) {
-			                        row += '<option value="' + option + Lv4List[a][b] + '">' + option + '</option>';
-			                    });
-			                    row += '</select>';
-			                }
-			            }
-			        }
-			        row += '</td>';
-
-			        row += '</tr>';
-
+			            row += '</tr>';
+			        	
+			            /* 
+			            여기
+			            */
+			            let lv4DivCount = (row.match(/class=Lv4_0/g) || []).length;
+			            let lv3DivclassName = null;
+			            console.log('Lv4_0으로 시작하는 <div>의 개수:', lv4DivCount);
+			        	// Lv3Value에서 Lv4List[0]의 키 값을 찾고 그 위치(index)를 콘솔에 출력
+						if (Lv4List.length > 0) {
+						        let Lv4FirstKeyUsed = Lv4KeyMap[0];  // Lv4List[0]을 저장할 때 사용한 키 값 (Lv3Value의 첫 번째 키)
+						        let Lv4KeyIndexInLv3Value = Lv3Value.indexOf(Lv4FirstKeyUsed);  // 해당 키 값이 Lv3Value에서 몇 번째인지 확인
+						
+						        if (Lv4KeyIndexInLv3Value !== -1) {
+						            console.log('Lv4List[0]에 사용된 키 값이 Lv3Value에서 위치하는 인덱스:', Lv4KeyIndexInLv3Value);
+						            
+						            let dynamicClassPattern = new RegExp('class=Lv3_' + Lv4KeyIndexInLv3Value, 'g');
+						            lv3DivclassName = (row.match(dynamicClassPattern) || []);
+						            console.log(lv3DivclassName[0]);
+						        } else {
+						            console.log('Lv4List[0]에 사용된 키 값이 Lv3Value에 존재하지 않습니다.');
+						        }
+						    }
+			        	
 			        tableBody.append(row);
 			    });
 
