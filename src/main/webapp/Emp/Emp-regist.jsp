@@ -50,12 +50,12 @@ document.addEventListener("DOMContentLoaded", function() {
     var now_utc = Date.now();
     var timeOff = new Date().getTimezoneOffset() * 60000;
     var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
-    var testElement = document.getElementById("join");
-    var testElement2 = document.getElementById("Birth");
+    var JoinDate = document.getElementById("join");
+    var BirthDate = document.getElementById("Birth");
 
-    if (testElement) {
-        testElement.setAttribute("max", today);
-        testElement2.setAttribute("max", today);
+    if (JoinDate) {
+    	JoinDate.setAttribute("max", today);
+    	BirthDate.setAttribute("max", today);
     } else {
         console.error("Element with id 'test' not found.");
     }
