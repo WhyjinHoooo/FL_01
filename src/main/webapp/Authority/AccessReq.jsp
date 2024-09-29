@@ -173,7 +173,15 @@ $(document).ready(function(){
 			            /* 
 			            여기
 			            */
-			            let lv4DivCount = (row.match(/class=Lv4_0/g) || []).length;
+			            let lv4DivCount = 0;
+			            for(let a = 0 ; a < Lv4List.length ; a++){
+			            	lv4DivCount = 0;
+			            	console.log(a);
+			            	const pattern = new RegExp(`class=Lv4_${ "${a}" }`, 'g');
+			            	lv4DivCount = (row.match(pattern) || []).length;
+			            	console.log('Lv4_'+a+'으로 시작하는 <div>의 개수:', lv4DivCount);
+			            }
+			            /* let lv4DivCount = (row.match(/class=Lv4_0/g) || []).length;
 			            let lv3DivclassName = null;
 			            console.log('Lv4_0으로 시작하는 <div>의 개수:', lv4DivCount);
 			        	// Lv3Value에서 Lv4List[0]의 키 값을 찾고 그 위치(index)를 콘솔에 출력
@@ -190,7 +198,7 @@ $(document).ready(function(){
 						        } else {
 						            console.log('Lv4List[0]에 사용된 키 값이 Lv3Value에 존재하지 않습니다.');
 						        }
-						    }
+						    } */
 			        	
 			        tableBody.append(row);
 			    });
