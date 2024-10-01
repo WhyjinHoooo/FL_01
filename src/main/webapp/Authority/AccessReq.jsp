@@ -133,6 +133,9 @@ $(document).ready(function(){
 				            }
 				            row += '</td>';
 				            
+				            console.log('Lv3List의 길이 : ' + Lv3List[0].length);
+				            console.log('Lv3List의 길이 : ' + Lv3List[1].length);
+				            console.log('Lv3List : ', Lv3List);
 				            let Lv4List = [];
 				            let Lv4KeyMap = [];
 				            for(var j = 0 ; j < Lv3Value.length; j++){
@@ -172,15 +175,35 @@ $(document).ready(function(){
 			        	
 			            /* 
 			            여기
-			            */
+			            
 			            let lv4DivCount = 0;
+			            let lv3DivCount = 0;
 			            for(let a = 0 ; a < Lv4List.length ; a++){
+			            	console.log('a값: ' + a);
 			            	lv4DivCount = 0;
-			            	console.log(a);
-			            	const pattern = new RegExp(`class=Lv4_${ "${a}" }`, 'g');
-			            	lv4DivCount = (row.match(pattern) || []).length;
+			            	const Lv4Pattern = new RegExp(`class=Lv4_${ "${a}" }`, 'g');
+			            	lv4DivCount = (row.match(Lv4Pattern) || []).length;
 			            	console.log('Lv4_'+a+'으로 시작하는 <div>의 개수:', lv4DivCount);
+			            	if(lv4DivCount){
+			            		const Lv3Pattenr = new RegExp(`class=Lv3_${ "${a}" }`, 'g');;
+			            		lv3DivCount = (row.match(Lv3Pattenr) || []).length; 
+			            		console.log('Lv3_'+a+'으로 시작하는 <div>의 개수:', lv3DivCount);
+			            		
+			            		for (let i = 0; i < lv3DivCount; i++) {
+			                        // 각 Lv3 div의 고유한 클래스명을 만듦
+			                        const lv3DivClassName = `Lv3_${ "${a}" }`;
+			                        console.log(`Lv3_${ "${a}" }`);
+			                        const newHeight = (lv4DivCount * 35) + 'px';
+			                        $(`.Lv3_${"${a}"}`).css('height', newHeight);
+			                        console.log(lv3DivClassName + '의 높이 : ' + newHeight);
+			                        console.log('END');
+			                    }
+			            		lv3Divs.forEach(div => {
+			                        div.style.height = `${ "${newHeight}" }px`; // 새 높이 적용
+			                    });
+			            	}
 			            }
+			            */
 			            /* let lv4DivCount = (row.match(/class=Lv4_0/g) || []).length;
 			            let lv3DivclassName = null;
 			            console.log('Lv4_0으로 시작하는 <div>의 개수:', lv4DivCount);
@@ -201,6 +224,32 @@ $(document).ready(function(){
 						    } */
 			        	
 			        tableBody.append(row);
+						    
+					let le2DivCount = 0;
+		            let lv3DivCount = 0;
+			        let lv4DivCount = 0;
+		            for(let a = 0 ; a < Lv4List.length ; a++){
+		            	console.log('a값: ' + a);
+		            	lv4DivCount = 0;
+		            	const Lv4Pattern = new RegExp(`class=Lv4_${ "${a}" }`, 'g');
+		            	lv4DivCount = (row.match(Lv4Pattern) || []).length;
+		            	console.log('Lv4_'+a+'으로 시작하는 <div>의 개수:', lv4DivCount);
+		            	if(lv4DivCount){
+		            		const Lv3Pattenr = new RegExp(`class=Lv3_${ "${a}" }`, 'g');;
+		            		lv3DivCount = (row.match(Lv3Pattenr) || []).length; 
+		            		console.log('Lv3_'+a+'으로 시작하는 <div>의 개수:', lv3DivCount);
+		            		
+		            		for (let i = 0; i < lv3DivCount; i++) {
+		                        // 각 Lv3 div의 고유한 클래스명을 만듦
+		                        const lv3DivClassName = `Lv3_${ "${a}" }`;
+		                        console.log(`Lv3_${ "${a}" }`);
+		                        const newHeight = (lv4DivCount * 35) + 'px';
+		                        $(`.Lv3_${"${a}"}`).css('height', newHeight);
+		                        console.log(lv3DivClassName + '의 높이 : ' + newHeight);
+		                        console.log('END');
+		                    }
+		            	}
+		            }
 			    });
 
 			    
