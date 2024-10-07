@@ -133,9 +133,6 @@ $(document).ready(function(){
 				            }
 				            row += '</td>';
 				            
-				            console.log('Lv3List의 길이 : ' + Lv3List[0].length);
-				            console.log('Lv3List의 길이 : ' + Lv3List[1].length);
-				            console.log('Lv3List : ', Lv3List);
 				            let Lv4List = [];
 				            let Lv4KeyMap = [];
 				            for(var j = 0 ; j < Lv3Value.length; j++){
@@ -224,17 +221,15 @@ $(document).ready(function(){
 						    } */
 			        	
 			        tableBody.append(row);
-						    
-					let le2DivCount = 0;
-		            let lv3DivCount = 0;
-			        let lv4DivCount = 0;
+					
 		            for(let a = 0 ; a < Lv4List.length ; a++){
 		            	console.log('a값: ' + a);
-		            	lv4DivCount = 0;
+		            	let lv4DivCount = 0;
 		            	const Lv4Pattern = new RegExp(`class=Lv4_${ "${a}" }`, 'g');
 		            	lv4DivCount = (row.match(Lv4Pattern) || []).length;
 		            	console.log('Lv4_'+a+'으로 시작하는 <div>의 개수:', lv4DivCount);
 		            	if(lv4DivCount){
+		            		let lv3DivCount = 0;
 		            		const Lv3Pattenr = new RegExp(`class=Lv3_${ "${a}" }`, 'g');;
 		            		lv3DivCount = (row.match(Lv3Pattenr) || []).length; 
 		            		console.log('Lv3_'+a+'으로 시작하는 <div>의 개수:', lv3DivCount);
@@ -249,6 +244,76 @@ $(document).ready(function(){
 		                        console.log('END');
 		                    }
 		            	}
+		            }
+		            
+		            console.log('Lv3List의 길이 : ' + Lv3List[0].length);
+		            console.log('Lv3List의 길이 : ' + Lv3List[1].length);
+		            console.log('Lv3List의 길이 : ', Lv3List.length);
+		            
+		            for(let b = 0 ; b < Lv3List.length ; b++){
+		            	let combinedArray = [].concat(...Lv3List); // 통합된 배열
+		            	console.log('통합된 배열의 길이 : ' + combinedArray.length);
+		            	console.log('통합된 배열', combinedArray);
+		            	console.log(Lv3List[b]);
+		            	console.log(Lv2Value[b]);
+		            	
+		            	let SearchLv2Value = Lv2Value[b];
+		            	let NewDivHeight = 0;
+		            	let DelCt = 0;
+		            	if(SearchLv2Value && b === 0){
+		            		for(let c = 0 ; c < Lv3List[b].length ; c++){
+		            			let SearchLv3Value = combinedArray[c];
+		            			const LookingLv3Div = new RegExp(`${ "${SearchLv3Value}" }`, 'g');
+		            			let result = row.match(LookingLv3Div);
+		            			console.log('result : ' + result);
+		            			console.log('SearchLv3Value : ' + SearchLv3Value);
+		            			if(result){ // 실재로 SearchLv3Value에 저장된 데이터를 갖는 <div>가 있는지 확인
+		            				let divElement = document.querySelector(`.Lv3_${ "${c}" }`);
+		            				console.log('divElement : ', divElement);
+		            				let divHeight = divElement.style.height;
+		            				let Lv2Height = parseInt(divHeight);
+		            				NewDivHeight += Lv2Height;
+		            			}
+		            		}
+		            	} else { // b가 0이 아닌 경우 예 -> b = 1
+		            		 
+		            		for(let p = 0 ; p < b ; p++){ // combinedArray에서 사용된 값들을 삭제하는 과정
+		            			let UsedCount = Lv3List[p].length;
+		            			console.log('UsedCount : ' + UsedCount);
+		            			for(let q = 0 ; q < UsedCount ; q++){
+		            				let UsedValue = combinedArray[0];
+		            				console.log('UsedValue : ' + UsedValue);
+		            				let DeleteEle = combinedArray.indexOf(UsedValue);
+		            				if(DeleteEle > -1){
+		            					combinedArray.splice(DeleteEle, 1);
+		            					DelCt++;
+		            				} 
+		            			}
+		            		}// combinedArray에서 사용된 값들을 삭제하는 과정
+		            		 
+		            		console.log(DelCt);
+		            		for(let c = 0 ; c < Lv3List[b].length ; c++){
+		            			let SearchLv3Value = combinedArray[c];
+		            			const LookingLv3Div = new RegExp(`${ "${SearchLv3Value}" }`, 'g');
+		            			let result = row.match(LookingLv3Div);
+		            			console.log('result : ' + result);
+		            			console.log('SearchLv3Value : ' + SearchLv3Value);
+		            			if(result){ // 실재로 SearchLv3Value에 저장된 데이터를 갖는 <div>가 있는지 확인
+		            				let divElement = document.querySelector(`.Lv3_${ "${DelCt}" }`);
+		            				console.log('divElement : ', divElement);
+		            				let divHeight = divElement.style.height;
+		            				let Lv2Height = parseInt(divHeight);
+		            				NewDivHeight += Lv2Height;
+		            				DelCt ++;
+		            			}
+		            		}
+		            		/* for(let c = 0 ; c < Lv3List[b].length ; c++){
+		            			
+		            		} */
+		            		
+		            	}
+	            		console.log('NewDivHeight : ' + NewDivHeight);
+	            		$(`.Lv2_${"${b}"}`).css('height', NewDivHeight);
 		            }
 			    });
 
