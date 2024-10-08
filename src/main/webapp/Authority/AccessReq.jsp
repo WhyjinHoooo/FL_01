@@ -170,56 +170,6 @@ $(document).ready(function(){
 
 			            row += '</tr>';
 			        	
-			            /* 
-			            여기
-			            
-			            let lv4DivCount = 0;
-			            let lv3DivCount = 0;
-			            for(let a = 0 ; a < Lv4List.length ; a++){
-			            	console.log('a값: ' + a);
-			            	lv4DivCount = 0;
-			            	const Lv4Pattern = new RegExp(`class=Lv4_${ "${a}" }`, 'g');
-			            	lv4DivCount = (row.match(Lv4Pattern) || []).length;
-			            	console.log('Lv4_'+a+'으로 시작하는 <div>의 개수:', lv4DivCount);
-			            	if(lv4DivCount){
-			            		const Lv3Pattenr = new RegExp(`class=Lv3_${ "${a}" }`, 'g');;
-			            		lv3DivCount = (row.match(Lv3Pattenr) || []).length; 
-			            		console.log('Lv3_'+a+'으로 시작하는 <div>의 개수:', lv3DivCount);
-			            		
-			            		for (let i = 0; i < lv3DivCount; i++) {
-			                        // 각 Lv3 div의 고유한 클래스명을 만듦
-			                        const lv3DivClassName = `Lv3_${ "${a}" }`;
-			                        console.log(`Lv3_${ "${a}" }`);
-			                        const newHeight = (lv4DivCount * 35) + 'px';
-			                        $(`.Lv3_${"${a}"}`).css('height', newHeight);
-			                        console.log(lv3DivClassName + '의 높이 : ' + newHeight);
-			                        console.log('END');
-			                    }
-			            		lv3Divs.forEach(div => {
-			                        div.style.height = `${ "${newHeight}" }px`; // 새 높이 적용
-			                    });
-			            	}
-			            }
-			            */
-			            /* let lv4DivCount = (row.match(/class=Lv4_0/g) || []).length;
-			            let lv3DivclassName = null;
-			            console.log('Lv4_0으로 시작하는 <div>의 개수:', lv4DivCount);
-			        	// Lv3Value에서 Lv4List[0]의 키 값을 찾고 그 위치(index)를 콘솔에 출력
-						if (Lv4List.length > 0) {
-						        let Lv4FirstKeyUsed = Lv4KeyMap[0];  // Lv4List[0]을 저장할 때 사용한 키 값 (Lv3Value의 첫 번째 키)
-						        let Lv4KeyIndexInLv3Value = Lv3Value.indexOf(Lv4FirstKeyUsed);  // 해당 키 값이 Lv3Value에서 몇 번째인지 확인
-						
-						        if (Lv4KeyIndexInLv3Value !== -1) {
-						            console.log('Lv4List[0]에 사용된 키 값이 Lv3Value에서 위치하는 인덱스:', Lv4KeyIndexInLv3Value);
-						            
-						            let dynamicClassPattern = new RegExp('class=Lv3_' + Lv4KeyIndexInLv3Value, 'g');
-						            lv3DivclassName = (row.match(dynamicClassPattern) || []);
-						            console.log(lv3DivclassName[0]);
-						        } else {
-						            console.log('Lv4List[0]에 사용된 키 값이 Lv3Value에 존재하지 않습니다.');
-						        }
-						    } */
-			        	
 			        tableBody.append(row);
 					
 		            for(let a = 0 ; a < Lv4List.length ; a++){
@@ -299,7 +249,7 @@ $(document).ready(function(){
 		            			console.log('result : ' + result);
 		            			console.log('SearchLv3Value : ' + SearchLv3Value);
 		            			if(result){ // 실재로 SearchLv3Value에 저장된 데이터를 갖는 <div>가 있는지 확인
-		            				let divElement = document.querySelector(`.Lv3_${ "${DelCt}" }`);
+		            				let divElement = document.querySelector(`.Lv3_${ "${DelCt}" }`);  
 		            				console.log('divElement : ', divElement);
 		            				let divHeight = divElement.style.height;
 		            				let Lv2Height = parseInt(divHeight);

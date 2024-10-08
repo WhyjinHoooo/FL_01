@@ -3266,7 +3266,7 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     float: left;
     padding: .5rem 0;
     margin: .125rem 0 0;
-    font-size: 1rem;
+    font-size: 10px;
     color: #212529;
     text-align: left;
     list-style: none;
@@ -3275,14 +3275,13 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     border: 1px solid rgba(0,0,0,.15);
     border-radius: .25rem;
     width: 110px;
-    text-align: center;
     white-space: normal;  /* 줄바꿈 허용 */
     word-wrap: break-word; /* 긴 단어가 자동으로 줄바꿈 */
 	}
 	.Sang{
 	background-color: #94a9ff;
 	width: 110px;
-	text-align: center;
+	text-align: left;
 	}
 	.dropdown-item {
     display: block;
@@ -3292,7 +3291,7 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     font-weight: 400;
     font-size: 10.6px;
     color: #212529;
-    text-align: center;
+    text-align: left;
     white-space: normal; /* 줄바꿈 허용 */
     word-break: break-all; /* 긴 단어가 자동으로 줄바꿈 */
     background-color: transparent;
@@ -3304,7 +3303,7 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     color: #16181b;
     text-decoration: none;
     background-color: #f8f9fa;
-    font-size: 12px;
+    font-size: 10px;
     width: 77%;
     white-space: normal;
     word-wrap: break-word;
@@ -4558,7 +4557,7 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     font-weight: 400;
     font-size: 10.6px;
     color: #212529;
-    text-align: inherit;
+    text-align: left;
     /* white-space: nowrap; */
     white-space: normal; /* 줄바꿈 허용 */
     word-wrap: break-word; /* 긴 단어가 자동으로 줄바꿈 */
