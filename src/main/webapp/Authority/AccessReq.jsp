@@ -158,9 +158,9 @@ $(document).ready(function(){
 				                for (let b = 0; b < Lv4List[a].length; b++) {
 				                    if (b % 2 === 0) {  // 짝수 인덱스
 				                        row += '<select>';
-				                        const options = ['가', '나', '다', '라', '마'];  // 5개의 옵션
+				                        const options = ['권한없음','입력/수정/조회', '수정/조회', '조회'];
 				                        options.forEach(function(option) {
-				                            row += '<option value="' + option +','+ Lv4List[a][b] + '">' + option + '</option>';
+				                        		row += '<option value="' + option +','+ Lv4List[a][b] + '">' + option + '</option>';
 				                        });
 				                        row += '</select>';
 				                    }
@@ -257,17 +257,190 @@ $(document).ready(function(){
 		            				DelCt ++;
 		            			}
 		            		}
-		            		/* for(let c = 0 ; c < Lv3List[b].length ; c++){
-		            			
-		            		} */
 		            		
 		            	}
 	            		console.log('NewDivHeight : ' + NewDivHeight);
 	            		$(`.Lv2_${"${b}"}`).css('height', NewDivHeight);
 		            }
 			    });
+			}
+		});
+	});
+	$('.AddDute').click(function() {
+	    // 직무추가 버튼 클릭 시 동작
+	    alert("새로운 직무를 선택해 주세요.");
+	    // 새로운 직무 선택 후, 다시 ajax 요청을 통해 테이블을 업데이트
+	    var SysDute = $('.UserDuty').val().split(",")[0];
+	    console.log(SysDute);
+	    
+	    $.ajax({
+			url: '${contextPath}/Authority/SysDuteExpose.jsp',
+			type: 'POST',
+			data: {SelDute : SysDute},
+			success: function(response){
+			    console.log('response : ', response);
+			    let tableBody = $('.AccessTable_Body');
+			   
+			    response.forEach(function(data){
+			        let row = '<tr>' +
+			            '<td>' + data.RnRCode + '</td>' +
+			            '<td>' + data.RnRDescp + '</td>' +
+			            '<td>' + data.UiGroupDescrip + '</td>';
+			            
+				            let Lv2List = data.UiGroup2LvList;
+				           	let Lv2OriValue = Lv2List.join(',');
+				           	let Lv2Value = Lv2OriValue.split(',');
+				            
+				            row += '<td>';  // 다섯 번째 열의 첫 번째 셀 시작
+				            for(var Lv2 = 0; Lv2 < Lv2Value.length; Lv2++) {
+				                row += '<div class=Lv2_'+ Lv2 +'>' + Lv2Value[Lv2] + '</div>';  // Lv3Value의 각 데이터를 새로운 셀에 추가
+				            }
+				            row += '</td>';
+				            
+				            let Lv3List = [];
+				            
+				            for(var i = 0 ; i < Lv2List.length ; i++){
+				            	Lv3List.push(data[Lv2List[i]]);
+				            }
+				            let Lv3OriValue = Lv3List.join(',');
+				            let Lv3Value = Lv3OriValue.split(',');
+				            
+				            row += '<td>';  // 다섯 번째 열의 첫 번째 셀 시작
+				            for(var Lv3 = 0; Lv3 < Lv3Value.length; Lv3++) {
+				                row += '<div class=Lv3_'+ Lv3 +'>' + Lv3Value[Lv3] + '</div>';  // Lv3Value의 각 데이터를 새로운 셀에 추가
+				            }
+				            row += '</td>';
+				            
+				            let Lv4List = [];
+				            let Lv4KeyMap = [];
+				            for(var j = 0 ; j < Lv3Value.length; j++){
+				            	Lv4List.push(data[Lv3Value[j]]);
+				            	Lv4KeyMap.push(Lv3Value[j]);  // Lv3Value에서 사용된 키 값을 Lv4KeyMap에 저장
+				            }
+				            console.log('Lv4List의 길이 : '+ Lv4List.length);
+				            console.log('Lv4List 01 : '+ Lv4List);
+				            console.log('Lv4List 02 : '+ Lv4KeyMap);
+				            
+				            row += '<td>';  // 여섯 번째 열 시작 (홀수 인덱스 데이터를 출력하는 열)
+				            for (let a = 0; a < Lv4List.length; a++) {
+				                for (let b = 0; b < Lv4List[a].length; b++) {
+				                    if (b % 2 === 1) {  // 홀수 인덱스
+				                        row += '<div class=Lv4_'+ a + '_' + b +'>' + Lv4List[a][b] + '</div>';
+				                    }
+				                }
+				            }
+				            row += '</td>';
 
-			    
+				            row += '<td>';  // 일곱 번째 열 시작 (짝수 인덱스 데이터를 출력하는 열)
+				            for (let a = 0; a < Lv4List.length; a++) {
+				                for (let b = 0; b < Lv4List[a].length; b++) {
+				                    if (b % 2 === 0) {  // 짝수 인덱스
+				                        row += '<select>';
+				                        const options = ['권한없음','입력/수정/조회', '수정/조회', '조회'];
+				                        options.forEach(function(option) {
+				                        		row += '<option value="' + option +','+ Lv4List[a][b] + '">' + option + '</option>';
+				                        });
+				                        row += '</select>';
+				                    }
+				                }
+				            }
+				            row += '</td>';
+
+			            row += '</tr>';
+			        	
+			        tableBody.append(row);
+					
+		            for(let a = 0 ; a < Lv4List.length ; a++){
+		            	console.log('a값: ' + a);
+		            	let lv4DivCount = 0;
+		            	const Lv4Pattern = new RegExp(`class=Lv4_${ "${a}" }`, 'g');
+		            	lv4DivCount = (row.match(Lv4Pattern) || []).length;
+		            	console.log('Lv4_'+a+'으로 시작하는 <div>의 개수:', lv4DivCount);
+		            	if(lv4DivCount){
+		            		let lv3DivCount = 0;
+		            		const Lv3Pattenr = new RegExp(`class=Lv3_${ "${a}" }`, 'g');;
+		            		lv3DivCount = (row.match(Lv3Pattenr) || []).length; 
+		            		console.log('Lv3_'+a+'으로 시작하는 <div>의 개수:', lv3DivCount);
+		            		
+		            		for (let i = 0; i < lv3DivCount; i++) {
+		                        // 각 Lv3 div의 고유한 클래스명을 만듦
+		                        const lv3DivClassName = `Lv3_${ "${a}" }`;
+		                        console.log(`Lv3_${ "${a}" }`);
+		                        const newHeight = (lv4DivCount * 35) + 'px';
+		                        $(`.Lv3_${"${a}"}`).css('height', newHeight);
+		                        console.log(lv3DivClassName + '의 높이 : ' + newHeight);
+		                        console.log('END');
+		                    }
+		            	}
+		            }
+		            
+		            console.log('Lv3List의 길이 : ' + Lv3List[0].length);
+		            console.log('Lv3List의 길이 : ' + Lv3List[1].length);
+		            console.log('Lv3List의 길이 : ', Lv3List.length);
+		            
+		            for(let b = 0 ; b < Lv3List.length ; b++){
+		            	let combinedArray = [].concat(...Lv3List); // 통합된 배열
+		            	console.log('통합된 배열의 길이 : ' + combinedArray.length);
+		            	console.log('통합된 배열', combinedArray);
+		            	console.log(Lv3List[b]);
+		            	console.log(Lv2Value[b]);
+		            	
+		            	let SearchLv2Value = Lv2Value[b];
+		            	let NewDivHeight = 0;
+		            	let DelCt = 0;
+		            	if(SearchLv2Value && b === 0){
+		            		for(let c = 0 ; c < Lv3List[b].length ; c++){
+		            			let SearchLv3Value = combinedArray[c];
+		            			const LookingLv3Div = new RegExp(`${ "${SearchLv3Value}" }`, 'g');
+		            			let result = row.match(LookingLv3Div);
+		            			console.log('result : ' + result);
+		            			console.log('SearchLv3Value : ' + SearchLv3Value);
+		            			if(result){ // 실재로 SearchLv3Value에 저장된 데이터를 갖는 <div>가 있는지 확인
+		            				let divElement = document.querySelector(`.Lv3_${ "${c}" }`);
+		            				console.log('divElement : ', divElement);
+		            				let divHeight = divElement.style.height;
+		            				let Lv2Height = parseInt(divHeight);
+		            				NewDivHeight += Lv2Height;
+		            			}
+		            		}
+		            	} else { // b가 0이 아닌 경우 예 -> b = 1
+		            		 
+		            		for(let p = 0 ; p < b ; p++){ // combinedArray에서 사용된 값들을 삭제하는 과정
+		            			let UsedCount = Lv3List[p].length;
+		            			console.log('UsedCount : ' + UsedCount);
+		            			for(let q = 0 ; q < UsedCount ; q++){
+		            				let UsedValue = combinedArray[0];
+		            				console.log('UsedValue : ' + UsedValue);
+		            				let DeleteEle = combinedArray.indexOf(UsedValue);
+		            				if(DeleteEle > -1){
+		            					combinedArray.splice(DeleteEle, 1);
+		            					DelCt++;
+		            				} 
+		            			}
+		            		}// combinedArray에서 사용된 값들을 삭제하는 과정
+		            		 
+		            		console.log(DelCt);
+		            		for(let c = 0 ; c < Lv3List[b].length ; c++){
+		            			let SearchLv3Value = combinedArray[c];
+		            			const LookingLv3Div = new RegExp(`${ "${SearchLv3Value}" }`, 'g');
+		            			let result = row.match(LookingLv3Div);
+		            			console.log('result : ' + result);
+		            			console.log('SearchLv3Value : ' + SearchLv3Value);
+		            			if(result){ // 실재로 SearchLv3Value에 저장된 데이터를 갖는 <div>가 있는지 확인
+		            				let divElement = document.querySelector(`.Lv3_${ "${DelCt}" }`);  
+		            				console.log('divElement : ', divElement);
+		            				let divHeight = divElement.style.height;
+		            				let Lv2Height = parseInt(divHeight);
+		            				NewDivHeight += Lv2Height;
+		            				DelCt ++;
+		            			}
+		            		}
+		            		
+		            	}
+	            		console.log('NewDivHeight : ' + NewDivHeight);
+	            		$(`.Lv2_${"${b}"}`).css('height', NewDivHeight);
+		            }
+			    });
 			}
 		});
 	});
@@ -286,13 +459,13 @@ $(document).ready(function(){
 		<div class="UInfiInputArea">
 			<div class="UserInfo">
 				<label>사용자 아이디 :</label> 
-				<input type="text" class="UserId MainInfo" name="UserId" value="<%=id %>" readonly>
-				<input type="text" class="UserName SubInfo" name="UserName" value="<%=name %>" readonly>
+				<input type="text" class="UserId MainInfo KeyValue" name="UserId" value="<%=id %>" readonly>
+				<input type="text" class="UserName SubInfo KeyValue" name="UserName" value="<%=name %>" readonly>
 				<input type="text" class="UserComCode" name="UserComCode" value="<%=ComCode %>" hidden>
 			</div>
 			<div class="UserInfo">
 				<label>수행 직무 :</label> 
-				<select class="UserDuty" name="UserDuty">
+				<select class="UserDuty KeyValue" name="UserDuty">
 					<option>없음</option>
 					<%
 					try{
@@ -309,7 +482,7 @@ $(document).ready(function(){
 					}
 					%>
 				</select>
-				<input type="text" class="UserDutyDes" name="UserDutyDes" checked>
+				<input type="text" class="UserDutyDes KeyValue" name="UserDutyDes" checked>
 			</div>
 			<div class="UserInfo">
 				<label>권한부여 조직구분 :</label> 
@@ -328,6 +501,13 @@ $(document).ready(function(){
 			</div>
 		</div>
 	</div>
+	
+	<div class="ButtonArea">
+		<button class="Save">저장</button>
+		<button class="AddDute">직무추가</button>
+		<button class="AccessRequest">권한신청</button>
+	</div>
+	
 	<div class="AccessInfoArea">
 		<table class="AccessTable">
 			<thead class="AccessTable_Head">

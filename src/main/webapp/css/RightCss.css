@@ -54,7 +54,7 @@
     border: 2px solid #6FA7EB; /* <-- rgb(111,167,235)의 생상 코드 */
     width: 80%;
     height: 67vh;
-    margin: 3% 0% 0% 10%;
+    margin: 1% 0% 0% 10%;
 	}
 	.AccessTable{
 	border-collapse: collapse;
@@ -107,32 +107,52 @@
     width: 100%;
     table-layout: fixed;
     }
-.AccessTable .AccessTable_Body td {
-    border: 1px solid #ddd;
-    width: 14.28%;
-    text-align: center;
-    font-size: small;
-    vertical-align: top;  /* 상단 정렬 */
-    overflow: hidden;  /* 내용이 넘칠 경우 숨김 */
-    position: relative;
+	.AccessTable .AccessTable_Body td {
+	    border: 1px solid #ddd;
+	    width: 14.28%;
+	    text-align: center;
+	    font-size: small;
+	    vertical-align: top;  /* 상단 정렬 */
+	    overflow: hidden;  /* 내용이 넘칠 경우 숨김 */
+	    position: relative;
+	}
+	
+	.AccessTable_Body td div {
+	    border: 1px solid #ddd;
+	    padding: 8px;
+	    font-size: small;
+	    box-sizing: border-box;
+	    max-height: 100%;  /* 최대 높이 고정 */
+	    overflow: auto;  /* 스크롤 생성 */
+	}
+	
+	.AccessTable_Body td select {
+	    width: 97%;
+	    height: auto;
+	    border: 1px solid #ddd;
+	    padding: 8px;
+	    text-align: center;
+	}
+	
+	.ButtonArea {
+    display: flex;
+    flex-direction: row;
+    margin: 1% 0% 0% 76.6%;
+	}
+	.ButtonArea button {
+	    width: 100px;
+	    text-align: center;
+	    padding: 5px;
+	    background-color: #1F4E79;
+	    color: white;
+	    border: 1px solid #1F4E79;
+	    margin-right: 20px;
+	    border-radius: 5px;
+	}
+	.ButtonArea button:hover {
+    background: #0068ff;
+    color: #fff;
+    border: 1px solid #0068ff;
 }
-
-.AccessTable_Body td div {
-    border: 1px solid #ddd;
-    padding: 8px;
-    font-size: small;
-    box-sizing: border-box;
-    max-height: 100%;  /* 최대 높이 고정 */
-    overflow: auto;  /* 스크롤 생성 */
-}
-
-.AccessTable_Body td select {
-    width: 97%;
-    height: auto;
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-}
-
 }
 	
