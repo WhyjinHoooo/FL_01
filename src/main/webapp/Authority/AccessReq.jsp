@@ -106,6 +106,7 @@ $(document).ready(function(){
 			   
 			    response.forEach(function(data){
 			        let row = '<tr>' +
+			        	'<td hidden>' + Value + '</td>' +
 			            '<td>' + data.RnRCode + '</td>' +
 			            '<td>' + data.RnRDescp + '</td>' +
 			            '<td>' + data.UiGroupDescrip + '</td>';
@@ -266,20 +267,31 @@ $(document).ready(function(){
 			    });
 			}
 		});
-		/* AddDuteClickCount++; */
 	});
 	
 	var SaveBtnCount = 0;
 	$('.SaveBtn').click(function(){
+		var TempSaveList = [];
+		
+		var UserId = $('.UserId').val(); // 사용자의 아이디
+		var UserName = $('.UserName').val(); // 사용자의 이름
+		var UserCoCd = $('.UserComCode').val(); // 사용자가 속한 회사코드
+		 
+		$('.KeyValue').each(function(){
+			var name = $(this).attr("name");
+			var Value = $(this).val();
+			TempSaveList[name] = Value;
+		})
 		
 		$('.AccessTable_Body tr').each(function() {
 	        // 시스템 코드, 직무명 가져오기
 	        var systemCode = $(this).find('td:eq(0)').text().trim();  // 시스템 직무코드
 	        var dutyName = $(this).find('td:eq(1)').text().trim();    // 직무명
-
+	        
+	        console.log(systemCode);
+	        console.log(dutyName);
 	         // <div>에서 텍스트 가져오기
-	        var lvTextArray = [];
-	        var lvSelectArray = [];
+	        
 
 	        // select 요소들을 가져와 선택된 값 저장
 	        $(this).find('td:eq(6)').find('select').each(function(index) {
@@ -287,10 +299,10 @@ $(document).ready(function(){
 	            var selectedValue02 = $(this).val().split(",")[1];
 	            if (selectedValue01 !== '권한없음') {
 	            	console.log('<select>의 순번 : ', index);
-	            	console.log(selectedValue01);
-	            	console.log(selectedValue02);
+	            	console.log(selectedValue01); // 사용자가 신청한 권한
+	            	console.log(selectedValue02); // 권한 코드
 	            	
-	            	var DivText = $(this).closest('tr').find('td:eq(5) div').eq(index).text().trim();
+	            	var DivText = $(this).closest('tr').find('td:eq(5) div').eq(index).text().trim(); // 권한 이름
 	            	console.log(DivText);
 	            }
 	        });
@@ -300,15 +312,20 @@ $(document).ready(function(){
 	});
 	
 	$('.AddDute').click(function() {
-	    // 직무추가 버튼 클릭 시 동작
-	    /* console.log('SaveBtnCount : ' + SaveBtnCount);
-	    console.log('AddDuteClickCount : ' + AddDuteClickCount);
-	    if(AddDuteClickCount != SaveBtnCount){
-	    	alert('저장을 한 후 직무추가를 해주세요.');
-	    	return false;
-	    }
-	    AddDuteClickCount++; */
-	    var SysDute = $('.UserDuty').val().split(",")[0];
+		
+		var BizAreaVal = $('.BizAreaCode').val();
+		var BizAreaGroVal = $('.BizAreaGroCode').val();
+		var Value = null;
+		
+		if(BizAreaVal == null || BizAreaVal == ''){
+			Value = BizAreaGroVal;
+			console.log('BizAreaGroVal : ' + Value);
+		} else{
+			Value = BizAreaVal;
+			console.log('BizAreaVal : ' + Value);
+		}
+		
+		var SysDute = $('.UserDuty').val().split(",")[0];
 	    
 	    $.ajax({
 			url: '${contextPath}/Authority/SysDuteExpose.jsp',
@@ -320,6 +337,7 @@ $(document).ready(function(){
 			   
 			    response.forEach(function(data){
 			        let row = '<tr>' +
+			        	'<td hidden>' + Value + '</td>' +
 			            '<td>' + data.RnRCode + '</td>' +
 			            '<td>' + data.RnRDescp + '</td>' +
 			            '<td>' + data.UiGroupDescrip + '</td>';
@@ -354,9 +372,6 @@ $(document).ready(function(){
 				            	Lv4List.push(data[Lv3Value[j]]);
 				            	Lv4KeyMap.push(Lv3Value[j]);  // Lv3Value에서 사용된 키 값을 Lv4KeyMap에 저장
 				            }
-				            /* console.log('Lv4List의 길이 : '+ Lv4List.length);
-				            console.log('Lv4List 01 : '+ Lv4List);
-				            console.log('Lv4List 02 : '+ Lv4KeyMap); */
 				            
 				            row += '<td>';  // 여섯 번째 열 시작 (홀수 인덱스 데이터를 출력하는 열)
 				            for (let a = 0; a < Lv4List.length; a++) {
@@ -391,35 +406,22 @@ $(document).ready(function(){
 		            	let lv4DivCount = 0;
 		            	const Lv4Pattern = new RegExp(`class=Lv4_${ "${a}" }`, 'g');
 		            	lv4DivCount = (row.match(Lv4Pattern) || []).length;
-		            	/* console.log('Lv4_'+a+'으로 시작하는 <div>의 개수:', lv4DivCount); */
 		            	if(lv4DivCount){
 		            		let lv3DivCount = 0;
 		            		const Lv3Pattenr = new RegExp(`class=Lv3_${ "${a}" }`, 'g');;
-		            		lv3DivCount = (row.match(Lv3Pattenr) || []).length; 
-		            		/* console.log('Lv3_'+a+'으로 시작하는 <div>의 개수:', lv3DivCount); */
+		            		lv3DivCount = (row.match(Lv3Pattenr) || []).length;
 		            		
 		            		for (let i = 0; i < lv3DivCount; i++) {
 		                        // 각 Lv3 div의 고유한 클래스명을 만듦
 		                        const lv3DivClassName = `Lv3_${ "${a}" }`;
-		                        /* console.log(`Lv3_${ "${a}" }`); */
 		                        const newHeight = (lv4DivCount * 35) + 'px';
 		                        $(`.Lv3_${"${a}"}`).css('height', newHeight);
-		                        /* console.log(lv3DivClassName + '의 높이 : ' + newHeight);
-		                        console.log('END'); */
 		                    }
 		            	}
 		            }
 		            
-		            /* console.log('Lv3List의 길이 : ' + Lv3List[0].length);
-		            console.log('Lv3List의 길이 : ' + Lv3List[1].length);
-		            console.log('Lv3List의 길이 : ', Lv3List.length); */
-		            
 		            for(let b = 0 ; b < Lv3List.length ; b++){
 		            	let combinedArray = [].concat(...Lv3List); // 통합된 배열
-		            	/* console.log('통합된 배열의 길이 : ' + combinedArray.length);
-		            	console.log('통합된 배열', combinedArray);
-		            	console.log(Lv3List[b]);
-		            	console.log(Lv2Value[b]); */
 		            	
 		            	let SearchLv2Value = Lv2Value[b];
 		            	let NewDivHeight = 0;
@@ -429,11 +431,8 @@ $(document).ready(function(){
 		            			let SearchLv3Value = combinedArray[c];
 		            			const LookingLv3Div = new RegExp(`${ "${SearchLv3Value}" }`, 'g');
 		            			let result = row.match(LookingLv3Div);
-		            			/* console.log('result : ' + result);
-		            			console.log('SearchLv3Value : ' + SearchLv3Value); */
 		            			if(result){ // 실재로 SearchLv3Value에 저장된 데이터를 갖는 <div>가 있는지 확인
 		            				let divElement = document.querySelector(`.Lv3_${ "${c}" }`);
-		            				/* console.log('divElement : ', divElement); */
 		            				let divHeight = divElement.style.height;
 		            				let Lv2Height = parseInt(divHeight);
 		            				NewDivHeight += Lv2Height;
@@ -443,10 +442,8 @@ $(document).ready(function(){
 		            		 
 		            		for(let p = 0 ; p < b ; p++){ // combinedArray에서 사용된 값들을 삭제하는 과정
 		            			let UsedCount = Lv3List[p].length;
-		            			/* console.log('UsedCount : ' + UsedCount); */
 		            			for(let q = 0 ; q < UsedCount ; q++){
 		            				let UsedValue = combinedArray[0];
-		            				/* console.log('UsedValue : ' + UsedValue); */
 		            				let DeleteEle = combinedArray.indexOf(UsedValue);
 		            				if(DeleteEle > -1){
 		            					combinedArray.splice(DeleteEle, 1);
@@ -460,11 +457,8 @@ $(document).ready(function(){
 		            			let SearchLv3Value = combinedArray[c];
 		            			const LookingLv3Div = new RegExp(`${ "${SearchLv3Value}" }`, 'g');
 		            			let result = row.match(LookingLv3Div);
-		            			/* console.log('result : ' + result);
-		            			console.log('SearchLv3Value : ' + SearchLv3Value); */
 		            			if(result){ // 실재로 SearchLv3Value에 저장된 데이터를 갖는 <div>가 있는지 확인
-		            				let divElement = document.querySelector(`.Lv3_${ "${DelCt}" }`);  
-		            				/* console.log('divElement : ', divElement); */
+		            				let divElement = document.querySelector(`.Lv3_${ "${DelCt}" }`);
 		            				let divHeight = divElement.style.height;
 		            				let Lv2Height = parseInt(divHeight);
 		            				NewDivHeight += Lv2Height;
@@ -473,14 +467,13 @@ $(document).ready(function(){
 		            		}
 		            		
 		            	}
-	            		/* console.log('NewDivHeight : ' + NewDivHeight); */
 	            		$(`.Lv2_${"${b}"}`).css('height', NewDivHeight);
 		            }
 			    });
 			}
 		});
-	}); // $('.AddDute').click(function() {...}의 끝
-			
+	});
+	
 })
 </script>
 <title>Insert title here</title>
@@ -498,11 +491,11 @@ $(document).ready(function(){
 				<label>사용자 아이디 :</label> 
 				<input type="text" class="UserId MainInfo KeyValue" name="UserId" value="<%=id %>" readonly>
 				<input type="text" class="UserName SubInfo KeyValue" name="UserName" value="<%=name %>" readonly>
-				<input type="text" class="UserComCode" name="UserComCode" value="<%=ComCode %>" hidden>
+				<input type="text" class="UserComCode KeyValue" name="UserComCode" value="<%=ComCode %>" hidden>
 			</div>
 			<div class="UserInfo">
 				<label>수행 직무 :</label> 
-				<select class="UserDuty KeyValue" name="UserDuty">
+				<select class="UserDuty" name="UserDuty">
 					<option>없음</option>
 					<%
 					try{
@@ -519,7 +512,7 @@ $(document).ready(function(){
 					}
 					%>
 				</select>
-				<input type="text" class="UserDutyDes KeyValue" name="UserDutyDes" checked>
+				<input type="text" class="UserDutyDes" name="UserDutyDes" checked>
 			</div>
 			<div class="UserInfo">
 				<label>권한부여 조직구분 :</label> 

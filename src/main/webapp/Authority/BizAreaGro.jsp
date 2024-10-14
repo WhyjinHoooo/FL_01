@@ -17,7 +17,7 @@
 	     <table class="">
 	     	<thead>
 		        <tr>
-		            <th>회사 코드</th><th>회사 이름</th>
+		            <th>사업영역 그룹(코드)</th><th>사업영역 그룹</th>
 		        </tr>
 	        </thead>
 	        <tbody>
