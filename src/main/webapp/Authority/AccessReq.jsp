@@ -268,47 +268,61 @@ $(document).ready(function(){
 			}
 		});
 	});
-	
-	var SaveBtnCount = 0;
+	var CountNumber = 1;
 	$('.SaveBtn').click(function(){
 		var TempSaveList = [];
 		
 		var UserId = $('.UserId').val(); // 사용자의 아이디
 		var UserName = $('.UserName').val(); // 사용자의 이름
 		var UserCoCd = $('.UserComCode').val(); // 사용자가 속한 회사코드
-		 
-		$('.KeyValue').each(function(){
-			var name = $(this).attr("name");
-			var Value = $(this).val();
-			TempSaveList[name] = Value;
-		})
 		
+		let UserInfo = [UserId, UserName, UserCoCd];
+		
+		TempSaveList['0'] = UserInfo;
 		$('.AccessTable_Body tr').each(function() {
 	        // 시스템 코드, 직무명 가져오기
-	        var systemCode = $(this).find('td:eq(0)').text().trim();  // 시스템 직무코드
-	        var dutyName = $(this).find('td:eq(1)').text().trim();    // 직무명
+	        var UserGroupCode = $(this).find('td:eq(0)').text().trim();  // BizArea 또는 BizAreaGroup의 코드
+	        var SysDutyCode = $(this).find('td:eq(1)').text().trim();    // 시스템 직무코드
+	        var SysDutyName = $(this).find('td:eq(2)').text().trim();    // 시스템 직무명
 	        
-	        console.log(systemCode);
-	        console.log(dutyName);
+	        console.log(UserGroupCode);
+	        console.log(SysDutyCode);
+	        console.log(SysDutyName);
 	         // <div>에서 텍스트 가져오기
 	        
-
-	        // select 요소들을 가져와 선택된 값 저장
-	        $(this).find('td:eq(6)').find('select').each(function(index) {
+	         // select 요소들을 가져와 선택된 값 저장
+	        $(this).find('td:eq(7)').find('select').each(function(index) {
+	        	
 	            var selectedValue01 = $(this).val().split(",")[0];
 	            var selectedValue02 = $(this).val().split(",")[1];
 	            if (selectedValue01 !== '권한없음') {
+	            	
 	            	console.log('<select>의 순번 : ', index);
 	            	console.log(selectedValue01); // 사용자가 신청한 권한
 	            	console.log(selectedValue02); // 권한 코드
 	            	
-	            	var DivText = $(this).closest('tr').find('td:eq(5) div').eq(index).text().trim(); // 권한 이름
+	            	var DivText = $(this).closest('tr').find('td:eq(6) div').eq(index).text().trim(); // 화면번호에 해당하는 이름
 	            	console.log(DivText);
+	            	let AuthRequest = [UserGroupCode, SysDutyCode, SysDutyName, selectedValue01, selectedValue02, DivText];
+		            TempSaveList[CountNumber] = AuthRequest;
+		            CountNumber++;
 	            }
+	            
 	        });
-			SaveBtnCount++;
-			console.log(SaveBtnCount);
+	         
 	    });
+		console.log(TempSaveList);
+		$.ajax({
+			url: '${contextPath}/Authority/TempSavePage.jsp',
+			type: 'POST',
+			data: JSON.stringify(TempSaveList),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			async: false,
+			success: function(data){
+				
+			}
+		})
 	});
 	
 	$('.AddDute').click(function() {
