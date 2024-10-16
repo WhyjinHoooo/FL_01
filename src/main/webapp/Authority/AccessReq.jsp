@@ -268,9 +268,10 @@ $(document).ready(function(){
 			}
 		});
 	});
-	var CountNumber = 1;
+
 	$('.SaveBtn').click(function(){
 		var TempSaveList = [];
+		var CountNumber = 1;
 		
 		var UserId = $('.UserId').val(); // 사용자의 아이디
 		var UserName = $('.UserName').val(); // 사용자의 이름
@@ -319,8 +320,13 @@ $(document).ready(function(){
 			contentType: 'application/json; charset=utf-8',
 			dataType: 'json',
 			async: false,
-			success: function(data){
-				
+			success: function(response){
+				console.log(response);
+				console.log(response.status);
+				if(response.status == "success"){
+					alert('저장되었습니다.');
+				}
+				TempSaveList = [];
 			}
 		})
 	});
@@ -486,6 +492,14 @@ $(document).ready(function(){
 			    });
 			}
 		});
+	});
+	$('.AccessRequest').click(function() {
+		$.ajax({
+			url: '${contextPath}/Authority/ApplicationPage.jsp',
+			type: 'POST',
+			success: function(response){
+			}
+		})
 	});
 	
 })

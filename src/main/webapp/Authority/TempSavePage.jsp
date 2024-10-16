@@ -24,6 +24,7 @@
 	JSONParser parser = new JSONParser();
 	JSONArray CombinedData = (JSONArray) parser.parse(jsonData);
 	
+	System.out.println(CombinedData);
 	System.out.println(CombinedData.size());
 	String TempSaveSql = "INSERT INTO `dataadminkeytemptable` (" +
 		    "`UseriD`, " +
@@ -42,15 +43,63 @@
 		    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	PreparedStatement TempSavePstmt = conn.prepareStatement(TempSaveSql);
 	try{
-		for(int i = 0 ; i < CombinedData.size() ; i++){
-			if(i == 0){
-				JSONArray UserData = (JSONArray) CombinedData.get(i);
-				TempSavePstmt.setString(1, (String) UserData.get(0));
-				TempSavePstmt.setString(2, (String) UserData.get(1));
-				TempSavePstmt.setString(9, (String) UserData.get(2));
+		JSONArray UserData = (JSONArray) CombinedData.get(0); // 사용자의 기본 정보 - 아이디, 이름, 소속 기업 코드
+		TempSavePstmt.setString(1, (String) UserData.get(0));
+		TempSavePstmt.setString(2, (String) UserData.get(1));
+		TempSavePstmt.setString(9, (String) UserData.get(2));
+		for(int i = 1 ; i < CombinedData.size() ; i++){
+			JSONArray DuteDate = (JSONArray) CombinedData.get(i);
+			
+			String DupCheckSql = "SELECT * FROM dataadminkeytemptable WHERE UiNumber = ?";
+			PreparedStatement DupCheckPstmt = conn.prepareStatement(DupCheckSql);
+			DupCheckPstmt.setString(1, (String) DuteDate.get(4));
+			ResultSet DupCheckRs = DupCheckPstmt.executeQuery();
+			System.out.println((String) DuteDate.get(4));
+			System.out.println("잉잉잉");
+			if(!DupCheckRs.next()){
+				System.out.println(UserData);
+				TempSavePstmt.setString(7, (String) DuteDate.get(0));
+				TempSavePstmt.setString(3, (String) DuteDate.get(1));
+				TempSavePstmt.setString(4, (String) DuteDate.get(2));
+				TempSavePstmt.setString(5, (String) DuteDate.get(4));
+				switch((String) DuteDate.get(3)){
+					case "입력/수정/조회":
+						TempSavePstmt.setInt(8, 1);
+						break;
+					case "수정/조회":
+						TempSavePstmt.setInt(8, 2);
+						break;
+					case "조회":
+						TempSavePstmt.setInt(8, 3);
+						break;
+					default:
+						TempSavePstmt.setInt(8, 4);
+						break;
+						
+				}
+				TempSavePstmt.setString(6, (String) DuteDate.get(5));
+				
+				String CreateDateSql = "SELECT * FROM sys_uinum WHERE UiNumber = ?";
+				PreparedStatement CreateDatePstmt = conn.prepareStatement(CreateDateSql);
+				CreateDatePstmt.setString(1, (String) DuteDate.get(4));
+				ResultSet rs = CreateDatePstmt.executeQuery();
+				if(rs.next()){
+					TempSavePstmt.setString(10, rs.getString("CreateDate"));
+					TempSavePstmt.setString(11, rs.getString("Creator"));
+				}
+				TempSavePstmt.setString(12, 
+						(String) UserData.get(2) + (String) UserData.get(0) + (String) DuteDate.get(1) + (String) DuteDate.get(4) + (String) DuteDate.get(0)
+						);
+				
+				TempSavePstmt.executeUpdate();
 			}
 		}
+		response.setContentType("application/json; charset=utf-8");
+		JSONObject jsonResponse = new JSONObject();
+		jsonResponse.put("status", "success");
+		out.print(jsonResponse.toJSONString());
+		
 	}catch(SQLException e){
 		e.printStackTrace();
-	} 
+	}
 %>
