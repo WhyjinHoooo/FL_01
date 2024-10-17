@@ -66,8 +66,6 @@
 			    }
 				if(response.trim() === 'NOPE'){
 					window.open("${contextPath}/Authority/AccessReq.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-				} else {
-					window.open("https://www.youtube.com/", "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 				}
 			}
 		})

@@ -69,7 +69,7 @@ body#MyPEdit {
 }
 .logo_V1{
 	width: 45%;
-    margin: 10px 0px 0px 25.5%;
+    margin: 10px 0px 0px 18%;
 }
 
 .member-container {
@@ -80,6 +80,77 @@ body#MyPEdit {
   height: 1000px;
   margin: 40px;
 }
+.container_V1 .member-container{
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 430px;
+    height: 1000px;
+    margin: 40px 40px 40px 60px;
+}
+
+.testPart{
+	display: flex;
+}
+
+	.SideMenuBar {
+		/* border: 1px solid rgb(111,167,235); */ /* 기존의 테두리 스타일 유지 */
+		/* width: 7.5%; 폭을 100px로 설정 */
+		max-height: 100vh;
+		overflow-y: auto;
+	}
+	.SideMenuBar::-webkit-scrollbar {
+		display: none;
+	}
+	.SideMenuBar li {
+		list-style: none;
+	}
+	.SideMenuBar input {
+		text-decoration: none;
+		font-size: 14px;
+	}
+	.SideMenuBar .menu {
+		width: 200px;
+		overflow: hidden;
+		margin: 10px auto;
+		padding: 0;
+	}
+	.SideMenuBar .menu > li {
+		width: 100%;
+		text-align: center;
+		line-height: 40px;
+		background-color: #5778ff;
+	}
+	.SideMenuBar .menu > li > button {
+		background: none;      /* 배경 제거 */
+	    border: none;          /* 테두리 제거 */
+	    color: white;        /* 부모 요소의 텍스트 색상 상속 */
+	    font: inherit;         /* 부모 요소의 폰트 속성 상속 */
+	    cursor: pointer;       /* 커서 모양을 포인터로 변경 */
+	    padding: 0;            /* 기본 패딩 제거 */
+	    margin: 0;             /* 기본 마진 제거 */
+	    text-align: left;      /* 텍스트 정렬 (원하는 대로 변경 가능) */
+	}
+	.SideMenuBar .menu > li > button:focus {
+		outline: 0; /* 버튼 클릭 시, 테두리 삭제 */
+	}
+	.SideMenuBar .menu input {
+		color: #fff;
+	}
+	.SideMenuBar .menu > li:hover {
+		background-color: #94a9ff;
+		transition-duration: 0.5s;
+	}
+	.SideMenuBar .menu > li:hover{
+		max-height: 1000px; /* 충분히 큰 값으로 설정 */
+		transition-duration: 1s;
+	}
+	.SideMenuBar .menu > li.fixed {
+		max-height: 1000px; /* 서브메뉴가 항상 보이도록 설정 */
+	}
+	.SideMenuBar .menu > li.fixed {
+		background-color: rgb(163, 204, 163);/*  #94a9ff; */
+	}
 
 .header {
   width: 466px;

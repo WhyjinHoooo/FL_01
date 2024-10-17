@@ -9,7 +9,6 @@
 		/* border: 1px solid rgb(111,167,235); */ /* 기존의 테두리 스타일 유지 */
 		/* width: 7.5%; 폭을 100px로 설정 */
 		margin-right: 600px;
-		border-radius: 20px;
 		max-height: 100vh;
 		overflow-y: auto;
 	}

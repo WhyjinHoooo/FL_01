@@ -38,8 +38,7 @@
 				}
 			});
 	});
-</script>
-<script>
+
 	$(document).ready(function(){
 	    $('#checkbtn').click(function(event) {
 	        event.preventDefault(); // 이벤트 기본 동작(페이지 이동 등)을 취소합니다.
@@ -94,8 +93,7 @@
             }
         }).open();
     }
-</script>
-<script>
+
 	function emptyCheck(){
 		
 		var UName = document.Editform.UserName.value;
@@ -157,6 +155,34 @@
 			return true;
 		}
 	}
+
+    function OpenPopup() {
+    	event.preventDefault();
+    	var popupWidth = 2514;
+	    var popupHeight = 1054;
+
+	    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+	    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
+	    
+	    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+	    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+	    var xPos, yPos;
+		
+	    if (width == 2560 && height == 1440) {
+	        xPos = (2560 / 2) - (popupWidth / 2);
+	        yPos = (1440 / 2) - (popupHeight / 2);
+	    } else if (width == 1920 && height == 1080) {
+	        xPos = (1920 / 2) - (popupWidth / 2);
+	        yPos = (1080 / 2) - (popupHeight / 2);
+	    } else {
+	        var monitorWidth = 2560;
+	        var monitorHeight = 1440;
+	        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+	        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+	    }
+	    
+        window.open('${contextPath}/Basic/EditAccessReq.jsp', 'popupWindow', "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    }
 </script>
 </head>
 <body id="MyPEdit">
@@ -210,7 +236,7 @@
 		EId = UserId; // 사용자 아이디
 		EPw = Ers.getString("PW"); //사용자 비밀번호
 		
-		String[] Number = Ers.getString("IdCard").split("-"); // 사용자 주민등록번호
+		String[] Number = Ers.getString("Jumin").split("-"); // 사용자 주민등록번호
 		EIdF = Number[0]; // 주민등록번호 앞자리
 		EIdE = Number[1]; // 주민등록번호 뒷자리
 		
@@ -241,12 +267,18 @@
 		
 	}
 %>
-<div class="testPart">
+
 	<div class="headPart">
 		<jsp:include page="../HeaderTest.jsp"></jsp:include>
 	</div>
+<div class="testPart">
+	<div class="SideMenuBar">
+		<ul class="menu">
+			<li><button onclick="OpenPopup()">사용자 권한</button></li>
+		</ul>
+	</div>
 	<img class="logo_V1" id="logo_V1" name="Logo" src="${contextPath}/img/Logo.png" alt="">
-	<div class=" container_V1">
+	<div class="container_V1">
 			<div class="member-container">
 				<form class="user-info" name="Editform" id="Editform" method="POST" onSubmit="return emptyCheck()" action="editedOk.jsp" enctype="UTF-8">
 					<div class="Cate">Name</div>
