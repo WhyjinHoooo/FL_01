@@ -1,3 +1,4 @@
+<%@page import="java.sql.SQLException"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDateTime"%>
 <%@page import="java.awt.print.PrinterException"%>
@@ -30,6 +31,12 @@ $(document).ready(function(){
 			$('input[name="Emp_id"]').val($.trim(response));
 		}
 	})
+	$('.UserDutyCode').change(function(){
+		var testValue = $(this).val();
+		console.log(testValue);
+		var Des = testValue.split(",");
+		$('.UserDutyDes').val(Des[1]);
+	});
 })
 window.addEventListener('DOMContentLoaded', (event) => {
     const comCodeInput = document.querySelector('.ComCode');
@@ -246,10 +253,35 @@ function execDaumPostcode() {
 						
 						<tr><th class="info">주민등록번호 : </th>
 							<td class="input-info">
-								<input type="text" name="Jumin_1st" size="11">
-								<input type="text" name="Jumin_2nd" size="11">
+								<input type="text" class="Jumin_1st" name="Jumin_1st">
+								<input type="text" class="Jumin_2nd" name="Jumin_2nd">
 							</td>
 						</tr>	
+						
+						<tr class="spacer-row"></tr>
+						
+						<tr><th class="info">수행직무 : </th>
+							<td class="input-info">
+								<select type="text" class="UserDutyCode" name="UserDutyCode">
+								<option>SELECT</option>
+								<%
+									try{
+										String sql = "SELECT * FROM sys_dute";
+										PreparedStatement pstmt = conn.prepareStatement(sql);
+										ResultSet rs = pstmt.executeQuery();
+										while(rs.next()){
+								%>
+									<option value="<%=rs.getString("RnRCode")%>,<%=rs.getString("RnRDescp")%>"><%=rs.getString("RnRCode")%></option>
+								<%
+										}
+									}catch(SQLException e){
+										e.printStackTrace();
+									}
+								%>
+								</select>
+								<input type="text" class="UserDutyDes" name="UserDutyDes" readonly>
+							</td>
+						</tr>
 						
 						<tr class="spacer-row"></tr>
 						

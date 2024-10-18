@@ -1541,11 +1541,28 @@
 .emp-sub-info .today , .duty_Start{
 	width: 105px;
 }
-
-.emp-sub-info .ComCode, .duty_code , .title_Code{
+.emp-sub-info .join,
+.emp-sub-info #Birth{
+	width: 109px;
+	text-align: center;
+}
+.emp-sub-info .UserDutyCode{
+	width: 116px;
+	text-align: center;
+}
+.emp-sub-info .UserDutyDes{
+	width: 113px;
+	text-align: center;
+}
+.emp-sub-info .Jumin_1st,
+.emp-sub-info .Jumin_2nd{
+	width: 109px;
+}
+.emp-sub-info .ComCode,
+.emp-sub-info .duty_code ,
+.emp-sub-info .title_Code{
 	width: 105px;
 	text-align: center;
-	/* <input>하는 CSS */
 }
 .emp-sub-info .Com-Search img {
     width: 10px;

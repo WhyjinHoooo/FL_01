@@ -77,10 +77,17 @@
 	String Title = request.getParameter("title_Des");
 	String Title_Start = request.getParameter("promot");
 	
+	String UserDutylist = request.getParameter("UserDutyCode");
+	System.out.println(UserDutylist);
+	String[] UserDuty = null;
+	if(UserDutylist != null && !UserDutylist.isEmpty()){
+		UserDuty = UserDutylist.split(",");
+	}
+	
 	int id1 = 17011381;
 	int id2 = 76019202;
 	
-	String sql = "INSERT INTO emp VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	String sql = "INSERT INTO emp VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	
 	String OW_Reg_Sql = "INSERT INTO membership VALUES(?,?,?,?,?,?,?,?,?,?,?)";
@@ -95,33 +102,21 @@
 		pstmt.setString(6, CCName);
 		pstmt.setString(7, P_Code);
 		pstmt.setString(8, AddrDetail);
-		pstmt.setString(9, Birth);
-		pstmt.setInt(10, Jumin_1st);
-		pstmt.setInt(11, Jumin_2nd);
-		pstmt.setString(12, Join);
-		pstmt.setString(13, Retire);
-		pstmt.setString(14, Duty);
-		pstmt.setString(15, Duty_Start);
-		pstmt.setString(16, Title);
-		pstmt.setString(17, Title_Start);
-		pstmt.setString(18, Time);
-		pstmt.setInt(19, id1);
-		pstmt.setString(20, Time);
-		pstmt.setInt(21, id2);
+		pstmt.setString(9, UserDuty[0]);
+		pstmt.setString(10, Birth);
+		pstmt.setInt(11, Jumin_1st);
+		pstmt.setInt(12, Jumin_2nd);
+		pstmt.setString(13, Join);
+		pstmt.setString(14, Retire);
+		pstmt.setString(15, Duty);
+		pstmt.setString(16, Duty_Start);
+		pstmt.setString(17, Title);
+		pstmt.setString(18, Title_Start);
+		pstmt.setString(19, Time);
+		pstmt.setInt(20, id1);
+		pstmt.setString(21, Time);
+		pstmt.setInt(22, id2);
 		pstmt.executeUpdate();
-		
-		/* OW_Reg_Pstmt.setString(1, Id_Des);
-		OW_Reg_Pstmt.setString(2, ID);
-		OW_Reg_Pstmt.setString(3, "0000");
-		OW_Reg_Pstmt.setString(4, Jumin_1st + "-" + Jumin_2nd);
-		OW_Reg_Pstmt.setString(5, randomEmail);
-		OW_Reg_Pstmt.setString(6, Birth);
-		OW_Reg_Pstmt.setString(7, P_Code);
-		OW_Reg_Pstmt.setString(8, AddrDetail);
-		OW_Reg_Pstmt.setString(9, gender);
-		OW_Reg_Pstmt.setString(10, "000-0000-0000");
-		OW_Reg_Pstmt.setString(11, ComCode);
-		OW_Reg_Pstmt.executeUpdate(); */
 		
 		response.sendRedirect("Emp-regist.jsp");
 	}catch(SQLException e){

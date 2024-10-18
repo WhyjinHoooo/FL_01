@@ -45,8 +45,27 @@
 	
 	        // 여기에 추가적인 로직을 작성하거나 아무런 동작도 하지 않습니다.
 	    });
+	    
+	    var UserCOCT = $('.ComSelect').val();
+	    console.log(UserCOCT);
+	    if(UserCOCT){
+	    	$('.ComSelect').trigger('change');
+	    }
+	    
+	    $('.ComSelect').on('change',function(){
+			var SelectedComCode = $('.ComSelect').val();
+			console.log(SelectedComCode);
+			/* $.ajax({
+				url: '${contextPath}/Information/AjaxSet/CoCtList.jsp',
+				type: 'POST',
+				data: {SendWord : SelectedComCode},
+				success: function(response){
+					$('.CoCtSelect').html(response);
+				}
+			}); */
+		})
 	});
-    function sample6_execDaumPostcode() {
+    function execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -79,17 +98,17 @@
                         extraAddr = ' (' + extraAddr + ')';
                     }
                     // 조합된 참고항목을 해당 필드에 넣는다.
-                    document.getElementById("sample6_extraAddress").value = extraAddr;
+                    document.getElementById("Addr_extraAddress").value = extraAddr;
                 
                 } else {
-                    document.getElementById("sample6_extraAddress").value = '';
+                    document.getElementById("Addr_extraAddress").value = '';
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('sample6_postcode').value = data.zonecode;
-                document.getElementById("sample6_address").value = addr;
+                document.getElementById('Addr_postcode').value = data.zonecode;
+                document.getElementById("Addr_address").value = addr;
                 // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("sample6_detailAddress").focus();
+                document.getElementById("Addr_detailAddress").focus();
             }
         }).open();
     }
@@ -390,12 +409,12 @@
 		
 		          	<div class="Cate">Address</div>
 						
-						<input type="text" class="AddrCode" id="sample6_postcode" name="ZipCd" placeholder="우편번호" value='<%=EAddN%>'>
-						<input type="button" class="AddrCodeBtn" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+						<input type="text" class="AddrCode" id="Addr_postcode" name="ZipCd" placeholder="우편번호" value='<%=EAddN%>'>
+						<input type="button" class="AddrCodeBtn" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
 						
-						<input type="text" class="bottom-border" name="Addr" id="sample6_address" placeholder="주소" value='<%=EAddF%>'><br>	
-						<input type="text" class="bottom-border" name="AddrDetail" id="sample6_detailAddress" placeholder="상세주소" value='<%=EAddrM%>'>
-						<input type="text" class="bottom-border" name="AddrRefer" id="sample6_extraAddress" placeholder="참고항목" hidden>
+						<input type="text" class="bottom-border" name="Addr" id="Addr_address" placeholder="주소" value='<%=EAddF%>'><br>	
+						<input type="text" class="bottom-border" name="AddrDetail" id="Addr_detailAddress" placeholder="상세주소" value='<%=EAddrM%>'>
+						<input type="text" class="bottom-border" name="AddrRefer" id="Addr_extraAddress" placeholder="참고항목" hidden>
 						
 		          	<div class="Cate">Gender</div>
 		          	<%
@@ -442,7 +461,9 @@
 		        		}
 		        		%>
 		        	</select>
-		        	
+		        	<select class="CoCtSelect" name="CoCtSelect">
+        				<option>SELECT</option>
+        			</select>
 			        <div class="btn">
 						<button  type="submit" class="RegistBtn">가입하기</button>
 			        </div>
