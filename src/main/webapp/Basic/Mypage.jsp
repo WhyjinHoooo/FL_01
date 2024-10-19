@@ -48,22 +48,24 @@
 	    
 	    var UserCOCT = $('.ComSelect').val();
 	    console.log(UserCOCT);
-	    if(UserCOCT){
-	    	$('.ComSelect').trigger('change');
-	    }
+	    
 	    
 	    $('.ComSelect').on('change',function(){
 			var SelectedComCode = $('.ComSelect').val();
 			console.log(SelectedComCode);
-			/* $.ajax({
+			$.ajax({
 				url: '${contextPath}/Information/AjaxSet/CoCtList.jsp',
 				type: 'POST',
 				data: {SendWord : SelectedComCode},
 				success: function(response){
 					$('.CoCtSelect').html(response);
 				}
-			}); */
+			});
 		})
+		
+		if(UserCOCT){	
+	    	$('.ComSelect').trigger('change');
+	    }
 	});
     function execDaumPostcode() {
         new daum.Postcode({

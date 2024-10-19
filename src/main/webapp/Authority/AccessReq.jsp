@@ -547,7 +547,7 @@ $(document).ready(function(){
 					}
 					%>
 				</select>
-				<input type="text" class="UserDutyDes" name="UserDutyDes" checked>
+				<input type="text" class="UserDutyDes" name="UserDutyDes" readonly>
 			</div>
 			<div class="UserInfo">
 				<label>권한부여 조직구분 :</label> 
