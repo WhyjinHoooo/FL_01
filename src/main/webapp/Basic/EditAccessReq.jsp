@@ -85,7 +85,169 @@ $(document).ready(function(){
 		console.log(testValue);
 		var Des = testValue.split(",");
 		$('.UserDutyDes').val(Des[1]);
+		var Value = $('.BizAreaCode').val();
 		
+		var UserId = $('.UserId').val();
+		var UserDutyList = [];
+		
+		$.ajax({
+			url:'${contextPath}/Authority/UserDutyGetList.jsp',
+			type:'POST',
+			data: {ID : UserId},
+			success:function(response){
+				console.log(response);
+				UserDutyList = response;
+				console.log('UserDutyList : ', UserDutyList);
+				
+				$.ajax({
+					url: '${contextPath}/Authority/SysDuteExpose.jsp',
+					type: 'POST',
+					data: {SelDute : Des[0]},
+					success: function(response){
+					    console.log('response : ', response);
+					    let tableBody = $('.AccessTable_Body');
+					   
+					    response.forEach(function(data){
+					        let row = '<tr>' +
+					        	'<td hidden>' + Value + '</td>' +
+					            '<td>' + data.RnRCode + '</td>' +
+					            '<td>' + data.RnRDescp + '</td>' +
+					            '<td>' + data.UiGroupDescrip + '</td>';
+					            
+						            let Lv2List = data.UiGroup2LvList;
+						           	let Lv2OriValue = Lv2List.join(',');
+						           	let Lv2Value = Lv2OriValue.split(',');
+						            
+						            row += '<td>';  // 다섯 번째 열의 첫 번째 셀 시작
+						            for(var Lv2 = 0; Lv2 < Lv2Value.length; Lv2++) {
+						                row += '<div class=Lv2_'+ Lv2 +'>' + Lv2Value[Lv2] + '</div>';  // Lv3Value의 각 데이터를 새로운 셀에 추가
+						            }
+						            row += '</td>';
+						            
+						            let Lv3List = [];
+						            
+						            for(var i = 0 ; i < Lv2List.length ; i++){
+						            	Lv3List.push(data[Lv2List[i]]);
+						            }
+						            let Lv3OriValue = Lv3List.join(',');
+						            let Lv3Value = Lv3OriValue.split(',');
+						            
+						            row += '<td>';  // 다섯 번째 열의 첫 번째 셀 시작
+						            for(var Lv3 = 0; Lv3 < Lv3Value.length; Lv3++) {
+						                row += '<div class=Lv3_'+ Lv3 +'>' + Lv3Value[Lv3] + '</div>';  // Lv3Value의 각 데이터를 새로운 셀에 추가
+						            }
+						            row += '</td>';
+						            
+						            let Lv4List = [];
+						            let Lv4KeyMap = [];
+						            for(var j = 0 ; j < Lv3Value.length; j++){
+						            	Lv4List.push(data[Lv3Value[j]]);
+						            	Lv4KeyMap.push(Lv3Value[j]);  // Lv3Value에서 사용된 키 값을 Lv4KeyMap에 저장
+						            }
+						            
+						            row += '<td>';  // 여섯 번째 열 시작 (홀수 인덱스 데이터를 출력하는 열)
+						            for (let a = 0; a < Lv4List.length; a++) {
+						                for (let b = 0; b < Lv4List[a].length; b++) {
+						                    if (b % 2 === 1) {  // 홀수 인덱스
+						                        row += '<div class=Lv4_'+ a + '_' + b +'>' + Lv4List[a][b] + '</div>';
+						                    }
+						                }
+						            }
+						            row += '</td>';
+
+						            row += '<td>';  // 일곱 번째 열 시작 (짝수 인덱스 데이터를 출력하는 열)
+						            for (let a = 0; a < Lv4List.length; a++) {
+						                for (let b = 0; b < Lv4List[a].length; b++) {
+						                    if (b % 2 === 0) {  // 짝수 인덱스
+						                        row += '<select>';
+						                        const options = ['권한없음','입력/수정/조회', '수정/조회', '조회'];
+						                        options.forEach(function(option) {
+						                        		row += '<option value="' + option +','+ Lv4List[a][b] + '">' + option + '</option>';
+						                        });
+						                        row += '</select>';
+						                    }
+						                }
+						            }
+						            row += '</td>';
+
+					            row += '</tr>';
+					        	
+					        tableBody.append(row);
+							
+				            for(let a = 0 ; a < Lv4List.length ; a++){
+				            	let lv4DivCount = 0;
+				            	const Lv4Pattern = new RegExp(`class=Lv4_${ "${a}" }`, 'g');
+				            	lv4DivCount = (row.match(Lv4Pattern) || []).length;
+				            	if(lv4DivCount){
+				            		let lv3DivCount = 0;
+				            		const Lv3Pattenr = new RegExp(`class=Lv3_${ "${a}" }`, 'g');;
+				            		lv3DivCount = (row.match(Lv3Pattenr) || []).length;
+				            		
+				            		for (let i = 0; i < lv3DivCount; i++) {
+				                        // 각 Lv3 div의 고유한 클래스명을 만듦
+				                        const lv3DivClassName = `Lv3_${ "${a}" }`;
+				                        const newHeight = (lv4DivCount * 35) + 'px';
+				                        $(`.Lv3_${"${a}"}`).css('height', newHeight);
+				                    }
+				            	}
+				            }
+				            
+				            for(let b = 0 ; b < Lv3List.length ; b++){
+				            	let combinedArray = [].concat(...Lv3List); // 통합된 배열
+				            	
+				            	let SearchLv2Value = Lv2Value[b];
+				            	let NewDivHeight = 0;
+				            	let DelCt = 0;
+				            	if(SearchLv2Value && b === 0){
+				            		for(let c = 0 ; c < Lv3List[b].length ; c++){
+				            			let SearchLv3Value = combinedArray[c];
+				            			const LookingLv3Div = new RegExp(`${ "${SearchLv3Value}" }`, 'g');
+				            			let result = row.match(LookingLv3Div);
+				            			if(result){ // 실재로 SearchLv3Value에 저장된 데이터를 갖는 <div>가 있는지 확인
+				            				let divElement = document.querySelector(`.Lv3_${ "${c}" }`);
+				            				let divHeight = divElement.style.height;
+				            				let Lv2Height = parseInt(divHeight);
+				            				NewDivHeight += Lv2Height;
+				            			}
+				            		}
+				            	} else { // b가 0이 아닌 경우 예 -> b = 1
+				            		 
+				            		for(let p = 0 ; p < b ; p++){ // combinedArray에서 사용된 값들을 삭제하는 과정
+				            			let UsedCount = Lv3List[p].length;
+				            			for(let q = 0 ; q < UsedCount ; q++){
+				            				let UsedValue = combinedArray[0];
+				            				let DeleteEle = combinedArray.indexOf(UsedValue);
+				            				if(DeleteEle > -1){
+				            					combinedArray.splice(DeleteEle, 1);
+				            					DelCt++;
+				            				} 
+				            			}
+				            		}// combinedArray에서 사용된 값들을 삭제하는 과정
+				            		 
+				            		console.log(DelCt);
+				            		for(let c = 0 ; c < Lv3List[b].length ; c++){
+				            			let SearchLv3Value = combinedArray[c];
+				            			const LookingLv3Div = new RegExp(`${ "${SearchLv3Value}" }`, 'g');
+				            			let result = row.match(LookingLv3Div);
+				            			if(result){ // 실재로 SearchLv3Value에 저장된 데이터를 갖는 <div>가 있는지 확인
+				            				let divElement = document.querySelector(`.Lv3_${ "${DelCt}" }`);
+				            				let divHeight = divElement.style.height;
+				            				let Lv2Height = parseInt(divHeight);
+				            				NewDivHeight += Lv2Height;
+				            				DelCt ++;
+				            			}
+				            		}
+				            		
+				            	}
+			            		$(`.Lv2_${"${b}"}`).css('height', NewDivHeight);
+				            }
+					    });
+					}
+				});
+				
+			}
+		})
+		/* 여기 */
 	});
 
 	if(USerRole){
@@ -339,9 +501,9 @@ $(document).ready(function(){
 </head>
 <body>
 <%
-	String id = (String)session.getAttribute("id");
-	String name = (String)session.getAttribute("name");
-	String ComCode = (String)session.getAttribute("depart");
+	String id = (String)session.getAttribute("id"); // 사용자 계정
+	String name = (String)session.getAttribute("name"); // 사용자 이름
+	String ComCode = (String)session.getAttribute("depart"); // 사용자 기입코드
 	
 	String SelectSql = "SELECT * FROM membership WHERE Id = ?";
 	PreparedStatement SelectPstmt = conn.prepareStatement(SelectSql);
@@ -352,8 +514,10 @@ $(document).ready(function(){
 	String USerDuty = null;
 	String USerDutyDes = null;
 	String USerBizInfo = null;
+	String USerBizInfoDes = null;
+	
 	if(SelRs.next()){
-		UserCode = SelRs.getString("EmployeeId");
+		UserCode = SelRs.getString("EmployeeId"); // 사용자 사원번호
 		
 		String EmpInfoSql = "SELECT * FROM emp WHERE EMPLOYEE_ID = ?";
 		PreparedStatement EmpInfoPstmt = conn.prepareStatement(EmpInfoSql);
@@ -361,21 +525,25 @@ $(document).ready(function(){
 		ResultSet EmpInfoRs = EmpInfoPstmt.executeQuery();
 		
 		if(EmpInfoRs.next()){
-			USerDuty = EmpInfoRs.getString("UserDuty");
+			USerDuty = EmpInfoRs.getString("UserDuty"); // 사용자의 주 권한코드
 			String UserCoCt = EmpInfoRs.getString("COCT");
 			String BizInfoSql = "SELECT * FROM dept WHERE COCT = ?";
 			PreparedStatement BizInfoPstmt = conn.prepareStatement(BizInfoSql);
 			BizInfoPstmt.setString(1, UserCoCt);
 			ResultSet BizInfoRs = BizInfoPstmt.executeQuery();
 			if(BizInfoRs.next()){
-				USerBizInfo = BizInfoRs.getString("BIZ_AREA");
+				USerBizInfo = BizInfoRs.getString("BIZ_AREA"); // 사용자의 사업영역
+				
+				String BizSearch = "SELECT * FROM bizarea WHERE BIZ_AREA = ?";
+				PreparedStatement BizSearchPstmt = conn.prepareStatement(BizSearch);
+				BizSearchPstmt.setString(1, USerBizInfo);
+				ResultSet BizSearchRs = BizSearchPstmt.executeQuery();
+				if(BizSearchRs.next()){
+					USerBizInfoDes = BizSearchRs.getString("BA_Name");
+				}
 			}
 		}
 	}
-	
-	
-	
-	
 %>
 <div class="AccessArea">
 	<div class="UserInfoArea">
@@ -423,7 +591,7 @@ $(document).ready(function(){
 			<div class="UserInfo">
 				<label>Biz Area :</label>
 				<input type="text" class="BizAreaCode MainInfo" name="BizAreaCode" id="BizAreaCode" onclick="PickOption('BizArea')" value=<%=USerBizInfo %> readonly>
-				<input type="text" class="BizAreaName SubInfo" name="BizAreaName" id="BizAreaName" readonly>
+				<input type="text" class="BizAreaName SubInfo" name="BizAreaName" id="BizAreaName" value=<%=USerBizInfoDes %> readonly>
 			</div>
 			<div class="UserInfo">
 				<label>BizArea Group :</label> 

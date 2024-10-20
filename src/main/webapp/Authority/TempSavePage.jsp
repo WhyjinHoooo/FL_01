@@ -55,7 +55,6 @@
 			DupCheckPstmt.setString(1, (String) DuteDate.get(4));
 			ResultSet DupCheckRs = DupCheckPstmt.executeQuery();
 			System.out.println((String) DuteDate.get(4));
-			System.out.println("잉잉잉");
 			if(!DupCheckRs.next()){
 				System.out.println(UserData);
 				TempSavePstmt.setString(7, (String) DuteDate.get(0));
