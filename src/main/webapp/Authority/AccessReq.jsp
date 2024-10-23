@@ -273,11 +273,12 @@ $(document).ready(function(){
 		var TempSaveList = [];
 		var CountNumber = 1;
 		
+		var Mark = "1";
 		var UserId = $('.UserId').val(); // 사용자의 아이디
 		var UserName = $('.UserName').val(); // 사용자의 이름
 		var UserCoCd = $('.UserComCode').val(); // 사용자가 속한 회사코드
 		
-		let UserInfo = [UserId, UserName, UserCoCd];
+		let UserInfo = [UserId, UserName, UserCoCd, Mark];
 		
 		TempSaveList['0'] = UserInfo;
 		$('.AccessTable_Body tr').each(function() {

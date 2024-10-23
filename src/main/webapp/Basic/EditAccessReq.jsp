@@ -106,10 +106,10 @@ $(document).ready(function(){
 					//var item = UserDutyList[0];
 					var Code = Object.keys(item)[0];
 					var details = item[Code];
-					console.log('1. Code : '+ Code);
+					/* console.log('1. Code : '+ Code);
 					console.log('1. details : ',details);
 					console.log('1. details[0] : ' + details[0]);
-					
+					 */
 						$.ajax({
 							url: '${contextPath}/Authority/SysDuteExpose.jsp',
 							type: 'POST',
@@ -121,11 +121,12 @@ $(document).ready(function(){
 							   
 							    response.forEach(function(data){
 								    var Count = $('.AccessTable_Body tr').length;
-									if(Count === 0){
-										console.log('Count : ' + Count);
+								    var TrText = $('.AccessTable_Body tr').find('td:eq(1)').text().trim(); 
+									if(Count === 0 || (TrText !== Code && TrText !== '')){
+										/* console.log('Count : ' + Count);
 									    console.log('2-1. Code : '+ Code);
 										console.log('2-1. details : ',details);
-										console.log('2-1. details[0] : ' + details[0]);
+										console.log('2-1. details[0] : ' + details[0]); */
 										let row = '<tr>' +
 								       	'<td hidden>' + Value + '</td>' +
 								        '<td>' + data.RnRCode + '</td>' +
@@ -264,7 +265,6 @@ $(document).ready(function(){
 								        	var TargetTd = $(this).find('td:nth-child(7)');
 								        	
 								        	var FindDivSeq = TargetTd.find('div').filter(function(){
-								        		console.log(details[2]);
 								        		return $(this).text().trim() === details[2];
 								        	}).index();
 								        	
@@ -295,7 +295,6 @@ $(document).ready(function(){
 								                            OptionIndex = 0; // 기본값 설정 (권한없음)
 								                            break;
 								                    }
-								                    console.log(OptionIndex);
 								                    FindSelect.prop("selectedIndex", OptionIndex); // 수정된 부분
 								                } else {
 								                    console.error('FindSelect not found for index:', FindDivSeq);
@@ -304,10 +303,50 @@ $(document).ready(function(){
 								        });
 								       	
 									} else{
-										console.log('2-2. Count : ' + Count);
+										/* console.log('2-2. Count : ' + Count);
 										console.log('2-2. Code : '+ Code);
 										console.log('2-2. details : ',details);
-										console.log('2-2. details[0] : ' + details[0]);
+										console.log('2-2. details[0] : ' + details[0]); */
+										$('.AccessTable_Body tr').each(function() {
+								        	var TargetTd = $(this).find('td:nth-child(7)');
+								        	
+								        	var FindDivSeq = TargetTd.find('div').filter(function(){
+								        		return $(this).text().trim() === details[2];
+								        	}).index();
+								        	
+								        	console.log(FindDivSeq);
+								        	
+								        	if (FindDivSeq !== -1) {
+								                TargetTd = $(this).find('td:nth-child(8)');
+								                var FindSelect = TargetTd.find("select").eq(FindDivSeq);
+
+								                if (FindSelect.length) {
+								                    var DetailsValue = details[1];
+								                    var OptionIndex;
+								                    console.log(DetailsValue);
+								                    switch (DetailsValue) {
+								                        case '4':
+								                            OptionIndex = 0; // '권한없음'
+								                            break;
+								                        case '1':
+								                            OptionIndex = 1; // '입력/수정/조회'
+								                            break;
+								                        case '2':
+								                            OptionIndex = 2; // '수정/조회'
+								                            break;
+								                        case '3':
+								                            OptionIndex = 3; // '조회'
+								                            break;
+								                        default:
+								                            OptionIndex = 0; // 기본값 설정 (권한없음)
+								                            break;
+								                    }
+								                    FindSelect.prop("selectedIndex", OptionIndex); // 수정된 부분
+								                } else {
+								                    console.error('FindSelect not found for index:', FindDivSeq);
+								                }
+								            }
+								        });
 									}
 							        
 							    });
@@ -331,11 +370,12 @@ $(document).ready(function(){
 		var TempSaveList = [];
 		var CountNumber = 1;
 		
+		var Mark = "2";
 		var UserId = $('.UserId').val(); // 사용자의 아이디
 		var UserName = $('.UserName').val(); // 사용자의 이름
 		var UserCoCd = $('.UserComCode').val(); // 사용자가 속한 회사코드
 		
-		let UserInfo = [UserId, UserName, UserCoCd];
+		let UserInfo = [UserId, UserName, UserCoCd, Mark];
 		
 		TempSaveList['0'] = UserInfo;
 		$('.AccessTable_Body tr').each(function() {

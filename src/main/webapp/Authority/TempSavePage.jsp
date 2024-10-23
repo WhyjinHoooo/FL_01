@@ -38,15 +38,21 @@
 		    "`COCD`, " +
 		    "`CreateDate`, " +
 		    "`Creator`, " +
-		    "`DataAdminKey` " +
+		    "`DataAdminKey`, " +
+		    "`Sort` " +
 		    ") VALUES " +
-		    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	PreparedStatement TempSavePstmt = conn.prepareStatement(TempSaveSql);
 	try{
-		JSONArray UserData = (JSONArray) CombinedData.get(0); // 사용자의 기본 정보 - 아이디, 이름, 소속 기업 코드
+		JSONArray UserData = (JSONArray) CombinedData.get(0);
 		TempSavePstmt.setString(1, (String) UserData.get(0));
 		TempSavePstmt.setString(2, (String) UserData.get(1));
 		TempSavePstmt.setString(9, (String) UserData.get(2));
+		if((String)UserData.get(3) == "1"){
+			TempSavePstmt.setString(13, "TempVer");
+		} else {
+			TempSavePstmt.setString(13, "EditVer");
+		}
 		for(int i = 1 ; i < CombinedData.size() ; i++){
 			JSONArray DuteDate = (JSONArray) CombinedData.get(i);
 			
