@@ -424,7 +424,6 @@ $(document).ready(function(){
 				if(response.status == "success"){
 					alert('저장되었습니다.');
 				}
-				TempSaveList = [];
 			}
 		})
 	});

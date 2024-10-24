@@ -468,7 +468,7 @@ $(document).ready(function(){
 	                <li><a class="dropdown-item" href="#">입하품 입고 진행현황</a></li>
 					<li><a class="dropdown-item" href="#">발주서 입고 진행현황</a></li>
 	            	<li class="dropdown-submenu">
-		              <a class="dropdown-item dropdown-toggle" href="#">Material 재고 보유현황</a>
+		              <a class="dropdown-item dropdown-toggleF" href="#">Material 재고 보유현황</a>
 		              <ul class="dropdown-menu">
 		                <li><a class="dropdown-item" href="#">상태별</a></li>
 		                <li><a class="dropdown-item" href="#">창고 적재위치별</a></li>

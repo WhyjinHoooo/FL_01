@@ -56,8 +56,6 @@ try{
 			UpdatePstmt.setString(1, "Ongoing");
 			UpdatePstmt.setString(2, UserId);
 			UpdatePstmt.executeUpdate();
-			
-			out.print("Success");
 		} else{
 			String E_UiNumber = SearchRs.getString("UiNumber");
 			String E_UiAuthority = SearchRs.getString("UiAuthority");
@@ -73,7 +71,6 @@ try{
 			System.out.println("E_UiAuthority : " + E_UiAuthority);
 			System.out.println("CheckSql : " + CheckSql);
 			if(E_Rs.next()){
-				System.out.println("asdasdasd : " + E_Rs.getString("UiAuthority"));
 				if(!E_UiAuthority.equals(E_Rs.getString("UiAuthority"))){
 					String U_Sql = "UPDATE dataadminkeytable SET UiAuthority = ? WHERE UseriD = ? AND UiNumber = ?";
 					
@@ -122,9 +119,10 @@ try{
 				D_Pstmt.executeUpdate();
 			}
 		}
-		out.print("Success");
+		
 	}
-	
+	System.out.println("Success");
+	out.print("Success");
 }catch(SQLException e){
 	e.printStackTrace();
 }
