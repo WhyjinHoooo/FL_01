@@ -50,13 +50,13 @@ $(document).ready(function(){
             <li class="dropdown-submenu">
             	<a class="dropdown-item dropdown-toggle" href="#">Global</a>
             	<ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">국가(Nationality)</a></li>
-                <li><a class="dropdown-item" href="#">통화(Currency)</a></li>
-                <li><a class="dropdown-item" href="#">환율유형(ExchangeRateType)</a></li>
-                <li><a class="dropdown-item" href="#">단위(Unit)</a></li>
-                <li><a class="dropdown-item" href="#">언어(Language)</a></li>
-                <li><a class="dropdown-item" href="#">우편번호</a></li>
-                <li><a class="dropdown-item" href="#">지역</a></li>
+	                <li><a class="dropdown-item" href="#">국가(Nationality)</a></li>
+	                <li><a class="dropdown-item" href="#">통화(Currency)</a></li>
+	                <li><a class="dropdown-item" href="#">환율유형(ExchangeRateType)</a></li>
+	                <li><a class="dropdown-item" href="#">단위(Unit)</a></li>
+	                <li><a class="dropdown-item" href="#">언어(Language)</a></li>
+	                <li><a class="dropdown-item" href="#">우편번호</a></li>
+	                <li><a class="dropdown-item" href="#">지역</a></li>
               </ul>
             </li>
             <li class="dropdown-submenu">
