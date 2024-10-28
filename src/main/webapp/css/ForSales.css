@@ -1,0 +1,141 @@
+@charset "UTF-8";
+@media only screen and (min-width: 1537px) {
+	.SalesArea{
+        height: 90vh;
+    }
+	.SalesMainArea {
+	    height: 19%;
+	}
+	.SalesSubArea{
+		height: 100vh;
+	}
+	.InputArea {
+	    border: 3px solid rgb(111, 167, 235);
+	    border-radius: 20px;
+	    width: 80%;
+	    height: 98%;
+	    margin: 1% 10%;
+	}
+	.InputArea label{
+		font-weight: 900;
+		display: inline-block;
+    	width: 8em; /* 모든 레이블의 고정 너비 */
+    	text-align: right; /* 텍스트를 오른쪽에 맞춤 */
+    	letter-spacing: 0.1em; /* 문자 간격 조정 */
+	}
+	.Sales_UserInfo {
+    	margin: 1% 0% 0.1% 10%;
+	}
+	.Sales_UserInfo input{
+		text-align: center;
+		width: 150px;
+	}
+	.Sales_UserInfo label#User{
+		margin-left: 60%;
+	}
+	.Sales_BizInfo {
+    	margin: 0.1% 0% 0.1% 10%;
+	}
+	.Sales_BizInfo input{
+		text-align: center;
+		width: 151px;
+	}
+	.Sales_BizInfo label#InputDate{
+		margin-left: 51.1%;
+	} 
+	.Sales_PlanInfo{
+		margin: 0.1% 0% 0.1% 10%;
+	}
+	.Sales_PlanInfo select{
+		width: 157px;
+		text-align: center;
+	}
+	
+	.Sales_DocInfo{
+		margin: 0.1% 0% 0.1% 10%;
+	}
+	.Sales_DocInfo input{
+		width: 150px;
+		text-align: center;
+	}
+	.Sales_DocInfo label#CountUnit{
+		margin-left: 51.06%;
+	}
+	.Sales_DocInfo select{
+		width: 158px;
+		text-align: center;
+	}
+	
+	.Sales_PlanPeriod{
+		margin: 0.1% 0% 0.1% 10%;
+	}
+	.Sales_PlanPeriod input#PeriodStart{
+		width: 150px;
+		text-align: center;
+	}
+	.Sales_PlanPeriod input#PeriodEnd{
+		width: 134px;
+		text-align: center;
+	}
+	.Sales_DealComInfo{
+		margin: 0.1% 0% 1% 10%;
+	}
+	.Sales_DealComInfo input{
+		width: 150px;
+		text-align: center;
+	}
+	/* ---------------- */
+	.ButtonArea {
+	    display: flex;
+	    flex-direction: row;
+	    margin: 1% 0% 0% 80%;
+	}
+	.ButtonArea button {
+	    width: 100px;
+	    text-align: center;
+	    padding: 5px;
+	    background-color: #1F4E79;
+	    color: white;
+	    border: 1px solid #1F4E79;
+	    margin-right: 20px;
+	    border-radius: 5px;
+	}
+	.ButtonArea button:hover {
+	    background: #0068ff;
+	    color: #fff;
+	    border: 1px solid #0068ff;
+	}
+	.ButtonArea button:active {
+	    background: #0068ff;
+	    color: #fff;
+	    border: 1px solid #0068ff;
+	}
+	
+	/* ---------------- */
+	.SalesSubArea {
+        margin: 1.4% 10%;
+        height: 70%;
+        border: 3px solid rgb(111, 167, 235);
+        width: 80%;
+    }
+    .SalesPlanTable{
+        border-collapse: collapse;
+        width: 100%;
+        table-layout: fixed;
+    }
+    .SalesPlanTable_Head{
+	    display: block;
+	    width: 100%;
+    }
+    .SalesPlanTable .SalesPlanTable_Head th{
+	    background-color: rgb(111,167,235);
+	    position: sticky;
+	    top:0;
+	    color: white;
+	    text-align: center;
+	    z-index: 10;
+	    padding: 8px;
+	    border: 1px solid white;
+	    width: 120px;
+    }
+}
