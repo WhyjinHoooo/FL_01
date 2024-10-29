@@ -138,4 +138,40 @@
 	    border: 1px solid white;
 	    width: 120px;
     }
+    .SalesPlanTable_Body{
+    	display: block;
+        width: 100.2%;
+        height: 765px;
+        max-height: 100%;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+    .SalesPlanTable .SalesPlanTable_Body td {
+	    padding: 8px;
+	    border: 1px solid #ddd;
+	    width: 120px;
+	    font-weight: bold;
+	}
+	.SalesPlanTable_Body > tr > td:nth-child(1),
+	.SalesPlanTable_Body > tr > td:nth-child(2){
+	text-align: left;
+	}
+	.SalesPlanTable_Body > tr > td:nth-child(3){
+	text-align: center;
+	}
+	.SalesPlanTable_Body > tr > td:nth-child(n+4){
+	text-align: right;
+	}
+	.SalesPlanTable_Body::-webkit-scrollbar {
+    width: 5px;
+  	}
+  	.SalesPlanTable_Body::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+  	}
+  	.SalesPlanTable_Body::-webkit-scrollbar-track {
+    background-color: grey;
+    border-radius: 1px;
+    box-shadow: inset 0px 0px 5px white;
+  	}
 }

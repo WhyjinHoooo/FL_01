@@ -27,7 +27,6 @@
 	    var xPos = (window.screen.width-2560) / 2;
 	    var yPos = (window.screen.height-1440) / 2;
 	    
-	    /* window.open("PlantSerach.jsp", "테스트", "width=500,height=500, left=500 ,top=" + yPos);	 */
 	    var newWindow = window.open("MIPlantSerach.jsp", "테스트", "width=500,height=500, left=500 ,top=" + yPos);	 
 	    
 	    newWindow.onbeforeunload = function(){
