@@ -6,9 +6,6 @@
 	.SalesMainArea {
 	    height: 19%;
 	}
-	.SalesSubArea{
-		height: 100vh;
-	}
 	.InputArea {
 	    border: 3px solid rgb(111, 167, 235);
 	    border-radius: 20px;
@@ -112,11 +109,14 @@
 	}
 	
 	/* ---------------- */
+	.SalesSubArea{
+		height: 100vh;
+	}
 	.SalesSubArea {
         margin: 1.4% 10%;
         height: 70%;
         border: 3px solid rgb(111, 167, 235);
-        width: 80%;
+        width: 84%;
     }
     .SalesPlanTable{
         border-collapse: collapse;
@@ -124,7 +124,7 @@
         table-layout: fixed;
     }
     .SalesPlanTable_Head{
-	    display: block;
+	    display: table;
 	    width: 100%;
     }
     .SalesPlanTable .SalesPlanTable_Head th{
@@ -139,8 +139,9 @@
 	    width: 120px;
     }
     .SalesPlanTable_Body{
+    	table-layout: fixed;
     	display: block;
-        width: 100.2%;
+        width: 100.28%;
         height: 765px;
         max-height: 100%;
         overflow-y: auto;
@@ -149,18 +150,36 @@
     .SalesPlanTable .SalesPlanTable_Body td {
 	    padding: 8px;
 	    border: 1px solid #ddd;
-	    width: 120px;
+	    width: 125.1px;
+	    height: 10px;
 	    font-weight: bold;
 	}
-	.SalesPlanTable_Body > tr > td:nth-child(1),
 	.SalesPlanTable_Body > tr > td:nth-child(2){
 	text-align: left;
 	}
+	.SalesPlanTable_Body > tr > td:nth-child(2) > select{
+	text-align: left;
+	width: 125px;
+	border-width: 0;
+	}
 	.SalesPlanTable_Body > tr > td:nth-child(3){
+	width: 126px;
+	text-align: left;
+	}
+	.SalesPlanTable_Body > tr > td:nth-child(4){
+	width: 127px;
 	text-align: center;
 	}
-	.SalesPlanTable_Body > tr > td:nth-child(n+4){
+	.SalesPlanTable_Body > tr > td:nth-child(n+5) > input{
 	text-align: right;
+	font-weight: bold;
+	}
+	.SalesPlanTable_Body > tr > td > input:focus{
+	outline: none;
+	}
+	.SalesPlanTable_Body > tr > td > input{
+	border-width: 0;
+	width: 120px;
 	}
 	.SalesPlanTable_Body::-webkit-scrollbar {
     width: 5px;

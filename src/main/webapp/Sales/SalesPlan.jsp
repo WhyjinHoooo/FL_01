@@ -40,17 +40,35 @@ function InfoSearch(field){
         yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
     }
     
-    switch(field){
-    	case "ComSearch":
-			window.open("${contextPath}/Information/ComSearch.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-			break;
-		case "BizSearch":
-			var ComCode = $('.Com-code').val();
-			window.open("${contextPath}/Information/BizAreaSearch.jsp?ComCode=" + ComCode, "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-			break;
-    }
 }
 $(document).ready(function(){
+	
+	/*$('.SalesPlanTable_Body').empty();
+    
+    // 50개의 <tr> 요소 추가
+     for (let i = 0; i < 50; i++) {
+        const row = $('<tr></tr>'); // 새로운 <tr> 생성
+
+        // 각 <td> 추가 (빈 데이터)
+        row.append('<td></td>');
+        row.append('<td></td>');
+        row.append('<td></td>');
+        row.append('<td></td>');
+        row.append('<td></td>');
+        row.append('<td></td>');
+        row.append('<td></td>');
+        row.append('<td></td>');
+        row.append('<td></td>');
+        row.append('<td></td>');
+        row.append('<td></td>');
+        row.append('<td></td>');
+        row.append('<td></td>');
+        row.append('<td></td>');
+        row.append('<td></td>');
+        // 생성한 <tr>을 <tbody>에 추가
+		$('.SalesPlanTable_Body').append(row);
+    }*/
+	
 	var YearInput = document.getElementById('Year');
 	var CurrentYear = new Date().getFullYear();
 	var StartYear = CurrentYear + 1;
@@ -63,8 +81,92 @@ $(document).ready(function(){
 	}
 	
 	$('.Year').change(function(){
-		alert("야야야야야양야");
+		var NewYearBegin = $(this).val();
+		$('.PeriodStart').val(NewYearBegin + '-01-' +'01')
+		$('.PeriodEnd').val(NewYearBegin + '-12-' +'31')
 	})
+	
+	var UserId = $('.UserId').val();
+	var BizArea = {};
+	console.log('사용자 아이디 : ' + UserId);
+	$.ajax({
+		type: "POST",
+		url: "${contextPath}/Information/AjaxSet/Sales_BizAreaSearch.jsp",
+		data: {Id : UserId},
+		success: function(response){
+			console.log(response.trim());
+			BizArea = response.trim().split(',')
+			$('.BizCode').val(BizArea[0]);
+			$('.BizCodeDes').val(BizArea[1]);
+		}
+	})
+	/* $('.DealComCodeDes').on('change',function(){
+		
+	}); */
+	
+	let Tablebody = $('.SalesPlanTable_Body');
+	Tablebody.empty();
+	$.ajax({
+        url: 'ItemCodeSearch.jsp',
+        type: 'GET',
+        dataType: 'json', // 데이터 형식에 맞게 조정
+        success: function(data) {
+            for (let i = 0; i < 50; i++) {
+                const row = $('<tr></tr>');
+
+                const hiddenCell = $('<td style="display:none;"></td>').text(i+1);
+                row.append(hiddenCell); // 숨겨진 <td> 추가
+                
+                // 첫 번째 <td>에 <select> 추가
+                const select = $('<select></select>');
+                const defaultOption = $('<option></option>')
+                .val('') // 기본 옵션의 value는 빈 문자열
+                .text('선택'); // 기본 옵션의 텍스트
+            	select.append(defaultOption);
+                
+                data.forEach(item => {
+                	console.log(item);
+                    const option = $('<option></option>')
+                        .val(`${ "${item.ProductCode}" },${"${item.ProductName}" },${ "${item.ProductUnit}" }`)
+                        .text(`${ "${item.ProductCode}" }`);
+                    select.append(option);
+                });
+
+                row.append($('<td></td>').append(select));
+
+                // 두 번째 <td>에 품목명 추가
+                const productNameCell = $('<td></td>');
+                select.on('change', function() {
+                    const selectedValue = $(this).val().split(',');
+                    productNameCell.text(selectedValue[1]); // 품목명
+                });
+                row.append(productNameCell);
+
+                // 세 번째 <td>에 단위 추가
+                const productUnitCell = $('<td></td>');
+                select.on('change', function() {
+                    const selectedValue = $(this).val().split(',');
+                    productUnitCell.text(selectedValue[2]); // 단위
+                });
+                row.append(productUnitCell);
+
+                // 네 번째와 다섯 번째 <td>에 <input> 추가
+                for (let j = 0; j < 12; j++) {
+                    const input = $('<input type="text" />');
+                    row.append($('<td></td>').append(input));
+                }
+
+                // <tbody>에 추가
+                /* $('.SalesPlanTable_Body').append(row); */
+                Tablebody.append(row);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error: ', status, error);
+        }
+    });
+	
+	
 })
 
 </script>
@@ -76,6 +178,9 @@ $(document).ready(function(){
 	LocalDateTime today = LocalDateTime.now();
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	String todayDate = today.format(formatter);
+	
+	String UserId = (String)session.getAttribute("id");
+	String UserComCode = (String)session.getAttribute("depart");
 %>
 <link rel="stylesheet" href="../css/ForSales.css?after">
 <jsp:include page="../HeaderTest.jsp"></jsp:include>
@@ -84,14 +189,14 @@ $(document).ready(function(){
 		<div class="InputArea">
 			<div class="Sales_UserInfo">
 				<label id="Company">회사: </label>
-				<input type="text" class="Com-code" name="Comcode" id="ComCode" onclick="InfoSearch('ComSearch')" readonly value="Click">
+				<input type="text" class="Com-code" name="Comcode" id="ComCode" value=<%=UserComCode %> readonly>
 				<label id="User">입력자: </label>
-				<input class="UserId" name="UserId" id="UserId" readonly>
+				<input class="UserId" name="UserId" id="UserId" value=<%=UserId %> readonly>
 			</div>
 			<div class="Sales_BizInfo">
 				<label id="BizUnit">회계단위: </label>
-				<input type="text" class="Biz_Code" name="BizCode" id="BizCode" onclick="InfoSearch('BizSearch')"  readonly value="Click">
-				<input type="text" class="Biz_Code_Des" name="BizCodeDes" id="BizCodeDes" readonly>
+				<input type="text" class="BizCode" name="BizCode" id="BizCode" readonly>
+				<input type="text" class="BizCodeDes" name="BizCodeDes" id="BizCodeDes" readonly>
 				<label id="InputDate">입력일자: </label>
 				<input type="text" class="InputDate" name="InputDate" id="InputDate" value=<%=todayDate %> readonly> 
 			</div>
@@ -135,6 +240,13 @@ $(document).ready(function(){
 				<th>9월</th><th>10월</th><th>11월</th><th>12월</th>
 			</thead>
 			<tbody class="SalesPlanTable_Body">
+			<!-- 23개의 <tr>...</tr> 들어가면 스크롤바가 생성됨-->
+				<!-- <tr>
+					<td>FERT-10001</td><td>완제품 10001</td><td>EA</td>
+					<td>1</td><td>2</td><td>3</td><td>4</td>
+					<td>5</td><td>6</td><td>7</td><td>8</td>
+					<td>9</td><td>10</td><td>11</td><td>12</td>
+				</tr> -->
 			</tbody>
 		</table>
 	</div>
