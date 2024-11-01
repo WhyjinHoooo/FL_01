@@ -82,7 +82,13 @@ $(document).ready(function(){
 	
 	$('.Year').change(function(){
 		var NewYearBegin = $(this).val();
-		$('.PeriodStart').val(NewYearBegin + '-01-' +'01')
+		$('.PeriodStart').empty();
+		$('.PeriodStart').append("<option>선택</option>")
+		for(var i = 1 ; i <=12 ; i++){
+			var Month = i.toString().padStart(2, '0'); // 월을 두 자리로 설정
+			var Date = `${ "${NewYearBegin}-${Month}-01"}`;
+			$('.PeriodStart').append(`<option value=${"${Date}"}>${"${Date}"}</option>`)
+		}
 		$('.PeriodEnd').val(NewYearBegin + '-12-' +'31')
 	})
 	
@@ -100,9 +106,6 @@ $(document).ready(function(){
 			$('.BizCodeDes').val(BizArea[1]);
 		}
 	})
-	/* $('.DealComCodeDes').on('change',function(){
-		
-	}); */
 	
 	let Tablebody = $('.SalesPlanTable_Body');
 	Tablebody.empty();
@@ -125,7 +128,6 @@ $(document).ready(function(){
             	select.append(defaultOption);
                 
                 data.forEach(item => {
-                	console.log(item);
                     const option = $('<option></option>')
                         .val(`${ "${item.ProductCode}" },${"${item.ProductName}" },${ "${item.ProductUnit}" }`)
                         .text(`${ "${item.ProductCode}" }`);
@@ -159,13 +161,61 @@ $(document).ready(function(){
                 // <tbody>에 추가
                 /* $('.SalesPlanTable_Body').append(row); */
                 Tablebody.append(row);
+                
             }
-        },
-        error: function(xhr, status, error) {
-            console.error('AJAX Error: ', status, error);
-        }
-    });
+            var CountUnit = null;
+
+         	// 'Unit' 클래스의 <select>에서 값이 변경될 때
+         	$('.Unit').change(function() {
+            CountUnit = parseInt($(this).val()); // 선택한 값을 정수로 변환
+            console.log('CountUnit:', CountUnit);
+	        });
 	
+	        // 'SalesPlanTable_Body' 내의 각 <tr>에 대해
+         	$('.SalesPlanTable_Body').find('tr').each(function() {
+         	    // <td> 요소들 중 4번째 인덱스 이상의 <td>를 찾고, <input>에 대한 이벤트 리스너 추가
+         	    $(this).find('td:gt(3)').find('input').on('keydown', function(event) {
+         	        // Enter(키 코드 13) 키가 눌렸는지 확인
+         	        if (event.key === 'Enter') {
+         	            event.preventDefault(); // 기본 동작 방지 (폼 제출 방지)
+
+         	            // 사용자가 입력한 값
+         	            var userInput = parseInt($(this).val()) || 0; // 입력값이 없으면 0으로 처리
+         	            
+         	            // 계산된 값
+         	            var calculatedValue = userInput * CountUnit;
+
+         	            // 계산된 값을 3자리 구분 기호를 포함하여 표시
+         	            $(this).val(calculatedValue.toLocaleString('en-US'));
+         	            /* console.log('Calculated value:', $(this).val()); */
+         	        }
+         	    });
+         	});
+       },
+	       error: function(xhr, status, error) {
+	           console.error('AJAX Error: ', status, error);
+	       }
+    });
+	var DateList = {};
+	$('.PeriodStart').change(function(){
+		var SelectedStartedDate = $(this).val();
+		DateList = SelectedStartedDate.split('-');
+		let Tablebody = $('.SalesPlanTable_Body');
+		var month = parseInt(DateList[1]);
+		
+		Tablebody.find('tr').each(function(){
+	        $(this).find('td').find('input, select, textarea').prop('disabled', false);
+	    });
+		
+		if (month >= 2 && month <= 12) {
+	        Tablebody.find('tr').each(function() {
+	            for (let i = 4; i < 4 + (month - 1); i++) {  // 다섯 번째 td부터 시작
+	                $(this).find('td').eq(i).find('input, select, textarea').prop('disabled', true);
+	            }
+	        });
+	    }
+	})
+
 	
 })
 
@@ -213,11 +263,15 @@ $(document).ready(function(){
 				<label id="CountUnit">수량 입력단위: </label>
 				<select class="Unit" name="Unit" id="Unit">
 					<option>SELECT</option>
+					<option value="1">1</option>
+					<option value="10000">10,000</option>
+					<option value="1000000">1,000,000</option>
 				</select>
 			</div>
 			<div class="Sales_PlanPeriod">
 				<label id="Period">계획기간: </label>
-				<input type="text" class="PeriodStart" name="PeriodStart" id="PeriodStart" readonly>
+				<select class="PeriodStart" name="PeriodStart" id="PeriodStart">
+				</select> 
 				~
 				<input type="text" class="PeriodEnd" name="PeriodEnd" id="PeriodEnd" readonly>
 			</div>

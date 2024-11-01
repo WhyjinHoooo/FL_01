@@ -66,13 +66,13 @@
 	.Sales_PlanPeriod{
 		margin: 0.1% 0% 0.1% 10%;
 	}
-	.Sales_PlanPeriod input#PeriodStart{
-		width: 150px;
-		text-align: center;
+	.Sales_PlanPeriod select#PeriodStart{
+		width: 157px;
+		text-align: left;
 	}
 	.Sales_PlanPeriod input#PeriodEnd{
 		width: 134px;
-		text-align: center;
+		text-align: left;
 	}
 	.Sales_DealComInfo{
 		margin: 0.1% 0% 1% 10%;
@@ -189,7 +189,7 @@
     border-radius: 10px;
   	}
   	.SalesPlanTable_Body::-webkit-scrollbar-track {
-    background-color: grey;
+    background-color: white;
     border-radius: 1px;
     box-shadow: inset 0px 0px 5px white;
   	}
