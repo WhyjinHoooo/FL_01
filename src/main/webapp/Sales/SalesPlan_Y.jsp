@@ -159,7 +159,6 @@ $(document).ready(function(){
                 }
 
                 // <tbody>에 추가
-                /* $('.SalesPlanTable_Body').append(row); */
                 Tablebody.append(row);
                 
             }
@@ -187,14 +186,13 @@ $(document).ready(function(){
 
          	            // 계산된 값을 3자리 구분 기호를 포함하여 표시
          	            $(this).val(calculatedValue.toLocaleString('en-US'));
-         	            /* console.log('Calculated value:', $(this).val()); */
          	        }
          	    });
          	});
        },
-	       error: function(xhr, status, error) {
-	           console.error('AJAX Error: ', status, error);
-	       }
+	   error: function(xhr, status, error) {
+			console.error('AJAX Error: ', status, error);
+		}
     });
 	var DateList = {};
 	$('.PeriodStart').change(function(){
