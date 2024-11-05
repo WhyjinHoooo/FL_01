@@ -182,7 +182,7 @@ $(document).ready(function(){
          	            var userInput = parseInt($(this).val()) || 0; // 입력값이 없으면 0으로 처리
          	            
          	            // 계산된 값
-         	            var calculatedValue = userInput * CountUnit;
+         	            var calculatedValue = userInput;
 
          	            // 계산된 값을 3자리 구분 기호를 포함하여 표시
          	            $(this).val(calculatedValue.toLocaleString('en-US'));

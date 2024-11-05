@@ -109,111 +109,18 @@
 	}
 	
 	/* ---------------- */
-	.SalesSubArea{
-		height: 100vh;
-	}
-	.SalesSubArea {
-        margin: 1.4% 8.5%;
-        height: 70%;
-        border: 3px solid rgb(111, 167, 235);
-        width: 84%;
-    }
-    .SalesPlanTable{
-        border-collapse: collapse;
-        width: 100%;
-        table-layout: fixed;
-    }
-    .SalesPlanTable_Head{
-	    display: table;
-	    width: 100%;
-    }
-    .SalesPlanTable .SalesPlanTable_Head th{
-	    background-color: rgb(111,167,235);
-	    position: sticky;
-	    top:0;
-	    color: white;
-	    text-align: center;
-	    z-index: 10;
-	    padding: 8px;
-	    border: 1px solid white;
-	    width: 120px;
-    }
-    .SalesPlanTable_Body{
-    	table-layout: fixed;
-    	display: block;
-        width: 100.28%;
-        height: 765px;
-        max-height: 100%;
-        overflow-y: auto;
-        overflow-x: auto;
-    }
-    .SalesPlanTable .SalesPlanTable_Body td {
-	    padding: 8px;
-	    border: 1px solid #ddd;
-	    width: 125.1px;
-	    height: 10px;
-	    font-weight: bold;
-	}
-	.SalesPlanTable_Body > tr > td:nth-child(2){
-	text-align: left;
-	}
-	.SalesPlanTable_Body > tr > td:nth-child(2) > select{
-	text-align: left;
-	width: 125px;
-	border-width: 0;
-	}
-	.SalesPlanTable_Body > tr > td:nth-child(3){
-	width: 126px;
-	text-align: left;
-	}
-	.SalesPlanTable_Body > tr > td:nth-child(4){
-	width: 127px;
-	text-align: center;
-	}
-	.SalesPlanTable_Body > tr > td:nth-child(n+5) > input{
-	text-align: right;
-	font-weight: bold;
-	}
-	.SalesPlanTable_Body > tr > td > input:focus{
-	outline: none;
-	}
-	.SalesPlanTable_Body > tr > td > input{
-	border-width: 0;
-	width: 120px;
-	}
-	.SalesPlanTable_Body::-webkit-scrollbar {
-    width: 5px;
-  	}
-  	.SalesPlanTable_Body::-webkit-scrollbar-thumb {
-    background-color: #2f3542;
-    border-radius: 10px;
-  	}
-  	.SalesPlanTable_Body::-webkit-scrollbar-track {
-    background-color: white;
-    border-radius: 1px;
-    box-shadow: inset 0px 0px 5px white;
-  	}
-  	/* ------------------------------------------ */
-.SalesSubArea_Month{
-		height: 100vh;
-	}
-	.SalesSubArea_Month {
+  	.SalesSubArea_Month {
         margin: 1.4% 0.4%;
         height: 70%;
         border: 3px solid rgb(111, 167, 235);
         width: 99%;
     }
-    .SalesPlanTable_Month{
+ 	.SalesPlanTable_Month{
         border-collapse: collapse;
-        width: 100%;
         table-layout: fixed;
-        overflow: scroll;
+        width: 99%;
     }
-    .SalesPlanTable_Head_Month{
-	    display: table;
-	    width: 100%;
-    }
-    .SalesPlanTable_Month .SalesPlanTable_Head_Month th{
+    .SalesPlanTable_Month .TableHeader th{
 	    background-color: rgb(111,167,235);
 	    position: sticky;
 	    top:0;
@@ -225,60 +132,34 @@
 	    width: 120px;
 	    font-size: smaller;
     }
-    .SalesPlanTable_Body_Month{
-    	table-layout: fixed;
-    	display: block;
-        width: 100.28%;
-        height: 765px;
-        max-height: 100%;
-        overflow-y: auto;
-        overflow-x: auto;
-    }
-    .SalesPlanTable_Month .SalesPlanTable_Body_Month td {
+    .SalesPlanTable_Month td {
 	    padding: 8px;
 	    border: 1px solid #ddd;
 	    width: 125.1px;
 	    height: 10px;
 	    font-weight: bold;
 	}
-	.SalesPlanTable_Body_Month > tr > td:nth-child(2){
-	text-align: left;
-	}
-	.SalesPlanTable_Body_Month > tr > td:nth-child(2) > select{
-	text-align: left;
-	width: 125px;
-	border-width: 0;
-	}
-	.SalesPlanTable_Body_Month > tr > td:nth-child(3){
-	width: 126px;
-	text-align: left;
-	}
-	.SalesPlanTable_Body_Month > tr > td:nth-child(4){
-	width: 127px;
-	text-align: center;
-	}
-	.SalesPlanTable_Body_Month > tr > td:nth-child(n+5) > input{
-	text-align: right;
-	font-weight: bold;
-	}
-	.SalesPlanTable_Body_Month > tr > td > input:focus{
-	outline: none;
-	}
-	.SalesPlanTable_Body_Month > tr > td > input{
-	border-width: 0;
-	width: 120px;
-	}
-	.SalesPlanTable_Body_Month::-webkit-scrollbar {
+    .SalesPlanTable_Month{
+    	table-layout: fixed;
+    	display: block;
+    	width: 100%;
+        max-height: 100%;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+    .SalesPlanTable_Month tbody{
+    height: 100px;
+    }
+    .SalesPlanTable_Month::-webkit-scrollbar {
     width: 5px;
   	}
-  	.SalesPlanTable_Body_Month::-webkit-scrollbar-thumb {
+  	.SalesPlanTable_Month::-webkit-scrollbar-thumb {
     background-color: #2f3542;
     border-radius: 10px;
   	}
-  	.SalesPlanTable_Body_Month::-webkit-scrollbar-track {
+  	.SalesPlanTable_Month::-webkit-scrollbar-track {
     background-color: white;
     border-radius: 1px;
     box-shadow: inset 0px 0px 5px white;
   	}
-
 }
