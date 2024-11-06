@@ -109,7 +109,7 @@
 	}
 	
 	/* ---------------- */
-  	.SalesSubArea_Month {
+  	/* .SalesSubArea_Month {
         margin: 1.4% 0.4%;
         height: 70%;
         border: 3px solid rgb(111, 167, 235);
@@ -161,5 +161,134 @@
     background-color: white;
     border-radius: 1px;
     box-shadow: inset 0px 0px 5px white;
-  	}
+  	} */
+  	.SalesSubArea_Month {
+        margin: 1.4% 0.4%;
+    }
+	.SalesPlanTable_Month {
+	    border-collapse: collapse;
+	    width: 100%;
+	    table-layout: fixed;
+	    border: 1px solid rgb(111,167,235);
+	}
+	.SalesPlanTable_Head_Month {
+	    /* display: table; 테이블 형식으로 표시 */
+	    display: block; /* 테이블 형식으로 표시 */
+	    width: 100%;
+	    position: sticky; /* 스크롤 시 고정되도록 설정 */
+	    top: 0; /* 상단에 고정 */
+	    z-index: 10; /* z-index를 설정하여 다른 요소 위에 표시 */
+	    overflow-x: hidden;
+	}
+	.SalesPlanTable_Head_Month > tr {
+	    display: table; /* 테이블 형식으로 표시 */
+	    table-layout: fixed;
+	    width: 100%;
+	}
+	.SalesPlanTable_Head_Month > tr > td {
+	    padding: 8px;
+	    border: 1px solid #ddd;
+	    width: 125.1px; /* 수정한 부분: th와 동일한 너비로 설정 */
+	    height: 10px;
+	    font-weight: bold;
+	}
+	.SalesPlanTable_Body_Month {
+	    display: block; /* 블록 요소로 설정하여 스크롤 가능하게 함 */
+	    width: 100%;
+	    height: 765px;
+	    max-height: 100%;
+	    overflow-y: auto; /* 세로 스크롤 가능 */
+	    overflow-x: auto; /* 가로 스크롤 가능 */
+	}
+	
+	.SalesPlanTable_Body_Month > tr {
+	    display: table; /* 각 행을 테이블 형식으로 표시 */
+	    width: 100%; /* 전체 너비 사용 */
+	    table-layout: fixed; /* 고정된 테이블 레이아웃 */
+	}
+	
+	.SalesPlanTable_Body_Month > tr > td {
+	    padding: 8px;
+	    border: 1px solid #ddd;
+	    width: 125.1px; /* 수정한 부분: th와 동일한 너비로 설정 */
+	    height: 10px;
+	    font-weight: bold;
+	}
+	
+	/* 추가된 CSS: thead와 tbody가 함께 스크롤되도록 설정 */
+	.SalesPlanTable_Month .SalesPlanTable_Head_Month th {
+	    background-color: rgb(111, 167, 235);
+	    color: white;
+	    text-align: center;
+	    padding: 8px;
+	    border: 1px solid white;
+	    width: 125.1px; /* 수정한 부분: tbody의 td와 동일한 너비로 설정 */
+	    font-size: smaller;
+	}
+	
+	/* 기존 CSS는 그대로 유지 */
+	.SalesPlanTable_Body_Month > tr > td:nth-child(2) {
+	    text-align: left;
+	}
+	
+	.SalesPlanTable_Body_Month > tr > td:nth-child(2) > select {
+	    text-align: left;
+	    width: 125px;
+	    border-width: 0;
+	}
+	
+	.SalesPlanTable_Body_Month > tr > td:nth-child(3) {
+	    width: 126px;
+	    text-align: left;
+	}
+	
+	.SalesPlanTable_Body_Month > tr > td:nth-child(4) {
+	    width: 127px;
+	    text-align: center;
+	}
+	
+	.SalesPlanTable_Body_Month > tr > td:nth-child(n+5) > input {
+	    text-align: right;
+	    font-weight: bold;
+	}
+	
+	.SalesPlanTable_Body_Month > tr > td > input:focus {
+	    outline: none;
+	}
+	
+	.SalesPlanTable_Body_Month > tr > td > input {
+	    border-width: 0;
+	    width: 120px;
+	}
+	
+	.SalesPlanTable_Body_Month::-webkit-scrollbar {
+	    width: 5px;
+	}
+	.SalesPlanTable_Body_Month::-webkit-scrollbar-thumb {
+	    background-color: #2f3542;
+	    border-radius: 10px;
+	}
+	
+	.SalesPlanTable_Body_Month::-webkit-scrollbar-track {
+	    background-color: white;
+	    border-radius: 1px;
+	    box-shadow: inset 0px 0px 5px white;
+	}
+	/* 수평 스크롤바 스타일 */
+	.SalesPlanTable_Body_Month::-webkit-scrollbar:horizontal {
+	    height: 5px; /* 수평 스크롤바의 높이 */
+	}
+	
+	/* 수평 스크롤바 thumb 스타일 */
+	.SalesPlanTable_Body_Month::-webkit-scrollbar-thumb:horizontal {
+	    background-color: black;
+	    border-radius: 10px;
+	}
+	
+	/* 수평 스크롤바 track 스타일 */
+	.SalesPlanTable_Body_Month::-webkit-scrollbar-track:horizontal {
+	    background-color: white;
+	    border-radius: 1px;
+	    box-shadow: inset 0px 0px 5px white;
+	}
 }

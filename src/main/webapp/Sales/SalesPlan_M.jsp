@@ -9,6 +9,15 @@
 <head>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tbody = document.querySelector('.SalesPlanTable_Body_Month');
+    const thead = document.querySelector('.SalesPlanTable_Head_Month');
+
+    tbody.addEventListener('scroll', function() {
+        thead.scrollLeft = tbody.scrollLeft; // thead의 스크롤 위치를 직접 설정
+    });
+});
+
 function InfoSearch(field){
 	event.preventDefault();
 	
@@ -121,16 +130,19 @@ $(document).ready(function(){
 		<button class="SaveBtn">저장</button>
 	</div>
 	<div class="SalesSubArea_Month">
-		<table class="SalesPlanTable_Month">
-			<tr class="TableHeader">
-				<th>품목코드</th><th>품목명</th><th>단위</th>
-				<th>1일</th><th>2일</th><th>3일</th><th>4일</th><th>5일</th><th>6일</th><th>7일</th>
-				<th>8일</th><th>9일</th><th>10일</th><th>11일</th><th>12일</th><th>13일</th><th>14일</th>
-				<th>15일</th><th>16일</th><th>17일</th><th>18일</th><th>19일</th><th>20일</th><th>21일</th>
-				<th>22일</th><th>23일</th><th>24일</th><th>25일</th><th>26일</th><th>27일</th><th>28일</th>
-				<th>29일</th><th>30일</th><th>31일</th>
-			</tr>
-		</table>
+	    <table class="SalesPlanTable_Month">
+	        <thead class="SalesPlanTable_Head_Month">
+	            <tr>
+	                <th>품목코드</th><th>품목명</th><th>단위</th>
+	                <th>1일</th><th>2일</th><th>3일</th><th>4일</th><th>5일</th><th>6일</th><th>7일</th>
+	                <th>8일</th><th>9일</th><th>10일</th><th>11일</th><th>12일</th><th>13일</th><th>14일</th>
+	                <th>15일</th><th>16일</th><th>17일</th><th>18일</th><th>19일</th><th>20일</th><th>21일</th>
+	                <th>22일</th><th>23일</th><th>24일</th><th>25일</th><th>26일</th><th>27일</th><th>28일</th>
+	                <th>29일</th><th>30일</th><th>31일</th>
+	            </tr>
+	        </thead>
+	        <tbody class="SalesPlanTable_Body_Month"></tbody>
+	    </table>
 	</div>
 </div>
 </body>
