@@ -100,8 +100,8 @@ $(document).ready(function(){
 				<input class="DocCodeDes" name="DocCodeDes" id="DocCodeDes" readonly value="Click">
 				<label id="CountUnit">수량 입력단위: </label>
 				<select class="Unit" name="Unit" id="Unit">
-					<option>SELECT</option>
 					<option value="1">1</option>
+					<option value="1000">1,000</option>
 					<option value="10000">10,000</option>
 					<option value="1000000">1,000,000</option>
 				</select>

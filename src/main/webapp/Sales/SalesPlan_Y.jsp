@@ -39,7 +39,15 @@ function InfoSearch(field){
         xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
         yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
     }
-    
+    switch(field){
+    case "PlanVer":
+    	var UserComCode = $('.Com-code').val();
+    	console.log(UserComCode);
+    	popupWidth = 550;
+    	popupHeight = 610;
+    	window.open("${contextPath}/Sales/Popup/FindPlanVersion.jsp?ComCode=" + UserComCode, "POPUP01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    }
 }
 $(document).ready(function(){
 	
@@ -256,12 +264,12 @@ $(document).ready(function(){
 			</div>
 			<div class="Sales_DocInfo">
 				<label id="DocVersion">Plan Version: </label>
-				<input type="text" class="DocCode" name="DocCode" id="DocCode" readonly value="Click">
-				<input class="DocCodeDes" name="DocCodeDes" id="DocCodeDes" readonly value="Click">
+				<input type="text" class="DocCode" name="DocCode" id="DocCode" onclick="InfoSearch('PlanVer')" readonly value="Click">
+				<input class="DocCodeDes" name="DocCodeDes" id="DocCodeDes" readonly>
 				<label id="CountUnit">수량 입력단위: </label>
 				<select class="Unit" name="Unit" id="Unit">
-					<option>SELECT</option>
 					<option value="1">1</option>
+					<option value="1000">1,000</option>
 					<option value="10000">10,000</option>
 					<option value="1000000">1,000,000</option>
 				</select>
@@ -292,13 +300,6 @@ $(document).ready(function(){
 				<th>9월</th><th>10월</th><th>11월</th><th>12월</th>
 			</thead>
 			<tbody class="SalesPlanTable_Body">
-			<!-- 23개의 <tr>...</tr> 들어가면 스크롤바가 생성됨-->
-				<!-- <tr>
-					<td>FERT-10001</td><td>완제품 10001</td><td>EA</td>
-					<td>1</td><td>2</td><td>3</td><td>4</td>
-					<td>5</td><td>6</td><td>7</td><td>8</td>
-					<td>9</td><td>10</td><td>11</td><td>12</td>
-				</tr> -->
 			</tbody>
 		</table>
 	</div>

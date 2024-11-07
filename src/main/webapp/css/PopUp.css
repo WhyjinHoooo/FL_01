@@ -32,3 +32,24 @@
 	.PopUp-board td a:hover {
 	text-decoration: underline;
 	}
+	/* 영업계획 중 매출계획(년간) */
+	.Sales_PlanVer_board{
+		border: 1px solid rgb(111, 167, 235);
+	    height: 80vh;
+	    width: 70vh
+	}
+	.PlanVerTable{
+	border-collapse: collapse;
+	width: 100%;
+    table-layout: fixed;
+	}
+	.PlanVerTable thead {
+    	background: rgb(111, 167, 235);
+	}
+	.PlanVerTable thead > tr > th{
+    	color: white;
+    	padding: 8px;
+    	border: 1px solid white;
+	}
+	/* 영업계획 중 매출계획(년간) */
+	
