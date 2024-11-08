@@ -24,6 +24,8 @@ function InfoSearch(field){
     var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
     var xPos, yPos;
     
+    var UserComCode = $('.Com-code').val();
+    
     if (width == 2560 && height == 1440) {
         // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
         xPos = (2560 / 2) - (popupWidth / 2);
@@ -39,14 +41,19 @@ function InfoSearch(field){
         xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
         yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
     }
+    
     switch(field){
     case "PlanVer":
-    	var UserComCode = $('.Com-code').val();
+    	var PlanYear = $('.Year').val();
     	console.log(UserComCode);
     	popupWidth = 550;
     	popupHeight = 610;
-    	window.open("${contextPath}/Sales/Popup/FindPlanVersion.jsp?ComCode=" + UserComCode, "POPUP01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	window.open("${contextPath}/Sales/Popup/FindPlanVersion.jsp?ComCode=" + UserComCode + "&Year=" + PlanYear, "POPUP01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     	break;
+    case "TradeCom":
+    	popupWidth = 550;
+    	popupHeight = 610;
+    	window.open("${contextPath}/Sales/Popup/FindTradeCom.jsp?ComCode=" + UserComCode, "POPUP01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     }
 }
 $(document).ready(function(){
@@ -88,8 +95,8 @@ $(document).ready(function(){
 		YearInput.appendChild(Option);
 	}
 	
-	$('.Year').change(function(){
-		var NewYearBegin = $(this).val();
+	$('.DocCode').change(function(){
+		/* var NewYearBegin = $(this).val();
 		$('.PeriodStart').empty();
 		$('.PeriodStart').append("<option>선택</option>")
 		for(var i = 1 ; i <=12 ; i++){
@@ -97,7 +104,28 @@ $(document).ready(function(){
 			var Date = `${ "${NewYearBegin}-${Month}-01"}`;
 			$('.PeriodStart').append(`<option value=${"${Date}"}>${"${Date}"}</option>`)
 		}
-		$('.PeriodEnd').val(NewYearBegin + '-12-' +'31')
+		$('.PeriodEnd').val(NewYearBegin + '-12-' +'31') */
+		console.log("asd");
+		var PlanCode = $(this).val();
+		var PlaningYear = $('.Year').val();
+		var DateGroup = {};
+		$.ajax({
+			type: "POST",
+			url: '${contextPath}/Sales/ajax/FindPlanVersion.jsp',
+			data: {PV : PlanCode},
+			success: function(Data){
+				console.log(Data.trim());
+				DateGroup = Data.trim().split('-')
+				console.log(parseInt(DateGroup[1]));
+				if(parseInt(DateGroup[1]) == 1){
+					$('.PeriodStart').val(Data);
+				} else{
+					$('.PeriodStart').val(DateGroup[0] + '-' + ((ParseInt(DateGroup[1]))+1).toString().padStart(2,'0') +'-'+ DateGroup[2]);
+				}
+				$('.PeriodEnd').val(DateGroup[0] + '-12-' +'31')
+			}
+			
+		})
 	})
 	
 	var UserId = $('.UserId').val();
@@ -105,7 +133,7 @@ $(document).ready(function(){
 	console.log('사용자 아이디 : ' + UserId);
 	$.ajax({
 		type: "POST",
-		url: "${contextPath}/Information/AjaxSet/Sales_BizAreaSearch.jsp",
+		url: "${contextPath}/Sales/ajax/Sales_BizAreaSearch.jsp",
 		data: {Id : UserId},
 		success: function(response){
 			console.log(response.trim());
@@ -115,93 +143,120 @@ $(document).ready(function(){
 		}
 	})
 	
-	let Tablebody = $('.SalesPlanTable_Body');
-	Tablebody.empty();
-	$.ajax({
-        url: 'ItemCodeSearch.jsp',
-        type: 'GET',
-        dataType: 'json', // 데이터 형식에 맞게 조정
-        success: function(data) {
-            for (let i = 0; i < 50; i++) {
-                const row = $('<tr></tr>');
+	$('.DealComCode').change(function(){
+		var TradeCompany = $(this).val();
+		console.log(TradeCompany);
+		let Tablebody = $('.SalesPlanTable_Body');
+		Tablebody.empty();
+		$.ajax({
+	        url: '${contextPath}/Sales/ajax/ItemCodeSearch.jsp',
+	        type: 'GET',
+	        data: {DealCom : TradeCompany},
+	        dataType: 'json', // 데이터 형식에 맞게 조정
+	        success: function(data) {
+	        	if (!data || data.length === 0) {  // data가 비어있거나 없는 경우
+	                alert('해당 거래처는 아직 등록되지 않았습니다.');
+	        		return false;
+	            } else{
+					for (let i = 0; i < 50; i++) {
+						const row = $('<tr></tr>');
 
-                const hiddenCell = $('<td style="display:none;"></td>').text(i+1);
-                row.append(hiddenCell); // 숨겨진 <td> 추가
-                
-                // 첫 번째 <td>에 <select> 추가
-                const select = $('<select></select>');
-                const defaultOption = $('<option></option>')
-                .val('') // 기본 옵션의 value는 빈 문자열
-                .text('선택'); // 기본 옵션의 텍스트
-            	select.append(defaultOption);
-                
-                data.forEach(item => {
-                    const option = $('<option></option>')
-                        .val(`${ "${item.ProductCode}" },${"${item.ProductName}" },${ "${item.ProductUnit}" }`)
-                        .text(`${ "${item.ProductCode}" }`);
-                    select.append(option);
-                });
+		                const hiddenCell = $('<td style="display:none;"></td>').text(i+1);
+		                row.append(hiddenCell); // 숨겨진 <td> 추가
+		                
+		                // 첫 번째 <td>에 <select> 추가
+		                const select = $('<select></select>');
+		                const defaultOption = $('<option></option>')
+		                .val('') // 기본 옵션의 value는 빈 문자열
+		                .text('선택'); // 기본 옵션의 텍스트
+		            	select.append(defaultOption);
+		                
+		                data.forEach(item => {
+		                    const option = $('<option></option>')
+		                        .val(`${ "${item.ProductCode}" },${"${item.ProductName}" },${ "${item.ProductUnit}" }`)
+		                        .text(`${ "${item.ProductCode}" }`);
+		                    select.append(option);
+		                });
 
-                row.append($('<td></td>').append(select));
+		                row.append($('<td></td>').append(select));
 
-                // 두 번째 <td>에 품목명 추가
-                const productNameCell = $('<td></td>');
-                select.on('change', function() {
-                    const selectedValue = $(this).val().split(',');
-                    productNameCell.text(selectedValue[1]); // 품목명
-                });
-                row.append(productNameCell);
+		                // 두 번째 <td>에 품목명 추가
+		                /* const productNameCell = $('<td></td>');
+		                select.on('change', function() {
+		                    const selectedValue = $(this).val().split(',');
+		                    productNameCell.text(selectedValue[1]); // 품목명
+		                });
+		                row.append(productNameCell); */
+		                const productNameCell = $('<td></td>');
+		                select.on('change', function() {
+		                    const selectedValue = $(this).val().split(',');
+		                    
+		                    // <input> 요소 생성
+		                    const inputElement = $('<input>', {
+		                        type: 'text',
+		                        value: selectedValue[1],  // selectedValue[1]을 value로 설정
+		                        readonly: true,            // readonly 속성 추가
+		                        class: 'readonly-input'    // 선택적으로 class 추가 가능
+		                    });
 
-                // 세 번째 <td>에 단위 추가
-                const productUnitCell = $('<td></td>');
-                select.on('change', function() {
-                    const selectedValue = $(this).val().split(',');
-                    productUnitCell.text(selectedValue[2]); // 단위
-                });
-                row.append(productUnitCell);
+		                    // 생성된 <input>을 <td> 안에 추가
+		                    productNameCell.empty().append(inputElement);  // 기존 내용은 지우고 input 추가
+		                });
+		                row.append(productNameCell);
 
-                // 네 번째와 다섯 번째 <td>에 <input> 추가
-                for (let j = 0; j < 12; j++) {
-                    const input = $('<input type="text" />');
-                    row.append($('<td></td>').append(input));
-                }
+		                // 세 번째 <td>에 단위 추가
+		                const productUnitCell = $('<td></td>');
+		                select.on('change', function() {
+		                    const selectedValue = $(this).val().split(',');
+		                    productUnitCell.text(selectedValue[2]); // 단위
+		                });
+		                row.append(productUnitCell);
 
-                // <tbody>에 추가
-                Tablebody.append(row);
-                
-            }
-            var CountUnit = null;
+		                // 네 번째와 다섯 번째 <td>에 <input> 추가
+		                for (let j = 0; j < 12; j++) {
+		                    const input = $('<input type="text" />');
+		                    row.append($('<td></td>').append(input));
+		                }
 
-         	// 'Unit' 클래스의 <select>에서 값이 변경될 때
-         	$('.Unit').change(function() {
-            CountUnit = parseInt($(this).val()); // 선택한 값을 정수로 변환
-            console.log('CountUnit:', CountUnit);
-	        });
-	
-	        // 'SalesPlanTable_Body' 내의 각 <tr>에 대해
-         	$('.SalesPlanTable_Body').find('tr').each(function() {
-         	    // <td> 요소들 중 4번째 인덱스 이상의 <td>를 찾고, <input>에 대한 이벤트 리스너 추가
-         	    $(this).find('td:gt(3)').find('input').on('keydown', function(event) {
-         	        // Enter(키 코드 13) 키가 눌렸는지 확인
-         	        if (event.key === 'Enter') {
-         	            event.preventDefault(); // 기본 동작 방지 (폼 제출 방지)
+		                // <tbody>에 추가
+		                Tablebody.append(row);
+		                
+		            	}
+		            	var CountUnit = null;
 
-         	            // 사용자가 입력한 값
-         	            var userInput = parseInt($(this).val()) || 0; // 입력값이 없으면 0으로 처리
-         	            
-         	            // 계산된 값
-         	            var calculatedValue = userInput;
+		         	// 'Unit' 클래스의 <select>에서 값이 변경될 때
+		         	$('.Unit').change(function() {
+		            CountUnit = parseInt($(this).val()); // 선택한 값을 정수로 변환
+		            console.log('CountUnit:', CountUnit);
+			        });
+			
+			        // 'SalesPlanTable_Body' 내의 각 <tr>에 대해
+		         	$('.SalesPlanTable_Body').find('tr').each(function() {
+		         	    // <td> 요소들 중 4번째 인덱스 이상의 <td>를 찾고, <input>에 대한 이벤트 리스너 추가
+		         	    $(this).find('td:gt(3)').find('input').on('keydown', function(event) {
+		         	        // Enter(키 코드 13) 키가 눌렸는지 확인
+		         	        if (event.key === 'Enter') {
+		         	            event.preventDefault(); // 기본 동작 방지 (폼 제출 방지)
 
-         	            // 계산된 값을 3자리 구분 기호를 포함하여 표시
-         	            $(this).val(calculatedValue.toLocaleString('en-US'));
-         	        }
-         	    });
-         	});
-       },
-	   error: function(xhr, status, error) {
-			console.error('AJAX Error: ', status, error);
-		}
-    });
+		         	            // 사용자가 입력한 값
+		         	            var userInput = parseInt($(this).val()) || 0; // 입력값이 없으면 0으로 처리
+		         	            
+		         	            // 계산된 값
+		         	            var calculatedValue = userInput;
+
+		         	            // 계산된 값을 3자리 구분 기호를 포함하여 표시
+		         	            $(this).val(calculatedValue.toLocaleString('en-US'));
+		         	        }
+		         	    });
+		         	});
+	            }
+	            
+	       },
+		   error: function(xhr, status, error) {
+				console.error('AJAX Error: ', status, error);
+			}
+	    });
+	})
 	var DateList = {};
 	$('.PeriodStart').change(function(){
 		var SelectedStartedDate = $(this).val();
@@ -221,7 +276,24 @@ $(document).ready(function(){
 	        });
 	    }
 	})
-
+	$('.Year').change(function() {
+	    const resetElements = [
+	        ".DocCode", ".DocCodeDes", 
+	        ".PeriodStart", ".PeriodEnd", 
+	        ".DealComCode", ".DealComCodeDes"
+	    ];
+	    resetElements.forEach(selector => {
+	        const element = document.querySelector(selector);
+	        if (element) {
+	            if (selector === ".DocCode" || selector === ".DealComCode") {
+	                element.value = 'Click';  // DocCode만 다르게 설정
+	            } else {
+	                element.value = '';  // 나머지는 빈 값으로 초기화
+	            }
+	        }
+	    });
+	    $('.SalesPlanTable_Body').empty();
+	});
 	
 })
 
@@ -276,14 +348,13 @@ $(document).ready(function(){
 			</div>
 			<div class="Sales_PlanPeriod">
 				<label id="Period">계획기간: </label>
-				<select class="PeriodStart" name="PeriodStart" id="PeriodStart">
-				</select> 
+				<input type="text" class="PeriodStart" name="PeriodStart" id="PeriodStart" readonly> 
 				~
 				<input type="text" class="PeriodEnd" name="PeriodEnd" id="PeriodEnd" readonly>
 			</div>
 			<div class="Sales_DealComInfo">
 				<label id="DealCompany">거래처: </label>
-				<input class="DealComCode" name="DealComCode" id="DealComCode" readonly value="Click">
+				<input class="DealComCode" name="DealComCode" id="DealComCode" onclick="InfoSearch('TradeCom')" readonly value="Click">
 				<input class="DealComCodeDes" name="DealComCodeDes" id="DealComCodeDes" readonly>
 			</div>
 		</div>

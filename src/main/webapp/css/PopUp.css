@@ -33,23 +33,42 @@
 	text-decoration: underline;
 	}
 	/* 영업계획 중 매출계획(년간) */
-	.Sales_PlanVer_board{
-		border: 1px solid rgb(111, 167, 235);
-	    height: 80vh;
-	    width: 70vh
+	.Sales_PlanVer_board,
+	.Sales_TradeCom_board {
+    border: 1px solid rgb(111, 167, 235);
+    max-height: 80vh; /* 최대 높이 제한 */
+    width: 70vh;
+    overflow-y: auto; /* 세로 스크롤 생성 */
 	}
-	.PlanVerTable{
+	.PlanVerTable,
+	.TradeComTable {
 	border-collapse: collapse;
 	width: 100%;
     table-layout: fixed;
 	}
-	.PlanVerTable thead {
+	.PlanVerTable thead,
+	.TradeComTable thead {
     	background: rgb(111, 167, 235);
 	}
-	.PlanVerTable thead > tr > th{
+	.PlanVerTable thead > tr > th,
+	.TradeComTable thead > tr > th{
     	color: white;
     	padding: 8px;
     	border: 1px solid white;
+	}
+	.PlanVerTable tbody > tr,
+	.TradeComTable tbody > tr {
+    	border: 1px solid white;
+    	text-align: center;
+	}
+	.PlanVerTable tbody > tr > td,
+	.TradeComTable tbody > tr > td{
+    	background: #F5F5F5;
+	    color: #22577A;
+	    border: 1px solid white;
+	    text-align: center;
+	    padding: 8px;
+	    font-weight: bold;
 	}
 	/* 영업계획 중 매출계획(년간) */
 	

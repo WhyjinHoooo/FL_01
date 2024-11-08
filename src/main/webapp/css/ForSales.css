@@ -66,13 +66,15 @@
 	.Sales_PlanPeriod{
 		margin: 0.1% 0% 0.1% 10%;
 	}
-	.Sales_PlanPeriod select#PeriodStart{
-		width: 157px;
-		text-align: left;
+	.Sales_PlanPeriod input#PeriodStart{
+		width: 149px;
+		text-align: center;
+		font-weight: bold;
 	}
 	.Sales_PlanPeriod input#PeriodEnd{
 		width: 134px;
-		text-align: left;
+		text-align: center;
+		font-weight: bold;
 	}
 	.Sales_DealComInfo{
 		margin: 0.1% 0% 1% 10%;
@@ -153,7 +155,6 @@
 	    border: 1px solid #ddd;
 	    width: 125.1px;
 	    height: 10px;
-	    font-weight: bold;
 	}
 	.SalesPlanTable_Body > tr > td:nth-child(2){
 	text-align: left;
@@ -167,9 +168,13 @@
 	width: 126px;
 	text-align: left;
 	}
+	.SalesPlanTable_Body > tr > td:nth-child(3) > input{
+	font-weight: bold;
+	}
 	.SalesPlanTable_Body > tr > td:nth-child(4){
 	width: 127px;
 	text-align: center;
+	font-weight: bold;
 	}
 	.SalesPlanTable_Body > tr > td:nth-child(n+5) > input{
 	text-align: right;

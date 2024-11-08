@@ -12,33 +12,29 @@
 <h1>검색</h1>
 <hr>
 	<center>
-		<div class="Sales_PlanVer_board">
-			<table class="PlanVerTable">
+		<div class="Sales_TradeCom_board">
+			<table class="TradeComTable">
 				<thead>
 				    <tr>
-				        <th>계획버전(PlanVersion)</th><th>계획이름(Description)</th>
+				        <th>거래처(TradingPartner)</th><th>거래처명(PartnerDesc)</th>
 				    </tr>
 			    </thead>
 			    <tbody>
 			<%
 			    try{
 			   	String CoCd = request.getParameter("ComCode");
-			   	String Year = request.getParameter("Year");
-			   	String CombiWord = "YP"+ Year;
-			   	System.out.println(CombiWord);
-			    String sql = "SELECT * FROM sales_planversion WHERE LEFT(PlanVer, 6) IN (?) AND ComCode = ?";
+			    String sql = "SELECT * FROM project.sales_trandingpartner WHERE ComCode = ?";
 			    PreparedStatement pstmt = null;
 			    ResultSet rs = null;
 			    
 			    pstmt = conn.prepareStatement(sql);
-			    pstmt.setString(1, CombiWord);
-			    pstmt.setString(2, CoCd);
+			    pstmt.setString(1, CoCd);
 			    rs = pstmt.executeQuery();
 			    
 			    if(!rs.next()){
 			%>
 				<tr>
-					<td colspan="2"><a href="javascript:void(0)" onClick="window.close();">해당 계획버전은 없습니다.</a></td>
+					<td colspan="2"><a href="javascript:void(0)" onClick="window.close();">해당 거래처(은)는 없습니다.</a></td>
 				</tr>
 			<%
 			    } else{
@@ -48,15 +44,15 @@
 			    <td>
 				    <a href="javascript:void(0)" 
 				       onClick="
-				           window.opener.document.querySelector('.DocCode').value = '<%= rs.getString("PlanVer") %>';
-				           window.opener.document.querySelector('.DocCodeDes').value = '<%= rs.getString("PlanVerDesc") %>';
-				           window.opener.document.querySelector('.DocCode').dispatchEvent(new Event('change'));
+				           window.opener.document.querySelector('.DealComCode').value = '<%= rs.getString("TradingPartner") %>';
+				           window.opener.document.querySelector('.DealComCodeDes').value = '<%= rs.getString("PartnerDesc") %>';
+				           window.opener.document.querySelector('.DealComCode').dispatchEvent(new Event('change'));
 				           window.close();
 				       ">
-				       <%= rs.getString("PlanVer") %>
+				       <%= rs.getString("TradingPartner") %>
 				    </a>
 				</td>
-			    <td><%=rs.getString("PlanVerDesc") %></td>
+			    <td><%=rs.getString("PartnerDesc") %></td>
 			</tr>
 			<%  
 			    	}while(rs.next());

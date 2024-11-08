@@ -7,18 +7,19 @@
     JSONArray jsonArray = new JSONArray();
 
     try {
-        String sql = "SELECT ProductCode, ProductName, ProductUnit FROM Project.ItemCode"; // SQL 쿼리
+    	String TradeCoCd = request.getParameter("DealCom");
+    	System.out.println(TradeCoCd);
+        String sql = "SELECT * FROM sales_trandingproduct WHERE TradingPartner = ?"; // SQL 쿼리
         PreparedStatement pstmt = conn.prepareStatement(sql);
-        ResultSet rs = pstmt.executeQuery(sql);
-
+        pstmt.setString(1, TradeCoCd);
+        ResultSet rs = pstmt.executeQuery();
         while (rs.next()) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("ProductCode", rs.getString("ProductCode"));
-            jsonObject.put("ProductName", rs.getString("ProductName"));
-            jsonObject.put("ProductUnit", rs.getString("ProductUnit"));
+            jsonObject.put("ProductCode", rs.getString("MatCode"));
+            jsonObject.put("ProductName", rs.getString("MatDesc"));
+            jsonObject.put("ProductUnit", rs.getString("QtyUnit"));
             jsonArray.put(jsonObject);
         }
-
         response.setContentType("application/json");
         response.getWriter().write(jsonArray.toString()); // JSON 응답
     } catch (SQLException e) {
