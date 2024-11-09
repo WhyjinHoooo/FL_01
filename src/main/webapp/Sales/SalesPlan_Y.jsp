@@ -115,14 +115,17 @@ $(document).ready(function(){
 			data: {PV : PlanCode},
 			success: function(Data){
 				console.log(Data.trim());
-				DateGroup = Data.trim().split('-')
-				console.log(parseInt(DateGroup[1]));
-				if(parseInt(DateGroup[1]) == 1){
+				DateGroup = Data.trim().split(',')
+				console.log(DateGroup[0]);
+				console.log(DateGroup[1]);
+				/* if(parseInt(DateGroup[1]) == 1){
 					$('.PeriodStart').val(Data);
 				} else{
-					$('.PeriodStart').val(DateGroup[0] + '-' + ((ParseInt(DateGroup[1]))+1).toString().padStart(2,'0') +'-'+ DateGroup[2]);
-				}
-				$('.PeriodEnd').val(DateGroup[0] + '-12-' +'31')
+					console.log(DateGroup[0] + '-' + ((parseInt(DateGroup[1]))+1).toString().padStart(2,'0') +'-'+ DateGroup[2]);
+					$('.PeriodStart').val(DateGroup[0] + '-' + ((parseInt(DateGroup[1]))+1).toString().padStart(2,'0') +'-'+ DateGroup[2]);
+				} */
+				$('.PeriodStart').val(DateGroup[0]);
+				$('.PeriodEnd').val(DateGroup[1])
 			}
 			
 		})
@@ -160,11 +163,12 @@ $(document).ready(function(){
 	            } else{
 					for (let i = 0; i < 50; i++) {
 						const row = $('<tr></tr>');
-
+						
+						// 첫 번째 <td>의 품목들 순번
 		                const hiddenCell = $('<td style="display:none;"></td>').text(i+1);
 		                row.append(hiddenCell); // 숨겨진 <td> 추가
 		                
-		                // 첫 번째 <td>에 <select> 추가
+		                // 두 번째 <td>에 <select> 추가
 		                const select = $('<select></select>');
 		                const defaultOption = $('<option></option>')
 		                .val('') // 기본 옵션의 value는 빈 문자열
@@ -180,7 +184,7 @@ $(document).ready(function(){
 
 		                row.append($('<td></td>').append(select));
 
-		                // 두 번째 <td>에 품목명 추가
+		                // 세 번째 <td>에 품목명 추가
 		                /* const productNameCell = $('<td></td>');
 		                select.on('change', function() {
 		                    const selectedValue = $(this).val().split(',');
@@ -204,7 +208,7 @@ $(document).ready(function(){
 		                });
 		                row.append(productNameCell);
 
-		                // 세 번째 <td>에 단위 추가
+		                // 네 번째 <td>에 단위 추가
 		                const productUnitCell = $('<td></td>');
 		                select.on('change', function() {
 		                    const selectedValue = $(this).val().split(',');
@@ -212,7 +216,7 @@ $(document).ready(function(){
 		                });
 		                row.append(productUnitCell);
 
-		                // 네 번째와 다섯 번째 <td>에 <input> 추가
+		                // 다섯 번째부터 열여섯 번째까지 <td>에 <input> 추가
 		                for (let j = 0; j < 12; j++) {
 		                    const input = $('<input type="text" />');
 		                    row.append($('<td></td>').append(input));

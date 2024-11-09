@@ -6,7 +6,7 @@
 <%
 	String S_Word = request.getParameter("PV"); // 검색할 계획버전 코드
 	String PlantStart = null;
-	String UserCoCt = null;
+	String PlantEnd = null;
 	String UserBizArea = null;
 	String UserBizDes = null;
 	try{
@@ -16,8 +16,9 @@
 		ResultSet rs01 = pstmt01.executeQuery();		
 		if(rs01.next()){
 			PlantStart = rs01.getString("PlanStart");
+			PlantEnd = rs01.getString("PlanEndPeriod");
 		}
-		out.println(PlantStart);
+		out.println(PlantStart +',' + PlantEnd);
 }catch(SQLException e){
 	e.printStackTrace();
 }
