@@ -18,6 +18,7 @@
             jsonObject.put("ProductCode", rs.getString("MatCode"));
             jsonObject.put("ProductName", rs.getString("MatDesc"));
             jsonObject.put("ProductUnit", rs.getString("QtyUnit"));
+            jsonObject.put("DealRate", rs.getString("TranCurr"));
             jsonArray.put(jsonObject);
         }
         response.setContentType("application/json");
@@ -26,3 +27,4 @@
         e.printStackTrace();
     }
 %>
+

@@ -177,7 +177,7 @@ $(document).ready(function(){
 		                
 		                data.forEach(item => {
 		                    const option = $('<option></option>')
-		                        .val(`${ "${item.ProductCode}" },${"${item.ProductName}" },${ "${item.ProductUnit}" }`)
+		                        .val(`${ "${item.ProductCode}" },${"${item.ProductName}" },${ "${item.ProductUnit}" },${ "${item.DealRate}" }`)
 		                        .text(`${ "${item.ProductCode}" }`);
 		                    select.append(option);
 		                });
@@ -298,6 +298,52 @@ $(document).ready(function(){
 	    });
 	    $('.SalesPlanTable_Body').empty();
 	});
+	// SaveBtn 클릭 시 데이터 저장 프로세스
+	$('.SaveBtn').on('click', function() {
+	    var SaveList = {};  // 저장할 객체
+
+	    // 모든 <tr> 요소를 순회하면서 데이터 추출
+	    $('table tr').each(function(index, tr) {
+	        // 해당 <tr> 내부의 <td> 요소들 찾기
+	        var $tr = $(tr);
+	        var rowNumber = $tr.find('td:first').text();  // 순번에 해당하는 첫 번째 <td> 텍스트
+	        var selectedOptionValue = $tr.find('select option:selected').val(); // 선택된 <option>의 value
+	        
+	        // 값이 입력된 <tr>인지 확인
+	        if (selectedOptionValue) {
+	            // 데이터를 배열로 저장
+	            var rowData = [selectedOptionValue];
+	            console.log(rowData);
+	            
+	            rowData.push($('.DocCode').val());
+	            rowData.push($('.DealComCode').val());
+	            rowData.push($('.Unit').val());
+	            
+	            // 순서대로 각 <td>의 <input> 요소 값을 배열에 추가
+	            $tr.find('td input[type="text"]').each(function() {
+	                rowData.push($(this).val());
+	            });
+	            
+	            // SaveList에 rowNumber를 key로 rowData를 value로 저장
+	            SaveList[rowNumber] = rowData;
+	        }
+	    });
+
+	    // 확인용 콘솔 출력
+	    console.log(SaveList);
+	    $.ajax({
+	    	url:'${contextPath}/Sales/ajax/SalesListSave.jsp',
+	    	type:'POST',
+	    	data: JSON.stringify(SaveList),
+	    	contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			async: false,
+			success: function(data){
+				
+			}
+	    })
+	});
+
 	
 })
 
