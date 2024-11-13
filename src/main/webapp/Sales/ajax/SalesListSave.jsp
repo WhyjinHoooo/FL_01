@@ -117,11 +117,11 @@
 						int TotalCount = Integer.parseInt(rowData.getString(i+1)) * Integer.parseInt(rowData.getString(3));
 						Sava_Pstmt.setInt(8, TotalCount); // 매출수량
 						Sava_Pstmt.setString(9, ProductInfoList[2]); // 단위
-						Sava_Pstmt.setDouble(10, SalePrice * TotalCount); // 거래통화매출금액
+						Sava_Pstmt.setDouble(10, Math.round(SalePrice * TotalCount)); // 거래통화매출금액
 						Sava_Pstmt.setDouble(11, SalePrice); // 판매단가
 						Sava_Pstmt.setString(12, ProductInfoList[3]); // 거래통화
 						Sava_Pstmt.setDouble(13, FXRate); // 계획환율
-						Sava_Pstmt.setDouble(14, FXRate * SalePrice * TotalCount); // 장부통화매출금액
+						Sava_Pstmt.setDouble(14, Math.round(FXRate * SalePrice * TotalCount)); // 장부통화매출금액
 						Sava_Pstmt.setString(15, LocCur); // 장부통화
 						Sava_Pstmt.setString(16, rowData.getString(5)); // 회계단위
 						Sava_Pstmt.setString(17, rowData.getString(6)); // 회사
