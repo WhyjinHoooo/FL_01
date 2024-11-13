@@ -1,3 +1,7 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.time.YearMonth"%>
 <%@page import="org.json.JSONArray"%>
 <%@page import="org.json.JSONObject"%>
 <%@page import="java.io.BufferedReader"%>
@@ -11,12 +15,18 @@
 	String line = null;
 	
 	// 변수모음
+	String UserId = (String)session.getAttribute("id");
 	Double SalePrice = 0.0; //판매단가
 	int CounUnit = 0; // 수량 입력 단위
 	int month = 0;
 	String Formattedmonth = null;
 	Double FXRate = 0.0;
 	String LocCur = null;
+	LocalDateTime today = LocalDateTime.now();
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyyMMdd");
+	String todayDate = today.format(formatter);
+	String DateSplit = today.format(formatter2);
 	//
 	
 	try (BufferedReader reader = request.getReader()) {
@@ -66,9 +76,9 @@
 			SalePrice = Double.parseDouble(Info_Rs.getString("SalesUnitPrice")); // 판매 단가 - Double 타입
 			CounUnit = Integer.parseInt(rowData.getString(3)); // 수량 입력 단위
 			
-			for(int i = 6 ; i < rowData.length() ; i++){
+			for(int i = 7 ; i < rowData.length() ; i++){
 				if(!rowData.getString(i).equals("") || rowData.getString(i) != null){
-					month = i - 5;
+					month = i - 6;
 					if(month < 10){
 						Formattedmonth = String.format("%02d", month);
 					} else{
@@ -91,30 +101,36 @@
 						FXRate = Double.parseDouble(Info_Rs02.getString("ExRate")); // 환율
 						LocCur = Info_Rs02.getString("LocalCurr"); // 장부 통화
 						
-						Sava_Pstmt.setString(1, rowData.getString(1));
-						Sava_Pstmt.setString(2, Formattedmonth);
-						Sava_Pstmt.setString(3, rowData.getString(1));
-						Sava_Pstmt.setString(4, rowData.getString(1));
-						Sava_Pstmt.setString(5, rowData.getString(1));
-						Sava_Pstmt.setString(6, rowData.getString(1));
-						Sava_Pstmt.setString(7, rowData.getString(1));
-						Sava_Pstmt.setString(8, rowData.getString(1));
-						Sava_Pstmt.setString(9, rowData.getString(1));
-						Sava_Pstmt.setString(10, rowData.getString(1));
-						Sava_Pstmt.setString(11, rowData.getString(1));
-						Sava_Pstmt.setString(12, rowData.getString(1));
-						Sava_Pstmt.setString(13, rowData.getString(1));
-						Sava_Pstmt.setString(14, rowData.getString(1));
-						Sava_Pstmt.setString(15, rowData.getString(1));
-						Sava_Pstmt.setString(16, rowData.getString(1));
-						Sava_Pstmt.setString(17, rowData.getString(1));
-						Sava_Pstmt.setString(18, rowData.getString(1));
-						Sava_Pstmt.setString(19, rowData.getString(1));
-						Sava_Pstmt.setString(20, rowData.getString(1));
-						Sava_Pstmt.setString(21, rowData.getString(1));
-						Sava_Pstmt.setString(22, rowData.getString(1));
+						Sava_Pstmt.setString(1, rowData.getString(1)); // 계획버전
+						Sava_Pstmt.setString(2, rowData.getString(4)); // 계획년도
+						Sava_Pstmt.setString(3, Formattedmonth); // 계획월
+						Sava_Pstmt.setString(4, rowData.getString(2)); // 거래처
+						Sava_Pstmt.setString(5, ProductInfoList[0]); // 품번
+						Sava_Pstmt.setString(6, ProductInfoList[1]); // 품명 
 						
+						YearMonth yearMonth = YearMonth.of(Integer.parseInt(rowData.getString(4)), Integer.parseInt(Formattedmonth));
+						LocalDate LastDate = yearMonth.atEndOfMonth();
+						String ArriveDate = LastDate.toString();
 						
+						Sava_Pstmt.setString(7, ArriveDate); // 회망도착일자
+						
+						int TotalCount = Integer.parseInt(rowData.getString(i+1)) * Integer.parseInt(rowData.getString(3));
+						Sava_Pstmt.setInt(8, TotalCount); // 매출수량
+						Sava_Pstmt.setString(9, ProductInfoList[2]); // 단위
+						Sava_Pstmt.setDouble(10, SalePrice * TotalCount); // 거래통화매출금액
+						Sava_Pstmt.setDouble(11, SalePrice); // 판매단가
+						Sava_Pstmt.setString(12, ProductInfoList[3]); // 거래통화
+						Sava_Pstmt.setDouble(13, FXRate); // 계획환율
+						Sava_Pstmt.setDouble(14, FXRate * SalePrice * TotalCount); // 장부통화매출금액
+						Sava_Pstmt.setString(15, LocCur); // 장부통화
+						Sava_Pstmt.setString(16, rowData.getString(5)); // 회계단위
+						Sava_Pstmt.setString(17, rowData.getString(6)); // 회사
+						Sava_Pstmt.setString(18, UserId); // 입력자
+						Sava_Pstmt.setString(19, todayDate); // 입력일자
+						Sava_Pstmt.setString(20, "EMPTY"); // 최종수정자
+						Sava_Pstmt.setString(21, "0000-00-00"); // 최종수정일자
+						Sava_Pstmt.setString(22, rowData.getString(1)+rowData.getString(4)+Formattedmonth+rowData.getString(2)+ProductInfoList[0]+DateSplit+rowData.getString(5)+rowData.getString(6)); // Key값
+						Sava_Pstmt.executeUpdate();
 					}
 				}
 			}

@@ -319,6 +319,8 @@ $(document).ready(function(){
 	            rowData.push($('.DealComCode').val());
 	            rowData.push($('.Unit').val());
 	            rowData.push($('.Year').val());
+	            rowData.push($('.BizCode').val());
+	            rowData.push($('.Com-code').val());
 	            
 	            // 순서대로 각 <td>의 <input> 요소 값을 배열에 추가
 	            $tr.find('td input[type="text"]').each(function() {
