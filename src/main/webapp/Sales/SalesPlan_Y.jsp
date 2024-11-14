@@ -57,32 +57,35 @@ function InfoSearch(field){
     }
 }
 $(document).ready(function(){
-	
-	/*$('.SalesPlanTable_Body').empty();
-    
-    // 50개의 <tr> 요소 추가
-     for (let i = 0; i < 50; i++) {
-        const row = $('<tr></tr>'); // 새로운 <tr> 생성
+	function InitialPage(){
+		$('.SalesPlanTable_Body').empty();
+	    
+	    // 50개의 <tr> 요소 추가
+	     for (let i = 0; i < 50; i++) {
+	        const row = $('<tr></tr>'); // 새로운 <tr> 생성
 
-        // 각 <td> 추가 (빈 데이터)
-        row.append('<td></td>');
-        row.append('<td></td>');
-        row.append('<td></td>');
-        row.append('<td></td>');
-        row.append('<td></td>');
-        row.append('<td></td>');
-        row.append('<td></td>');
-        row.append('<td></td>');
-        row.append('<td></td>');
-        row.append('<td></td>');
-        row.append('<td></td>');
-        row.append('<td></td>');
-        row.append('<td></td>');
-        row.append('<td></td>');
-        row.append('<td></td>');
-        // 생성한 <tr>을 <tbody>에 추가
-		$('.SalesPlanTable_Body').append(row);
-    }*/
+	        // 각 <td> 추가 (빈 데이터)
+	        row.append('<td></td>');
+	        row.append('<td></td>');
+	        row.append('<td></td>');
+	        row.append('<td></td>');
+	        row.append('<td></td>');
+	        row.append('<td></td>');
+	        row.append('<td></td>');
+	        row.append('<td></td>');
+	        row.append('<td></td>');
+	        row.append('<td></td>');
+	        row.append('<td></td>');
+	        row.append('<td></td>');
+	        row.append('<td></td>');
+	        row.append('<td></td>');
+	        row.append('<td></td>');
+	        // 생성한 <tr>을 <tbody>에 추가
+			$('.SalesPlanTable_Body').append(row);
+	    }
+	}
+	
+	InitialPage();
 	
 	var YearInput = document.getElementById('Year');
 	var CurrentYear = new Date().getFullYear();
@@ -157,6 +160,8 @@ $(document).ready(function(){
 	        data: {DealCom : TradeCompany},
 	        dataType: 'json', // 데이터 형식에 맞게 조정
 	        success: function(data) {
+	        	var PlanningDateList = {};
+	        	PlanningDateList = $('.PeriodStart').val().split('-');
 	        	if (!data || data.length === 0) {  // data가 비어있거나 없는 경우
 	                alert('해당 거래처는 아직 등록되지 않았습니다.');
 	        		return false;
@@ -185,12 +190,15 @@ $(document).ready(function(){
 		                row.append($('<td></td>').append(select));
 
 		                // 세 번째 <td>에 품목명 추가
-		                /* const productNameCell = $('<td></td>');
-		                select.on('change', function() {
-		                    const selectedValue = $(this).val().split(',');
-		                    productNameCell.text(selectedValue[1]); // 품목명
-		                });
-		                row.append(productNameCell); */
+		                
+// 		                const productNameCell = $('<td></td>');
+// 		                select.on('change', function() {
+// 		                    const selectedValue = $(this).val().split(',');
+// 		                    productNameCell.text(selectedValue[1]); // 품목명
+// 		                });
+// 		                row.append(productNameCell);
+
+		                
 		                const productNameCell = $('<td></td>');
 		                select.on('change', function() {
 		                    const selectedValue = $(this).val().split(',');
@@ -211,14 +219,23 @@ $(document).ready(function(){
 		                // 네 번째 <td>에 단위 추가
 		                const productUnitCell = $('<td></td>');
 		                select.on('change', function() {
-		                    const selectedValue = $(this).val().split(',');
-		                    productUnitCell.text(selectedValue[2]); // 단위
+		                	const selectedValue = $(this).val() ? $(this).val().split(',') : [];
+		                    if (selectedValue.length === 0) { // 배열이 비어 있는지 확인
+		                    	productUnitCell.text(""); // 단위
+		                    }else{
+		                    	productUnitCell.text(selectedValue[2]); // 단위
+		                    }
 		                });
 		                row.append(productUnitCell);
 
 		                // 다섯 번째부터 열여섯 번째까지 <td>에 <input> 추가
 		                for (let j = 0; j < 12; j++) {
 		                    const input = $('<input type="text" />');
+		                    
+		                    if (parseInt(PlanningDateList[1], 10) > 1 && j < parseInt(PlanningDateList[1], 10) - 1) {
+		                        input.prop('disabled', true);
+		                    }
+		                    
 		                    row.append($('<td></td>').append(input));
 		                }
 
@@ -253,8 +270,7 @@ $(document).ready(function(){
 		         	        }
 		         	    });
 		         	});
-	            }
-	            
+	            }   
 	       },
 		   error: function(xhr, status, error) {
 				console.error('AJAX Error: ', status, error);
@@ -281,6 +297,7 @@ $(document).ready(function(){
 	    }
 	})
 	$('.Year').change(function() {
+	    InitialPage();
 	    const resetElements = [
 	        ".DocCode", ".DocCodeDes", 
 	        ".PeriodStart", ".PeriodEnd", 
@@ -296,7 +313,6 @@ $(document).ready(function(){
 	            }
 	        }
 	    });
-	    $('.SalesPlanTable_Body').empty();
 	});
 	// SaveBtn 클릭 시 데이터 저장 프로세스
 	$('.SaveBtn').on('click', function() {
@@ -334,6 +350,7 @@ $(document).ready(function(){
 
 	    // 확인용 콘솔 출력
 	    console.log(SaveList);
+	    
 	    $.ajax({
 	    	url:'${contextPath}/Sales/ajax/SalesListSave.jsp',
 	    	type:'POST',
@@ -341,9 +358,35 @@ $(document).ready(function(){
 	    	contentType: 'application/json; charset=utf-8',
 			dataType: 'json',
 			async: false,
-			success: function(data){
-				
-			}
+			success: function(data) {
+		        if (data.status === "Success") {
+		        	InitialPage();
+		        	const resetElements = [
+		        		".Year",
+		    	        ".DocCode", ".DocCodeDes", 
+		    	        ".PeriodStart", ".PeriodEnd", 
+		    	        ".DealComCode", ".DealComCodeDes"
+		    	    ];
+		    	    resetElements.forEach(selector => {
+		    	        const element = document.querySelector(selector);
+		    	        if (element) {
+		    	            if (selector === ".DocCode" || selector === ".DealComCode") {
+		    	                element.value = 'Click';  // DocCode만 다르게 설정
+		    	            } else if(selector === ".Year"){
+		    	            	element.value = 'SELECT';
+		    	            } else {
+		    	                element.value = '';  // 나머지는 빈 값으로 초기화
+		    	            }
+		    	        }
+		    	    });
+		            console.log('저장되었습니다.');
+		        } else {
+		            console.log('저장 실패');
+		        }
+		    },
+		    error: function(xhr, status, error) {
+		        console.log('AJAX 요청 실패:', error);
+		    }
 	    })
 	});
 

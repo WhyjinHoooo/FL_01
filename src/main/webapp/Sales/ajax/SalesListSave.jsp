@@ -40,6 +40,7 @@
 	System.out.println(saveListData);
 	System.out.println(saveListData.length());
 	System.out.println(saveListData.keySet());
+	try{
 	for(String key : saveListData.keySet()){
 		System.out.println("key : " + key);
 		JSONArray rowData = saveListData.getJSONArray(key);
@@ -76,14 +77,16 @@
 			SalePrice = Double.parseDouble(Info_Rs.getString("SalesUnitPrice")); // 판매 단가 - Double 타입
 			CounUnit = Integer.parseInt(rowData.getString(3)); // 수량 입력 단위
 			
-			for(int i = 7 ; i < rowData.length() ; i++){
+			for(int i = 8 ; i < rowData.length() ; i++){
 				if(!rowData.getString(i).equals("") || rowData.getString(i) != null){
-					month = i - 6;
+					month = i - 7;
 					if(month < 10){
 						Formattedmonth = String.format("%02d", month);
 					} else{
 						Formattedmonth = Integer.toString(month);
 					}
+					System.out.println("Formattedmonth : " + Formattedmonth);
+					
 					String Info_Sql02 = "SELECT * " +
 						    "FROM project.sales_planexrate " +
 						    "WHERE PlanVer = ? " +
@@ -114,7 +117,7 @@
 						
 						Sava_Pstmt.setString(7, ArriveDate); // 회망도착일자
 						
-						int TotalCount = Integer.parseInt(rowData.getString(i+1)) * Integer.parseInt(rowData.getString(3));
+						int TotalCount = Integer.parseInt(rowData.getString(i)) * Integer.parseInt(rowData.getString(3));
 						Sava_Pstmt.setInt(8, TotalCount); // 매출수량
 						Sava_Pstmt.setString(9, ProductInfoList[2]); // 단위
 						Sava_Pstmt.setDouble(10, Math.round(SalePrice * TotalCount)); // 거래통화매출금액
@@ -135,10 +138,12 @@
 				}
 			}
 		}
-		/* System.out.println("1 : " + rowData.getString(1));
-		System.out.println("1 : " + ProductInfoList[0]);
-		System.out.println("1 : " + rowData.getString(2));
-		System.out.println("1 : " + ProductInfoList[3]); */
-		
+	}
+	response.setContentType("application/json; charset=UTF-8");
+    response.getWriter().write("{\"status\": \"Success\"}");
+	}catch(SQLException e){
+		e.printStackTrace();
+		response.setContentType("application/json; charset=UTF-8");
+        response.getWriter().write("{\"status\": \"Error\"}");
 	}
 %>
