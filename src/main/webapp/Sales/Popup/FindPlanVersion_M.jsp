@@ -23,16 +23,17 @@
 			<%
 			    try{
 			   	String CoCd = request.getParameter("ComCode");
-			   	String Year = request.getParameter("Year");
-			   	String CombiWord = "YP"+ Year;
+			   	String Year = request.getParameter("Year").substring(2);
+			   	String CombiWord = "MP"+ Year;
 			   	System.out.println(CombiWord);
-			    String sql = "SELECT * FROM sales_planversion WHERE LEFT(PlanVer, 6) IN (?) AND ComCode = ?";
+			    String sql = "SELECT * FROM sales_planversion WHERE LEFT(PlanVer, 4) IN (?) AND ComCode = ? AND XO = ?";
 			    PreparedStatement pstmt = null;
 			    ResultSet rs = null;
 			    
 			    pstmt = conn.prepareStatement(sql);
 			    pstmt.setString(1, CombiWord);
 			    pstmt.setString(2, CoCd);
+			    pstmt.setString(3, "X");
 			    rs = pstmt.executeQuery();
 			    
 			    if(!rs.next()){
@@ -50,7 +51,10 @@
 				       onClick="
 				           window.opener.document.querySelector('.DocCode').value = '<%= rs.getString("PlanVer") %>';
 				           window.opener.document.querySelector('.DocCodeDes').value = '<%= rs.getString("PlanVerDesc") %>';
+				           window.opener.document.querySelector('.PeriodStart').value = '<%= rs.getString("PlanStart") %>';
+				           window.opener.document.querySelector('.PeriodEnd').value = '<%= rs.getString("PlanEndPeriod") %>';
 				           window.opener.document.querySelector('.DocCode').dispatchEvent(new Event('change'));
+				           window.opener.document.querySelector('.PeriodStart').dispatchEvent(new Event('change'));
 				           window.close();
 				       ">
 				       <%= rs.getString("PlanVer") %>

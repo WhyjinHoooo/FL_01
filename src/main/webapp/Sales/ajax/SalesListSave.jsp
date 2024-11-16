@@ -41,11 +41,13 @@
 	System.out.println(saveListData.length());
 	System.out.println(saveListData.keySet());
 	try{
+		String PlanVersion = null;
 	for(String key : saveListData.keySet()){
 		System.out.println("key : " + key);
 		JSONArray rowData = saveListData.getJSONArray(key);
 		System.out.println("rowData : " + rowData);
 		System.out.println("rowData 길이 : " + rowData.length());
+		PlanVersion = rowData.getString(1);
 		//System.out.println("rowData(0) : " + rowData.getString(0));
 		
 		String ProductInfo = rowData.getString(0);
@@ -84,9 +86,7 @@
 						Formattedmonth = String.format("%02d", month);
 					} else{
 						Formattedmonth = Integer.toString(month);
-					}
-					System.out.println("Formattedmonth : " + Formattedmonth);
-					
+					}					
 					String Info_Sql02 = "SELECT * " +
 						    "FROM project.sales_planexrate " +
 						    "WHERE PlanVer = ? " +
@@ -139,6 +139,12 @@
 			}
 		}
 	}
+	String UpDateSql = "UPDATE sales_planversion SET XO = ? WHERE PlanVer = ?";
+	PreparedStatement UpDatePstmt = conn.prepareStatement(UpDateSql);
+	UpDatePstmt.setString(1, "O");
+	UpDatePstmt.setString(2, PlanVersion);
+	UpDatePstmt.executeUpdate();
+	
 	response.setContentType("application/json; charset=UTF-8");
     response.getWriter().write("{\"status\": \"Success\"}");
 	}catch(SQLException e){

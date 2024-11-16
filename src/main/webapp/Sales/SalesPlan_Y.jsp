@@ -48,12 +48,12 @@ function InfoSearch(field){
     	console.log(UserComCode);
     	popupWidth = 550;
     	popupHeight = 610;
-    	window.open("${contextPath}/Sales/Popup/FindPlanVersion.jsp?ComCode=" + UserComCode + "&Year=" + PlanYear, "POPUP01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	window.open("${contextPath}/Sales/Popup/FindPlanVersion_Y.jsp?ComCode=" + UserComCode + "&Year=" + PlanYear, "POPUP01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     	break;
     case "TradeCom":
     	popupWidth = 550;
     	popupHeight = 610;
-    	window.open("${contextPath}/Sales/Popup/FindTradeCom.jsp?ComCode=" + UserComCode, "POPUP01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	window.open("${contextPath}/Sales/Popup/FindTradeCom.jsp?ComCode=" + UserComCode, "POPUP02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     }
 }
 $(document).ready(function(){
@@ -108,7 +108,6 @@ $(document).ready(function(){
 			$('.PeriodStart').append(`<option value=${"${Date}"}>${"${Date}"}</option>`)
 		}
 		$('.PeriodEnd').val(NewYearBegin + '-12-' +'31') */
-		console.log("asd");
 		var PlanCode = $(this).val();
 		var PlaningYear = $('.Year').val();
 		var DateGroup = {};

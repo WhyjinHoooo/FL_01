@@ -8,6 +8,14 @@
 <html>
 <head>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
+<%
+
+LocalDateTime today = LocalDateTime.now();
+DateTimeFormatter formatter_YMD = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+DateTimeFormatter formatter_Y = DateTimeFormatter.ofPattern("yyyy");
+String todayDate = today.format(formatter_YMD);
+String Year = today.format(formatter_Y);
+%>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const tbody = document.querySelector('.SalesPlanTable_Body_Month');
@@ -48,6 +56,21 @@ function InfoSearch(field){
         xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
         yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
     }
+    var UserComCode = $('.Com-code').val();
+    
+    switch(field){
+    case "PlanVer":
+    	var PlanYear = <%=Year%> + 1;
+    	console.log(UserComCode);
+    	popupWidth = 550;
+    	popupHeight = 610;
+    	window.open("${contextPath}/Sales/Popup/FindPlanVersion_M.jsp?ComCode=" + UserComCode + "&Year=" + PlanYear, "POPUP01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    case "TradeCom":
+    	popupWidth = 550;
+    	popupHeight = 610;
+    	window.open("${contextPath}/Sales/Popup/FindTradeCom.jsp?ComCode=" + UserComCode, "POPUP02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    }
     
 }
 $(document).ready(function(){
@@ -62,17 +85,45 @@ $(document).ready(function(){
         // 생성한 <tr>을 <tbody>에 추가
         $('.SalesPlanTable_Month').append(row);
     }
+    
+	var UserId = $('.UserId').val();
+	var BizArea = {};
+	$.ajax({
+		type: "POST",
+		url: "${contextPath}/Sales/ajax/Sales_BizAreaSearch.jsp",
+		data: {Id : UserId},
+		success: function(response){
+			console.log(response.trim());
+			BizArea = response.trim().split(',')
+			$('.BizCode').val(BizArea[0]);
+			$('.BizCodeDes').val(BizArea[1]);
+		}
+	})
+	 
+	$('.PeriodStart').change(function(){
+		var Start = $('.PeriodStart').val().substring(5,7);
+		var End = $('.PeriodEnd').val().substring(5,7);
+		var Year = <%=Year%> + 1;
+		
+		var StartMonth = parseInt(Start, 10);
+		var EndMonth = parseInt(End, 10);
+		console.log(StartMonth);
+		console.log(EndMonth);
+		var StartValue = null;
+		for(var i = StartMonth; i <= EndMonth ; i++){
+			StartValue = Year + "." + i.toString().padStart(2,'0') + "월";
+			$('.Month').append(`<option value=${"${StartValue}"}>${"${StartValue}"}</option>`);
+// 	        $('.Month').append('<option value="' + StartValue + '">' + StartValue + '</option>');
+//			템플릿 리터럴(Template Literal)를 사용하지 않는 방법
+		}
+	})
 })
 </script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-<%
-	LocalDateTime today = LocalDateTime.now();
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	String todayDate = today.format(formatter);
-	
+<%	
 	String UserId = (String)session.getAttribute("id");
 	String UserComCode = (String)session.getAttribute("depart");
 %>
@@ -96,7 +147,7 @@ $(document).ready(function(){
 			</div>
 			<div class="Sales_DocInfo">
 				<label id="DocVersion">Plan Version: </label>
-				<input type="text" class="DocCode" name="DocCode" id="DocCode" readonly value="Click">
+				<input type="text" class="DocCode" name="DocCode" id="DocCode" readonly value="Click" onclick="InfoSearch('PlanVer')">
 				<input class="DocCodeDes" name="DocCodeDes" id="DocCodeDes" readonly value="Click">
 				<label id="CountUnit">수량 입력단위: </label>
 				<select class="Unit" name="Unit" id="Unit">
@@ -106,22 +157,21 @@ $(document).ready(function(){
 					<option value="1000000">1,000,000</option>
 				</select>
 			</div>
+			<div class="Sales_PlanPeriod">
+				<label id="Period">계획기간: </label>
+				<input type="text" class="PeriodStart" name="PeriodStart" id="PeriodStart" readonly>
+				~
+				<input type="text" class="PeriodEnd" name="PeriodEnd" id="PeriodEnd" readonly>
+			</div>
 			<div class="Sales_PlanInfo">
 				<label id="PlanYear">계획년월: </label>
 				<select class="Month" name="Month" id="Month">
 					<option>SELECT</option>
 				</select>
 			</div>
-			<div class="Sales_PlanPeriod">
-				<label id="Period">계획기간: </label>
-				<select class="PeriodStart" name="PeriodStart" id="PeriodStart">
-				</select> 
-				~
-				<input type="text" class="PeriodEnd" name="PeriodEnd" id="PeriodEnd" readonly>
-			</div>
 			<div class="Sales_DealComInfo">
 				<label id="DealCompany">거래처: </label>
-				<input class="DealComCode" name="DealComCode" id="DealComCode" readonly value="Click">
+				<input class="DealComCode" name="DealComCode" id="DealComCode" readonly value="Click" onclick="InfoSearch('TradeCom')">
 				<input class="DealComCodeDes" name="DealComCodeDes" id="DealComCodeDes" readonly>
 			</div>
 		</div>
