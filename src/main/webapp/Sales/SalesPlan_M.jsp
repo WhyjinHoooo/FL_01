@@ -123,13 +123,14 @@ $(document).ready(function(){
 	
 	$('.DealComCode').change(function(){
 		var TradeCompany = $(this).val();
+		var PlanVer = $('.DocCode').val();
 		console.log(TradeCompany);
 		let Tablebody = $('.SalesPlanTable_Body_Month');
 		Tablebody.empty();
 		$.ajax({
 	        url: '${contextPath}/Sales/ajax/ItemCodeSearch.jsp',
 	        type: 'GET',
-	        data: {DealCom : TradeCompany},
+	        data: {DealCom : TradeCompany, PlanVer : PlanVer},
 	        dataType: 'json', // 데이터 형식에 맞게 조정
 	        success: function(data) {
 	        	var PlanningDateList = {};
@@ -275,14 +276,10 @@ $('.Month').change(function() {
 
             // 5번째부터 35번째까지 <td>만 처리 (index 기준)
             if (index >= 4 && index < 35) {
-                console.log("Valid index: " + index); // 조건을 만족하는 index인지 확인
-
                 // maxDays + 4보다 작은 index에 대해서 활성화 처리
                 if (index < maxDays + 4) {
-                    console.log("Enabling input for index " + index); // 활성화 처리
                     input.prop('disabled', false);
                 } else {
-                    console.log("Disabling input for index " + index); // 비활성화 처리
                     input.prop('disabled', true);
                 }
             }
@@ -314,85 +311,159 @@ $('.Month').change(function() {
 	$('.SaveBtn').on('click', function() {
 		var OptionCount = $('.Month option').length - 1;
 		var SelectedOption = $('.Month option:selected').val();
-		OptionList.push(SelectedOption);
-		console.log(OptionList);
-		console.log('SelectedOption ' + SelectedOption);
-		console.log('OptionCount ' + OptionCount);
-		console.log('Before ' + ClickCount);
-		ClickCount++;
-		console.log('After ' + ClickCount);
-	    var SaveList = {};  // 저장할 객체
+		if(OptionList.length === 0){
+			var SaveList = {};  // 저장할 객체
+			$('table tr').each(function(index, tr) {
+		        // 해당 <tr> 내부의 <td> 요소들 찾기
+		        var $tr = $(tr);
+		        var rowNumber = $tr.find('td:first').text();  // 순번에 해당하는 첫 번째 <td> 텍스트
+		        var selectedOptionValue = $tr.find('select option:selected').val(); // 선택된 <option>의 value
+		        
+		        // 값이 입력된 <tr>인지 확인
+		        if (selectedOptionValue) {
+		            // 데이터를 배열로 저장
+		            var rowData = [selectedOptionValue];
+		            console.log(rowData);
+		            
+		            rowData.push($('.DocCode').val());
+		            rowData.push($('.DealComCode').val());
+		            rowData.push($('.Unit').val());
+		            rowData.push($('.Month').val());
+		            rowData.push($('.BizCode').val());
+		            rowData.push($('.Com-code').val());
+		            
+		            // 순서대로 각 <td>의 <input> 요소 값을 배열에 추가
+		            $tr.find('td input[type="text"]').each(function() {
+		                rowData.push($(this).val());
+		            });
+		            
+		            // SaveList에 rowNumber를 key로 rowData를 value로 저장
+		            SaveList[rowNumber] = rowData;
+		        }
+		    });
+			// 확인용 콘솔 출력
+		    console.log(SaveList);
+			$.ajax({
+		    	url:'${contextPath}/Sales/ajax/SalesListSave_M.jsp',
+		    	type:'POST',
+		    	data: JSON.stringify(SaveList),
+		    	contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				async: false,
+				success: function(data) {
+			        if (data.status === "Success") {
+			        	$('.SalesPlanTable_Body_Month tr').each(function(rowIndex) {
+			                $(this).find('td').each(function(index) { // index는 자동으로 0부터 증가하는 값
+			                    var select = $(this).find('select'); // <td> 안에 있는 <input> 요소
+			                    var input = $(this).find('input');
 
-// 	    // 모든 <tr> 요소를 순회하면서 데이터 추출
-// 	    $('table tr').each(function(index, tr) {
-// 	        // 해당 <tr> 내부의 <td> 요소들 찾기
-// 	        var $tr = $(tr);
-// 	        var rowNumber = $tr.find('td:first').text();  // 순번에 해당하는 첫 번째 <td> 텍스트
-// 	        var selectedOptionValue = $tr.find('select option:selected').val(); // 선택된 <option>의 value
+			                    // 5번째부터 35번째까지 <td>만 처리 (index 기준)
+			                    if (index >= 1 && index < 35) {
+			                        // maxDays + 4보다 작은 index에 대해서 활성화 처리
+			                        if (select.length > 0) {
+			                        	select.val(''); // <option value="">선택</option> 선택
+			                            select.trigger('change'); // change 이벤트 발생
+			                        }
+			                        if(input.length > 0){
+			                        	input.val('');
+			                        }
+			                        if(select.length === 0 && input.length === 0){
+			                        	$(this).val('');
+			                        } 
+			                        
+			                    }
+			                });
+			            });
+			        }
+			    },
+			    error: function(xhr, status, error) {
+			        console.log('AJAX 요청 실패:', error);
+			    }
+		    });
+			OptionList.push(SelectedOption);
+			ClickCount++;  
+		} else{
+			var alreadyExists = OptionList.some(function(option) {
+	            return option === SelectedOption;
+	        });
 	        
-// 	        // 값이 입력된 <tr>인지 확인
-// 	        if (selectedOptionValue) {
-// 	            // 데이터를 배열로 저장
-// 	            var rowData = [selectedOptionValue];
-// 	            console.log(rowData);
-	            
-// 	            rowData.push($('.DocCode').val());
-// 	            rowData.push($('.DealComCode').val());
-// 	            rowData.push($('.Unit').val());
-// 	            rowData.push($('.Year').val());
-// 	            rowData.push($('.BizCode').val());
-// 	            rowData.push($('.Com-code').val());
-	            
-// 	            // 순서대로 각 <td>의 <input> 요소 값을 배열에 추가
-// 	            $tr.find('td input[type="text"]').each(function() {
-// 	                rowData.push($(this).val());
-// 	            });
-	            
-// 	            // SaveList에 rowNumber를 key로 rowData를 value로 저장
-// 	            SaveList[rowNumber] = rowData;
-// 	        }
-// 	    });
+	        if (alreadyExists) {
+	            alert('해당 월의 계획은 등록되었습니다. \n 다시 선택해주세요.');
+	            return false;  // 이미 등록된 값이 있으면 클릭을 막습니다.
+	        }
+			var SaveList = {};  // 저장할 객체
+			$('table tr').each(function(index, tr) {
+		        // 해당 <tr> 내부의 <td> 요소들 찾기
+		        var $tr = $(tr);
+		        var rowNumber = $tr.find('td:first').text();  // 순번에 해당하는 첫 번째 <td> 텍스트
+		        var selectedOptionValue = $tr.find('select option:selected').val(); // 선택된 <option>의 value
+		        
+		        // 값이 입력된 <tr>인지 확인
+		        if (selectedOptionValue) {
+		            // 데이터를 배열로 저장
+		            var rowData = [selectedOptionValue];
+		            console.log(rowData);
+		            
+		            rowData.push($('.DocCode').val());
+		            rowData.push($('.DealComCode').val());
+		            rowData.push($('.Unit').val());
+		            rowData.push($('.Month').val());
+		            rowData.push($('.BizCode').val());
+		            rowData.push($('.Com-code').val());
+		            
+		            // 순서대로 각 <td>의 <input> 요소 값을 배열에 추가
+		            $tr.find('td input[type="text"]').each(function() {
+		                rowData.push($(this).val());
+		            });
+		            
+		            // SaveList에 rowNumber를 key로 rowData를 value로 저장
+		            SaveList[rowNumber] = rowData;
+		        }
+		    });
+			// 확인용 콘솔 출력
+		    console.log(SaveList);
+			$.ajax({
+		    	url:'${contextPath}/Sales/ajax/SalesListSave_M.jsp',
+		    	type:'POST',
+		    	data: JSON.stringify(SaveList),
+		    	contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				async: false,
+				success: function(data) {
+			        if (data.status === "Success") {
+			        	$('.SalesPlanTable_Body_Month tr').each(function(rowIndex) {
+			                $(this).find('td').each(function(index) { // index는 자동으로 0부터 증가하는 값
+			                    var select = $(this).find('select'); // <td> 안에 있는 <input> 요소
+			                    var input = $(this).find('input');
 
-// 	    // 확인용 콘솔 출력
-// 	    console.log(SaveList);
-	    
-// 	    $.ajax({
-// 	    	url:'${contextPath}/Sales/ajax/SalesListSave.jsp',
-// 	    	type:'POST',
-// 	    	data: JSON.stringify(SaveList),
-// 	    	contentType: 'application/json; charset=utf-8',
-// 			dataType: 'json',
-// 			async: false,
-// 			success: function(data) {
-// 		        if (data.status === "Success") {
-// 		        	InitialPage();
-// 		        	const resetElements = [
-// 		        		".Year",
-// 		    	        ".DocCode", ".DocCodeDes", 
-// 		    	        ".PeriodStart", ".PeriodEnd", 
-// 		    	        ".DealComCode", ".DealComCodeDes"
-// 		    	    ];
-// 		    	    resetElements.forEach(selector => {
-// 		    	        const element = document.querySelector(selector);
-// 		    	        if (element) {
-// 		    	            if (selector === ".DocCode" || selector === ".DealComCode") {
-// 		    	                element.value = 'Click';  // DocCode만 다르게 설정
-// 		    	            } else if(selector === ".Year"){
-// 		    	            	element.value = 'SELECT';
-// 		    	            } else {
-// 		    	                element.value = '';  // 나머지는 빈 값으로 초기화
-// 		    	            }
-// 		    	        }
-// 		    	    });
-// 		            console.log('저장되었습니다.');
-// 		        } else {
-// 		            console.log('저장 실패');
-// 		        }
-// 		    },
-// 		    error: function(xhr, status, error) {
-// 		        console.log('AJAX 요청 실패:', error);
-// 		    }
-// 	    })
+			                    // 5번째부터 35번째까지 <td>만 처리 (index 기준)
+			                    if (index >= 1 && index < 35) {
+			                        // maxDays + 4보다 작은 index에 대해서 활성화 처리
+			                        if (select.length > 0) {
+			                        	select.val('선택'); // <option value="">선택</option> 선택
+			                        	select.find('option[value=""]').prop('selected', true);
+			                            select.trigger('change'); // change 이벤트 발생
+			                        }
+			                        if(input.length > 0){
+			                        	input.val('');
+			                        }
+			                        if(select.length === 0 && input.length === 0){
+			                        	$(this).val('');
+			                        } 
+			                        
+			                    }
+			                });
+			            });
+			        }
+			    },
+			    error: function(xhr, status, error) {
+			        console.log('AJAX 요청 실패:', error);
+			    }
+		    });
+			OptionList.push(SelectedOption);
+			ClickCount++;  
+		}
+		 
 	});
 	
 })

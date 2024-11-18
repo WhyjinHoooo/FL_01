@@ -8,10 +8,12 @@
 
     try {
     	String TradeCoCd = request.getParameter("DealCom");
+    	String PlanVer = request.getParameter("PlanVer");
     	System.out.println(TradeCoCd);
-        String sql = "SELECT * FROM sales_trandingproduct WHERE TradingPartner = ?"; // SQL 쿼리
+        String sql = "SELECT * FROM sales_trandingproduct WHERE TradingPartner = ? AND PlanVer = ?"; // SQL 쿼리
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setString(1, TradeCoCd);
+        pstmt.setString(2, PlanVer);
         ResultSet rs = pstmt.executeQuery();
         while (rs.next()) {
             JSONObject jsonObject = new JSONObject();
