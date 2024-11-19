@@ -22,27 +22,53 @@
 		});  
 	};
 	
-  	function ComSearch(){
-	    var xPos = (window.screen.width-2560) / 2;
-	    var yPos = (window.screen.height-1440) / 2;
-	    
-	    window.open("${contextPath}/Information/ComSearch.jsp", "테스트", "width=600,height=495, left=500 ,top=" + yPos);
-	}
-  	function GetLevel(){
-	    var xPos = (window.screen.width-2560) / 2;
-	    var yPos = (window.screen.height-1440) / 2;
-	    var Code = document.querySelector('.Com-code').value;
-	    
-	    window.open("${contextPath}/Information/GetLevel.jsp?ComCd=" + Code, "테스트", "width=600,height=495, left=500 ,top=" + yPos);
-	}
-  	function CCTSearch(){
-	    var xPos = (window.screen.width-2560) / 2;
-	    var yPos = (window.screen.height-1440) / 2;
-	    var Code = document.querySelector('.Com-code').value;
+function InfoSearch(field){
+	event.preventDefault();
+	
+	var popupWidth = 1000;
+    var popupHeight = 600;
+    
+    // 현재 활성화된 모니터의 위치를 감지
+    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
+    console.log(dualScreenLeft);
+    // 전체 화면의 크기를 감지
+    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+    var xPos, yPos;
+    
+    var UserComCode = $('.Com-code').val();
+    
+    if (width == 2560 && height == 1440) {
+        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
+        xPos = (2560 / 2) - (popupWidth / 2);
+        yPos = (1440 / 2) - (popupHeight / 2);
+    } else if (width == 1920 && height == 1080) {
+        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
+        xPos = (1920 / 2) - (popupWidth / 2);
+        yPos = (1080 / 2) - (popupHeight / 2);
+    } else {
+        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
+        var monitorWidth = 2560;
+        var monitorHeight = 1440;
+        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+    }
+    
+    switch(field){
+    case "ComSearch":
+    	window.open("${contextPath}/Information/ComSearch.jsp", "PopUp", "width=600,height=495, left=500 ,top=" + yPos);
+    	break;
+    case "GetLevel":
+    	var Code = document.querySelector('.Com-code').value;
+    	window.open("${contextPath}/Information/GetLevel.jsp?ComCd=" + Code, "테스트", "width=600,height=495, left=500 ,top=" + yPos);
+    	break;
+    case "CCTSearch":
+    	var Code = document.querySelector('.Com-code').value;
 	    var lv = document.querySelector('.CCTR-level').value;
-	    
-	    window.open("${contextPath}/Information/UpCCTSearch.jsp?ComCode=" + Code + "&Level=" + lv, "테스트", "width=600,height=495, left=500 ,top=" + yPos);
-	}
+    	window.open("${contextPath}/Information/UpCCTSearch.jsp?ComCode=" + Code + "&Level=" + lv, "테스트", "width=600,height=495, left=500 ,top=" + yPos);
+    }
+}
 </script>
 </head>
 <body>
@@ -78,7 +104,7 @@
 					<table>
 						<tr><th>Company Code : </th>
 							<td class="input-info">
-								<a href="javascript:ComSearch()"><input type="text" class="Com-code" name="Com-Code" placeholder="SELECT" readonly></a>
+								<input type="text" class="Com-code" name="Com-Code" placeholder="SELECT" onclick="InfoSearch('ComSearch')" readonly >
 							<th class="info">Top Cost Center Group : </th>
 								<td>
 									<input type="text" class="tccg" name="tccg" readonly size="10'">
@@ -90,7 +116,7 @@
 						
 						<tr><th class="info"> CCTR Group Level : </th>
 							<td class="input_info">
-								<a href="javascript:GetLevel()"><input type="text" class="CCTR-level" id="CCTRlvlSelected" name="CCT-level"></a>
+								<input type="text" class="CCTR-level" id="CCTRlvlSelected" name="CCT-level" placeholder="SELECT" onclick="InfoSearch('GetLevel')" readonly>
 							</td>
 						</tr>
 						
@@ -100,7 +126,7 @@
 						 
 						<tr><th class="info"> Upper CCT_Group : </th>
 							<td class="input_info">
-								<a href="javascript:CCTSearch()"><input type="text" class="Upper-CCT-Group" id="Upper-CCT-Group" name="Upper-CCT-Group" readonly></a>
+								<input type="text" class="Upper-CCT-Group" id="Upper-CCT-Group" name="Upper-CCT-Group" placeholder="SELECT" onclick="InfoSearch('CCTSearch')" readonly>
 									<th class="info">Description : </th>
 									<td>
 										<input type="text" class="Upper-Cct-Name" name="Upper-Cct-Name" readonly>
