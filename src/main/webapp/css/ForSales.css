@@ -329,4 +329,114 @@
 	    border-radius: 1px;
 	    box-shadow: inset 0px 0px 5px white;
 	}
+	/* -------------------------------------------------------------------------------- */
+	.OrderLogArea {
+    height: 90vh;
+	}
+	.OrderMainArea {
+    height: 19%;
+	}
+	.Order_InputArea {
+    border: 2px solid rgb(111, 167, 235);
+    border-radius: 5px;
+    width: 60%;
+    height: 70%;
+    margin: 1% 18%;
+	}
+	.Order_InputArea > .Order_UserInfo01 {
+    margin: 1% 0% 0.1% 10%;
+	}
+	.Order_InputArea > .Order_UserInfo02 {
+    margin: 0.1% 0% 0.1% 10%;
+	}
+	.Order_InputArea > .Order_ClientInfo {
+    margin: 0.1% 0% 0.1% 10%;
+	}
+	.Order_InputArea > .Order_DocInfo {
+    margin: 0.1% 0% 0.1% 10%;
+	}
+	.Order_InputArea label{
+	font-weight: 900;
+	display: inline-block;
+    width: 8em; /* 모든 레이블의 고정 너비 */
+    text-align: right; /* 텍스트를 오른쪽에 맞춤 */
+    letter-spacing: 0.1em; /* 문자 간격 조정 */
+	}
+	.Order_UserInfo01 > label#User {
+    margin-left: 40%;
+	}
+	.Order_UserInfo02 > label#InputDate,
+	.Order_ClientInfo > label#CountUnit{
+    margin-left: 26.8%;
+	}
+	.Order_ClientInfo > select.UnitList{
+	width: 12.8%;
+	}
+	.Order_DocInfo > select.OrderList{
+	width: 12.7%;
+	text-align: center;
+	}
+	.Order_DocInfo > label#ClientOrderNum{
+	margin-left: 10%;
+	}
+	.Order_DocInfo > label#ClientOrderDate{
+	margin-left: 7.2%;
+	}
+	.Order_DocInfo .OrderDate{
+	text-align: center;
+	width: 12.4%;
+	}
+	.OrderSubArea {
+    margin: 1.4% 8.5%;
+    height: 70%;
+    border: 3px solid rgb(111, 167, 235);
+	}
+	.OrderSubArea .DocTable {
+    width: 100%;
+    table-layout: fixed;
+    overflow: scroll;
+    border-collapse: collapse;
+	}
+	thead.DocTable_Head {
+    display: table;
+    width: 100%;
+	}
+	thead.DocTable_Head th{
+    background-color: rgb(111, 167, 235);
+	position: sticky;
+	top: 0;
+	color: white;
+	text-align: center;
+    z-index: 10;
+	padding: 8px;
+	border: 1px solid white;
+	width: 120px;
+	font-size: smaller;
+	}
+	tbody.DocTable_Body {
+    table-layout: fixed;
+    display: block;
+    width: 100.2%;
+    height: 766px;
+    max-height: 100%;
+    overflow-y: auto;
+	}
+	tbody.DocTable_Body td{
+    padding: 8px;
+	border: 1px solid #ddd;
+	width: 300px;
+	height: 10px;
+	}
+	.DocTable_Body::-webkit-scrollbar {
+    width: 5px;
+  	}
+  	.DocTable_Body::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+  	}
+  	.DocTable_Body::-webkit-scrollbar-track {
+    background-color: white;
+    border-radius: 1px;
+    box-shadow: inset 0px 0px 5px white;
+  	}
 }
