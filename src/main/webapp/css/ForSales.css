@@ -343,6 +343,9 @@
     height: 70%;
     margin: 1% 18%;
 	}
+	.Order_InputArea input{
+	text-align: center;
+	}
 	.Order_InputArea > .Order_UserInfo01 {
     margin: 1% 0% 0.1% 10%;
 	}
@@ -386,6 +389,7 @@
 	text-align: center;
 	width: 12.4%;
 	}
+	
 	.OrderSubArea {
     margin: 1.4% 8.5%;
     height: 70%;
@@ -413,6 +417,18 @@
 	width: 120px;
 	font-size: smaller;
 	}
+	thead.DocTable_Head > tr > th:nth-child(1){
+    background-color: rgb(111,167,235);
+    position: sticky;
+	top: 0;
+	color: white;
+	text-align: center;
+    z-index: 10;
+	padding: 8px;
+	border: 1px solid white;
+	width: 77px;
+	font-size: smaller;
+	}
 	tbody.DocTable_Body {
     table-layout: fixed;
     display: block;
@@ -424,8 +440,58 @@
 	tbody.DocTable_Body td{
     padding: 8px;
 	border: 1px solid #ddd;
-	width: 300px;
+	width: 297.9px;
 	height: 10px;
+	}
+	tbody.DocTable_Body > tr > td:nth-child(1){
+    padding: 8px;
+	border: 1px solid #ddd;
+	width: 200px;
+	height: 10px;
+	text-align: center;
+	font-weight: bold;
+	}
+	tbody.DocTable_Body > tr > td:nth-child(2){
+	text-align: left;
+	}
+	tbody.DocTable_Body > tr > td:nth-child(2) > select{
+	text-align: center;
+	width: 300px;
+	border-width: 0;
+	}
+	tbody.DocTable_Body > tr > td:nth-child(3){
+	text-align: left;
+	}
+	tbody.DocTable_Body > tr > td:nth-child(3) > input{
+	font-weight: bold;
+	width: 250px;
+	text-align: center;
+	padding-left: 30px;	
+	}
+	tbody.DocTable_Body > tr > td:nth-child(4){
+	text-align: center;
+	font-weight: bold;
+	}
+	tbody.DocTable_Body > tr > td:nth-child(5) > input{
+	text-align: right;
+	font-weight: bold;
+	border-width: 0;
+	width: 250px;
+    padding-left: 25px;
+	}
+	tbody.DocTable_Body > tr > td:nth-child(6) > input{
+	border-width: 0;
+	width: 250px;
+    padding-left: 25px;
+    text-align: center;
+	}
+	tbody.DocTable_Body > tr > td > input:focus{
+	outline: none;
+	}
+	tbody.DocTable_Body > tr > td > input{
+	border-width: 0;
+	width: 250px;
+    padding-left: 25px;
 	}
 	.DocTable_Body::-webkit-scrollbar {
     width: 5px;

@@ -9,7 +9,6 @@
 <head>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <%
-
 LocalDateTime today = LocalDateTime.now();
 DateTimeFormatter formatter_YMD = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 DateTimeFormatter formatter_Y = DateTimeFormatter.ofPattern("yyyy");
