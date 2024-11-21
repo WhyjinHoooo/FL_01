@@ -333,9 +333,6 @@
 	.OrderLogArea {
     height: 90vh;
 	}
-	.OrderMainArea {
-    height: 19%;
-	}
 	.Order_InputArea {
     border: 2px solid rgb(111, 167, 235);
     border-radius: 5px;

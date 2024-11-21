@@ -239,6 +239,9 @@ $(document).ready(function(){
 			</div>
 		</div>
 	</div>
+	<div class="ButtonArea">
+		<button class="SaveBtn">저장</button>
+	</div>
 	<div class="OrderSubArea">
 		<table class="DocTable">
 			<thead class="DocTable_Head">
