@@ -67,6 +67,25 @@ $(document).ready(function(){
             $('.DocTable_Body').append(row);
         }
 	}
+	function SetTableDate(){
+		var Today = new Date().toISOString().split('T')[0];
+		$('.DocTable_Body tr input[type="date"]').each(function(){
+			$(this).attr('min', Today); 
+		})
+	}
+
+	function CreateOrderNumber(value){
+		$.ajax({
+			url:'${contextPath}/Sales/ajax/Sales_MakeOrderNumber.jsp',
+			type: 'POST',
+			data: {Seed : value},
+			success: function(data){
+				console.log(data);
+				$('.OrderNumber').val("");
+				$('.OrderNumber').val(data);
+			}
+		})
+	}
 	
 	InitialTable();
 	var UserId = $('.UserId').val();
@@ -82,6 +101,36 @@ $(document).ready(function(){
 			$('.BizCodeDes').val(BizArea[1]);
 		}
 	});
+	
+// 	var initialValue = $('.OrderList').val();
+// 	var CilentOrderNumber = null;
+//     if(initialValue === 'A'){
+//     	$('.OrderNumber').on('keyup',function(key){
+//     		if(key.keyCode == 13){
+//     			CilentOrderNumber = 'A,' + $(this).val() + ',' + $('.OrderDate').val();
+//     			CreateOrderNumber(CilentOrderNumber);
+//     		}
+//     	})
+//     }
+    
+	$('.OrderList, .OrderDate').change(function(){
+		if($(this).hasClass('OrderDate')){
+			var value = 'B,' + $(this).val();
+			if($('.OrderList').val() === 'B'){
+				CreateOrderNumber(value);
+			} else{
+				return false;
+			}
+		}
+	})
+	
+	
+	var Today = new Date().toISOString().split('T')[0];
+	$('.OrderDate').attr({
+		'value' : Today,
+		'max' : Today
+	});
+	
 	
 	$('.DealComCode').change(function(){
 		var TradeCompany = $(this).val();
@@ -159,7 +208,7 @@ $(document).ready(function(){
 		                }
 		                Tablebody.append(row);
 		            }
-			
+					SetTableDate();
 				        // 'SalesPlanTable_Body' 내의 각 <tr>에 대해
 			         	$('.SalesPlanTable_Body').find('tr').each(function() {
 			         	    // <td> 요소들 중 4번째 인덱스 이상의 <td>를 찾고, <input>에 대한 이벤트 리스너 추가
@@ -185,6 +234,8 @@ $(document).ready(function(){
 			}
 	    });
 	});
+	
+	
 });
 
 </script>
