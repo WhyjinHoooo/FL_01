@@ -16,6 +16,8 @@
 	PreparedStatement Pstmt = null;
 	ResultSet rs = null;
 	try{
+		switch(S_Word[0]){
+		case "B":
 			OrderNumber = "FS" + S_Word[1].replace("-", "").substring(2) + "S001";
 			/* FS240101S001  */
 			OrderNumberSql = "SELECT * FROM project.sales_clientorder WHERE CustOrdNum = ?";
@@ -30,6 +32,21 @@
 				OrderNumber = "FS" + S_Word[1].replace("-", "").substring(2) + "S" + String.format("%03d", OrderNumber_Number);
 				/* aa24 */
 			}
+		break;
+		case "A":
+			OrderNumber = S_Word[1];
+			OrderNumberSql = "SELECT * FROM project.sales_clientorder WHERE CustOrdNum = ?";
+			Pstmt = conn.prepareStatement(OrderNumberSql);
+			Pstmt.setString(1, OrderNumber);
+			rs = Pstmt.executeQuery();
+			if(!rs.next()){
+				OrderNumber = OrderNumber;
+			} else{
+				OrderNumber = "No";
+				/* aa24 */
+			}
+		}
+			
  		out.print(OrderNumber);
 }catch(SQLException e){
 	e.printStackTrace();

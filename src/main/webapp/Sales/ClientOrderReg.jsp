@@ -80,9 +80,14 @@ $(document).ready(function(){
 			type: 'POST',
 			data: {Seed : value},
 			success: function(data){
-				console.log(data);
-				$('.OrderNumber').val("");
-				$('.OrderNumber').val(data);
+				if(data.trim() === "No"){
+					alert('주문번호가 중복됩니다.\n다른 번호를 사용해 주세요.');
+					$('.OrderNumber').val("");
+				} else{
+					$('.OrderNumber').val("");
+					$('.OrderNumber').val(data);
+				}
+				
 			}
 		})
 	}
@@ -102,16 +107,16 @@ $(document).ready(function(){
 		}
 	});
 	
-// 	var initialValue = $('.OrderList').val();
-// 	var CilentOrderNumber = null;
-//     if(initialValue === 'A'){
-//     	$('.OrderNumber').on('keyup',function(key){
-//     		if(key.keyCode == 13){
-//     			CilentOrderNumber = 'A,' + $(this).val() + ',' + $('.OrderDate').val();
-//     			CreateOrderNumber(CilentOrderNumber);
-//     		}
-//     	})
-//     }
+	var initialValue = $('.OrderList').val();
+	var CilentOrderNumber = null;
+    if(initialValue === 'A'){
+    	$('.OrderNumber').on('keyup',function(key){
+    		if(key.keyCode == 13){
+    			CilentOrderNumber = 'A,' + $(this).val();
+    			CreateOrderNumber(CilentOrderNumber);
+    		}
+    	})
+    }
     
 	$('.OrderList, .OrderDate').change(function(){
 		if($(this).hasClass('OrderDate')){
@@ -121,8 +126,12 @@ $(document).ready(function(){
 			} else{
 				return false;
 			}
+		} else if($(this).hasClass('OrderList')){
+			var value = $(this).val() + ',' + $('.OrderDate').val();
+			CreateOrderNumber(value);
 		}
-	})
+		
+	});
 	
 	
 	var Today = new Date().toISOString().split('T')[0];
@@ -235,6 +244,72 @@ $(document).ready(function(){
 	    });
 	});
 	
+	$('.SaveBtn').on('click',function(){
+		var SaveList = {};
+		$('.DocTable_Body tr').each(function(index, tr){
+			var $tr = $(tr);
+			var rowNumber = $tr.find('td:first').text();
+			var SelectedOptionValue = $tr.find('select option:selected').val();
+			
+			if(SelectedOptionValue){
+				var rowData = [SelectedOptionValue];
+				console.log(rowData);
+				
+				rowData.push($('.OrderDate').val());
+				rowData.push($('.DealComCode').val());
+				rowData.push($('.UnitList').val());
+				rowData.push($('.Com-code').val());
+				rowData.push($('.BizCode').val());
+				
+				$tr.find('td input[type="text"]').each(function(){
+					rowData.push($(this).val());
+				});
+				
+				SaveList[rowNumber] = rowData;
+				
+			}
+		});
+		console.log(SaveList);
+		
+		$.ajax({
+	    	url:'${contextPath}/Sales/ajax/ClientListSave.jsp',
+	    	type:'POST',
+	    	data: JSON.stringify(SaveList),
+	    	contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			async: false,
+			success: function(data) {
+// 		        if (data.status === "Success") {
+// 		        	InitialPage();
+// 		        	const resetElements = [
+// 		        		".Year",
+// 		    	        ".DocCode", ".DocCodeDes", 
+// 		    	        ".PeriodStart", ".PeriodEnd", 
+// 		    	        ".DealComCode", ".DealComCodeDes"
+// 		    	    ];
+// 		    	    resetElements.forEach(selector => {
+// 		    	        const element = document.querySelector(selector);
+// 		    	        if (element) {
+// 		    	            if (selector === ".DocCode" || selector === ".DealComCode") {
+// 		    	                element.value = 'Click';  // DocCode만 다르게 설정
+// 		    	            } else if(selector === ".Year"){
+// 		    	            	element.value = 'SELECT';
+// 		    	            } else {
+// 		    	                element.value = '';  // 나머지는 빈 값으로 초기화
+// 		    	            }
+// 		    	        }
+// 		    	    });
+// 		            console.log('저장되었습니다.');
+// 		        } else {
+// 		            console.log('저장 실패');
+// 		        }
+		    },
+		    error: function(xhr, status, error) {
+		        console.log('AJAX 요청 실패:', error);
+		    }
+	    })
+	    
+	});
 	
 });
 
