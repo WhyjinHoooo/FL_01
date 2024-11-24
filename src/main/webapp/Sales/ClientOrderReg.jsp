@@ -107,16 +107,16 @@ $(document).ready(function(){
 		}
 	});
 	
-	var initialValue = $('.OrderList').val();
-	var CilentOrderNumber = null;
-    if(initialValue === 'A'){
-    	$('.OrderNumber').on('keyup',function(key){
-    		if(key.keyCode == 13){
-    			CilentOrderNumber = 'A,' + $(this).val();
-    			CreateOrderNumber(CilentOrderNumber);
-    		}
-    	})
-    }
+// 	var initialValue = $('.OrderList').val();
+// 	var CilentOrderNumber = null;
+//     if(initialValue === 'A'){
+//     	$('.OrderNumber').on('keyup',function(key){
+//     		if(key.keyCode == 13){
+//     			CilentOrderNumber = 'A,' + $(this).val();
+//     			CreateOrderNumber(CilentOrderNumber);
+//     		}
+//     	})
+//     }
     
 	$('.OrderList, .OrderDate').change(function(){
 		if($(this).hasClass('OrderDate')){
@@ -260,8 +260,12 @@ $(document).ready(function(){
 				rowData.push($('.UnitList').val());
 				rowData.push($('.Com-code').val());
 				rowData.push($('.BizCode').val());
+				rowData.push($('.OrderNumber').val());
 				
 				$tr.find('td input[type="text"]').each(function(){
+					rowData.push($(this).val());
+				});
+				$tr.find('td input[type="date"]').each(function(){
 					rowData.push($(this).val());
 				});
 				
@@ -303,10 +307,10 @@ $(document).ready(function(){
 // 		        } else {
 // 		            console.log('저장 실패');
 // 		        }
-		    },
+		    }/* ,
 		    error: function(xhr, status, error) {
 		        console.log('AJAX 요청 실패:', error);
-		    }
+		    } */
 	    })
 	    
 	});
