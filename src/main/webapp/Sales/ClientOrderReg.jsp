@@ -127,8 +127,9 @@ $(document).ready(function(){
 				return false;
 			}
 		} else if($(this).hasClass('OrderList')){
+			console.log($(this).val());
 			var value = $(this).val() + ',' + $('.OrderDate').val();
-			CreateOrderNumber(value);
+ 			CreateOrderNumber(value);
 		}
 		
 	});

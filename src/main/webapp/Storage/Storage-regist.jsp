@@ -104,7 +104,7 @@ function InfoSearch(field){
 					<table>
 						<tr><th class="info">Company Code : </th>
 							<td class="input-info">
-								<a href="javascript:void(0);" onclick="InfoSearch('ComSearch')"><input type="text" class="ComCode" name="ComCode" placeholder="선택" readonly></a>
+								<input type="text" class="ComCode" name="ComCode" onclick="InfoSearch('ComSearch')" placeholder="선택" readonly>
 								<input type="text" class="Com_Name" name="Com_Name" readonly>
 							</td>	
 						</tr>
@@ -113,7 +113,7 @@ function InfoSearch(field){
 						
 						<tr><th class="info">Plant : </th>
 							<td class="input-info">
-								<a href="javascript:void(0);" onclick="InfoSearch('PlantSearch')"><input type="text" class="Plant_Select" name="Plant_Select" placeholder="선택" readonly></a>
+								<input type="text" class="Plant_Select" name="Plant_Select" onclick="InfoSearch('PlantSearch')" placeholder="선택" readonly>
 								<input type="text" class="Plant_Name" name="Plant_Name" readonly>
 							</td>
 						</tr>
@@ -122,7 +122,7 @@ function InfoSearch(field){
 						
 						<tr><th class="info">Storage Location Type : </th>
 							<td class="input-info">
-							<a href="javascript:void(0);" onclick="InfoSearch('StorageSearch')"><input type="text" class="Stor_Code" name="Stor_Code" placeholder="선택" readonly></a>
+							<input type="text" class="Stor_Code" name="Stor_Code" placeholder="선택" onclick="InfoSearch('StorageSearch')" readonly>
 								<input type="text" class="Stor_Des" name="Stor_Des" readonly>
 							</td>
 						</tr>
