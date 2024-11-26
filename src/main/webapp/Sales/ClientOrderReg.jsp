@@ -262,6 +262,7 @@ $(document).ready(function(){
 				rowData.push($('.Com-code').val());
 				rowData.push($('.BizCode').val());
 				rowData.push($('.OrderNumber').val());
+				rowData.push(rowNumber);
 				
 				$tr.find('td input[type="text"]').each(function(){
 					rowData.push($(this).val());
@@ -284,34 +285,30 @@ $(document).ready(function(){
 			dataType: 'json',
 			async: false,
 			success: function(data) {
-// 		        if (data.status === "Success") {
-// 		        	InitialPage();
-// 		        	const resetElements = [
-// 		        		".Year",
-// 		    	        ".DocCode", ".DocCodeDes", 
-// 		    	        ".PeriodStart", ".PeriodEnd", 
-// 		    	        ".DealComCode", ".DealComCodeDes"
-// 		    	    ];
-// 		    	    resetElements.forEach(selector => {
-// 		    	        const element = document.querySelector(selector);
-// 		    	        if (element) {
-// 		    	            if (selector === ".DocCode" || selector === ".DealComCode") {
-// 		    	                element.value = 'Click';  // DocCode만 다르게 설정
-// 		    	            } else if(selector === ".Year"){
-// 		    	            	element.value = 'SELECT';
-// 		    	            } else {
-// 		    	                element.value = '';  // 나머지는 빈 값으로 초기화
-// 		    	            }
-// 		    	        }
-// 		    	    });
-// 		            console.log('저장되었습니다.');
-// 		        } else {
-// 		            console.log('저장 실패');
-// 		        }
-		    }/* ,
+		        if (data.status === "Success") {
+		        	InitialTable();
+		        	const resetElements = [
+		        		".DealComCode",".DealComCodeDes",
+		        		".OrderNumber",".UnitList"
+		    	    ];
+		    	    resetElements.forEach(selector => {
+		    	        const element = document.querySelector(selector);
+		    	        if (element) {
+		    	            if (selector === ".UnitList") {
+		    	                element.value = '1';  // DocCode만 다르게 설정
+		    	            } else {
+		    	                element.value = '';  // 나머지는 빈 값으로 초기화
+		    	            }
+		    	        }
+		    	    });
+		            console.log('저장되었습니다.');
+		        } else {
+		            console.log('저장 실패');
+		        }
+		    },
 		    error: function(xhr, status, error) {
 		        console.log('AJAX 요청 실패:', error);
-		    } */
+		    }
 	    })
 	    
 	});

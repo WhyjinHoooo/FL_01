@@ -80,7 +80,6 @@
 			SalePrice = Double.parseDouble(Info_Rs.getString("SalesUnitPrice")); // 판매 단가 - Double 타입
 			CounUnit = Integer.parseInt(rowData.getString(3)); // 수량 입력 단위
 			System.out.println("판매단가 : " + SalePrice + ", 수량 입력 단위 : " + CounUnit);
-			for(int i = 1 ; i <= Integer.parseInt(key) ; i++){
 					String Info_Sql02 = "SELECT * " +
 						    "FROM project.sales_planexrate " +
 						    "WHERE PlanVer = ? " +
@@ -90,24 +89,25 @@
 					PreparedStatement Info_Pstmt02 = conn.prepareStatement(Info_Sql02);
 					Info_Pstmt02.setString(1, rowData.getString(6));
 					Info_Pstmt02.setString(2, ProductInfoList[3]);
-					Info_Pstmt02.setString(3, rowData.getString(10).substring(5,7));
+					Info_Pstmt02.setString(3, rowData.getString(11).substring(5,7));
 					ResultSet Info_Rs02 = Info_Pstmt02.executeQuery();
+					System.out.println("%%");
 					if(Info_Rs02.next()){
 						FXRate = Double.parseDouble(Info_Rs02.getString("ExRate")); // 환율
 						LocCur = Info_Rs02.getString("LocalCurr"); // 장부 통화
 						
 						Sava_Pstmt.setString(1, rowData.getString(1)); // 수주접수일자
 						Sava_Pstmt.setString(2, rowData.getString(6)); // 고객주문번호
-						Sava_Pstmt.setInt(3, i); // 항번
+						Sava_Pstmt.setString(3, rowData.getString(7)); // 항번
 						Sava_Pstmt.setString(4, rowData.getString(2)); // 거래처
 						Sava_Pstmt.setString(5, ProductInfoList[0]); // 품번
 						Sava_Pstmt.setString(6, ProductInfoList[1]); // 품명 
 						Sava_Pstmt.setString(7, ProductInfoList[2]); // 수량단위
 						
-						int TotalCount = Integer.parseInt(rowData.getString(8)) * Integer.parseInt(rowData.getString(3));
+						int TotalCount = Integer.parseInt(rowData.getString(9)) * Integer.parseInt(rowData.getString(3));
 						Sava_Pstmt.setInt(8, TotalCount); // 주문수량
-						Sava_Pstmt.setString(9, rowData.getString(10)); // 회망도착일자
-						Sava_Pstmt.setString(10, rowData.getString(9)); // 납품장소
+						Sava_Pstmt.setString(9, rowData.getString(11)); // 회망도착일자
+						Sava_Pstmt.setString(10, rowData.getString(10)); // 납품장소
 						Sava_Pstmt.setString(11, "N"); // 납품계획수립여부
 						Sava_Pstmt.setDouble(12, Math.round(SalePrice * TotalCount)); // 거래통화매출금액
 						Sava_Pstmt.setDouble(13, SalePrice); // 판매단가
@@ -121,10 +121,10 @@
 						Sava_Pstmt.setString(21, todayDate); // 생성일자
 						Sava_Pstmt.setString(22, "아무개"); // 최종수정자
 						Sava_Pstmt.setString(23, "0000-00-00"); // 최정수정일자
-						Sava_Pstmt.setString(24, rowData.getString(1).replace("-","")+rowData.getString(2)+ProductInfoList[0]+rowData.getString(10).replace("-","")+rowData.getString(9)+rowData.getString(5)+rowData.getString(4)); // Key값
+						Sava_Pstmt.setString(24, rowData.getString(6)+rowData.getString(2)+ProductInfoList[0]+rowData.getString(10)+rowData.getString(11).replace("-","")+rowData.getString(5)+rowData.getString(4)); // Key값
 						Sava_Pstmt.executeUpdate();
 					}
-				}
+				
 			}
 		}
 // 	String UpDateSql = "UPDATE sales_planversion SET XO = ? WHERE PlanVer = ?";
