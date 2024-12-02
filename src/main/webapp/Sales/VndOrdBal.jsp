@@ -69,6 +69,15 @@ $(document).ready(function(){
 			$('.BizCodeDes').val(BizArea[1]);
 		}
 	});
+	
+	$('.DoItBtn').on('click',function(){
+		var DealCom = $('.DealComCode').val();
+		if(DealCom === ''){
+			alert('잉잉');
+		} else{
+			alert('잉잉잉');
+		}
+	});
 })
 </script>
 </head>
@@ -94,7 +103,7 @@ $(document).ready(function(){
 			<div class="VndOrd-Main-Input">
 				<label>거래처: </label>
 				<div class="ColumnInput">
-					<input class="DealComCode" value="Select" onclick="InfoSearch('TradeCom')" readonly>
+					<input class="DealComCode" placeholder="Select" onclick="InfoSearch('TradeCom')" readonly>
 					<input class="DealComCodeDes" readonly>
 				</div>
 			</div>
@@ -138,6 +147,10 @@ $(document).ready(function(){
 						<th>주문수량</th><th>납품희망일짜</th><th>조정전 장량</th><th>조정잔량</th><th>조정후 잔량</th><th>조정사유</th>
 					</thead>
 					<tbody>
+					<tr>
+						<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td>
+						<td>11</td><td>12</td><td>13</td>
+					</tr>
 					</tbody>
 				</table>
 			</div>
