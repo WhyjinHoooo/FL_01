@@ -301,6 +301,11 @@ $(document).ready(function(){
 		    	            }
 		    	        }
 		    	    });
+		    	    const updatedOptions = `
+	                    <option value="A">A 구매주문서</option>
+	                    <option value="B">B Forecasting</option>
+	                `;
+	                $(".OrderList").html(updatedOptions);
 		            console.log('저장되었습니다.');
 		        } else {
 		            console.log('저장 실패');

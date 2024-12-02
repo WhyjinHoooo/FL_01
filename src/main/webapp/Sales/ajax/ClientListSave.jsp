@@ -68,12 +68,10 @@
 
  		PreparedStatement Sava_Pstmt = conn.prepareStatement(SaveSql);
 		
-		String Info_Sql01 = "SELECT * FROM sales_trandingproduct WHERE PlanVer = ? AND MatCode = ? AND TradingPartner = ? AND TranCurr = ?";
+		String Info_Sql01 = "SELECT * FROM sales_realprice WHERE MatCode = ? AND CustCode = ?";
 		PreparedStatement Info_Pstmt01 = conn.prepareStatement(Info_Sql01);
-		Info_Pstmt01.setString(1, rowData.getString(6));
-		Info_Pstmt01.setString(2, ProductInfoList[0]);
-		Info_Pstmt01.setString(3, rowData.getString(2));
-		Info_Pstmt01.setString(4, ProductInfoList[3]);
+		Info_Pstmt01.setString(1, ProductInfoList[0]);
+		Info_Pstmt01.setString(2, rowData.getString(2));
 		ResultSet Info_Rs = Info_Pstmt01.executeQuery();
 		while(Info_Rs.next()){
 			System.out.println("판매단가 : " + Info_Rs.getString("SalesUnitPrice")); // 판매 단가 - String 타입
@@ -91,10 +89,9 @@
 					Info_Pstmt02.setString(2, ProductInfoList[3]);
 					Info_Pstmt02.setString(3, rowData.getString(11).substring(5,7));
 					ResultSet Info_Rs02 = Info_Pstmt02.executeQuery();
-					System.out.println("%%");
-					if(Info_Rs02.next()){
-						FXRate = Double.parseDouble(Info_Rs02.getString("ExRate")); // 환율
-						LocCur = Info_Rs02.getString("LocalCurr"); // 장부 통화
+// 					if(Info_Rs02.next()){
+						FXRate = 1350.0; // 환율
+						LocCur = "KOR"; // 장부 통화
 						
 						Sava_Pstmt.setString(1, rowData.getString(1)); // 수주접수일자
 						Sava_Pstmt.setString(2, rowData.getString(6)); // 고객주문번호
@@ -123,15 +120,10 @@
 						Sava_Pstmt.setString(23, "0000-00-00"); // 최정수정일자
 						Sava_Pstmt.setString(24, rowData.getString(6)+rowData.getString(2)+ProductInfoList[0]+rowData.getString(10)+rowData.getString(11).replace("-","")+rowData.getString(5)+rowData.getString(4)); // Key값
 						Sava_Pstmt.executeUpdate();
-					}
+// 					}
 				
 			}
 		}
-// 	String UpDateSql = "UPDATE sales_planversion SET XO = ? WHERE PlanVer = ?";
-// 	PreparedStatement UpDatePstmt = conn.prepareStatement(UpDateSql);
-// 	UpDatePstmt.setString(1, "O");
-// 	UpDatePstmt.setString(2, PlanVersion);
-// 	UpDatePstmt.executeUpdate();
 	
 	response.setContentType("application/json; charset=UTF-8");
     response.getWriter().write("{\"status\": \"Success\"}");
