@@ -626,7 +626,7 @@
     height: 10px;
     text-align: center;
     font-size: smaller;
-	}
+	}	
 	.ShowInfoTable tbody::-webkit-scrollbar {
     width: 5px;
   	}

@@ -55,6 +55,20 @@ function InfoSearch(field){
 	}
 }
 $(document).ready(function(){
+	function InitialTable(){
+		$('.ShowInfoTable_Body').empty();
+		for (let i = 0; i < 50; i++) {
+            const row = $('<tr></tr>'); // 새로운 <tr> 생성
+            // 34개의 빈 <td> 요소 추가 (3개의 헤더 항목 이후 31일치 데이터)
+            for (let j = 0; j < 13; j++) {
+                row.append('<td></td>');
+            }
+            // 생성한 <tr>을 <tbody>에 추가
+            $('.ShowInfoTable_Body').append(row);
+        }
+	}
+	InitialTable(); // 1번 테이블 초기화
+	var InfoList = [];
 	var UserId = $('.UserId').text();
 	console.log(UserId);
 	var BizArea = {};
@@ -72,11 +86,66 @@ $(document).ready(function(){
 	
 	$('.DoItBtn').on('click',function(){
 		var DealCom = $('.DealComCode').val();
+		var DealComDes = $('.DealComCodeDes').val();
+		var UCom = $('.UserCompany').val();
+		var UBizArea = $('.BizCode').val();
+		InfoList = [UCom, UBizArea, DealCom, DealComDes]
 		if(DealCom === ''){
-			alert('잉잉');
+			alert('거래처를 선택해주세요.');
+			return false;
 		} else{
-			alert('잉잉잉');
-		}
+			console.log(InfoList);
+			$.ajax({
+				url: '${contextPath}/Sales/ajax/CustOrderFetch.jsp',
+				type: 'POST',
+				data: JSON.stringify(InfoList),
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				async: false,
+				success: function(data) {
+					console.log(data);
+					if(data.length > 0){
+						$('.ShowInfoTable_Body').empty();
+						for(var i = 0 ; i < data.length ; i++){
+							var row = '<tr>' +
+							'<td><input type="checkbox" class="checkboxBtn"></td>' + //체크 박스
+							'<td>' + data[i].DealCom + '</td>' + // 거래처
+							'<td>' + data[i].DealComDes + '</td>' + // 거래처명
+							'<td>' + data[i].OreNumber + '</td>' + // 고객주문번호
+							'<td>' + data[i].Seq + '</td>' + // 항번
+							'<td>' + data[i].MatCode + '</td>' + // 품번
+							'<td>' + data[i].MatCodeDes + '</td>' + // 품명
+							'<td>' + data[i].Unit + '</td>' + // 수량 단위
+							'<td>' + data[i].OrderCount + '</td>' + // 주문 수량
+							'<td>' + data[i].DelPlanQty + '</td>' + // 납품계획수량
+							'<td>' + data[i].DeliveredQty + '</td>' + // 납품완료수량
+							'<td>' + data[i].OrderBalance + '</td>' + // 주문잔량
+							'<td>' + data[i].DeliverDate + '</td>' + // 납품희망일자
+							'</tr>';
+							$('.ShowInfoTable_Body').append(row);
+						};
+					};
+				}
+			});
+		};
+	});
+	var PeriodList = {};
+	$('.BalanceAdjDate').change(function(){
+		var EditDate = $(this).val();
+		
+		$('.ShowInfoTable_Body tr').each(function(index, tr){
+			var $tr = $(tr);
+			var $Chk = $tr.find('input[type="checkbox"]');
+			if($Chk.prop('checked')){
+				var MatCode = $tr.find('td:nth-child(6)').text().trim();
+				var TradeCom = $tr.find('td:nth-child(2)').text().trim();
+				if (!PeriodList[EditDate]) {
+	                PeriodList[EditDate] = [];
+	            }
+				PeriodList[EditDate].push({ MatCode: MatCode, TradeCom: TradeCom });
+			}
+		})
+		console.log(PeriodList);
 	});
 })
 </script>
@@ -96,7 +165,7 @@ $(document).ready(function(){
 			<div class="VndOrd-Main-Input">
 				<label>회계단위: </label>
 				<div class="ColumnInput">
-					<input class="BizCode" value="Select" onclick="InfoSearch('BizArea')" readonly>
+					<input class="BizCode" onclick="InfoSearch('BizArea')" readonly>
 					<input class="BizCodeDes" readonly>
 				</div>
 			</div>
@@ -121,18 +190,14 @@ $(document).ready(function(){
 						<th>선택</th><th>거래처</th><th>거래처명</th><th>고객주문번호</th><th>항번</th><th>품번</th><th>품명</th><th>수량단위</th>
 						<th>주문수량</th><th>납품계획수량</th><th>납품완료수량</th><th>주문잔량</th><th>납품희망일짜</th>
 					</thead>
-					<tbody>
-					<tr>
-						<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td>
-						<td>11</td><td>12</td><td>13</td>
-					</tr>
+					<tbody class="ShowInfoTable_Body">
 					</tbody>
 				</table>
 			</div>
 			<div class="BtnArea">
 				<div class="PeriodSelect">
 					<label>잔량조정일자: </label>
-					<input class="aabbcc" type="date">
+					<input class="BalanceAdjDate" type="date">
 				</div>
 				<button class="custom-button">
 					<img src="${contextPath}/img/Dvector.png" alt="Button Image">
