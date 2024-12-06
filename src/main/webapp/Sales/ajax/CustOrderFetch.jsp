@@ -34,18 +34,20 @@
 	    JSONArray jsonArray = new JSONArray();
 	    while(rs.next()){
 	    	JSONObject josnobject = new JSONObject();
-	    	josnobject.put("DealCom", DealCom);
+	    	josnobject.put("DealCom", DealCom); 
 	    	josnobject.put("DealComDes", DealComDes);
-	    	josnobject.put("OreNumber", rs.getString("CustOrdNum"));
-	    	josnobject.put("Seq", rs.getString("OrditemSeq"));
-	    	josnobject.put("MatCode", rs.getString("MatCode"));
-	    	josnobject.put("MatCodeDes", rs.getString("MatDesc"));
-	    	josnobject.put("Unit", rs.getString("QtyUnit"));
+	    	josnobject.put("OreNumber", rs.getString("CustOrdNum")); // 고객주문번호
+	    	josnobject.put("Seq", rs.getString("OrditemSeq")); // 항번
+	    	josnobject.put("MatCode", rs.getString("MatCode")); // 품번
+	    	josnobject.put("MatCodeDes", rs.getString("MatDesc")); // 품명
+	    	josnobject.put("Unit", rs.getString("QtyUnit")); // 수량단위
 	    	josnobject.put("OrderCount", rs.getString("SalesOrdQty")); // 주문 수량
 	    	josnobject.put("DelPlanQty", 0); // 납품 계획 수량
 	    	josnobject.put("DeliveredQty", 0); // 납품 완료 수량
 	    	josnobject.put("OrderBalance", rs.getString("SalesOrdQty")); // 주문 잔량
-	    	josnobject.put("DeliverDate", rs.getString("ExpArrivDate"));
+	    	josnobject.put("DeliverDate", rs.getString("ExpArrivDate")); // 회망도착일자
+	    	josnobject.put("ArrivePlace", rs.getString("ArrivCustPlace")); // 납품장소
+	    	josnobject.put("RecvDate", rs.getString("OrdReceiptDate")); // 수주접수일자
 	    	
 	    	jsonArray.put(josnobject);
 	    }

@@ -53,14 +53,24 @@ function InfoSearch(field){
 $(document).ready(function(){
 	function InitialTable(){
 		$('.PendingTable_Body').empty();
+		$('.PlannedTable_Body').empty();
 		for (let i = 0; i < 50; i++) {
             const row = $('<tr></tr>'); // 새로운 <tr> 생성
             // 34개의 빈 <td> 요소 추가 (3개의 헤더 항목 이후 31일치 데이터)
-            for (let j = 0; j < 13; j++) {
+            for (let j = 0; j < 11; j++) {
                 row.append('<td></td>');
             }
             // 생성한 <tr>을 <tbody>에 추가
-            $('.ShowInfoTable_Body').append(row);
+            $('.PendingTable_Body').append(row);
+        }
+		for (let i = 0; i < 50; i++) {
+            const row = $('<tr></tr>'); // 새로운 <tr> 생성
+            // 34개의 빈 <td> 요소 추가 (3개의 헤더 항목 이후 31일치 데이터)
+            for (let j = 0; j < 7; j++) {
+                row.append('<td></td>');
+            }
+            // 생성한 <tr>을 <tbody>에 추가
+            $('.PlannedTable_Body').append(row);
         }
 	}
 	InitialTable(); // 1번 테이블 초기화
@@ -81,7 +91,7 @@ $(document).ready(function(){
 	});
 	
 	$('.BalanceAdjDate').change(function(){
-		var SalesRoute = $('.DealComCode').val();
+		var SalesRoute = $('.SalesRouteCode').val();
 		var DispatchDate = $('.BalanceAdjDate').val();
 		$.ajax({
 			type: "POST",
@@ -93,6 +103,11 @@ $(document).ready(function(){
 			}
 		});
 	});
+	
+	$('.SalesRouteCode').change(function(){
+		var Value = $(this).val();
+		$('.SalesRouteCodeDes').val(Value.substring(4));
+	})
 	
 	$('.DoItBtn').on('click',function(){
 		var DealCom = $('.DealComCode').val();
@@ -115,29 +130,45 @@ $(document).ready(function(){
 				success: function(data) {
 					console.log(data);
 					if(data.length > 0){
-						$('.ShowInfoTable_Body').empty();
+						$('.PendingTable_Body').empty();
 						for(var i = 0 ; i < data.length ; i++){
 							var row = '<tr>' +
 							'<td><input type="checkbox" class="checkboxBtn"></td>' + //체크 박스
-							'<td>' + data[i].DealCom + '</td>' + // 거래처
-							'<td>' + data[i].DealComDes + '</td>' + // 거래처명
-							'<td>' + data[i].OreNumber + '</td>' + // 고객주문번호
-							'<td>' + data[i].Seq + '</td>' + // 항번
-							'<td>' + data[i].MatCode + '</td>' + // 품번
-							'<td>' + data[i].MatCodeDes + '</td>' + // 품명
-							'<td>' + data[i].Unit + '</td>' + // 수량 단위
+							'<td>' + data[i].OreNumber + '</td>' + // 거래처
+							'<td>' + data[i].RecvDate + '</td>' + // 거래처명
+							'<td>' + data[i].MatCode + '</td>' + // 고객주문번호
+							'<td>' + data[i].MatCodeDes + '</td>' + // 항번
+							'<td>' + data[i].Unit + '</td>' + // 품번
+							'<td>' + data[i].OrderCount + '</td>' + // 품명
+							'<td>' + data[i].DeliveredQty + '</td>' + // 수량 단위
 							'<td>' + data[i].OrderCount + '</td>' + // 주문 수량
-							'<td>' + data[i].DelPlanQty + '</td>' + // 납품계획수량
-							'<td>' + data[i].DeliveredQty + '</td>' + // 납품완료수량
-							'<td>' + data[i].OrderBalance + '</td>' + // 주문잔량
-							'<td>' + data[i].DeliverDate + '</td>' + // 납품희망일자
+							'<td>' + data[i].DeliverDate + '</td>' + // 납품계획수량
+							'<td>' + data[i].ArrivePlace + '</td>' + // 납품완료수량
 							'</tr>';
-							$('.ShowInfoTable_Body').append(row);
+							$('.PendingTable_Body').append(row);
 						};
 					};
 				}
 			});
 		};
+	});
+	var PeriodList = {};
+	$('.button-text'). on('click', function(){
+		var EditDate = $(this).val();
+		
+		$('.PendingTable_Body tr').each(function(index, tr){
+			var $tr = $(tr);
+			var $Chk = $tr.find('input[type="checkbox"]');
+			if($Chk.prop('checked')){
+				var MatCode = $tr.find('td:nth-child(4)').text().trim();
+				var TradeCom = $tr.find('td:nth-child(2)').text().trim();
+				if (!PeriodList[EditDate]) {
+	                PeriodList[EditDate] = [];
+	            }
+				PeriodList[EditDate].push({ MatCode: MatCode, TradeCom: TradeCom });
+			}
+		})
+		console.log(PeriodList);
 	});
 })
 </script>
@@ -156,27 +187,34 @@ $(document).ready(function(){
 			<div class="DelPlan-Main-Header">SEARCH FIELDS</div>
 			<div class="DelPlan-Main-Input">
 				<label>회사: </label>
-				<input type="text" class="UserCompany" value=<%=UserCompany %> readonly>
+				<input type="text" class="UserCompany SelectInput" value=<%=UserCompany %> readonly>
 			</div>
 			<div class="DelPlan-Main-Input">
 				<label>회계단위: </label>
 				<div class="ColumnInput">
-					<input class="BizCode" onclick="InfoSearch('BizArea')" readonly>
+					<input class="BizCode SelectInput" onclick="InfoSearch('BizArea')" readonly>
 					<input class="BizCodeDes" readonly>
 				</div>
 			</div>
 			<div class="DelPlan-Main-Input">
 				<label>거래처: </label>
 				<div class="ColumnInput">
-					<input class="DealComCode" placeholder="Select" onclick="InfoSearch('TradeCom')" readonly>
+					<input class="DealComCode SelectInput" placeholder="Select" onclick="InfoSearch('TradeCom')" readonly>
 					<input class="DealComCodeDes" readonly>
 				</div>
 			</div>
 			<div class="DelPlan-Main-Input">
 				<label>판매경로: </label>
-				<div class="ColumnInput">
-					<input class="DealComCode" placeholder="Select" onclick="InfoSearch('TradeCom')" readonly>
-					<input class="DealComCodeDes" readonly>
+				<div class="ColumnInput SalesRouteArea">
+					<select class="SalesRouteCode SelectInput">
+						<option>SELECT</option>
+						<option value="EX1,직수출">EX1</option>
+						<option value="EX2,국판매출">EX2</option>
+						<option value="EX3,대행수출">EX3</option>
+						<option value="EX4,삼국수출">EX4</option>
+						<option value="EX5,기타매출">EX5</option>
+					</select>
+					<input class="SalesRouteCodeDes" readonly>
 				</div>
 			</div>
 			
@@ -194,10 +232,6 @@ $(document).ready(function(){
 						<th>납품잔량</th><th>납품희망일자</th><th>납품장소</th>
 					</thead>
 					<tbody class="PendingTable_Body">
-					<tr>
-						<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td>
-						<td>11</td>
-					</tr>
 					</tbody>
 				</table>
 			</div>
@@ -221,10 +255,7 @@ $(document).ready(function(){
 					<thead>
 						<th>항번</th><th>고객주문번호</th><th>품번</th><th>품명</th><th>수량단위</th><th>납품잔량</th><th>납품계획수량</th>
 					</thead>
-					<tbody>
-					<tr>
-						<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-					</tr>
+					<tbody class="PlannedTable_Body">
 					</tbody>
 				</table>
 			</div>

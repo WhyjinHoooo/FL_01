@@ -801,14 +801,15 @@
     	text-align: right;
     	letter-spacing: 0.1em;
 	}
-	.DelPlan-Main > .DelPlan-Main-Input input,
-	.DelPlan-Main > .DelPlan-Main-Input > .ColumnInput input:nth-of-type(1){
+	.DelPlan-Main > .DelPlan-Main-Input input.SelectInput,
+	.DelPlan-Main > .DelPlan-Main-Input > .ColumnInput select{
     	width: 100px; 
 		margin: 0px 0px 5px 10px;
 		text-align: center;
 		
 	}
-	.DelPlan-Main > .DelPlan-Main-Input > .ColumnInput input:nth-of-type(2){
+	.DelPlan-Main > .DelPlan-Main-Input > .SalesRouteArea input,
+	.DelPlan-Main > .DelPlan-Main-Input input{
     	width: 150px; 
 		margin-left: 10px;
 		text-align: center;
@@ -919,7 +920,6 @@
   	.DelPlan-Sub .BtnArea {
         width: 97%;
         height: 10%;
-        border: 1px solid;
         margin: 1.5% 0% 1.5% 1.5%;
         display: flex;
         flex-direction: row;
@@ -951,8 +951,9 @@
 	background-color: #002060;
 	color: white;
 	border: 1px solid #1F4E79;
-	margin: 2.2% 0% 0% 38%;
+	margin: 2.2% 1% 0% 37%;
 	font-size: 17px;
+	border-radius: 5px;
     }
 	.DelPlan-Main .BtnArea .SaveBtn:hover {
 	VndOrd-Sub: #0068ff;
