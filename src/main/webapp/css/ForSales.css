@@ -1011,6 +1011,13 @@
     text-align: center;
     font-size: smaller;
 	}
+	tbody.PlannedTable_Body > tr > td:nth-child(8) > input{
+	text-align: right;
+	font-weight: bold;
+	border-width: 0;
+	width: 220px;
+    padding-left: 25px;
+	}
 	.PlannedTable tbody::-webkit-scrollbar {
     width: 5px;
   	}

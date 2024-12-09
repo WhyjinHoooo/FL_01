@@ -128,8 +128,13 @@ $(document).ready(function(){
 			}
 		} else if($(this).hasClass('OrderList')){
 			console.log($(this).val());
-			var value = $(this).val() + ',' + $('.OrderDate').val();
- 			CreateOrderNumber(value);
+			if($(this).val() === 'A'){
+				$('.OrderNumber').val("");
+				return false;
+			} else{
+				var value = $(this).val() + ',' + $('.OrderDate').val();
+	 			CreateOrderNumber(value);
+			}
 		}
 		
 	});
@@ -362,6 +367,7 @@ $(document).ready(function(){
 			<div class="Order_DocInfo">
 				<label id="OrderType">주문유형: </label>
 				<select class="OrderList">
+					<option>SELECT</option>
 					<option value="A">A 구매주문서</option>
 					<option value="B">B Forecasting</option>
 				</select>

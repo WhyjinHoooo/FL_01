@@ -58,13 +58,21 @@
 			
 		}
 		
+		String SOS_Sql = "INSERT INTO sales_ordstatus (" +
+                "TradingPartner, CustOrdNum, OrditemSeq, MatCode, MatDesc, " +
+                "QtyUnit, SalesOrdQty, PlanDelivSumQty, DelivOrdSumQty, OrdQtyAdjust, " +
+                "SalesResidQty, ExpectArrivDate, ArrivCustPlace, BizArea, ComCode, " +
+                "CreatPerson, CreatDate, LastPerson, LastAdjustDate, KeyValue" +
+                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		PreparedStatement SOS_Pstmt = conn.prepareStatement(SOS_Sql);
+
+		
 		String SaveSql = "INSERT INTO sales_clientorder (" +
 			    "OrdReceiptDate, CustOrdNum, OrditemSeq, TradingPartner, MatCode, MatDesc, " +
 			    "QtyUnit, SalesOrdQty, ExpArrivDate, ArrivCustPlace, SalesOrdYN, TranSalesAmt, " +
 			    "SalesUnitPrice, TranCurr, PlanExRate, LocalSalesAmt, LocalCurr, BizArea, " +
 			    "ComCode, CreatPerson, CreatDate, LastPerson, LastAdjustDate, KeyValue" +
 			    ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
 
  		PreparedStatement Sava_Pstmt = conn.prepareStatement(SaveSql);
 		
@@ -78,18 +86,18 @@
 			SalePrice = Double.parseDouble(Info_Rs.getString("SalesUnitPrice")); // 판매 단가 - Double 타입
 			CounUnit = Integer.parseInt(rowData.getString(3)); // 수량 입력 단위
 			System.out.println("판매단가 : " + SalePrice + ", 수량 입력 단위 : " + CounUnit);
-					String Info_Sql02 = "SELECT * " +
-						    "FROM project.sales_planexrate " +
-						    "WHERE PlanVer = ? " +
-						    "  AND TranCurr = ? " +
-						    "  AND RIGHT(YearMonth, 2) IN (?) " +
-						    "ORDER BY TranCurr DESC, YearMonth ASC";
-					PreparedStatement Info_Pstmt02 = conn.prepareStatement(Info_Sql02);
-					Info_Pstmt02.setString(1, rowData.getString(6));
-					Info_Pstmt02.setString(2, ProductInfoList[3]);
-					Info_Pstmt02.setString(3, rowData.getString(11).substring(5,7));
-					ResultSet Info_Rs02 = Info_Pstmt02.executeQuery();
-// 					if(Info_Rs02.next()){
+// 					String Info_Sql02 = "SELECT * " +
+// 						    "FROM project.sales_planexrate " +
+// 						    "WHERE PlanVer = ? " +
+// 						    "  AND TranCurr = ? " +
+// 						    "  AND RIGHT(YearMonth, 2) IN (?) " +
+// 						    "ORDER BY TranCurr DESC, YearMonth ASC";
+// 					PreparedStatement Info_Pstmt02 = conn.prepareStatement(Info_Sql02);
+// 					Info_Pstmt02.setString(1, rowData.getString(6));
+// 					Info_Pstmt02.setString(2, ProductInfoList[3]);
+// 					Info_Pstmt02.setString(3, rowData.getString(11).substring(5,7));
+// 					ResultSet Info_Rs02 = Info_Pstmt02.executeQuery();
+					
 						FXRate = 1350.0; // 환율
 						LocCur = "KOR"; // 장부 통화
 						
@@ -120,8 +128,28 @@
 						Sava_Pstmt.setString(23, "0000-00-00"); // 최정수정일자
 						Sava_Pstmt.setString(24, rowData.getString(6)+rowData.getString(2)+ProductInfoList[0]+rowData.getString(10)+rowData.getString(11).replace("-","")+rowData.getString(5)+rowData.getString(4)); // Key값
 						Sava_Pstmt.executeUpdate();
-// 					}
-				
+						
+						SOS_Pstmt.setString(1, rowData.getString(2)); // 거래처
+						SOS_Pstmt.setString(2, rowData.getString(6)); // 고객주문번호
+						SOS_Pstmt.setString(3, rowData.getString(7)); // 항번
+						SOS_Pstmt.setString(4, ProductInfoList[0]); // 품번
+						SOS_Pstmt.setString(5, ProductInfoList[1]); // 품명
+						SOS_Pstmt.setString(6, ProductInfoList[2]); // 수량단위
+						SOS_Pstmt.setInt(7, TotalCount); // 주문수량
+						SOS_Pstmt.setInt(8, 0); // 납품계획수량
+						SOS_Pstmt.setInt(9, 0); // 납품완료수량
+						SOS_Pstmt.setInt(10, 0); // 주문수량조정
+						SOS_Pstmt.setInt(11, TotalCount); // 주문잔량
+						SOS_Pstmt.setString(12, rowData.getString(11)); // 납품희망일자
+						SOS_Pstmt.setString(13, rowData.getString(10)); // 납품장소
+						SOS_Pstmt.setString(14, rowData.getString(5)); // 회계단위
+						SOS_Pstmt.setString(15, rowData.getString(4)); // 회사
+						SOS_Pstmt.setString(16, UserId); // 작성자
+						SOS_Pstmt.setString(17, todayDate); // 생성일자
+						SOS_Pstmt.setString(18, "아무개"); // 최종수정자
+						SOS_Pstmt.setString(19, "0000-00-00"); // 최종수정일자
+						SOS_Pstmt.setString(20, rowData.getString(2)+rowData.getString(6)+rowData.getString(7)+rowData.getString(4)); // 키값
+						SOS_Pstmt.executeUpdate();
 			}
 		}
 	
