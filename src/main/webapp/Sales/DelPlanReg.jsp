@@ -239,23 +239,24 @@ $(document).ready(function(){
 				HeadDataList.push($('.BizCode').val()); // 회계단위
 				HeadDataList.push($('.UserCompany').val()); // 회사
 				
-				SaveList[DelPlanNo] = HeadDataList;
-			}
-			for(var i = 0 ; i < $('.PlannedTable_Body tr').length; i++){
-				
-			}
-// 				var childList = [];
-				HeadDataList.push($tr.find('td:nth-child(2)').text()); // 항번
-				HeadDataList.push($tr.find('td:nth-child(3)').text()); // 고객주문번호
-				HeadDataList.push($tr.find('td:nth-child(4)').text()); // 품번
-				HeadDataList.push($tr.find('td:nth-child(5)').text()); // 품명
-				HeadDataList.push($tr.find('td:nth-child(6)').text()); // 수량단위
-				HeadDataList.push($tr.find('td:nth-child(8)').text()); // 납품계획수량
-				HeadDataList.push($('.SalesRouteCode').val()); // 판매경로
-				
-// 				SaveList[DelPlanNo] = childList;
 				
 			
+				var childList = [];
+				childList.push($tr.find('td:nth-child(2)').text()); // 항번
+				childList.push($tr.find('td:nth-child(3)').text()); // 고객주문번호
+				childList.push($tr.find('td:nth-child(4)').text()); // 품번
+				childList.push($tr.find('td:nth-child(5)').text()); // 품명
+				childList.push($tr.find('td:nth-child(6)').text()); // 수량단위
+				childList.push($tr.find('td:nth-child(8)').text()); // 납품계획수량
+				childList.push($('.SalesRouteCode').val()); // 판매경로
+				
+				if(!SaveList[DelPlanNo]){
+					SaveList[DelPlanNo] = {HeadDataList: [], ChildList: []};
+				}
+				
+				SaveList[DelPlanNo].HeadDataList = HeadDataList;
+				SaveList[DelPlanNo].ChildList.push(childList);
+			}
 		});
 		console.log(SaveList);
 	})
