@@ -163,7 +163,7 @@ $(document).ready(function(){
 				var TradeCom = $tr.find('td:nth-child(2)').text().trim(); // 고객주문번호
 				var MatCode = $tr.find('td:nth-child(4)').text().trim(); // 품번
 				var MatDes = $tr.find('td:nth-child(5)').text().trim(); // 품명
-				var MatQty = $tr.find('td:nth-child(7)').text().trim(); // 수량단위
+				var MatQty = $tr.find('td:nth-child(6)').text().trim(); // 수량단위
 				var MatRemainQty = $tr.find('td:nth-child(9)').text().trim(); // 납품잔량
 				
 				
@@ -183,7 +183,7 @@ $(document).ready(function(){
 		    // PendingTable_Body에 tr가 존재하는지 확인
 		    var PlanningTr = $('.PlannedTable_Body tr');
 		    console.log(PlanningTr.length);
-		    if (PlanningTr.length === 0) {
+		    if (PlanningTr.length === 50) {
 		        console.log("No <tr> elements found in PendingTable_Body.");
 		    }
 		    
@@ -204,20 +204,61 @@ $(document).ready(function(){
 			for(var i = 0 ; i < PeriodList[DocCode].length ; i++){
 				var row = 
 				'<tr>' + 
-					'<td hidden>' + DocCode + '</td>' +
-					'<td>' + (i+1) + '</td>' +
-					'<td>' + PeriodList[DocCode][i].TradeCom + '</td>' +
-					'<td>' + PeriodList[DocCode][i].MatCode + '</td>' +
-					'<td>' + PeriodList[DocCode][i].MatDes + '</td>' +
-					'<td>' + PeriodList[DocCode][i].MatQty + '</td>' +
-					'<td>' + PeriodList[DocCode][i].MatRemainQty + '</td>' +
-					'<td><input type="text" class="DeliverPlanQuanty" required></td>' +
+					'<td hidden>' + DocCode + '</td>' + // 납품계획번호 1
+					'<td>' + (i+1) + '</td>' + // 항번 2
+					'<td>' + PeriodList[DocCode][i].TradeCom + '</td>' + // 고객주문번호 3
+					'<td>' + PeriodList[DocCode][i].MatCode + '</td>' + // 품번 4
+					'<td>' + PeriodList[DocCode][i].MatDes + '</td>' + // 품명 5
+					'<td>' + PeriodList[DocCode][i].MatQty + '</td>' + // 수량단위 6
+					'<td>' + PeriodList[DocCode][i].MatRemainQty + '</td>' + // 납품잔량 7
+					'<td><input type="text" class="DeliverPlanQuanty" required></td>' + // 남품계획수량 8
 				'</tr>';
 				$('.PlannedTable_Body').append(row);
 			}
 		}
 		
 	});
+	
+	$('.SaveBtn').on('click',function(){
+		var SaveList = {};
+		$('.PlannedTable_Body tr').each(function(index, tr){
+			var $tr = $(tr);
+			var DelPlanNo = $tr.find('td:nth-child(1)').text();
+			var PlanningDate = $('.BalanceAdjDate').val();
+			console.log('DelPlanNo : ' + $('.PlannedTable_Body tr').length);
+			
+			
+			if(DelPlanNo){
+				var HeadDataList = [];
+				HeadDataList.push(DelPlanNo); // 납품계획번호
+				HeadDataList.push($('.DealComCode').val()); // 거래처
+				HeadDataList.push($('.BalanceAdjDate').val()); // 반출예정일자
+				HeadDataList.push($('.PlannedTable_Body tr').length); // 품번갯수
+				HeadDataList.push($('.BalanceAdjDate').val()); // 남풉총수량
+				/* HeadDataList.push($('.BalanceAdjDate').val()); // 납품장소 */
+				HeadDataList.push($('.BizCode').val()); // 회계단위
+				HeadDataList.push($('.UserCompany').val()); // 회사
+				
+				SaveList[DelPlanNo] = HeadDataList;
+			}
+			for(var i = 0 ; i < $('.PlannedTable_Body tr').length; i++){
+				
+			}
+// 				var childList = [];
+				HeadDataList.push($tr.find('td:nth-child(2)').text()); // 항번
+				HeadDataList.push($tr.find('td:nth-child(3)').text()); // 고객주문번호
+				HeadDataList.push($tr.find('td:nth-child(4)').text()); // 품번
+				HeadDataList.push($tr.find('td:nth-child(5)').text()); // 품명
+				HeadDataList.push($tr.find('td:nth-child(6)').text()); // 수량단위
+				HeadDataList.push($tr.find('td:nth-child(8)').text()); // 납품계획수량
+				HeadDataList.push($('.SalesRouteCode').val()); // 판매경로
+				
+// 				SaveList[DelPlanNo] = childList;
+				
+			
+		});
+		console.log(SaveList);
+	})
 })
 </script>
 </head>
