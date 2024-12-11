@@ -165,13 +165,14 @@ $(document).ready(function(){
 				var MatDes = $tr.find('td:nth-child(5)').text().trim(); // 품명
 				var MatQty = $tr.find('td:nth-child(6)').text().trim(); // 수량단위
 				var MatRemainQty = $tr.find('td:nth-child(9)').text().trim(); // 납품잔량
+				var ArrivePlace = $tr.find('td:nth-child(11)').text().trim();
 				
 				
 				
 				if (!PeriodList[DocCode]) {
 	                PeriodList[DocCode] = [];
 	            }
-				PeriodList[DocCode].push({ TradeCom: TradeCom, MatCode: MatCode, MatDes: MatDes, MatQty: MatQty, MatRemainQty: MatRemainQty  });
+				PeriodList[DocCode].push({ TradeCom: TradeCom, MatCode: MatCode, MatDes: MatDes, MatQty: MatQty, MatRemainQty: MatRemainQty, Place: ArrivePlace});
 			}
 		})
 		console.log(PeriodList);
@@ -212,6 +213,7 @@ $(document).ready(function(){
 					'<td>' + PeriodList[DocCode][i].MatQty + '</td>' + // 수량단위 6
 					'<td>' + PeriodList[DocCode][i].MatRemainQty + '</td>' + // 납품잔량 7
 					'<td><input type="text" class="DeliverPlanQuanty" required></td>' + // 남품계획수량 8
+					'<td hidden>' + PeriodList[DocCode][i].Place + '</td>' + // 남품계획수량 9
 				'</tr>';
 				$('.PlannedTable_Body').append(row);
 			}
@@ -234,7 +236,6 @@ $(document).ready(function(){
 				HeadDataList.push($('.DealComCode').val()); // 거래처
 				HeadDataList.push($('.BalanceAdjDate').val()); // 반출예정일자
 				HeadDataList.push($('.PlannedTable_Body tr').length); // 품번갯수
-				HeadDataList.push($('.BalanceAdjDate').val()); // 남풉총수량
 				/* HeadDataList.push($('.BalanceAdjDate').val()); // 납품장소 */
 				HeadDataList.push($('.BizCode').val()); // 회계단위
 				HeadDataList.push($('.UserCompany').val()); // 회사
@@ -247,7 +248,10 @@ $(document).ready(function(){
 				childList.push($tr.find('td:nth-child(4)').text()); // 품번
 				childList.push($tr.find('td:nth-child(5)').text()); // 품명
 				childList.push($tr.find('td:nth-child(6)').text()); // 수량단위
-				childList.push($tr.find('td:nth-child(8)').text()); // 납품계획수량
+				childList.push($tr.find('td:nth-child(9)').text()); // 납품장소
+				$tr.find('td input[type="text"]').each(function(){
+					childList.push($(this).val()); // 납품계획수량	
+				});
 				childList.push($('.SalesRouteCode').val()); // 판매경로
 				
 				if(!SaveList[DelPlanNo]){
@@ -259,6 +263,18 @@ $(document).ready(function(){
 			}
 		});
 		console.log(SaveList);
+		
+		$.ajax({
+			url: '${contextPath}/Sales/ajax/DelPlanSave.jsp',
+			type: 'POST',
+			data: JSON.stringify(SaveList),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			async: 'false',
+			success: function(data){
+				
+			}
+		})
 	})
 })
 </script>
