@@ -7,7 +7,7 @@
 <head>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>납품요청(지식)</title>
 <script>
 function InfoSearch(field){
 	event.preventDefault();
@@ -63,15 +63,15 @@ $(document).ready(function(){
             // 생성한 <tr>을 <tbody>에 추가
             $('.PendingTable_Body').append(row);
         }
-// 		for (let i = 0; i < 50; i++) {
-//             const row = $('<tr></tr>'); // 새로운 <tr> 생성
-//             // 34개의 빈 <td> 요소 추가 (3개의 헤더 항목 이후 31일치 데이터)
-//             for (let j = 0; j < 7; j++) {
-//                 row.append('<td></td>');
-//             }
-//             // 생성한 <tr>을 <tbody>에 추가
-//             $('.PlannedTable_Body').append(row);
-//         }
+		for (let i = 0; i < 50; i++) {
+            const row = $('<tr></tr>'); // 새로운 <tr> 생성
+            // 34개의 빈 <td> 요소 추가 (3개의 헤더 항목 이후 31일치 데이터)
+            for (let j = 0; j < 13; j++) {
+                row.append('<td></td>');
+            }
+            // 생성한 <tr>을 <tbody>에 추가
+            $('.PlannedTable_Body').append(row);
+        }
 	}
 	InitialTable(); // 1번 테이블 초기화
 	var InfoList = [];
@@ -288,39 +288,32 @@ $(document).ready(function(){
 <jsp:include page="../HeaderTest.jsp"></jsp:include>
 <hr>
 	<div class="UserId" hidden><%=UserId %></div>
-	<div class="DelPlanArea">
-		<div class="DelPlan-Main">
-			<div class="DelPlan-Main-Header">SEARCH FIELDS</div>
-			<div class="DelPlan-Main-Input">
+	<div class="DelOrderArea">
+		<div class="DelOrder-Main">
+			<div class="DelOrder-Main-Header">SEARCH FIELDS</div>
+			<div class="DelOrder-Main-Input">
 				<label>회사: </label>
 				<input type="text" class="UserCompany SelectInput" value=<%=UserCompany %> readonly>
 			</div>
-			<div class="DelPlan-Main-Input">
+			<div class="DelOrder-Main-Input">
 				<label>회계단위: </label>
 				<div class="ColumnInput">
 					<input class="BizCode SelectInput" onclick="InfoSearch('BizArea')" readonly>
 					<input class="BizCodeDes" readonly>
 				</div>
 			</div>
-			<div class="DelPlan-Main-Input">
+			<div class="DelOrder-Main-Input">
 				<label>거래처: </label>
 				<div class="ColumnInput">
 					<input class="DealComCode SelectInput" placeholder="Select" onclick="InfoSearch('TradeCom')" readonly>
 					<input class="DealComCodeDes" readonly>
 				</div>
 			</div>
-			<div class="DelPlan-Main-Input">
+			<div class="DelOrder-Main-Input">
 				<label>판매경로: </label>
 				<div class="ColumnInput SalesRouteArea">
-					<select class="SalesRouteCode SelectInput">
-						<option>SELECT</option>
-						<option value="EX1,직수출">EX1</option>
-						<option value="EX2,국판매출">EX2</option>
-						<option value="EX3,대행수출">EX3</option>
-						<option value="EX4,삼국수출">EX4</option>
-						<option value="EX5,기타매출">EX5</option>
-					</select>
-					<input class="SalesRouteCodeDes" readonly>
+					<input type="date" class="SalesRouteCodeDes">
+					<input type="date" class="SalesRouteCodeDes">
 				</div>
 			</div>
 			
@@ -328,14 +321,14 @@ $(document).ready(function(){
 				<button class="DoItBtn">실행</button>
 			</div>
 		</div>
-		<div class="DelPlan-Sub">
-			<div class="DelPlan-Sub-Header">납품계획 미수립 수주현황</div>
+		<div class="DelOrder-Sub">
+			<div class="DelOrder-Sub-Header">납품계획 미수립 수주현황</div>
 			
 			<div class="DelShowInfoArea">
 				<table class="PendingTable">
 					<thead>
-						<th>선택</th><th>고객주문번호</th><th>수주접수일자</th><th>품번</th><th>품명</th><th>수령단위</th><th>주문수량</th><th>납품완료수량</th>
-						<th>납품잔량</th><th>납품희망일자</th><th>납품장소</th>
+						<th>선택</th><th>반출예정일자</th><th>거래처</th><th>납품계획번호</th><th>납품계획항번</th><th>품번</th><th>품명</th><th>납품수량</th>
+						<th>수량단위</th><th>운송수단</th><th>인도장소</th>
 					</thead>
 					<tbody class="PendingTable_Body">
 					</tbody>
@@ -359,7 +352,8 @@ $(document).ready(function(){
 			<div class="DelResultInfoArea">
 				<table class="PlannedTable">
 					<thead>
-						<th>항번</th><th>고객주문번호</th><th>품번</th><th>품명</th><th>수량단위</th><th>납품잔량</th><th>납품계획수량</th>
+						<th>항번</th><th>반출예정일자</th><th>납품번호</th><th>항번</th><th>품번</th><th>품명</th><th>납품수량</th><th>수량단위</th><th>운송수단</th>
+						<th>인도장소</th><th>거래처</th><th>거래처명</th><th>납품지시번호</th>
 					</thead>
 					<tbody class="PlannedTable_Body">
 					</tbody>

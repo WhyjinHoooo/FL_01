@@ -7,7 +7,7 @@
 <head>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>납품계획 등록</title>
 <script>
 function InfoSearch(field){
 	event.preventDefault();
@@ -166,9 +166,7 @@ $(document).ready(function(){
 				var MatQty = $tr.find('td:nth-child(6)').text().trim(); // 수량단위
 				var MatRemainQty = $tr.find('td:nth-child(9)').text().trim(); // 납품잔량
 				var ArrivePlace = $tr.find('td:nth-child(11)').text().trim();
-				
-				
-				
+					
 				if (!PeriodList[DocCode]) {
 	                PeriodList[DocCode] = [];
 	            }
@@ -272,11 +270,43 @@ $(document).ready(function(){
 			dataType: 'json',
 			async: 'false',
 			success: function(data){
-				
-			}
+				if(data.status === "Success"){
+					InitialTable();
+					const resetElements = [
+		        		".DealComCodeDes",".SalesRouteCodeDes",
+		        		".DealComCode", ".BalanceAdjDate",
+		        		".DeliveryPlanNo"
+		    	    ];
+					resetElements.forEach(selector => {
+		    	        const element = document.querySelector(selector);
+		    	        if (element) {
+		    	        	if(selector === ".DealComCode"){
+		    	        		element.value = 'SELECT';
+		    	        	}else{
+		    	        		element.value = '';  // 나머지는 빈 값으로 초기화
+		    	        	}
+		    	        }
+		    	    });
+		    	    const updatedOptions = `
+						<option>SELECT</option>
+						<option value="EX1,직수출">EX1</option>
+						<option value="EX2,국판매출">EX2</option>
+						<option value="EX3,대행수출">EX3</option>
+						<option value="EX4,삼국수출">EX4</option>
+						<option value="EX5,기타매출">EX5</option>
+	                `;
+	                $(".SalesRouteCode").html(updatedOptions);
+	                console.log('저장되었습니다.');
+				}else{
+					console.log('저장 실패');
+				}
+			},
+		    error: function(xhr, status, error) {
+		        console.log('AJAX 요청 실패:', error);
+		    }
 		})
-	})
-})
+	});
+});
 </script>
 </head>
 <body>

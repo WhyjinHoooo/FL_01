@@ -307,6 +307,7 @@ $(document).ready(function(){
 		    	        }
 		    	    });
 		    	    const updatedOptions = `
+						<option>SELECT</option>
 	                    <option value="A">A 구매주문서</option>
 	                    <option value="B">B Forecasting</option>
 	                `;
