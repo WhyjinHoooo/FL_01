@@ -58,12 +58,12 @@
 			
 		}
 		
-		String SOS_Sql = "INSERT INTO sales_ordstatus (" +
-                "TradingPartner, CustOrdNum, OrditemSeq, MatCode, MatDesc, " +
+		String SOS_Sql/* Sales OrderStasus Sql */ = "INSERT INTO sales_ordstatus (" +
+                "TradingPartner, CustOrdNum, OrditemSeq,OrdReceiptDate, MatCode, MatDesc, " +
                 "QtyUnit, SalesOrdQty, PlanDelivSumQty, DelivOrdSumQty, OrdQtyAdjust, " +
                 "SalesResidQty, ExpectArrivDate, ArrivCustPlace, BizArea, ComCode, " +
                 "CreatPerson, CreatDate, LastPerson, LastAdjustDate, KeyValue" +
-                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement SOS_Pstmt = conn.prepareStatement(SOS_Sql);
 
 		
@@ -82,74 +82,64 @@
 		Info_Pstmt01.setString(2, rowData.getString(2));
 		ResultSet Info_Rs = Info_Pstmt01.executeQuery();
 		while(Info_Rs.next()){
-			System.out.println("판매단가 : " + Info_Rs.getString("SalesUnitPrice")); // 판매 단가 - String 타입
-			SalePrice = Double.parseDouble(Info_Rs.getString("SalesUnitPrice")); // 판매 단가 - Double 타입
-			CounUnit = Integer.parseInt(rowData.getString(3)); // 수량 입력 단위
-			System.out.println("판매단가 : " + SalePrice + ", 수량 입력 단위 : " + CounUnit);
-// 					String Info_Sql02 = "SELECT * " +
-// 						    "FROM project.sales_planexrate " +
-// 						    "WHERE PlanVer = ? " +
-// 						    "  AND TranCurr = ? " +
-// 						    "  AND RIGHT(YearMonth, 2) IN (?) " +
-// 						    "ORDER BY TranCurr DESC, YearMonth ASC";
-// 					PreparedStatement Info_Pstmt02 = conn.prepareStatement(Info_Sql02);
-// 					Info_Pstmt02.setString(1, rowData.getString(6));
-// 					Info_Pstmt02.setString(2, ProductInfoList[3]);
-// 					Info_Pstmt02.setString(3, rowData.getString(11).substring(5,7));
-// 					ResultSet Info_Rs02 = Info_Pstmt02.executeQuery();
-					
-						FXRate = 1350.0; // 환율
-						LocCur = "KOR"; // 장부 통화
+				System.out.println("판매단가 : " + Info_Rs.getString("SalesUnitPrice")); // 판매 단가 - String 타입
+				SalePrice = Double.parseDouble(Info_Rs.getString("SalesUnitPrice")); // 판매 단가 - Double 타입
+				CounUnit = Integer.parseInt(rowData.getString(3)); // 수량 입력 단위
+				System.out.println("판매단가 : " + SalePrice + ", 수량 입력 단위 : " + CounUnit);
 						
-						Sava_Pstmt.setString(1, rowData.getString(1)); // 수주접수일자
-						Sava_Pstmt.setString(2, rowData.getString(6)); // 고객주문번호
-						Sava_Pstmt.setString(3, rowData.getString(7)); // 항번
-						Sava_Pstmt.setString(4, rowData.getString(2)); // 거래처
-						Sava_Pstmt.setString(5, ProductInfoList[0]); // 품번
-						Sava_Pstmt.setString(6, ProductInfoList[1]); // 품명 
-						Sava_Pstmt.setString(7, ProductInfoList[2]); // 수량단위
-						
-						int TotalCount = Integer.parseInt(rowData.getString(9)) * Integer.parseInt(rowData.getString(3));
-						Sava_Pstmt.setInt(8, TotalCount); // 주문수량
-						Sava_Pstmt.setString(9, rowData.getString(11)); // 회망도착일자
-						Sava_Pstmt.setString(10, rowData.getString(10)); // 납품장소
-						Sava_Pstmt.setString(11, "N"); // 납품계획수립여부
-						Sava_Pstmt.setDouble(12, Math.round(SalePrice * TotalCount)); // 거래통화매출금액
-						Sava_Pstmt.setDouble(13, SalePrice); // 판매단가
-						Sava_Pstmt.setString(14, ProductInfoList[3]); // 거래통화
-						Sava_Pstmt.setDouble(15, FXRate); // 계획환율
-						Sava_Pstmt.setDouble(16, FXRate * Math.round(SalePrice * TotalCount)); // 장부통화매출금액
-						Sava_Pstmt.setString(17, LocCur); // 장부통화
-						Sava_Pstmt.setString(18, rowData.getString(5)); // 회계단위
-						Sava_Pstmt.setString(19, rowData.getString(4)); // 회사
-						Sava_Pstmt.setString(20, UserId); // 작성자
-						Sava_Pstmt.setString(21, todayDate); // 생성일자
-						Sava_Pstmt.setString(22, "아무개"); // 최종수정자
-						Sava_Pstmt.setString(23, "0000-00-00"); // 최정수정일자
-						Sava_Pstmt.setString(24, rowData.getString(6)+rowData.getString(2)+ProductInfoList[0]+rowData.getString(10)+rowData.getString(11).replace("-","")+rowData.getString(5)+rowData.getString(4)); // Key값
-						Sava_Pstmt.executeUpdate();
-						
-						SOS_Pstmt.setString(1, rowData.getString(2)); // 거래처
-						SOS_Pstmt.setString(2, rowData.getString(6)); // 고객주문번호
-						SOS_Pstmt.setString(3, rowData.getString(7)); // 항번
-						SOS_Pstmt.setString(4, ProductInfoList[0]); // 품번
-						SOS_Pstmt.setString(5, ProductInfoList[1]); // 품명
-						SOS_Pstmt.setString(6, ProductInfoList[2]); // 수량단위
-						SOS_Pstmt.setInt(7, TotalCount); // 주문수량
-						SOS_Pstmt.setInt(8, 0); // 납품계획수량
-						SOS_Pstmt.setInt(9, 0); // 납품완료수량
-						SOS_Pstmt.setInt(10, 0); // 주문수량조정
-						SOS_Pstmt.setInt(11, TotalCount); // 주문잔량
-						SOS_Pstmt.setString(12, rowData.getString(11)); // 납품희망일자
-						SOS_Pstmt.setString(13, rowData.getString(10)); // 납품장소
-						SOS_Pstmt.setString(14, rowData.getString(5)); // 회계단위
-						SOS_Pstmt.setString(15, rowData.getString(4)); // 회사
-						SOS_Pstmt.setString(16, UserId); // 작성자
-						SOS_Pstmt.setString(17, todayDate); // 생성일자
-						SOS_Pstmt.setString(18, "아무개"); // 최종수정자
-						SOS_Pstmt.setString(19, "0000-00-00"); // 최종수정일자
-						SOS_Pstmt.setString(20, rowData.getString(2)+rowData.getString(6)+rowData.getString(7)+rowData.getString(4)); // 키값
-						SOS_Pstmt.executeUpdate();
+				FXRate = 1350.0; // 환율
+				LocCur = "KOR"; // 장부 통화
+							
+				Sava_Pstmt.setString(1, rowData.getString(1)); // 수주접수일자
+				Sava_Pstmt.setString(2, rowData.getString(6)); // 고객주문번호
+				Sava_Pstmt.setString(3, rowData.getString(7)); // 항번
+				Sava_Pstmt.setString(4, rowData.getString(2)); // 거래처
+				Sava_Pstmt.setString(5, ProductInfoList[0]); // 품번
+				Sava_Pstmt.setString(6, ProductInfoList[1]); // 품명 
+				Sava_Pstmt.setString(7, ProductInfoList[2]); // 수량단위
+				
+				int TotalCount = Integer.parseInt(rowData.getString(9)) * Integer.parseInt(rowData.getString(3));
+				Sava_Pstmt.setInt(8, TotalCount); // 주문수량
+				Sava_Pstmt.setString(9, rowData.getString(11)); // 회망도착일자
+				Sava_Pstmt.setString(10, rowData.getString(10)); // 납품장소
+				Sava_Pstmt.setString(11, "N"); // 납품계획수립여부
+				Sava_Pstmt.setDouble(12, Math.round(SalePrice * TotalCount)); // 거래통화매출금액
+				Sava_Pstmt.setDouble(13, SalePrice); // 판매단가
+				Sava_Pstmt.setString(14, ProductInfoList[3]); // 거래통화
+				Sava_Pstmt.setDouble(15, FXRate); // 계획환율
+				Sava_Pstmt.setDouble(16, FXRate * Math.round(SalePrice * TotalCount)); // 장부통화매출금액
+				Sava_Pstmt.setString(17, LocCur); // 장부통화
+				Sava_Pstmt.setString(18, rowData.getString(5)); // 회계단위
+				Sava_Pstmt.setString(19, rowData.getString(4)); // 회사
+				Sava_Pstmt.setString(20, UserId); // 작성자
+				Sava_Pstmt.setString(21, todayDate); // 생성일자
+				Sava_Pstmt.setString(22, "아무개"); // 최종수정자
+				Sava_Pstmt.setString(23, "0000-00-00"); // 최정수정일자
+				Sava_Pstmt.setString(24, rowData.getString(6)+rowData.getString(2)+ProductInfoList[0]+rowData.getString(10)+rowData.getString(11).replace("-","")+rowData.getString(5)+rowData.getString(4)); // Key값
+				Sava_Pstmt.executeUpdate();
+							
+				SOS_Pstmt.setString(1, rowData.getString(2)); // 거래처
+				SOS_Pstmt.setString(2, rowData.getString(6)); // 고객주문번호
+				SOS_Pstmt.setString(3, rowData.getString(7)); // 항번
+ 				SOS_Pstmt.setString(4, rowData.getString(1)); // 주문접수일자
+				SOS_Pstmt.setString(5, ProductInfoList[0]); // 품번
+				SOS_Pstmt.setString(6, ProductInfoList[1]); // 품명
+				SOS_Pstmt.setString(7, ProductInfoList[2]); // 수량단위
+				SOS_Pstmt.setInt(8, TotalCount); // 주문수량
+				SOS_Pstmt.setInt(9, 0); // 납품계획수량
+				SOS_Pstmt.setInt(10, 0); // 납품완료수량
+				SOS_Pstmt.setInt(11, 0); // 주문수량조정
+				SOS_Pstmt.setInt(12, TotalCount); // 주문잔량
+				SOS_Pstmt.setString(13, rowData.getString(11)); // 납품희망일자
+				SOS_Pstmt.setString(14, rowData.getString(10)); // 납품장소
+				SOS_Pstmt.setString(15, rowData.getString(5)); // 회계단위
+				SOS_Pstmt.setString(16, rowData.getString(4)); // 회사
+				SOS_Pstmt.setString(17, UserId); // 작성자
+				SOS_Pstmt.setString(18, todayDate); // 생성일자
+				SOS_Pstmt.setString(19, "아무개"); // 최종수정자
+				SOS_Pstmt.setString(20, "0000-00-00"); // 최종수정일자
+				SOS_Pstmt.setString(21, rowData.getString(2)+rowData.getString(6)+rowData.getString(7)+rowData.getString(4)); // 키값
+				SOS_Pstmt.executeUpdate();
 			}
 		}
 	

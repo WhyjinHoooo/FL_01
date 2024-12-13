@@ -328,7 +328,7 @@ $(document).ready(function(){
 
 </script>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>고객 수주 등록</title>
 </head>
 <body>
 <%	

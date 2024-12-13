@@ -25,7 +25,7 @@
     String DealCom = saveListData.getString(2);
     String DealComDes = saveListData.getString(3);
 	try{
-	    String Sql = "SELECT * FROM sales_clientorder WHERE TradingPartner = ? AND BizArea = ? AND ComCode = ?";
+	    String Sql = "SELECT * FROM sales_ordstatus WHERE TradingPartner = ? AND BizArea = ? AND ComCode = ?";
 	    PreparedStatement Pstmt = conn.prepareStatement(Sql);
 	    Pstmt.setString(1, DealCom);
 	    Pstmt.setString(2, UBizArea);
@@ -42,10 +42,10 @@
 	    	josnobject.put("MatCodeDes", rs.getString("MatDesc")); // 품명
 	    	josnobject.put("Unit", rs.getString("QtyUnit")); // 수량단위
 	    	josnobject.put("OrderCount", rs.getString("SalesOrdQty")); // 주문 수량
-	    	josnobject.put("DelPlanQty", 0); // 납품 계획 수량
-	    	josnobject.put("DeliveredQty", 0); // 납품 완료 수량
-	    	josnobject.put("OrderBalance", rs.getString("SalesOrdQty")); // 주문 잔량
-	    	josnobject.put("DeliverDate", rs.getString("ExpArrivDate")); // 회망도착일자
+	    	josnobject.put("DelPlanQty", rs.getString("PlanDelivSumQty")); // 납품 계획 수량
+	    	josnobject.put("DeliveredQty", rs.getString("DelivOrdSumQty")); // 납품 완료 수량
+	    	josnobject.put("OrderBalance", rs.getString("SalesResidQty")); // 주문 잔량
+	    	josnobject.put("DeliverDate", rs.getString("ExpectArrivDate")); // 회망도착일자
 	    	josnobject.put("ArrivePlace", rs.getString("ArrivCustPlace")); // 납품장소
 	    	josnobject.put("RecvDate", rs.getString("OrdReceiptDate")); // 수주접수일자
 	    	

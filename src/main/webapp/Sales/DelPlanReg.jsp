@@ -140,7 +140,7 @@ $(document).ready(function(){
 							'<td>' + data[i].Unit + '</td>' + // 수령단위 6
 							'<td>' + data[i].OrderCount + '</td>' + // 주문수량 7 
 							'<td>' + data[i].DeliveredQty + '</td>' + // 납품완료수량 8
-							'<td>' + data[i].OrderCount + '</td>' + // 납품잔량 9
+							'<td>' + data[i].OrderBalance + '</td>' + // 납품잔량 9
 							'<td>' + data[i].DeliverDate + '</td>' + // 납품희망일자 10
 							'<td>' + data[i].ArrivePlace + '</td>' + // 납품장소 11
 							'</tr>';
