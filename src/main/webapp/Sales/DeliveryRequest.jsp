@@ -91,14 +91,13 @@ $(document).ready(function(){
 	});
 	
 	$('.BalanceAdjDate').change(function(){
-		var SalesRoute = $('.SalesRouteCode').val();
 		var DispatchDate = $('.BalanceAdjDate').val();
 		$.ajax({
 			type: "POST",
-			url: "${contextPath}/Sales/ajax/Sales_CreateDelPlanNo.jsp",
-			data: {Route : SalesRoute, Date : DispatchDate},
+			url: "${contextPath}/Sales/ajax/Sales_CreateDel_Cmd_PlanNo.jsp",
+			data: { Date : DispatchDate},
 			success: function(response){
-				$('.DeliveryPlanNo').val(response.trim());
+ 				$('.DeliveryPlanNo').val(response.trim());
 			}
 		});
 	});
@@ -115,7 +114,10 @@ $(document).ready(function(){
 		
 		var Start = $('.StartDate').val();
 		var End = $('.EndDate').val();
-		
+		if(!DealCom || !Start || !End){
+			alert("검색조건을 정확이 입력해주세요");
+			return false;
+		}
 		var StartDateValue = new Date(Start).getTime();
 		var EndDateValue = new Date(End).getTime();
 		if(EndDateValue >= StartDateValue && DealCom !== ''){
@@ -130,98 +132,151 @@ $(document).ready(function(){
 				async: false,
 				success: function(data) {
 					console.log(data);
+					console.log(data.length);
 					if(data.length > 0){
 						$('.PendingTable_Body').empty();
-						for(var i = 0 ; i < data.length ; i++){
-							var row = '<tr>' +
-							'<td><input type="checkbox" class="checkboxBtn"></td>' + //체크 박스 1
-							'<td>' + data[i].OutDate + '</td>' + // 반출예정일자 2
-							'<td>' + data[i].DealCom + '</td>' + // 거래처 3
-							'<td>' + data[i].DelPlanOrderNum + '</td>' + // 납품계획번호 4
-							'<td>' + data[i].Seq + '</td>' + // 납품계획항번 5
-							'<td>' + data[i].MatCode + '</td>' + // 품번 6
-							'<td>' + data[i].MatCodeDes + '</td>' + // 품명 7 
-							'<td>' + data[i].DelQuantity + '</td>' + // 납품수량 8
-							'<td>' + data[i].Unit + '</td>' + // 수량단위 9
-							'<td>' + data[i].TPWay + '</td>' + // 운송수단 10
-							'<td>' + data[i].ArrivePlace + '</td>' + // 인도장소 11
-							'</tr>';
-							$('.PendingTable_Body').append(row);
-						};
+						// 그룹별 카운트를 저장할 객체
+						var groupedData = {};
+
+						// 데이터 그룹화: DelPlanOrderNum와 MatCode를 키로 사용
+						for (var i = 0; i < data.length; i++) {
+						    var key = data[i].DelPlanOrderNum + "_" + data[i].MatCode;
+						    console.log(key);
+						    if (!groupedData[key]) {
+						        groupedData[key] = [];
+						    }
+						    groupedData[key].push(i); // 같은 그룹의 인덱스를 저장
+						}
+
+						// 각 그룹을 처리하여 Seq 값 설정
+						for (var key in groupedData) {
+						    var indices = groupedData[key]; // 해당 그룹에 속한 인덱스들
+						    for (var j = 0; j < indices.length; j++) {
+						        var index = indices[j];
+						        var row = '<tr>' +
+						            '<td><input type="checkbox" class="checkboxBtn"></td>' + // 체크 박스 1
+						            '<td>' + data[index].OutDate + '</td>' + // 반출예정일자 2
+						            '<td>' + data[index].DealCom + '</td>' + // 거래처 3
+						            '<td>' + data[index].DelPlanOrderNum + '</td>' + // 납품계획번호 4
+						            '<td>' + (j + 1) + '</td>' + // 같은 그룹 내에서 증가하는 Seq 값 5
+						            '<td>' + data[index].MatCode + '</td>' + // 품번 6
+						            '<td>' + data[index].MatCodeDes + '</td>' + // 품명 7 
+						            '<td>' + data[index].DelQuantity + '</td>' + // 납품수량 8
+						            '<td>' + data[index].Unit + '</td>' + // 수량단위 9
+						            '<td>' + data[index].TPWay + '</td>' + // 운송수단 10
+						            '<td>' + data[index].ArrivePlace + '</td>' + // 인도장소 11
+						            '</tr>';
+						        $('.PendingTable_Body').append(row);
+						    }
+						}
+// 						for(var i = 0 ; i < data.length ; i++){
+// 							var row = '<tr>' +
+// 							'<td><input type="checkbox" class="checkboxBtn"></td>' + //체크 박스 1
+// 							'<td>' + data[i].OutDate + '</td>' + // 반출예정일자 2
+// 							'<td>' + data[i].DealCom + '</td>' + // 거래처 3
+// 							'<td>' + data[i].DelPlanOrderNum + '</td>' + // 납품계획번호 4
+// 							'<td>' + data[i].Seq + '</td>' + // 납품계획항번 5
+// 							'<td>' + data[i].MatCode + '</td>' + // 품번 6
+// 							'<td>' + data[i].MatCodeDes + '</td>' + // 품명 7 
+// 							'<td>' + data[i].DelQuantity + '</td>' + // 납품수량 8
+// 							'<td>' + data[i].Unit + '</td>' + // 수량단위 9
+// 							'<td>' + data[i].TPWay + '</td>' + // 운송수단 10
+// 							'<td>' + data[i].ArrivePlace + '</td>' + // 인도장소 11
+// 							'</tr>';
+// 							$('.PendingTable_Body').append(row);
+// 						};
+					} else{
+						alert('해당 검색 조건에 만족하는 데이터가 존재하지 않습니다.');
+						return false;
 					};
 				}
 			});
+		} else{
+			alert("검색 날짜를 정확히 입력해주세요.");
+			return false;
 		};
 	});
-// 	var PeriodList = {};
-// 	$('.button-text'). on('click', function(){
-// 		var DocCode = $('.DeliveryPlanNo').val();
-// 		console.log('DocCode : ' + DocCode);
+	var PeriodList = {};
+	$('.button-text'). on('click', function(){
+		var DocCode = $('.DeliveryPlanNo').val(); // 납품번호
+		var OutDate = $('.BalanceAdjDate').val(); // 반출일자
+		console.log('DocCode : ' + DocCode);
 		
-// 		$('.PendingTable_Body tr').each(function(index, tr){
-// 			var $tr = $(tr);
-// 			var $Chk = $tr.find('input[type="checkbox"]');
-// 			if($Chk.prop('checked')){
-// 				var TradeCom = $tr.find('td:nth-child(2)').text().trim(); // 고객주문번호
-// 				var MatCode = $tr.find('td:nth-child(4)').text().trim(); // 품번
-// 				var MatDes = $tr.find('td:nth-child(5)').text().trim(); // 품명
-// 				var MatQty = $tr.find('td:nth-child(6)').text().trim(); // 수량단위
-// 				var MatRemainQty = $tr.find('td:nth-child(9)').text().trim(); // 납품잔량
-// 				var ArrivePlace = $tr.find('td:nth-child(11)').text().trim();
+		$('.PendingTable_Body tr').each(function(index, tr){
+			var $tr = $(tr);
+			var $Chk = $tr.find('input[type="checkbox"]');
+			if($Chk.prop('checked')){
+				var OrderNum = $tr.find('td:nth-child(4)').text().trim(); // 납품계획번호
+				var TradeCom = $tr.find('td:nth-child(3)').text().trim(); // 거래처
+				var TradeComDes = $('.DealComCodeDes').val(); // 거래처명
+				var Count = $tr.find('td:nth-child(5)').text().trim(); // 항번
+				var MatCode = $tr.find('td:nth-child(6)').text().trim(); // 품번
+				var MatDes = $tr.find('td:nth-child(7)').text().trim(); // 품명
+				var MatQty = $tr.find('td:nth-child(8)').text().trim(); // 납품수량
+				var MatUnit = $tr.find('td:nth-child(9)').text().trim(); // 수량단위
+				var TPWay = $tr.find('td:nth-child(10)').text().trim(); // 운송수단
+				var ArrivePlace = $tr.find('td:nth-child(11)').text().trim(); // 인도장소
 				
 				
 				
-// 				if (!PeriodList[DocCode]) {
-// 	                PeriodList[DocCode] = [];
-// 	            }
-// 				PeriodList[DocCode].push({ TradeCom: TradeCom, MatCode: MatCode, MatDes: MatDes, MatQty: MatQty, MatRemainQty: MatRemainQty, Place: ArrivePlace});
-// 			}
-// 		})
-// 		console.log(PeriodList);
-// 		console.log(PeriodList[DocCode].length);
-// 		console.log(PeriodList[DocCode][0].TradeCom);
-// 		if(PeriodList[DocCode].length > 0){
-// 			var YesNo = false;
+				if (!PeriodList[DocCode]) {
+	                PeriodList[DocCode] = [];
+	            }
+				PeriodList[DocCode].push({ 
+					OrderNum : OrderNum, TradeCom : TradeCom, TradeComDes : TradeComDes, MatCode : MatCode, MatDes : MatDes,
+					MatQty : MatQty, MatUnit : MatUnit, TPWay : TPWay, ArrivePlace : ArrivePlace
+					});
+			}
+		})
+		console.log(PeriodList);
+		console.log(PeriodList[DocCode].length);
+		console.log(PeriodList[DocCode][0].TradeCom);
+		if(PeriodList[DocCode].length > 0){
+			var YesNo = false;
 		    
-// 		    // PendingTable_Body에 tr가 존재하는지 확인
-// 		    var PlanningTr = $('.PlannedTable_Body tr');
-// 		    console.log(PlanningTr.length);
-// 		    if (PlanningTr.length === 50) {
-// 		        console.log("No <tr> elements found in PendingTable_Body.");
-// 		    }
+		    // PendingTable_Body에 tr가 존재하는지 확인
+		    var PlanningTr = $('.PlannedTable_Body tr');
+		    console.log(PlanningTr.length);
+		    if (PlanningTr.length === 50) {
+		        console.log("No <tr> elements found in PendingTable_Body.");
+		    }
 		    
-// 		    PlanningTr.each(function(){
-// 		        var FirstText =  $(this).find('td:nth-child(1)').text().trim();
-// 		        console.log('FirstText : ' + FirstText);
-// 		        if(FirstText === DocCode){
-// 		            YesNo = true;
-// 		            return false;
-// 		        }
-// 		    });
-// 		    if(YesNo){
-// 		        alert('해당 납품계획문서가 작성중입니다.');
-// 		        return false;
-// 		    }
+		    PlanningTr.each(function(){
+		        var FirstText =  $(this).find('td:nth-child(3)').text().trim();
+		        console.log('FirstText : ' + FirstText);
+		        if(FirstText === DocCode){
+		            YesNo = true;
+		            return false;
+		        }
+		    });
+		    if(YesNo){
+		        alert('해당 납품계획문서가 작성중입니다.');
+		        return false;
+		    }
 			
-// 			$('.PlannedTable_Body').empty();
-// 			for(var i = 0 ; i < PeriodList[DocCode].length ; i++){
-// 				var row = 
-// 				'<tr>' + 
-// 					'<td hidden>' + DocCode + '</td>' + // 납품계획번호 1
-// 					'<td>' + (i+1) + '</td>' + // 항번 2
-// 					'<td>' + PeriodList[DocCode][i].TradeCom + '</td>' + // 고객주문번호 3
-// 					'<td>' + PeriodList[DocCode][i].MatCode + '</td>' + // 품번 4
-// 					'<td>' + PeriodList[DocCode][i].MatDes + '</td>' + // 품명 5
-// 					'<td>' + PeriodList[DocCode][i].MatQty + '</td>' + // 수량단위 6
-// 					'<td>' + PeriodList[DocCode][i].MatRemainQty + '</td>' + // 납품잔량 7
-// 					'<td><input type="text" class="DeliverPlanQuanty" required></td>' + // 남품계획수량 8
-// 					'<td hidden>' + PeriodList[DocCode][i].Place + '</td>' + // 남품계획수량 9
-// 				'</tr>';
-// 				$('.PlannedTable_Body').append(row);
-// 			}
-// 		}
+			$('.PlannedTable_Body').empty();
+			for(var i = 0 ; i < PeriodList[DocCode].length ; i++){
+				var row = 
+				'<tr>' + 
+					'<td>' + (i+1) + '</td>' + // 항번
+					'<td>' + OutDate + '</td>' + // 반출예정일자
+					'<td>' + DocCode + '</td>' + // 납품번호
+					'<td>' + (i+1) + '</td>' + // 항번
+					'<td>' + PeriodList[DocCode][i].MatCode + '</td>' + // 품번
+					'<td>' + PeriodList[DocCode][i].MatDes + '</td>' + // 품명
+					'<td>' + PeriodList[DocCode][i].MatQty + '</td>' + // 납품수량
+					'<td>' + PeriodList[DocCode][i].MatUnit + '</td>' + // 수량단위
+					'<td>' + PeriodList[DocCode][i].TPWay + '</td>' + // 운송수단
+					'<td>' + PeriodList[DocCode][i].ArrivePlace + '</td>' +// 인도장소
+					'<td>' + PeriodList[DocCode][i].TradeCom + '</td>' +// 거래처
+					'<td>' + PeriodList[DocCode][i].TradeComDes + '</td>' +// 거래첨명
+					'<td>' + PeriodList[DocCode][i].OrderNum + '</td>' +// 납품지시번호
+				'</tr>';
+				$('.PlannedTable_Body').append(row);
+			}
+		}
 		
-// 	});
+	});
 	
 // 	$('.SaveBtn').on('click',function(){
 // 		var SaveList = {};

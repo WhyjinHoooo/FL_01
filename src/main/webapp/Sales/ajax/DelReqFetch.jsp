@@ -25,6 +25,7 @@
     String DealCom = saveListData.getString(2);
     String StartDateValue = saveListData.getString(3);
     String EndDateValue = saveListData.getString(4);
+    String TP = null;
 	try{
 	    String DPH_Sql = "SELECT *"+
 	               "FROM project.sales_delplanheader "+
@@ -51,15 +52,14 @@
 	    	DPL_Pstmt.setString(1, SalesOrdNum);
 	    	ResultSet DPL_Rs = DPL_Pstmt.executeQuery();
 	    	
-	    	String TW_Sql = "SELECT * FROM sales_transportway WHERE MatCode = ?";
-	    	PreparedStatement TW_Pstmt = conn.prepareStatement(TW_Sql);
-	    	TW_Pstmt.setString(1, MatCode);
-	    	ResultSet TW_Rs = TW_Pstmt.executeQuery();
-	    	
-	    	if(DPL_Rs.next()){
-	    		System.out.println("잉잉");
+	    	while(DPL_Rs.next()){
 		    	MatCode = DPL_Rs.getString("MatCode");
-	    		if(TW_Rs.next()){
+		    	String TW_Sql = "SELECT * FROM sales_transportway WHERE MatCode = ?";
+		    	PreparedStatement TW_Pstmt = conn.prepareStatement(TW_Sql);
+		    	TW_Pstmt.setString(1, MatCode);
+		    	ResultSet TW_Rs = TW_Pstmt.executeQuery();
+		    	System.out.println(MatCode);
+	    		while(TW_Rs.next()){
 		 	    	JSONObject josnobject = new JSONObject();
 		 	    	josnobject.put("OutDate", DPL_Rs.getString("DelivPlanDate")); // 반출예정일자
 		 	    	josnobject.put("DealCom", DPL_Rs.getString("TradingPartner")); // 거래처
@@ -69,8 +69,14 @@
 		 	    	josnobject.put("MatCodeDes", DPL_Rs.getString("MatDesc")); // 품명
 		 	    	josnobject.put("DelQuantity", DPL_Rs.getString("SalesOrdQty")); // 납품수량
 		 	    	josnobject.put("Unit", DPL_Rs.getString("QtyUnit")); // 수량단위
-		 	    	josnobject.put("TPWay", TW_Rs.getString("TransMean")); // 운송수단
-		 	    	josnobject.put("ArrivePlace", TW_Rs.getString("Ltdesc")); // 인도장소
+		 	    	TP = TW_Rs.getString("TransMean");
+		 	    	if(TP == null || TP.isEmpty()){
+		 	    		TP = "Nope";
+		 	    		josnobject.put("TPWay", TP);
+		 	    	} else{
+		 	    		josnobject.put("TPWay", TP);
+		 	    	}
+		 	    	josnobject.put("ArrivePlace", DPL_Rs.getString("ArrivCustPlace")); // 인도장소
 			    	
 		 	    	jsonArray.put(josnobject);
 	    		}
