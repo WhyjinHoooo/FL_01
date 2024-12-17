@@ -69,6 +69,7 @@
 		 	    	josnobject.put("MatCodeDes", DPL_Rs.getString("MatDesc")); // 품명
 		 	    	josnobject.put("DelQuantity", DPL_Rs.getString("SalesOrdQty")); // 납품수량
 		 	    	josnobject.put("Unit", DPL_Rs.getString("QtyUnit")); // 수량단위
+		 	    	josnobject.put("Channel", DPL_Rs.getString("SalesChannel")); // 판매경로
 		 	    	TP = TW_Rs.getString("TransMean");
 		 	    	if(TP == null || TP.isEmpty()){
 		 	    		TP = "Nope";
