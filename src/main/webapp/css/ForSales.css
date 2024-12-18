@@ -1110,7 +1110,7 @@
 	color: #fff;
 	border: 1px solid #0068ff;
 	}
-	.DelShowInfoArea {
+	.DelOrder-Sub .DelShowInfoArea {
     width: 99.6%;
     height: 40%;
     border: 3px solid black;
@@ -1297,4 +1297,164 @@
     border-radius: 1px;
     box-shadow: inset 0px 0px 5px white;
   	}
+  	/* ------------------------납품확정------------------------ */
+  	.DelConFirmArea{
+  	display: flex;
+  	flex-direction: row;
+  	height: 87vh
+  	}
+  	.DelConFirm-Main{
+  	border: 3px solid rgb(111, 167, 235);
+    width: 30%;
+    height: 95%;
+    margin: 0.3% 1% 0% 1%;
+  	}
+  	.DelConFirm-Main > .DelConFirm-Main-Header,
+  	.DelConFirm-Sub > .DelConFirm-Sub-Header{
+  	font-size: 30px;
+  	color: white;
+  	background-color: #002060;
+  	text-align: center;
+  	padding: 10px;
+  	}
+  	.DelConFirm-Sub{
+  	border: 3px solid rgb(111,167,235);
+  	width: 100%;
+  	height: 95%;
+  	margin: 0.3% 0% 0% 0%;
+  	}
+  	.DelConFirm-Main > .DelConFirm-Main-Input {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    margin: 5% 0% 0% 15%;
+	}
+	.DelConFirm-Main > .DelConFirm-Main-Input label{
+	font-weight: 900;
+	display: inline-block;
+   	width: 8em; 
+   	text-align: right;
+   	letter-spacing: 0.1em;
+	}
+	.DelConFirm-Main > .DelConFirm-Main-Input input.SelectInput,
+	.DelConFirm-Main > .DelConFirm-Main-Input > .ColumnInput select{
+   	width: 100px; 
+	margin: 0px 0px 5px 10px;
+	text-align: center;
+	}
+	.DelConFirm-Main > .DelConFirm-Main-Input > .SalesRouteArea input,
+	.DelConFirm-Main > .DelConFirm-Main-Input input{
+    width: 150px; 
+	margin: 0px 0px 5px 10px;
+	text-align: center;
+	}
+	.DelConFirm-Main > .DelConFirm-Main-Input > .ColumnInput{
+	display: flex;
+    flex-direction: column;
+	}
+	.DelConFirm-Main .BtnArea {
+    margin: 70% 0% 0% 40%;
+    height: 40%;
+	}
+    .DelConFirm-Main .BtnArea button {
+	width: 40%;
+	height: 10%;
+	text-align: center;
+	background-color: #002060;
+	color: white;
+	border: 1px solid #1F4E79;
+	margin-right: 20px;
+	border-radius: 20px;
+	font-size: 30px;
+	}
+	.DelConFirm-Main .BtnArea button:hover {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.DelConFirm-Main .BtnArea button:active {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.DelConFirm-Sub .DelShowInfoArea {
+    width: 99.6%;
+    height: 90%;
+    border: 3px solid black;
+    margin: 1px 0px 0px 1px;
+	}
+	.DelShowInfoArea table.ConfirmTable {
+    border-collapse: collapse;
+    width: 100%;
+    height: 100%;
+    table-layout: fixed;
+    overflow: scroll;
+	}
+	.ConfirmTable thead {
+    display: table;
+    width: 100%;
+	}
+	.ConfirmTable > thead > tr> th {
+    background-color: rgb(111, 167, 235);
+    position: sticky;
+    top: 0;
+    color: white;
+    text-align: center;
+    z-index: 10;
+    padding: 8px;
+    border: 1px solid white;
+    width: 120px;
+    font-size: smaller;
+	}
+	.ConfirmTable tbody {
+    table-layout: fixed;
+    display: block;
+    width: 100.3%;
+    height: 96.5%;
+    max-height: 97%;
+    overflow-y: auto;
+	}
+	.ConfirmTable tbody td {
+	padding: 8px;
+	border: 1px solid #ddd;
+/*     width: 155.8px; */
+    width: 140.3px;
+    height: 10px;
+    text-align: center;
+    font-size: smaller;
+	}	
+	.ConfirmTable tbody::-webkit-scrollbar {
+    width: 5px;
+  	}
+  	.ConfirmTable tbody::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+  	}
+  	.ConfirmTable tbody::-webkit-scrollbar-track {
+    background-color: white;
+    border-radius: 1px;
+    box-shadow: inset 0px 0px 5px white;
+  	}
+  	/* aaaaaaaaaaaaaaaaaaa */
+	.DelConFirm-Sub .BtnArea .SaveBtn {
+	width: 6%;
+	height: 29%;
+	text-align: center;
+	background-color: #002060;
+	color: white;
+	border: 1px solid #1F4E79;
+	margin: 0.4% 0% 0% 93%;
+	font-size: 17px;
+	border-radius: 5px;
+    }
+	.DelConFirm-Main .BtnArea .SaveBtn:hover {
+	VndOrd-Sub: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.DelConFirm-Sub .BtnArea .SaveBtn:active {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
 }

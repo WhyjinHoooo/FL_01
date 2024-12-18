@@ -22,8 +22,10 @@
 				ExistedNo = rs01.getString("DelivNoteNum");
 				NumberPart = ExistedNo.substring(9);
 				NewNum = Integer.parseInt(NumberPart)+1;
-				Value = "DN" + S_Word01 + String.format("%05d",NewNum);
+				Value = "DN" + S_Word01 + "S" +String.format("%05d",NewNum);
 				break;
+				/* D N 2 4 1 2 3 1 S 0 0  0  0  1 */
+				/* 0 1 2 3 4 5 6 7 8 9 10 11 12 13 */
 			}
 		}
 		out.print(Value);

@@ -18,11 +18,9 @@
 		ResultSet rs01 = pstmt01.executeQuery();		
 		while(true){
 			if(!rs01.next()){
-				System.out.println("흠");
 				Value = "SO" + S_Word02 + S_Word01 + "00001";
 				break;
 			} else{
-				System.out.println("잉잉123123123901728793612873");
 				ExistedNo = rs01.getString("SalesOrdNum");
 				NumberPart = ExistedNo.substring(10);
 				NewNum = Integer.parseInt(NumberPart)+1;

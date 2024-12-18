@@ -1,3 +1,5 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.HashSet"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="java.time.LocalDateTime"%>
@@ -42,6 +44,19 @@
 		JSONArray headDataList = DataList.getJSONArray("HeadDataList");
 		JSONArray childList = DataList.getJSONArray("ChildList");
 		
+		HashSet<String>Group = new HashSet<>();
+		 HashMap<String, Integer> SequenceTracker = new HashMap<>();
+		
+		for(int i = 0 ; i < childList.length() ; i++){
+			String key = childList.getJSONArray(i).getString(3);
+			System.out.println("key : " + key);
+			if(!Group.contains(key)){
+				Group.add(key);
+				SequenceTracker.put(key, 1);
+			}
+		}
+		System.out.println(Group);
+		
 		String UpdateSql = null;
 		PreparedStatement UpdatePstmt = null;;
 		
@@ -63,16 +78,20 @@
 		Head_Pstmt.setString(1, headDataList.getString(0)); // 납품번호
  		Head_Pstmt.setString(2, headDataList.getString(1)); // 반출일자
  		Head_Pstmt.setString(3, headDataList.getString(2)); // 거래처
-		Head_Pstmt.setInt(4, headDataList.getInt(3)); // 품번갯수
+		Head_Pstmt.setInt(4, Group.size()); // 품번갯수
 		Head_Pstmt.setInt(5, headDataList.getInt(4)); // 납품총수량
  		Head_Pstmt.setString(6, headDataList.getString(5)); // 회계단위
  		Head_Pstmt.setString(7, headDataList.getString(6)); // 회사
  		Head_Pstmt.setString(8, headDataList.getString(7)); // 키값
 		
 		for(int i = 0 ; i < childList.length() ; i++){
+			String key = childList.getJSONArray(i).getString(3);
+			int Seq = SequenceTracker.get(key);
+			SequenceTracker.put(key, Seq+1);
+			
 			Line_Pstmt.setString(1, childList.getJSONArray(i).getString(0)); // 반출일자
  			Line_Pstmt.setString(2, childList.getJSONArray(i).getString(1)); // 납품번호
-			Line_Pstmt.setString(3, childList.getJSONArray(i).getString(2)); // 항번
+			Line_Pstmt.setInt(3, Seq/* childList.getJSONArray(i).getString(2) */); // 항번
  			Line_Pstmt.setString(4, childList.getJSONArray(i).getString(3)); // 품번
  			Line_Pstmt.setString(5, childList.getJSONArray(i).getString(4)); // 품명
  			Line_Pstmt.setString(6, childList.getJSONArray(i).getString(5)); // 납품수량
