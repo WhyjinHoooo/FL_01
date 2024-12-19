@@ -51,6 +51,19 @@ function InfoSearch(field){
 	}
 }
 $(document).ready(function(){
+	var Today = new Date().toISOString().split('T')[0];
+	var FutureDate = new Date();
+	FutureDate.setDate(FutureDate.getDate() + 30);
+	var EndDate = FutureDate.toISOString().split('T')[0];
+	$('.StartDate, .ConfirmDate').attr({
+		'value' : Today,
+		'min' : Today
+	});
+	$('.EndDate').attr({
+		'min' : Today,
+		'max' : EndDate
+	});
+	
 	function InitialTable(){
 		$('.ConfirmTable_Body').empty();
 		for (let i = 0; i < 50; i++) {
@@ -155,7 +168,7 @@ $(document).ready(function(){
 						            '<td>' + data[index].TPWay + '</td>' + // 수량단위 9
 						            '<td>' + data[index].Station + '</td>' + // 운송수단 10
 						            '<td>' + data[index].ArrivePlace + '</td>' + // 인도장소 11
-						            '<td>' + data[index].DealCom + '</td>' + // 인도장소 12
+						            '<td>' + data[index].DealCom + '</td>' + // 거래처 12
 						            '</tr>';
 						        $('.ConfirmTable_Body').append(row);
 						    }
@@ -172,90 +185,50 @@ $(document).ready(function(){
 		};
 	});
 	
+	var KeyValueList = [];
+	var PeriodList = [];
+	var SaveList = [];
 	$('.SaveBtn').on('click',function(){
-		var UniqueValue = new Set();
-		var Sum = 0;
-		var SaveList = {};
-		$('.PlannedTable_Body tr').each(function(index, tr){
+		var OrderNum = null;
+		var DealCom = null;
+		$('.ConfirmTable_Body tr').each(function(index, tr){
 			var $tr = $(tr);
-			var DelPlanNo = $('.DeliveryPlanNo').val();
- 			var PlanningDate = $('.BalanceAdjDate').val();
-			console.log('DelPlanNo : ' + DelPlanNo);
-			console.log('DelPlanNo : ' + $('.PlannedTable_Body tr').length);
-			
-			var key = $tr.find('td:nth-child(5)').text().trim();
-			
-			if(!UniqueValue.has(key)){
-				UniqueValue.add(key);
+			var $Chk = $tr.find('input[type="checkbox"]');
+			if($Chk.prop('checked')){
+				OrderNum = $tr.find('td:nth-child(3)').text().trim();
+				var Seq = String($tr.find('td:nth-child(4)').text().trim()).padStart(2, '0');
+				DealCom = $('.UserCompany').val();
 				
-				var Quantity = parseFloat($tr.find('td:nth-child(7)').text().trim()) || 0;
-				Sum += Quantity;
+// 				if (!PeriodList[DocCode]) {
+// 	                PeriodList[DocCode] = [];
+// 	            }
+// 				PeriodList[DocCode].push({ 
+// 					OrderNum : OrderNum, TradeCom : TradeCom, TradeComDes : TradeComDes, MatCode : MatCode, MatDes : MatDes,
+// 					MatQty : MatQty, MatUnit : MatUnit, TPWay : TPWay, FianlPlace : FianlPlace, Channel: Channel, ArrivPlace : ArrivPlace
+// 				});
+				KeyValueList.push(OrderNum+Seq+DealCom);
 			}
-			
-			if(DelPlanNo){
-				var HeadDataList = [];
-				HeadDataList.push(DelPlanNo); // 납품번호
-				HeadDataList.push(PlanningDate); // 반출일자
-				HeadDataList.push($('.DealComCode').val()); // 거래처
-				HeadDataList.push($('.PlannedTable_Body tr').length); // 품번개수
-				HeadDataList.push(Sum); // 납품총수량
-// 				HeadDataList.push($('.BalanceAdjDate').val()); // 납품확정일시 제외
-				HeadDataList.push($('.BizCode').val()); // 회계단위
-				HeadDataList.push($('.UserCompany').val()); // 회사
-				HeadDataList.push(DelPlanNo + $('.UserCompany').val()); //키값
-				
-				var childList = [];
-				childList.push($tr.find('td:nth-child(2)').text()); // 반출일자
-				childList.push($tr.find('td:nth-child(3)').text()); // 납품번호
-				childList.push($tr.find('td:nth-child(4)').text()); // 항번
-				childList.push($tr.find('td:nth-child(5)').text()); // 품번
-				childList.push($tr.find('td:nth-child(6)').text()); // 품명
-				childList.push($tr.find('td:nth-child(7)').text()); // 납품수량
-				childList.push($tr.find('td:nth-child(8)').text()); // 수량단위
-				childList.push($tr.find('td:nth-child(9)').text()); // 운송수단
-				childList.push($tr.find('td:nth-child(10)').text()); // 인도장소
-				childList.push($tr.find('td:nth-child(11').text()); // 거래처
-				childList.push($tr.find('td:nth-child(13)').text()); // 납품계획번호
-				childList.push($tr.find('td:nth-child(14)').text()); // 판매경로
-				childList.push($('.BizCode').val()); // 회계단위
-				childList.push($('.UserCompany').val()); // 회사
-				
-				if(!SaveList[DelPlanNo]){
-					SaveList[DelPlanNo] = {HeadDataList: [], ChildList: []};
-				}
-				
-				SaveList[DelPlanNo].HeadDataList = HeadDataList;
-				SaveList[DelPlanNo].ChildList.push(childList);
-			}
-		});
-		console.log(Sum);
-		console.log(SaveList);
+		})
+		PeriodList.push($('.ConfirmDate').val());
+		PeriodList.push(OrderNum);
+		PeriodList.push($('.UserCompany').val());
+		SaveList.push(KeyValueList);
+		SaveList.push(PeriodList);
 		
+		console.log(SaveList);
 		$.ajax({
-			url: '${contextPath}/Sales/ajax/DelRequestSave.jsp',
+			url: '${contextPath}/Sales/ajax/DelConfirmSave.jsp',
 			type: 'POST',
 			data: JSON.stringify(SaveList),
 			contentType: 'application/json; charset=utf-8',
 			dataType: 'json',
-			async: 'false',
+			async: false,
 			success: function(data){
 				if(data.status === "Success"){
 					InitialTable();
-					const resetElements = [
-		        		".DealComCode", ".DealComCodeDes",
-		        		".StartDate", ".EndDate",
-		        		".BalanceAdjDate", ".DeliveryPlanNo"
-		    	    ];
-					resetElements.forEach(selector => {
-		    	        const element = document.querySelector(selector);
-		    	        if (element) {
-		    	        	if(selector === ".DealComCode"){
-		    	        		element.value = 'SELECT';
-		    	        	}else{
-		    	        		element.value = '';  // 나머지는 빈 값으로 초기화
-		    	        	}
-		    	        }
-		    	    });
+					KeyValueList = [];
+					PeriodList = [];
+					SaveList = [];
 	                console.log('저장되었습니다.');
 				}else{
 					console.log('저장 실패');
@@ -263,7 +236,7 @@ $(document).ready(function(){
 			},
 		    error: function(xhr, status, error) {
 		        console.log('AJAX 요청 실패:', error);
-		    } 
+		    }
 		})
 	})
 })

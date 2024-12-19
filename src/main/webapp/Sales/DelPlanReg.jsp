@@ -268,7 +268,7 @@ $(document).ready(function(){
 			data: JSON.stringify(SaveList),
 			contentType: 'application/json; charset=utf-8',
 			dataType: 'json',
-			async: 'false',
+			async: false,
 			success: function(data){
 				if(data.status === "Success"){
 					InitialTable();
@@ -351,6 +351,21 @@ $(document).ready(function(){
 						<option value="EX5,기타매출">EX5</option>
 					</select>
 					<input class="SalesRouteCodeDes" readonly>
+				</div>
+			</div>
+			
+			<div class="DelPlan-Main-Input">
+				<label>운송수단: </label>
+				<div class="ColumnInput">
+					<input class="TPWay SelectInput" onclick="InfoSearch('BizArea')" readonly Placeholder="Select">
+					<input class="TPWayDes" readonly>
+				</div>
+			</div>
+			
+			<div class="DelPlan-Main-Input">
+				<label>인도장소: </label>
+				<div class="ColumnInput">
+					<input type="text" class="FinalPlace SelectInput" placeholder="Input">
 				</div>
 			</div>
 			

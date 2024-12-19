@@ -67,10 +67,10 @@
 		
 		String LineSave_Sql = "INSERT INTO sales_delrequestcmdline (" +
                 "DispatureDate, DelivNoteNum, DelivNoteSeq, MatCode, MatDesc, " +
-                "DelivOrdQty, QtyUnit, TransMean, DelivPlace, TradingPartner, " +
+                "DelivOrdQty, QtyUnit, TransMean, DelivPlace, ArrivCustPlace, TradingPartner, " +
                 "SalesOrdNum, SalesChannel, BizArea, ComCode, CreatPerson," +
                 "CreatDate, LastPerson, LastAdjustDate, KeyValue" +
-                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		PreparedStatement Head_Pstmt = conn.prepareStatement(HeadSave_Sql);
 		PreparedStatement Line_Pstmt = conn.prepareStatement(LineSave_Sql);
@@ -91,24 +91,25 @@
 			
 			Line_Pstmt.setString(1, childList.getJSONArray(i).getString(0)); // 반출일자
  			Line_Pstmt.setString(2, childList.getJSONArray(i).getString(1)); // 납품번호
-			Line_Pstmt.setInt(3, Seq/* childList.getJSONArray(i).getString(2) */); // 항번
+			Line_Pstmt.setString(3, /* Seq */childList.getJSONArray(i).getString(2)); // 항번
  			Line_Pstmt.setString(4, childList.getJSONArray(i).getString(3)); // 품번
  			Line_Pstmt.setString(5, childList.getJSONArray(i).getString(4)); // 품명
  			Line_Pstmt.setString(6, childList.getJSONArray(i).getString(5)); // 납품수량
  			Line_Pstmt.setString(7, childList.getJSONArray(i).getString(6)); // 수량단위
  			Line_Pstmt.setString(8, childList.getJSONArray(i).getString(7)); // 운송수단
  			Line_Pstmt.setString(9, childList.getJSONArray(i).getString(8)); // 인도장소
- 			Line_Pstmt.setString(10, childList.getJSONArray(i).getString(9)); // 거래처
- 			Line_Pstmt.setString(11, childList.getJSONArray(i).getString(10)); // 납품계획번호 
- 			Line_Pstmt.setString(12, childList.getJSONArray(i).getString(11)); // 판매경로
+ 			Line_Pstmt.setString(10, childList.getJSONArray(i).getString(12)); // 납품장소
+ 			Line_Pstmt.setString(11, childList.getJSONArray(i).getString(9)); // 거래처
+ 			Line_Pstmt.setString(12, childList.getJSONArray(i).getString(10)); // 납품계획번호 
+ 			Line_Pstmt.setString(13, childList.getJSONArray(i).getString(11)); // 판매경로
  			
- 			Line_Pstmt.setString(13, childList.getJSONArray(i).getString(12)); // 회계단위
- 			Line_Pstmt.setString(14, childList.getJSONArray(i).getString(13)); // 회사
- 			Line_Pstmt.setString(15, UserId); // 작성자
- 			Line_Pstmt.setString(16, todayDate); // 생성일자
- 			Line_Pstmt.setString(17, "아무개"); // 최종수정자
- 			Line_Pstmt.setString(18, "0000-00-00"); // 최종수정일자
- 			Line_Pstmt.setString(19, childList.getJSONArray(i).getString(1) + String.format("%02d", Integer.parseInt(childList.getJSONArray(i).getString(2))) + childList.getJSONArray(i).getString(13)); // 키값
+ 			Line_Pstmt.setString(14, childList.getJSONArray(i).getString(13)); // 회계단위
+ 			Line_Pstmt.setString(15, childList.getJSONArray(i).getString(14)); // 회사
+ 			Line_Pstmt.setString(16, UserId); // 작성자
+ 			Line_Pstmt.setString(17, todayDate); // 생성일자
+ 			Line_Pstmt.setString(18, "아무개"); // 최종수정자
+ 			Line_Pstmt.setString(19, "0000-00-00"); // 최종수정일자
+ 			Line_Pstmt.setString(20, childList.getJSONArray(i).getString(1) + String.format("%02d", Integer.parseInt(childList.getJSONArray(i).getString(2))) + childList.getJSONArray(i).getString(14)); // 키값
  			Line_Pstmt.executeUpdate();
 		}
 		Head_Pstmt.executeUpdate();

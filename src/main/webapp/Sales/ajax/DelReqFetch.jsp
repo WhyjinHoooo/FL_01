@@ -54,33 +54,23 @@
 	    	
 	    	while(DPL_Rs.next()){
 		    	MatCode = DPL_Rs.getString("MatCode");
-		    	String TW_Sql = "SELECT * FROM sales_transportway WHERE MatCode = ?";
-		    	PreparedStatement TW_Pstmt = conn.prepareStatement(TW_Sql);
-		    	TW_Pstmt.setString(1, MatCode);
-		    	ResultSet TW_Rs = TW_Pstmt.executeQuery();
 		    	System.out.println(MatCode);
-	    		while(TW_Rs.next()){
-		 	    	JSONObject josnobject = new JSONObject();
-		 	    	josnobject.put("OutDate", DPL_Rs.getString("DelivPlanDate")); // 반출예정일자
-		 	    	josnobject.put("DealCom", DPL_Rs.getString("TradingPartner")); // 거래처
-		 	    	josnobject.put("DelPlanOrderNum", DPL_Rs.getString("SalesOrdNum")); // 납품계획번호
-		 	    	josnobject.put("Seq", DPL_Rs.getString("SalesOrdSeq")); // 납품계획항번
-		 	    	josnobject.put("MatCode", DPL_Rs.getString("MatCode")); // 품번
-		 	    	josnobject.put("MatCodeDes", DPL_Rs.getString("MatDesc")); // 품명
-		 	    	josnobject.put("DelQuantity", DPL_Rs.getString("SalesOrdQty")); // 납품수량
-		 	    	josnobject.put("Unit", DPL_Rs.getString("QtyUnit")); // 수량단위
-		 	    	josnobject.put("Channel", DPL_Rs.getString("SalesChannel")); // 판매경로
-		 	    	TP = TW_Rs.getString("TransMean");
-		 	    	if(TP == null || TP.isEmpty()){
-		 	    		TP = "Nope";
-		 	    		josnobject.put("TPWay", TP);
-		 	    	} else{
-		 	    		josnobject.put("TPWay", TP);
-		 	    	}
-		 	    	josnobject.put("ArrivePlace", DPL_Rs.getString("ArrivCustPlace")); // 인도장소
-			    	
-		 	    	jsonArray.put(josnobject);
-	    		}
+	    	
+		 	    JSONObject josnobject = new JSONObject();
+		 	    josnobject.put("OutDate", DPL_Rs.getString("DelivPlanDate")); // 반출예정일자
+		 	    josnobject.put("DealCom", DPL_Rs.getString("TradingPartner")); // 거래처
+		 	    josnobject.put("DelPlanOrderNum", DPL_Rs.getString("SalesOrdNum")); // 납품계획번호
+		 	    josnobject.put("Seq", DPL_Rs.getString("SalesOrdSeq")); // 납품계획항번
+		 	    josnobject.put("MatCode", DPL_Rs.getString("MatCode")); // 품번
+		 	    josnobject.put("MatCodeDes", DPL_Rs.getString("MatDesc")); // 품명
+		 	    josnobject.put("DelQuantity", DPL_Rs.getString("SalesOrdQty")); // 납품수량
+		 	    josnobject.put("Unit", DPL_Rs.getString("QtyUnit")); // 수량단위
+		 	    josnobject.put("Channel", DPL_Rs.getString("SalesChannel")); // 판매경로
+		 	    josnobject.put("ArrivePlace", DPL_Rs.getString("ArrivCustPlace")); // 납품장소
+		 	    josnobject.put("TPChannel", DPL_Rs.getString("TPChannel")); // 운송수단
+		 	  	josnobject.put("FinalPlace", DPL_Rs.getString("FinalPlace")); // 인도장소
+			    
+		 	    jsonArray.put(josnobject);
 	    	}
 	    }
 	    response.setContentType("application/json");

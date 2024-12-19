@@ -68,8 +68,8 @@
 		 	    josnobject.put("Quantity", DPL_Rs.getString("DelivOrdQty")); // 납품수량
 		 	    josnobject.put("Unit", DPL_Rs.getString("QtyUnit")); // 수량단위
 		 	    josnobject.put("TPWay", DPL_Rs.getString("TransMean")); // 운송수단
-		 	    josnobject.put("Station", "Nope"); // 인도장소
-		 	    josnobject.put("ArrivePlace", DPL_Rs.getString("DelivPlace")); // 납품장소
+		 	    josnobject.put("Station", DPL_Rs.getString("DelivPlace")); // 인도장소
+		 	    josnobject.put("ArrivePlace", DPL_Rs.getString("ArrivCustPlace")); // 납품장소
 		 	    josnobject.put("DealCom", DPL_Rs.getString("TradingPartner")); // 거래처
 		 	    
 		 	    jsonArray.put(josnobject);
