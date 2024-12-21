@@ -67,8 +67,8 @@
                 "DelivPlanDate, SalesOrdNum, SalesOrdSeq, MatCode, MatDesc, " +
                 "QtyUnit, SalesOrdQty, SalesChannel, TradingPartner, CustOrdNum, " +
                 "ArrivCustPlace, BizArea, ComCode, CreatPerson, CreatDate, " +
-                "LastPerson, LastAdjustDate, KeyValue" +
-                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "LastPerson, LastAdjustDate, TPChannel, FinalPlace, KeyValue" +
+                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		String SearchSql = "SELECT * FROM sales_delplanheader WHERE SalesOrdNum = ?";
 		PreparedStatement Search_Pstmt = conn.prepareStatement(SearchSql);
@@ -120,7 +120,9 @@
  				Line_Pstmt.setString(15, todayDate); // 생성일자
  				Line_Pstmt.setString(16, "아무개"); // 최종수정자
  				Line_Pstmt.setString(17, "9999-12-31"); // 최종수정일자
- 				Line_Pstmt.setString(18, headDataList.getString(0) + String.format("%02d", Integer.parseInt(childList.getJSONArray(i).getString(0))) + headDataList.getString(5)); // Key값
+ 				Line_Pstmt.setString(18,  childList.getJSONArray(i).getString(8)); // 최종수정일자
+ 				Line_Pstmt.setString(19,  childList.getJSONArray(i).getString(9)); // 최종수정일자
+ 				Line_Pstmt.setString(20, headDataList.getString(0) + String.format("%02d", Integer.parseInt(childList.getJSONArray(i).getString(0))) + headDataList.getString(5)); // Key값
  				Line_Pstmt.executeUpdate();
  				
  				CenterInfoSearch_Pstmt.setString(1, headDataList.getString(1));
@@ -130,9 +132,10 @@
  				if(CenterInfoSearch_Rs.next()){
  					int SavedValue = Integer.parseInt(CenterInfoSearch_Rs.getString("PlanDelivSumQty"));
  					int OriginalValue = Integer.parseInt(CenterInfoSearch_Rs.getString("SalesOrdQty"));
+ 					int SalesResidQty = Integer.parseInt(CenterInfoSearch_Rs.getString("DelivOrdSumQty"));
  					if(SavedValue > 0){
  						SavedValue += Integer.parseInt(childList.getJSONArray(i).getString(6));
- 						OriginalValue -= SavedValue;
+ 						OriginalValue -= (SavedValue + SalesResidQty);
  						UpdateSql = "UPDATE sales_ordstatus SET PlanDelivSumQty = ?, SalesResidQty = ? WHERE TradingPartner = ? AND CustOrdNum = ? AND MatCode = ?";
  						UpdatePstmt = conn.prepareStatement(UpdateSql);
  						UpdatePstmt.setInt(1, SavedValue);
@@ -142,7 +145,7 @@
  						UpdatePstmt.setString(5, childList.getJSONArray(i).getString(2));
  					} else{
  						SavedValue = Integer.parseInt(childList.getJSONArray(i).getString(6));
- 						OriginalValue -= SavedValue;
+ 						OriginalValue -= (SavedValue + SalesResidQty);
  						UpdateSql = "UPDATE sales_ordstatus SET PlanDelivSumQty = ?, SalesResidQty = ? WHERE TradingPartner = ? AND CustOrdNum = ? AND MatCode = ?";
  						UpdatePstmt = conn.prepareStatement(UpdateSql);
  						UpdatePstmt.setInt(1, SavedValue);

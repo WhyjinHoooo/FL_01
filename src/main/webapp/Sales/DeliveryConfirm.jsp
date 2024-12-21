@@ -199,13 +199,6 @@ $(document).ready(function(){
 				var Seq = String($tr.find('td:nth-child(4)').text().trim()).padStart(2, '0');
 				DealCom = $('.UserCompany').val();
 				
-// 				if (!PeriodList[DocCode]) {
-// 	                PeriodList[DocCode] = [];
-// 	            }
-// 				PeriodList[DocCode].push({ 
-// 					OrderNum : OrderNum, TradeCom : TradeCom, TradeComDes : TradeComDes, MatCode : MatCode, MatDes : MatDes,
-// 					MatQty : MatQty, MatUnit : MatUnit, TPWay : TPWay, FianlPlace : FianlPlace, Channel: Channel, ArrivPlace : ArrivPlace
-// 				});
 				KeyValueList.push(OrderNum+Seq+DealCom);
 			}
 		})

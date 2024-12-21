@@ -251,6 +251,8 @@ $(document).ready(function(){
 					childList.push($(this).val()); // 납품계획수량	
 				});
 				childList.push($('.SalesRouteCode').val()); // 판매경로
+				childList.push($('.TPChannel').val()); // 운송수단
+				childList.push($('.FinalPlace').val()); // 인도장소
 				
 				if(!SaveList[DelPlanNo]){
 					SaveList[DelPlanNo] = {HeadDataList: [], ChildList: []};
@@ -357,8 +359,14 @@ $(document).ready(function(){
 			<div class="DelPlan-Main-Input">
 				<label>운송수단: </label>
 				<div class="ColumnInput">
-					<input class="TPWay SelectInput" onclick="InfoSearch('BizArea')" readonly Placeholder="Select">
-					<input class="TPWayDes" readonly>
+					<select class="TPChannel SelectInput">
+						<option>SELECT</option>
+						<option value="Trucking">Trucking</option>
+						<option value="Vessel">Vessel</option>
+						<option value="Air">Air</option>
+						<option value="Train">Train</option>
+						<option value="Package">Package</option>
+					</select>
 				</div>
 			</div>
 			

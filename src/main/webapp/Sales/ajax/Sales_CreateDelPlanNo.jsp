@@ -28,6 +28,7 @@
 				break;
 			}
 		}
+		System.out.println("Value : " + Value);
 		out.print(Value);
 }catch(SQLException e){
 	e.printStackTrace();
