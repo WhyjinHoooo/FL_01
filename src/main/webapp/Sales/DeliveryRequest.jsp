@@ -413,7 +413,7 @@ $(document).ready(function(){
 				</div>
 			</div>
 			<div class="DelOrder-Main-Input">
-				<label>판매경로: </label>
+				<label>납품예정일자: </label>
 				<div class="ColumnInput SalesRouteArea">
 					<input type="date" class="SalesRouteCodeDes StartDate">
 					<input type="date" class="SalesRouteCodeDes EndDate">
