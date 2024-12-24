@@ -75,6 +75,49 @@ $(document).ready(function(){
             $('.ConfirmTable_Body').append(row);
         }
 	}
+	function updateConfirmTableData() {
+        var TableBody = document.querySelector('.ConfirmTable_Body');
+        if (TableBody && TableBody.rows.length > 0) {
+            var ChkDataLust = [];
+            var ChkTotalItemCount = 0;
+            var ChkSPriceSum = 0;
+            var ChkVATSum = 0;
+            var ChkToTalSum = 0;
+
+            // 각 tr을 순회
+            $('.ConfirmTable_Body tr').each(function(index, tr) {
+                var $tr = $(tr);
+                var $Chk = $tr.find('input[type="checkbox"]');
+
+                // 체크된 항목만 처리
+                if ($Chk.prop('checked')) {
+                    var OutDate = $tr.find('td:nth-child(2)').text().trim(); // 반출일자
+                    var ConfirmCount = parseInt($tr.find('td:nth-child(7)').text().trim()); // 납품수량
+                    var SPriceSum = parseDouble($tr.find('td:nth-child(10)').text().trim()); // 공급가액
+                    var VATSum = parseDouble($tr.find('td:nth-child(11)').text().trim()); // 부가세액
+                    var ToTalSum = parseDouble($tr.find('td:nth-child(12)').text().trim()); // 합계
+
+                    // 고유값 추가 함수
+                    function AddUnique(Value) {
+                        if (!ChkDataLust.includes(Value)) {
+                            ChkDataLust.push(Value);
+                        }
+                    }
+                    AddUnique(OutDate);
+                    ChkTotalItemCount += ConfirmCount;
+                    ChkSPriceSum += SPriceSum;
+                    ChkVATSum += VATSum;
+                    ChkToTalSum += ToTalSum;
+                    	
+                }
+            });
+            $('.FProCount').val(ChkDataLust.length);  // 마감 품목 수
+            $('.FProTotal').val(ChkTotalItemCount);  // 마감수량
+            $('.SPriceSum').val(ChkSPriceSum);// 공급가액 합계
+            $('.VATSum').val(ChkVATSum);// 부가가치세 합계
+            $('.ToTalSum').val(ChkToTalSum);// 총 합계
+        }
+    };
 	
 	var Trg_SalesConMonth = document.getElementById('SalesClsMonth');
 	var CurrentYear = new Date().getFullYear();
@@ -87,9 +130,11 @@ $(document).ready(function(){
 			option.textContent = year + '.' + MonthList[i] + '.월';
 			Trg_SalesConMonth.appendChild(option);
 		}
-	}
+	};
 	
-	
+	$(document).on('change', '.ConfirmTable_Body input[type="checkbox"]', function() {
+        updateConfirmTableData();
+    });
 	
 	InitialTable(); // 1번 테이블 초기화
 	var InfoList = [];
@@ -183,7 +228,51 @@ $(document).ready(function(){
 			alert("검색 날짜를 정확히 입력해주세요.");
 			return false;
 		};
+		var DataList = [];
+		var TotalItemCount = 0;
+		$('.ConfirmTable_Body tr').each(function(index, tr){
+			var $tr = $(tr);
+			var $Chk = $tr.find('input[type="checkbox"]');
+			
+			var TestDate = $tr.find('td:nth-child(2)').text().trim(); // 테스트
+			var TestValue = parseInt($tr.find('td:nth-child(7)').text().trim()); // 테스트
+			function AddUnique(Value){
+				if(!DataList.includes(Value)){
+					DataList.push(Value)
+				}
+			}
+			AddUnique(TestDate)
+			TotalItemCount += TestValue;
+		})
+		$('.CloseItemCount').val(DataList.length);
+		$('.CloseItemTotal').val(TotalItemCount);
 	});
+	
+// 	var TableBody = document.querySelector('.ConfirmTable_Body');
+// 	if(TableBody.rows.length > 0){
+// 		var ChkDataLust = [];
+// 		var ChkTotalItemCount = 0;
+// 		$('.ConfirmTable_Body tr').each(function(index, tr){
+// 			var $tr = $(tr);
+// 			var $Chk = $tr.find('input[type="checkbox"]');
+// 			if($Chk.prop('checked')){
+// 				var TestDate = $tr.find('td:nth-child(2)').text().trim(); // 테스트
+// 				var TestValue = parseInt($tr.find('td:nth-child(7)').text().trim()); // 테스트
+// 				function AddUnique(Value){
+// 					if(!ChkDataLust.includes(Value)){
+// 						ChkDataLust.push(Value)
+// 					}
+// 				}
+// 				AddUnique(TestDate)
+// 				ChkTotalItemCount += TestValue;
+// 			}
+// 		})
+// 		$('.FProCount').val(ChkDataLust.length);
+// 		$('.FProTotal').val(ChkTotalItemCount);
+// 	}
+	
+
+	
 	
 	var KeyValueList = [];
 	var PeriodList = [];
@@ -355,6 +444,7 @@ $(document).ready(function(){
 					<input class="VATSum" readonly>
 					<label>총 합계 : </label>
 					<input class="ToTalSum" readonly>
+					
  					<button class="SaveBtn">저장</button>
 				</div>
 				

@@ -1614,7 +1614,15 @@
 	background-color: #ddd;
 	border-radius: 5px;
   	}
-  	
+  	.Domestic-Sub .BtnArea-Result > input.SPriceSum,
+  	.Domestic-Sub .BtnArea-Result > input.VATSum,
+  	.Domestic-Sub .BtnArea-Result > input.ToTalSum{
+  	width: 150px;
+	margin: 0px 0px 5px 10px;
+	text-align: center;
+	background-color: transparent;
+	border-radius: 5px;
+  	}
   	.Domestic-Sub .BtnArea{
 	width: 99.6%;
     height: 23.3%;
