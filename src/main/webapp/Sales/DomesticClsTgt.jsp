@@ -157,16 +157,18 @@ $(document).ready(function(){
 						        var row = '<tr>' +
 						            '<td><input type="checkbox" class="checkboxBtn"></td>' + // 체크 박스 1
 						            '<td>' + data[index].OutDate + '</td>' + // 반출예정일자 2
-						            '<td>' + data[index].OrderNum + '</td>' + // 거래처 3
-						            '<td>' + data[index].Seq + '</td>' + // 납품계획번호 4
-						            '<td>' + data[index].MatCode + '</td>' + // 같은 그룹 내에서 증가하는 Seq 값 5
-						            '<td>' + data[index].MatCodeDes + '</td>' + // 품번 6
-						            '<td>' + data[index].Quantity + '</td>' + // 품명 7 
-						            '<td>' + data[index].Unit + '</td>' + // 납품수량 8
-						            '<td>' + data[index].TPWay + '</td>' + // 수량단위 9
-						            '<td>' + data[index].Station + '</td>' + // 운송수단 10
-						            '<td>' + data[index].ArrivePlace + '</td>' + // 인도장소 11
-						            '<td>' + data[index].DealCom + '</td>' + // 거래처 12
+						            '<td>' + data[index].OrderNum + '</td>' + // 납품번호 3
+						            '<td>' + data[index].Seq + '</td>' + // 항번 4
+						            '<td>' + data[index].MatCode + '</td>' + // 품번 5 
+						            '<td>' + data[index].MatCodeDes + '</td>' + // 품명 6
+						            '<td>' + data[index].Quantity + '</td>' + // 납품수량 7 
+						            '<td>' + data[index].Unit + '</td>' + // 수량단위 8
+						            '<td>' + data[index].UnitPrice + '</td>' + // 개당가격 9
+						            '<td>' + (data[index].Quantity * data[index].UnitPrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>' + // 공급가액 10
+						            '<td>' + ((data[index].Quantity * data[index].UnitPrice) / 10.0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>' + // 부가세액 11
+						            '<td>' + (data[index].Quantity * data[index].UnitPrice + (data[index].Quantity * data[index].UnitPrice) / 10.0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>' + // 합계 12
+						            '<td>' + data[index].DealCom + '</td>' + // 거래처 13
+						            '<td>' + data[index].Tax + '</td>' + // Tax구분 14
 						            '</tr>';
 						        $('.ConfirmTable_Body').append(row);
 						    }
@@ -287,6 +289,7 @@ $(document).ready(function(){
 				<label>과세구분: </label>
 				<div class="ColumnInput SalesRouteArea">
 					<select class="SalesTexType">
+						<option>SELECT</option>
 						<option value="T10">T10 과세(Taxable)</option>
 						<option value="T20">T20 면세(Exempt)</option>
 						<option value="T30">T30 영세율(Zero-Rated)</option>
@@ -333,7 +336,28 @@ $(document).ready(function(){
 			</div>
 			
 			<div class="BtnArea">
-				<button class="SaveBtn">저장</button>
+				<div class="BtnArea-Result">
+					<label>마감대상 품목 수 : </label>
+					<input class="CloseItemCount" readonly>
+					<label>마감대상 총수량 : </label>
+					<input class="CloseItemTotal" readonly>
+				</div>
+				<div class="BtnArea-Result">
+					<label>마감 품목 수 : </label>
+					<input class="FProCount" readonly>
+					<label>마감수량 : </label>
+					<input class="FProTotal" readonly>
+				</div>
+				<div class="BtnArea-Result">
+					<label>공급가액 합계 : </label>
+					<input class="SPriceSum" readonly>
+					<label>부가가치세 합계 : </label>
+					<input class="VATSum" readonly>
+					<label>총 합계 : </label>
+					<input class="ToTalSum" readonly>
+ 					<button class="SaveBtn">저장</button>
+				</div>
+				
 			</div>
 		</div>
 	</div>

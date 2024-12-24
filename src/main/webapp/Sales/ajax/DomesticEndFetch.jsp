@@ -53,18 +53,15 @@
 	    int ClosingNum = 0;
 	    String SalesConfirmDate = null;
 	    JSONArray jsonArray = new JSONArray();
+	    
+
+    	String DPL_Sql02 = "SELECT * FROM sales_delrequestcmdline WHERE ClosingMonth IS NULL AND ClosingNum IS NULL AND SalesConfirmDate IS NULL";
+    	PreparedStatement DPL_Pstmt02 = conn.prepareStatement(DPL_Sql02);
+    	ResultSet DPL_Rs02 = DPL_Pstmt02.executeQuery();
 	    while(DPL_rs01.next()){
-	    	ClosingMonth = DPL_rs01.getString("ClosingMonth");
-	    	ClosingNum = Integer.parseInt(DPL_rs01.getString("ClosingNum"));
-	    	SalesConfirmDate = DPL_rs01.getString("SalesConfirmDate");
-	    	String DPL_Sql02 = "SELECT * FROM sales_delrequestcmdline WHERE ClosingMonth IS NULL AND ClosingNum IS NULL AND SalesConfirmDate IS NULL";
-	    	PreparedStatement DPL_Pstmt02 = conn.prepareStatement(DPL_Sql02);
-	    	
-	    	ResultSet DPL_Rs02 = DPL_Pstmt02.executeQuery();
-	    	
 	    	while(DPL_Rs02.next()){
+		    	JSONObject josnobject = new JSONObject();
 	    		String MatCode = DPL_Rs02.getString("MatCode");
-		 	    JSONObject josnobject = new JSONObject();
 		 	    josnobject.put("OutDate", DPL_Rs02.getString("DispatureDate")); // 반출일자
 		 	    josnobject.put("OrderNum", DPL_Rs02.getString("DelivNoteNum")); // 납품번호
 		 	    josnobject.put("Seq", DPL_Rs02.getString("DelivNoteSeq")); // 항번
@@ -74,9 +71,15 @@
 		 	    josnobject.put("Unit", DPL_Rs02.getString("QtyUnit")); // 수량단위
 		 	   	josnobject.put("DealCom", DPL_Rs02.getString("TradingPartner")); // 거래처
 		 	   
-		 	   	String PriceSql = "SELECT * FROM ";
-		 	    
-		 	    
+		 	   	String PriceSql = "SELECT * FROM project.sales_realprice WHERE MatCode = ? AND SalesCurr = ? ORDER BY SalesCurr DESC, MatCode DESC";
+		 	    PreparedStatement Price_Pstmt = conn.prepareStatement(PriceSql);
+		 	   	Price_Pstmt.setString(1, DPL_Rs02.getString("MatCode"));
+		 	   	Price_Pstmt.setString(2, "USD");
+		 	   	ResultSet Price_Rs = Price_Pstmt.executeQuery();
+		 	   	if(Price_Rs.next()){
+		 	   		josnobject.put("UnitPrice", Price_Rs.getDouble("SalesUnitPrice")); // 개당가격
+		 	   	}
+		 	   	josnobject.put("Tax", "A과세"); // 개당가격
 		 	    jsonArray.put(josnobject);
 	    	}
 	    }
