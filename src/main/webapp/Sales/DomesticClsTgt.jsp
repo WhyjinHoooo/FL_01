@@ -51,17 +51,6 @@ function InfoSearch(field){
 	}
 }
 $(document).ready(function(){
-	var Today = new Date().toISOString().split('T')[0];
-	var FutureDate = new Date();
-	FutureDate.setMonth(11, 31);
-	var EndDate = FutureDate.toISOString().split('T')[0];
-// 	$('.StartDate').attr({
-// 		'value' : Today,
-// 		'min' : Today
-// 	});
-	$('.EndDate, .SalesEndDate').attr({
-		'value' : EndDate
-	});
 	function InitialTable(){
 		$('.ConfirmTable_Body').empty();
 		for (let i = 0; i < 50; i++) {
@@ -120,12 +109,12 @@ $(document).ready(function(){
             $('.ToTalSum').val(ChkToTalSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));// 총 합계
         }
     };
-	
-	var Trg_SalesConMonth = document.getElementById('SalesClsMonth');
+    
+    var Trg_SalesConMonth = document.getElementById('SalesClsMonth');
 	var CurrentYear = new Date().getFullYear();
 	var Initial_Year = CurrentYear + 100;
 	var MonthList = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-	for(let year = CurrentYear + 1 ; year < Initial_Year ; year++){
+	for(let year = CurrentYear ; year < Initial_Year ; year++){
 		for(var i = 0 ; i < MonthList.length ; i++){
 			var option = document.createElement('option');
 			option.value = year + '.' + MonthList[i];
@@ -133,10 +122,29 @@ $(document).ready(function(){
 			Trg_SalesConMonth.appendChild(option);
 		}
 	};
+	setTimeout(function() {
+	    $("#SalesClsMonth").trigger("change");
+	}, 100);
+	$("#SalesClsMonth").on("change", function() {
+		console.log('사용자가 선택한 값:', this.value);
+	    // 여기에 원하는 동작을 추가
+	    var [year, month] = this.value.split('.');
+	    // 선택된 월의 다음 달의 0일을 설정 (이전 달의 마지막 날)
+	    var lastDay = new Date(year, month, 1);
+	    // YYYY-MM-DD 형식으로 포맷팅
+	    var EndDate = lastDay.toISOString().split('T')[0];
+	    $('.EndDate, .SalesEndDate').attr({
+	        'value': EndDate
+	    });
+	});
+	
+
 	
 	$(document).on('change', '.ConfirmTable_Body input[type="checkbox"]', function() {
         updateConfirmTableData();
     });
+	
+	
 	
 	InitialTable(); // 1번 테이블 초기화
 	var InfoList = [];
@@ -326,19 +334,14 @@ $(document).ready(function(){
 			dataType: 'json',
 			async: false,
 			success: function(data){
-// 				if(data.status === "Success"){
-// 					InitialTable();
-// 					KeyValueList = [];
-// 					PeriodList = [];
-// 					SaveList = [];
-// 	                console.log('저장되었습니다.');
-// 				}else{
-// 					console.log('저장 실패');
-// 				}
-			}/* ,
+				if(data.status === "Success"){
+					SaveList = {}
+					console.log('저장 실패');
+				}
+			},
 		    error: function(xhr, status, error) {
 		        console.log('AJAX 요청 실패:', error);
-		    } */
+		    }
 		})
 	})
 })
@@ -399,13 +402,13 @@ $(document).ready(function(){
 				<div class="ColumnInput SalesRouteArea">
 					<select class="SalesTaxType">
 						<option>SELECT</option>
-						<option value="T10 과세">T10(과세)</option>
-						<option value="T20 면세">T20(면세)</option>
-						<option value="T30 영세율">T30(영세율)</option>
-						<option value="T40 비과세">T40(비과세)</option>
-						<option value="T50 면제">T50(면제)</option>
-						<option value="T60 간이과세">T60(간이과세)</option>
-						<option value="T70 수입과세">T70(수입과세)</option>
+						<option value="T10,과세">T10(과세)</option>
+						<option value="T20,면세">T20(면세)</option>
+						<option value="T30,영세율">T30(영세율)</option>
+						<option value="T0,비과세">T0(비과세)</option>
+						<option value="T0,면제">T0(면제)</option>
+						<option value="T10,간이과세">T10(간이과세)</option>
+						<option value="T10,수입과세">T10(수입과세)</option>
 					</select>
 				</div>
 			</div>

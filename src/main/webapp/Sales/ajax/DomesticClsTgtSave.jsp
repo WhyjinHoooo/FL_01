@@ -41,21 +41,22 @@
 	try{
 		for (String key : saveListData.keySet()) {
 		    DataList = saveListData.getJSONArray(key);
-		    System.out.println("Key: " + key + " - " + DataList.getJSONObject(1));
+		    System.out.println("Key: " + key + " - " + DataList.getJSONObject(0));
 		}
+		System.out.println(DataList.length());
+		HashSet<String>Group = new HashSet<>();
+		HashMap<String, Integer> SequenceTracker = new HashMap<>();
 		
-// 		HashSet<String>Group = new HashSet<>();
-// 		 HashMap<String, Integer> SequenceTracker = new HashMap<>();
-		
-// 		for(int i = 0 ; i < childList.length() ; i++){
-// 			String key = childList.getJSONArray(i).getString(3);
-// 			System.out.println("key : " + key);
-// 			if(!Group.contains(key)){
-// 				Group.add(key);
-// 				SequenceTracker.put(key, 1);
-// 			}
-// 		}
-// 		System.out.println(Group);
+		for(int i = 0 ; i < DataList.length() ; i++){
+			System.out.println("DataList.length() : " + DataList.length());
+			String key = DataList.getJSONObject(i).getString("OrderNum");
+			System.out.println("key : " + key);
+			if(!Group.contains(key)){
+				Group.add(key);
+				SequenceTracker.put(key, 1);
+			}
+		}
+		System.out.println(Group);
 		
 // 		String UpdateSql = null;
 // 		PreparedStatement UpdatePstmt = null;;
@@ -113,11 +114,11 @@
 //  			Line_Pstmt.executeUpdate();
 // 		}
 // 		Head_Pstmt.executeUpdate();
-// 	response.setContentType("application/json; charset=UTF-8");
-// 	response.getWriter().write("{\"status\": \"Success\"}");
+	response.setContentType("application/json; charset=UTF-8");
+	response.getWriter().write("{\"status\": \"Success\"}");
 	}catch(Exception e){
 		e.printStackTrace();
-// 		response.setContentType("application/json; charset=UTF-8");
-//         response.getWriter().write("{\"status\": \"Error\"}");
+		response.setContentType("application/json; charset=UTF-8");
+        response.getWriter().write("{\"status\": \"Error\"}");
 	}
 %>
