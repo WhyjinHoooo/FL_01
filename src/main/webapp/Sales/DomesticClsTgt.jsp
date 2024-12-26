@@ -53,15 +53,14 @@ function InfoSearch(field){
 $(document).ready(function(){
 	var Today = new Date().toISOString().split('T')[0];
 	var FutureDate = new Date();
-	FutureDate.setDate(FutureDate.getDate() + 30);
+	FutureDate.setMonth(11, 31);
 	var EndDate = FutureDate.toISOString().split('T')[0];
-	$('.StartDate, .SalesEndDate').attr({
-		'value' : Today,
-		'min' : Today
-	});
-	$('.EndDate').attr({
-		'min' : Today,
-		'max' : EndDate
+// 	$('.StartDate').attr({
+// 		'value' : Today,
+// 		'min' : Today
+// 	});
+	$('.EndDate, .SalesEndDate').attr({
+		'value' : EndDate
 	});
 	function InitialTable(){
 		$('.ConfirmTable_Body').empty();
@@ -88,14 +87,17 @@ $(document).ready(function(){
             $('.ConfirmTable_Body tr').each(function(index, tr) {
                 var $tr = $(tr);
                 var $Chk = $tr.find('input[type="checkbox"]');
-
+                
                 // 체크된 항목만 처리
                 if ($Chk.prop('checked')) {
+                	function FormChange(value){
+                    	return parseFloat(value.replace(/,/g,'').trim() || 0);
+                    }
                     var OutDate = $tr.find('td:nth-child(2)').text().trim(); // 반출일자
-                    var ConfirmCount = parseInt($tr.find('td:nth-child(7)').text().trim()); // 납품수량
-                    var SPriceSum = parseDouble($tr.find('td:nth-child(10)').text().trim()); // 공급가액
-                    var VATSum = parseDouble($tr.find('td:nth-child(11)').text().trim()); // 부가세액
-                    var ToTalSum = parseDouble($tr.find('td:nth-child(12)').text().trim()); // 합계
+					var ConfirmCount = FormChange($tr.find('td:nth-child(7)').text()); // 납품수량
+                    var SPriceSum = FormChange($tr.find('td:nth-child(10)').text()); // 공급가액
+                    var VATSum = FormChange($tr.find('td:nth-child(11)').text()); // 부가세액
+                    var ToTalSum = FormChange($tr.find('td:nth-child(12)').text()); // 합계
 
                     // 고유값 추가 함수
                     function AddUnique(Value) {
@@ -113,9 +115,9 @@ $(document).ready(function(){
             });
             $('.FProCount').val(ChkDataLust.length);  // 마감 품목 수
             $('.FProTotal').val(ChkTotalItemCount);  // 마감수량
-            $('.SPriceSum').val(ChkSPriceSum);// 공급가액 합계
-            $('.VATSum').val(ChkVATSum);// 부가가치세 합계
-            $('.ToTalSum').val(ChkToTalSum);// 총 합계
+            $('.SPriceSum').val(ChkSPriceSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));// 공급가액 합계
+            $('.VATSum').val(ChkVATSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));// 부가가치세 합계
+            $('.ToTalSum').val(ChkToTalSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));// 총 합계
         }
     };
 	
@@ -208,7 +210,7 @@ $(document).ready(function(){
 						            '<td>' + data[index].MatCodeDes + '</td>' + // 품명 6
 						            '<td>' + data[index].Quantity + '</td>' + // 납품수량 7 
 						            '<td>' + data[index].Unit + '</td>' + // 수량단위 8
-						            '<td>' + data[index].UnitPrice + '</td>' + // 개당가격 9
+						            '<td>' + data[index].UnitPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>' + // 개당가격 9
 						            '<td>' + (data[index].Quantity * data[index].UnitPrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>' + // 공급가액 10
 						            '<td>' + ((data[index].Quantity * data[index].UnitPrice) / 10.0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>' + // 부가세액 11
 						            '<td>' + (data[index].Quantity * data[index].UnitPrice + (data[index].Quantity * data[index].UnitPrice) / 10.0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>' + // 합계 12
@@ -276,49 +278,67 @@ $(document).ready(function(){
 	
 	var KeyValueList = [];
 	var PeriodList = [];
-	var SaveList = [];
+	var SaveList = {};
 	$('.SaveBtn').on('click',function(){
+		var Month = $('.SalesClsMonth').val(); // 매출마감월
+		var TaxCode = $('.SalesTaxType').val(); // 과세구분(세율코드)
+		var TaxInvoiceDate = $('.SalesEndDate').val();
+		var SalesChannel = 'DO1';
+		var BizArea = $('.BizCode').val();
+		var UserCom = $('.UserCompany').val();
+		var KeyValue = null;
+		
 		var OrderNum = null;
 		var DealCom = null;
 		$('.ConfirmTable_Body tr').each(function(index, tr){
 			var $tr = $(tr);
 			var $Chk = $tr.find('input[type="checkbox"]');
 			if($Chk.prop('checked')){
-				OrderNum = $tr.find('td:nth-child(3)').text().trim();
-				var Seq = String($tr.find('td:nth-child(4)').text().trim()).padStart(2, '0');
-				DealCom = $('.UserCompany').val();
-				
-				KeyValueList.push(OrderNum+Seq+DealCom);
+				OrderNum = $tr.find('td:nth-child(3)').text().trim(); // 납품번호
+				var Seq = String($tr.find('td:nth-child(4)').text().trim()).padStart(2, '0'); // 항번
+				var MatCode = $tr.find('td:nth-child(5)').text().trim(); // 품번
+				var MatCodeDes = $tr.find('td:nth-child(6)').text().trim(); // 품번
+				var DelivOrdQty = $tr.find('td:nth-child(7)').text().trim(); // 납품수량
+				var QtyUnit = $tr.find('td:nth-child(8)').text().trim(); // 수량단위
+				var SalesUnitPrice = $tr.find('td:nth-child(9)').text().trim(); // 판매단가
+				var LocalCurr = 'KRW'; // 장부통화
+				var ExRate = 1; // 환율
+				var ExRateType = 'BRE'; // 환율유형
+				DealCom = $tr.find('td:nth-child(13)').text().trim(); // 거래처
+				KeyValue = OrderNum + Seq + UserCom;
+				if(!SaveList[KeyValue]){
+					SaveList[KeyValue] = [];
+				}
+				SaveList[KeyValue].push({
+					Month : Month, DealCom : DealCom, OrderNum : OrderNum, Seq : Seq, MatCode : MatCode, MatCodeDes : MatCodeDes,
+					DelivOrdQty : DelivOrdQty, DelivOrdQty : DelivOrdQty, SalesUnitPrice : SalesUnitPrice, LocalCurr : LocalCurr,
+					ExRateType : ExRateType, ExRate : ExRate, LocalCurr : LocalCurr, TaxCode : TaxCode, SalesChannel : SalesChannel,
+					BizArea : BizArea, UserCom : UserCom
+				})
 			}
 		})
-		PeriodList.push($('.ConfirmDate').val());
-		PeriodList.push(OrderNum);
-		PeriodList.push($('.UserCompany').val());
-		SaveList.push(KeyValueList);
-		SaveList.push(PeriodList);
-		
 		console.log(SaveList);
 		$.ajax({
-			url: '${contextPath}/Sales/ajax/DelConfirmSave.jsp',
+			url: '${contextPath}/Sales/ajax/DomesticClsTgtSave.jsp',
 			type: 'POST',
 			data: JSON.stringify(SaveList),
 			contentType: 'application/json; charset=utf-8',
 			dataType: 'json',
 			async: false,
 			success: function(data){
-				if(data.status === "Success"){
-					InitialTable();
-					KeyValueList = [];
-					PeriodList = [];
-					SaveList = [];
-	                console.log('저장되었습니다.');
-				}else{
-					console.log('저장 실패');
-				}
-			},
+// 				if(data.status === "Success"){
+// 					InitialTable();
+// 					KeyValueList = [];
+// 					PeriodList = [];
+// 					SaveList = [];
+// 	                console.log('저장되었습니다.');
+// 				}else{
+// 					console.log('저장 실패');
+// 				}
+			}/* ,
 		    error: function(xhr, status, error) {
 		        console.log('AJAX 요청 실패:', error);
-		    }
+		    } */
 		})
 	})
 })
@@ -377,15 +397,15 @@ $(document).ready(function(){
 			<div class="Domestic-Main-Input">
 				<label>과세구분: </label>
 				<div class="ColumnInput SalesRouteArea">
-					<select class="SalesTexType">
+					<select class="SalesTaxType">
 						<option>SELECT</option>
-						<option value="T10">T10 과세(Taxable)</option>
-						<option value="T20">T20 면세(Exempt)</option>
-						<option value="T30">T30 영세율(Zero-Rated)</option>
-						<option value="T40">T40 비과세(Non-Taxable)</option>
-						<option value="T50">T50 면제(tax-exempt)</option>
-						<option value="T60">T60 간이과세(Simplified Taxation)</option>
-						<option value="T70">T70 수입과세(Import Taxable)</option>
+						<option value="T10 과세">T10(과세)</option>
+						<option value="T20 면세">T20(면세)</option>
+						<option value="T30 영세율">T30(영세율)</option>
+						<option value="T40 비과세">T40(비과세)</option>
+						<option value="T50 면제">T50(면제)</option>
+						<option value="T60 간이과세">T60(간이과세)</option>
+						<option value="T70 수입과세">T70(수입과세)</option>
 					</select>
 				</div>
 			</div>

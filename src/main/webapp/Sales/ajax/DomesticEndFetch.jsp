@@ -74,7 +74,7 @@
 		 	   	String PriceSql = "SELECT * FROM project.sales_realprice WHERE MatCode = ? AND SalesCurr = ? ORDER BY SalesCurr DESC, MatCode DESC";
 		 	    PreparedStatement Price_Pstmt = conn.prepareStatement(PriceSql);
 		 	   	Price_Pstmt.setString(1, DPL_Rs02.getString("MatCode"));
-		 	   	Price_Pstmt.setString(2, "USD");
+		 	   	Price_Pstmt.setString(2, "KRW");
 		 	   	ResultSet Price_Rs = Price_Pstmt.executeQuery();
 		 	   	if(Price_Rs.next()){
 		 	   		josnobject.put("UnitPrice", Price_Rs.getDouble("SalesUnitPrice")); // 개당가격
