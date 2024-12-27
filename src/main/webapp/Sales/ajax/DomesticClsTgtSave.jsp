@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.HashSet"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
@@ -34,86 +35,118 @@
             jsonString.append(line);
         }
     }
-	
 	JSONObject saveListData = new JSONObject(jsonString.toString());
 	JSONArray DataList = null;
-// 	System.out.println(saveListData);
+	
+	String[] Category = {
+			"Month", "DealCom", "OrderNum", "Seq", "MatCode", "MatCodeDes", "DelivOrdQty", "QtyUnit", "SalesUnitPrice",
+			"LocalCurr", "X_TranSalesAmt", "ExRateType", "ExRate", "X_LocalSalesAmt", "X_LocalCurr", "TaxCode",
+			"X_VAT", "X_TotalAmt","TaxInvoiceDate", "SalesChannel", "BizArea", "UserCom", "SalesClsOrder"
+			};
+	
 	try{
-		for (String key : saveListData.keySet()) {
-		    DataList = saveListData.getJSONArray(key);
-		    System.out.println("Key: " + key + " - " + DataList.getJSONObject(0));
-		}
-		System.out.println(DataList.length());
+		String Domestic_Sql = "INSERT INTO sales_dosalesclosing (" +
+			    "ClosingMonth, TradingPartner, DelivNoteNum, DelivNoteSeq, " +
+			    "MatCode, MatDesc, DelivOrdQty, QtyUnit, SalesUnitPrice, TranCurr, " +
+			    "TranSalesAmt, ExRateType, ExRate, LocalSalesAmt, LocalCurr, TaxCode, " +
+			    "VAT, TotalAmt, TaxInvoiceDate, SalesChannel, " +
+			    "BizArea, ComCode, CreatPerson, CreatDate, KeyValue" +
+			    ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+		String UpdateSql = "UPDATE sales_delrequestcmdline SET ClosingMonth = ?, ClosingNum = ?, SalesConfirmDate = ? WHERE DelivNoteNum = ? AND MatCode = ?";
+		
+		PreparedStatement Domestic_Pstmt = conn.prepareStatement(Domestic_Sql);
+		PreparedStatement Up_Pstmt = conn.prepareStatement(UpdateSql);
+		
 		HashSet<String>Group = new HashSet<>();
 		HashMap<String, Integer> SequenceTracker = new HashMap<>();
 		
-		for(int i = 0 ; i < DataList.length() ; i++){
-			System.out.println("DataList.length() : " + DataList.length());
-			String key = DataList.getJSONObject(i).getString("OrderNum");
-			System.out.println("key : " + key);
-			if(!Group.contains(key)){
+		for (String key : saveListData.keySet()) {
+		    DataList = saveListData.getJSONArray(key);
+		    System.out.println("Key: " + key + " - " + DataList.getJSONObject(0));
+		    if(!Group.contains(key)){
 				Group.add(key);
 				SequenceTracker.put(key, 1);
 			}
+		    for(int i = 0 ; i < 26 ; i++){
+		    	switch(i){
+			    	case 8:
+			    		System.out.println("i.9 값 : " + i);
+			    		Domestic_Pstmt.setDouble(i + 1, Double.parseDouble(DataList.getJSONObject(0).getString(Category[8]).replace(",","")));
+			    		break;
+			    	case 10:
+			    		System.out.println("i.10 값 : " + i);
+			    		int DelivOrdQty = Integer.parseInt(DataList.getJSONObject(0).getString(Category[6]));
+			    		double SalesUnitPrice = Double.parseDouble(DataList.getJSONObject(0).getString(Category[8]).replace(",",""));
+			    		int TranSalesAmt = (int)Math.round(DelivOrdQty*SalesUnitPrice);
+			    		Domestic_Pstmt.setInt(i + 1, TranSalesAmt);
+			    		break;
+			    	case 12:
+			    		System.out.println("i.12 값 : " + i);
+			    		Domestic_Pstmt.setInt(i + 1, DataList.getJSONObject(0).getInt(Category[i]));
+			    		break;
+			    	case 13:
+			    		System.out.println("i.13 값 : " + i);
+			    		DelivOrdQty = Integer.parseInt(DataList.getJSONObject(0).getString(Category[6]));
+			    		SalesUnitPrice = Double.parseDouble(DataList.getJSONObject(0).getString(Category[8]).replace(",",""));
+			    		TranSalesAmt = (int)Math.round(DelivOrdQty*SalesUnitPrice);
+			    		int ExRate = DataList.getJSONObject(0).getInt(Category[12]);
+			    		int LocalSalesAmt = TranSalesAmt* ExRate;
+			    		Domestic_Pstmt.setInt(i + 1, LocalSalesAmt);
+			    		break;
+			    	case 14:
+			    		System.out.println("i.14 값 : " + i);
+			    		Domestic_Pstmt.setString(i + 1, DataList.getJSONObject(0).getString(Category[9]));
+			    		break;
+			    	case 16:
+			    		System.out.println("i.16 값 : " + i);
+			    		DelivOrdQty = Integer.parseInt(DataList.getJSONObject(0).getString(Category[6]));
+			    		SalesUnitPrice = Double.parseDouble(DataList.getJSONObject(0).getString(Category[8]).replace(",",""));
+			    		TranSalesAmt = (int)Math.round(DelivOrdQty*SalesUnitPrice);
+			    		ExRate = DataList.getJSONObject(0).getInt(Category[12]);
+			    		LocalSalesAmt = TranSalesAmt* ExRate;
+			    		int VAT = (int)Math.round(LocalSalesAmt*0.1);
+			    		Domestic_Pstmt.setInt(i + 1, VAT);
+			    		break;
+			    	case 17:
+			    		System.out.println("i.17 값 : " + i);
+			    		DelivOrdQty = Integer.parseInt(DataList.getJSONObject(0).getString(Category[6]));
+			    		SalesUnitPrice = Double.parseDouble(DataList.getJSONObject(0).getString(Category[8]).replace(",",""));
+			    		TranSalesAmt = (int)Math.round(DelivOrdQty*SalesUnitPrice);
+			    		ExRate = DataList.getJSONObject(0).getInt(Category[12]);
+			    		LocalSalesAmt = TranSalesAmt* ExRate;
+			    		VAT = (int)Math.round(LocalSalesAmt*0.1);
+			    		Domestic_Pstmt.setInt(i + 1, LocalSalesAmt + VAT);
+			    		break;
+			    	case 22:
+			    		System.out.println("i.22 값 : " + i);
+			    		Domestic_Pstmt.setString(i + 1, UserId);
+			    		break;
+			    	case 23:
+			    		System.out.println("i.23 값 : " + i);
+			    		Domestic_Pstmt.setString(i + 1, todayDate);
+			    		break;
+			    	case 24:
+			    		System.out.println("i.24 값 : " + i);
+			    		Domestic_Pstmt.setString(i + 1, key);
+			    		break;
+			    	case 25: /* 특수한 경우 */
+			    		System.out.println("i.25 값 : " + i);
+			    		Up_Pstmt.setString(1, DataList.getJSONObject(0).getString(Category[0])+"월");
+			    		Up_Pstmt.setInt(2, Integer.parseInt(DataList.getJSONObject(0).getString(Category[22])));
+			    		Up_Pstmt.setString(3, DataList.getJSONObject(0).getString(Category[18]));
+			    		Up_Pstmt.setString(4, DataList.getJSONObject(0).getString(Category[2]));
+			    		Up_Pstmt.setString(5, DataList.getJSONObject(0).getString(Category[4]));
+			    		break;
+			    	default:
+			    		System.out.println("i 값 : " + i);
+			    		Domestic_Pstmt.setString(i + 1, DataList.getJSONObject(0).getString(Category[i]));
+			    		break;
+		    	}
+		    }
+		    Up_Pstmt.executeUpdate();
+	    	Domestic_Pstmt.executeUpdate();
 		}
-		System.out.println(Group);
-		
-// 		String UpdateSql = null;
-// 		PreparedStatement UpdatePstmt = null;;
-		
-// 		String HeadSave_Sql = "INSERT INTO sales_delrequestcmdheader (" +
-//                 "DelivNoteNum, DispatureDate, TradingPartner, MatitemNum, DelivOrdSumQty, " +
-//                 "BizArea, ComCode, KeyValue" +
-//                 ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-		
-// 		String LineSave_Sql = "INSERT INTO sales_delrequestcmdline (" +
-//                 "DispatureDate, DelivNoteNum, DelivNoteSeq, MatCode, MatDesc, " +
-//                 "DelivOrdQty, QtyUnit, TransMean, DelivPlace, ArrivCustPlace, TradingPartner, " +
-//                 "SalesOrdNum, SalesChannel, BizArea, ComCode, CreatPerson," +
-//                 "CreatDate, LastPerson, LastAdjustDate, KeyValue" +
-//                 ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		
-// 		PreparedStatement Head_Pstmt = conn.prepareStatement(HeadSave_Sql);
-// 		PreparedStatement Line_Pstmt = conn.prepareStatement(LineSave_Sql);
-		
-// 		Head_Pstmt.setString(1, headDataList.getString(0)); // 납품번호
-//  		Head_Pstmt.setString(2, headDataList.getString(1)); // 반출일자
-//  		Head_Pstmt.setString(3, headDataList.getString(2)); // 거래처
-// 		Head_Pstmt.setInt(4, Group.size()); // 품번갯수
-// 		Head_Pstmt.setInt(5, headDataList.getInt(4)); // 납품총수량
-//  		Head_Pstmt.setString(6, headDataList.getString(5)); // 회계단위
-//  		Head_Pstmt.setString(7, headDataList.getString(6)); // 회사
-//  		Head_Pstmt.setString(8, headDataList.getString(7)); // 키값
-		
-// 		for(int i = 0 ; i < childList.length() ; i++){
-// 			String key = childList.getJSONArray(i).getString(3);
-// 			int Seq = SequenceTracker.get(key);
-// 			SequenceTracker.put(key, Seq+1);
-			
-// 			Line_Pstmt.setString(1, childList.getJSONArray(i).getString(0)); // 반출일자
-//  			Line_Pstmt.setString(2, childList.getJSONArray(i).getString(1)); // 납품번호
-// 			Line_Pstmt.setString(3, /* Seq */childList.getJSONArray(i).getString(2)); // 항번
-//  			Line_Pstmt.setString(4, childList.getJSONArray(i).getString(3)); // 품번
-//  			Line_Pstmt.setString(5, childList.getJSONArray(i).getString(4)); // 품명
-//  			Line_Pstmt.setString(6, childList.getJSONArray(i).getString(5)); // 납품수량
-//  			Line_Pstmt.setString(7, childList.getJSONArray(i).getString(6)); // 수량단위
-//  			Line_Pstmt.setString(8, childList.getJSONArray(i).getString(7)); // 운송수단
-//  			Line_Pstmt.setString(9, childList.getJSONArray(i).getString(8)); // 인도장소
-//  			Line_Pstmt.setString(10, childList.getJSONArray(i).getString(12)); // 납품장소
-//  			Line_Pstmt.setString(11, childList.getJSONArray(i).getString(9)); // 거래처
-//  			Line_Pstmt.setString(12, childList.getJSONArray(i).getString(10)); // 납품계획번호 
-//  			Line_Pstmt.setString(13, childList.getJSONArray(i).getString(11)); // 판매경로
- 			
-//  			Line_Pstmt.setString(14, childList.getJSONArray(i).getString(13)); // 회계단위
-//  			Line_Pstmt.setString(15, childList.getJSONArray(i).getString(14)); // 회사
-//  			Line_Pstmt.setString(16, UserId); // 작성자
-//  			Line_Pstmt.setString(17, todayDate); // 생성일자
-//  			Line_Pstmt.setString(18, "아무개"); // 최종수정자
-//  			Line_Pstmt.setString(19, "0000-00-00"); // 최종수정일자
-//  			Line_Pstmt.setString(20, childList.getJSONArray(i).getString(1) + String.format("%02d", Integer.parseInt(childList.getJSONArray(i).getString(2))) + childList.getJSONArray(i).getString(14)); // 키값
-//  			Line_Pstmt.executeUpdate();
-// 		}
-// 		Head_Pstmt.executeUpdate();
 	response.setContentType("application/json; charset=UTF-8");
 	response.getWriter().write("{\"status\": \"Success\"}");
 	}catch(Exception e){

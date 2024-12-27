@@ -294,6 +294,7 @@ $(document).ready(function(){
 		var SalesChannel = 'DO1';
 		var BizArea = $('.BizCode').val();
 		var UserCom = $('.UserCompany').val();
+		var SalesClsOrder = $('.SalesClsOrder').val(); // 매출마감차수
 		var KeyValue = null;
 		
 		var OrderNum = null;
@@ -321,7 +322,7 @@ $(document).ready(function(){
 					Month : Month, DealCom : DealCom, OrderNum : OrderNum, Seq : Seq, MatCode : MatCode, MatCodeDes : MatCodeDes,
 					DelivOrdQty : DelivOrdQty, DelivOrdQty : DelivOrdQty, SalesUnitPrice : SalesUnitPrice, LocalCurr : LocalCurr,
 					ExRateType : ExRateType, ExRate : ExRate, LocalCurr : LocalCurr, TaxCode : TaxCode, SalesChannel : SalesChannel,
-					BizArea : BizArea, UserCom : UserCom
+					BizArea : BizArea, UserCom : UserCom, QtyUnit : QtyUnit, TaxInvoiceDate : TaxInvoiceDate, SalesClsOrder: SalesClsOrder
 				})
 			}
 		})
