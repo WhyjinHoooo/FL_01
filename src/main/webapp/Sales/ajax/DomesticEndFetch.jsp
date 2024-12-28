@@ -55,8 +55,11 @@
 	    JSONArray jsonArray = new JSONArray();
 	    
 
-    	String DPL_Sql02 = "SELECT * FROM sales_delrequestcmdline WHERE ClosingMonth IS NULL AND ClosingNum IS NULL AND SalesConfirmDate IS NULL";
+    	String DPL_Sql02 = "SELECT * FROM sales_delrequestcmdline WHERE BizArea = ? AND ComCode = ? AND TradingPartner = ? AND ClosingMonth IS NULL AND ClosingNum IS NULL AND SalesConfirmDate IS NULL";
     	PreparedStatement DPL_Pstmt02 = conn.prepareStatement(DPL_Sql02);
+    	DPL_Pstmt02.setString(1, UBizArea);
+    	DPL_Pstmt02.setString(2, UCom);
+    	DPL_Pstmt02.setString(3, DealCom);
     	ResultSet DPL_Rs02 = DPL_Pstmt02.executeQuery();
 	    while(DPL_rs01.next()){
 	    	while(DPL_Rs02.next()){

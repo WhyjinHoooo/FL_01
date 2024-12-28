@@ -76,10 +76,11 @@
 
  		PreparedStatement Sava_Pstmt = conn.prepareStatement(SaveSql);
 		
-		String Info_Sql01 = "SELECT * FROM sales_realprice WHERE MatCode = ? AND CustCode = ?";
+		String Info_Sql01 = "SELECT * FROM sales_realprice WHERE MatCode = ? AND CustCode = ? AND SalesCurr = ?";
 		PreparedStatement Info_Pstmt01 = conn.prepareStatement(Info_Sql01);
 		Info_Pstmt01.setString(1, ProductInfoList[0]);
 		Info_Pstmt01.setString(2, rowData.getString(2));
+		Info_Pstmt01.setString(3, "USD");
 		ResultSet Info_Rs = Info_Pstmt01.executeQuery();
 		while(Info_Rs.next()){
 				System.out.println("판매단가 : " + Info_Rs.getString("SalesUnitPrice")); // 판매 단가 - String 타입

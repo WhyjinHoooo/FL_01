@@ -137,14 +137,10 @@ $(document).ready(function(){
 	        'value': EndDate
 	    });
 	});
-	
 
-	
 	$(document).on('change', '.ConfirmTable_Body input[type="checkbox"]', function() {
         updateConfirmTableData();
     });
-	
-	
 	
 	InitialTable(); // 1번 테이블 초기화
 	var InfoList = [];
@@ -258,34 +254,6 @@ $(document).ready(function(){
 		$('.CloseItemTotal').val(TotalItemCount);
 	});
 	
-// 	var TableBody = document.querySelector('.ConfirmTable_Body');
-// 	if(TableBody.rows.length > 0){
-// 		var ChkDataLust = [];
-// 		var ChkTotalItemCount = 0;
-// 		$('.ConfirmTable_Body tr').each(function(index, tr){
-// 			var $tr = $(tr);
-// 			var $Chk = $tr.find('input[type="checkbox"]');
-// 			if($Chk.prop('checked')){
-// 				var TestDate = $tr.find('td:nth-child(2)').text().trim(); // 테스트
-// 				var TestValue = parseInt($tr.find('td:nth-child(7)').text().trim()); // 테스트
-// 				function AddUnique(Value){
-// 					if(!ChkDataLust.includes(Value)){
-// 						ChkDataLust.push(Value)
-// 					}
-// 				}
-// 				AddUnique(TestDate)
-// 				ChkTotalItemCount += TestValue;
-// 			}
-// 		})
-// 		$('.FProCount').val(ChkDataLust.length);
-// 		$('.FProTotal').val(ChkTotalItemCount);
-// 	}
-	
-
-	
-	
-	var KeyValueList = [];
-	var PeriodList = [];
 	var SaveList = {};
 	$('.SaveBtn').on('click',function(){
 		var Month = $('.SalesClsMonth').val(); // 매출마감월
@@ -337,6 +305,30 @@ $(document).ready(function(){
 			success: function(data){
 				if(data.status === "Success"){
 					SaveList = {}
+					InitialTable();
+					const resetElements = [
+						".CloseItemCount",	".CloseItemTotal",
+						".FProCount", ".FProTotal", ".SPriceSum",
+						".VATSum", ".ToTalSum",
+						".DealComCode", ".DealComCodeDes",
+						".SalesClsMonth", ".SalesClsOrder",
+						".SalesTaxType", ".StartDate"
+					]
+					resetElements.forEach(selector => {
+						const element = document.querySelector(selector);
+						if(element){
+							if(element === ".DealComCode"){
+								element.value = '';
+								element.attr('placeholder', 'SELECT');
+							}else if(element === ".SalesClsMonth" || element === ".SalesClsOrder" ||element === ".SalesTaxType"){
+								 $('.SalesClsMonth').prop('selectedIndex', 0);
+							}else{
+								element.value = '';
+							}
+							
+						}
+					})
+				}else{
 					console.log('저장 실패');
 				}
 			},

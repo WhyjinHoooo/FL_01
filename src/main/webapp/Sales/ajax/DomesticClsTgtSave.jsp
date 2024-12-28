@@ -71,22 +71,18 @@
 		    for(int i = 0 ; i < 26 ; i++){
 		    	switch(i){
 			    	case 8:
-			    		System.out.println("i.9 값 : " + i);
 			    		Domestic_Pstmt.setDouble(i + 1, Double.parseDouble(DataList.getJSONObject(0).getString(Category[8]).replace(",","")));
 			    		break;
 			    	case 10:
-			    		System.out.println("i.10 값 : " + i);
 			    		int DelivOrdQty = Integer.parseInt(DataList.getJSONObject(0).getString(Category[6]));
 			    		double SalesUnitPrice = Double.parseDouble(DataList.getJSONObject(0).getString(Category[8]).replace(",",""));
 			    		int TranSalesAmt = (int)Math.round(DelivOrdQty*SalesUnitPrice);
 			    		Domestic_Pstmt.setInt(i + 1, TranSalesAmt);
 			    		break;
 			    	case 12:
-			    		System.out.println("i.12 값 : " + i);
 			    		Domestic_Pstmt.setInt(i + 1, DataList.getJSONObject(0).getInt(Category[i]));
 			    		break;
 			    	case 13:
-			    		System.out.println("i.13 값 : " + i);
 			    		DelivOrdQty = Integer.parseInt(DataList.getJSONObject(0).getString(Category[6]));
 			    		SalesUnitPrice = Double.parseDouble(DataList.getJSONObject(0).getString(Category[8]).replace(",",""));
 			    		TranSalesAmt = (int)Math.round(DelivOrdQty*SalesUnitPrice);
@@ -95,11 +91,9 @@
 			    		Domestic_Pstmt.setInt(i + 1, LocalSalesAmt);
 			    		break;
 			    	case 14:
-			    		System.out.println("i.14 값 : " + i);
 			    		Domestic_Pstmt.setString(i + 1, DataList.getJSONObject(0).getString(Category[9]));
 			    		break;
 			    	case 16:
-			    		System.out.println("i.16 값 : " + i);
 			    		DelivOrdQty = Integer.parseInt(DataList.getJSONObject(0).getString(Category[6]));
 			    		SalesUnitPrice = Double.parseDouble(DataList.getJSONObject(0).getString(Category[8]).replace(",",""));
 			    		TranSalesAmt = (int)Math.round(DelivOrdQty*SalesUnitPrice);
@@ -109,7 +103,6 @@
 			    		Domestic_Pstmt.setInt(i + 1, VAT);
 			    		break;
 			    	case 17:
-			    		System.out.println("i.17 값 : " + i);
 			    		DelivOrdQty = Integer.parseInt(DataList.getJSONObject(0).getString(Category[6]));
 			    		SalesUnitPrice = Double.parseDouble(DataList.getJSONObject(0).getString(Category[8]).replace(",",""));
 			    		TranSalesAmt = (int)Math.round(DelivOrdQty*SalesUnitPrice);
@@ -119,19 +112,15 @@
 			    		Domestic_Pstmt.setInt(i + 1, LocalSalesAmt + VAT);
 			    		break;
 			    	case 22:
-			    		System.out.println("i.22 값 : " + i);
 			    		Domestic_Pstmt.setString(i + 1, UserId);
 			    		break;
 			    	case 23:
-			    		System.out.println("i.23 값 : " + i);
 			    		Domestic_Pstmt.setString(i + 1, todayDate);
 			    		break;
 			    	case 24:
-			    		System.out.println("i.24 값 : " + i);
 			    		Domestic_Pstmt.setString(i + 1, key);
 			    		break;
 			    	case 25: /* 특수한 경우 */
-			    		System.out.println("i.25 값 : " + i);
 			    		Up_Pstmt.setString(1, DataList.getJSONObject(0).getString(Category[0])+"월");
 			    		Up_Pstmt.setInt(2, Integer.parseInt(DataList.getJSONObject(0).getString(Category[22])));
 			    		Up_Pstmt.setString(3, DataList.getJSONObject(0).getString(Category[18]));
@@ -139,7 +128,6 @@
 			    		Up_Pstmt.setString(5, DataList.getJSONObject(0).getString(Category[4]));
 			    		break;
 			    	default:
-			    		System.out.println("i 값 : " + i);
 			    		Domestic_Pstmt.setString(i + 1, DataList.getJSONObject(0).getString(Category[i]));
 			    		break;
 		    	}
