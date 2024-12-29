@@ -1650,4 +1650,197 @@
 	color: #fff;
 	border: 1px solid #0068ff;
 	}
+	/* ------------------------수출 마감 대상------------------------ */
+  	.OverseasArea{
+  	display: flex;
+  	flex-direction: row;
+  	height: 87vh
+  	}
+  	.Overseas-Main{
+  	border: 3px solid rgb(111, 167, 235);
+    width: 30%;
+    height: 95%;
+    margin: 0.3% 1% 0% 1%;
+  	}
+  	.Overseas-Main > .Overseas-Main-Header,
+  	.Overseas-Sub > .Overseas-Sub-Header{
+  	font-size: 30px;
+  	color: white;
+  	background-color: #002060;
+  	text-align: center;
+  	padding: 10px;
+  	}
+  	.Overseas-Sub{
+  	border: 3px solid rgb(111,167,235);
+  	width: 100%;
+  	height: 95%;
+  	margin: 0.3% 0% 0% 0%;
+  	}
+  	.Overseas-Main > .Overseas-Main-Input {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    margin: 5% 0% 0% 15%;
+	}
+	.Overseas-Main > .Overseas-Main-Input label{
+	font-weight: 900;
+	display: inline-block;
+   	width: 8em; 
+   	text-align: right;
+   	letter-spacing: 0.1em;
+	}
+	.Overseas-Main > .Overseas-Main-Input input.SelectInput,
+	.Overseas-Main > .Overseas-Main-Input > .ColumnInput select{
+   	width: 150px; 
+	margin: 0px 0px 5px 10px;
+	text-align: center;
+	}
+	.Overseas-Main > .Overseas-Main-Input > .SalesClsMonth Select,
+	.Overseas-Main > .Overseas-Main-Input input{
+    width: 150px; 
+	margin: 0px 0px 5px 10px;
+	text-align: center;
+	}
+	.Overseas-Main > .Overseas-Main-Input > .ColumnInput{
+	display: flex;
+    flex-direction: column;
+	}
+	.Overseas-Main .BtnArea {
+    padding: 50% 0% 0% 35%;
+	}
+    .Overseas-Main .BtnArea button {
+	width: 40%;
+	height: 10%;
+	text-align: center;
+	background-color: #002060;
+	color: white;
+	border: 1px solid #1F4E79;
+	margin-right: 20px;
+	border-radius: 20px;
+	font-size: 30px;
+	}
+	.Overseas-Main .BtnArea button:hover {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.Overseas-Main .BtnArea button:active {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.Overseas-Sub .OverseasInfoArea {
+    width: 99.6%;
+    height: 70%;
+    border: 3px solid black;
+    margin: 1px 0px 0px 1px;
+	}
+	.OverseasInfoArea table.ConfirmTable {
+    border-collapse: collapse;
+    width: 100%;
+    height: 100%;
+    table-layout: fixed;
+    overflow: scroll;
+	}
+	.OverseasInfoArea .ConfirmTable thead {
+    display: table;
+    width: 100%;
+	}
+	.OverseasInfoArea .ConfirmTable > thead > tr> th {
+    background-color: rgb(111, 167, 235);
+    position: sticky;
+    top: 0;
+    color: white;
+    text-align: center;
+    z-index: 10;
+    padding: 8px;
+    border: 1px solid white;
+    width: 120px;
+    font-size: 12px;
+	}
+	.OverseasInfoArea .ConfirmTable tbody {
+    table-layout: fixed;
+    display: block;
+    width: 100.3%;
+    height: 95.1%;
+    max-height: 97%;
+    overflow-y: auto;
+	}
+	.OverseasInfoArea .ConfirmTable tbody td {
+	padding: 8px;
+	border: 1px solid #ddd;
+    width: 118.7px;
+    height: 10px;
+    text-align: center;
+    font-size: smaller;
+	}	
+	.OverseasInfoArea .ConfirmTable tbody::-webkit-scrollbar {
+    width: 5px;
+  	}
+  	.OverseasInfoArea .ConfirmTable tbody::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+  	}
+  	.OverseasInfoArea .ConfirmTable tbody::-webkit-scrollbar-track {
+    background-color: white;
+    border-radius: 1px;
+    box-shadow: inset 0px 0px 5px white;
+  	}
+  	/* aaaaaaaaaaaaaaaaaaa */
+  	.Overseas-Sub .BtnArea-Result{
+  	display: flex;
+	flex-direction: row;
+	width: 100%;
+	margin: 2% 0% 0% 0%;
+  	}
+  	.Overseas-Sub .BtnArea-Result > label{
+  	font-weight: 900;
+	display: inline-block;
+	width: 19em;
+	text-align: right;
+	letter-spacing: 0.1em;
+  	}
+  	.Overseas-Sub .BtnArea-Result > input{
+  	width: 150px;
+	margin: 0px 0px 5px 10px;
+	text-align: center;
+	background-color: #ddd;
+	border-radius: 5px;
+  	}
+  	.Overseas-Sub .BtnArea-Result > input.SPriceSum,
+  	.Overseas-Sub .BtnArea-Result > input.VATSum,
+  	.Overseas-Sub .BtnArea-Result > input.ToTalSum{
+  	width: 150px;
+	margin: 0px 0px 5px 10px;
+	text-align: center;
+	background-color: transparent;
+	border-radius: 5px;
+  	}
+  	.Overseas-Sub .BtnArea{
+	width: 99.6%;
+    height: 23.3%;
+    border: 3px solid black;
+    margin: 1px 0px 0px 1px;
+    }
+	.Overseas-Sub .BtnArea .SaveBtn {
+	width: 10%;
+	height: 29%;
+	text-align: center;
+	background-color: #002060;
+	color: white;
+	border: 1px solid #1F4E79;
+	margin: 0% 0% 0% 10%;
+	font-size: 17px;
+	border-radius: 5px;
+    }
+	.Overseas-Sub .BtnArea .SaveBtn:hover {
+	VndOrd-Sub: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.Overseas-Sub .BtnArea .SaveBtn:active {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
 }
