@@ -1756,7 +1756,7 @@
     padding: 8px;
     border: 1px solid white;
     width: 120px;
-    font-size: 12px;
+    font-size: 11px;
 	}
 	.OverseasInfoArea .ConfirmTable tbody {
     table-layout: fixed;
@@ -1769,10 +1769,11 @@
 	.OverseasInfoArea .ConfirmTable tbody td {
 	padding: 8px;
 	border: 1px solid #ddd;
-    width: 118.7px;
+    width: 94.8px;
     height: 10px;
     text-align: center;
-    font-size: smaller;
+    font-size: 10px;
+    font-weight: bold;
 	}	
 	.OverseasInfoArea .ConfirmTable tbody::-webkit-scrollbar {
     width: 5px;

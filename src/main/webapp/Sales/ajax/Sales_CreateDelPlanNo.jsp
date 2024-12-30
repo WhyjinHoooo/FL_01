@@ -4,7 +4,7 @@
 <%@ include file="../../mydbcon.jsp" %>
 
 <%
-	String S_Word01 = request.getParameter("Route").substring(0,3); // 판매경로
+	String S_Word01 = request.getParameter("Route"); // 판매경로
 	String S_Word02 = request.getParameter("Date").replace("-","").substring(2, 6); // 반출예정일자
 	String Value = null;
 	String ExistedNo = null;

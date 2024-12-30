@@ -82,7 +82,7 @@ $(document).ready(function(){
                 	function FormChange(value){
                     	return parseFloat(value.replace(/,/g,'').trim() || 0);
                     }
-                    var OutDate = $tr.find('td:nth-child(2)').text().trim(); // 반출일자
+                    var MatCode = $tr.find('td:nth-child(5)').text().trim(); // 반출일자
 					var ConfirmCount = FormChange($tr.find('td:nth-child(7)').text()); // 납품수량
                     var SPriceSum = FormChange($tr.find('td:nth-child(10)').text()); // 공급가액
                     var VATSum = FormChange($tr.find('td:nth-child(11)').text()); // 부가세액
@@ -94,7 +94,7 @@ $(document).ready(function(){
                             ChkDataLust.push(Value);
                         }
                     }
-                    AddUnique(OutDate);
+                    AddUnique(MatCode);
                     ChkTotalItemCount += ConfirmCount;
                     ChkSPriceSum += SPriceSum;
                     ChkVATSum += VATSum;
@@ -109,7 +109,6 @@ $(document).ready(function(){
             $('.ToTalSum').val(ChkToTalSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));// 총 합계
         }
     };
-    
     var Trg_SalesConMonth = document.getElementById('SalesClsMonth');
 	var CurrentYear = new Date().getFullYear();
 	var Initial_Year = CurrentYear + 100;
@@ -126,12 +125,8 @@ $(document).ready(function(){
 	    $("#SalesClsMonth").trigger("change");
 	}, 100);
 	$("#SalesClsMonth").on("change", function() {
-		console.log('사용자가 선택한 값:', this.value);
-	    // 여기에 원하는 동작을 추가
 	    var [year, month] = this.value.split('.');
-	    // 선택된 월의 다음 달의 0일을 설정 (이전 달의 마지막 날)
 	    var lastDay = new Date(year, month, 1);
-	    // YYYY-MM-DD 형식으로 포맷팅
 	    var EndDate = lastDay.toISOString().split('T')[0];
 	    $('.EndDate, .SalesEndDate').attr({
 	        'value': EndDate
@@ -240,15 +235,15 @@ $(document).ready(function(){
 			var $tr = $(tr);
 			var $Chk = $tr.find('input[type="checkbox"]');
 			
-			var TestDate = $tr.find('td:nth-child(2)').text().trim(); // 테스트
-			var TestValue = parseInt($tr.find('td:nth-child(7)').text().trim()); // 테스트
+			var MatCode = $tr.find('td:nth-child(5)').text().trim(); // 테스트
+			var Count = parseInt($tr.find('td:nth-child(7)').text().trim()); // 테스트
 			function AddUnique(Value){
 				if(!DataList.includes(Value)){
 					DataList.push(Value)
 				}
 			}
-			AddUnique(TestDate)
-			TotalItemCount += TestValue;
+			AddUnique(MatCode)
+			TotalItemCount += Count;
 		})
 		$('.CloseItemCount').val(DataList.length);
 		$('.CloseItemTotal').val(TotalItemCount);

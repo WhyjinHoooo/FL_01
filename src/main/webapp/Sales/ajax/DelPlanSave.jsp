@@ -47,7 +47,7 @@
 		JSONArray headDataList = DataList.getJSONArray("HeadDataList");
 		JSONArray childList = DataList.getJSONArray("ChildList");
 		System.out.println("HeadDataList: " + headDataList);
-		System.out.println("childList.getJSONArray(0): " + childList.length());
+		System.out.println("childList.getJSONArray(0): " + childList.length()); 
 		System.out.println("childList.getJSONArray(0): " + childList.getJSONArray(0));
 		System.out.println("childList.getJSONArray(1): " + childList.getJSONArray(1));
 		
@@ -110,7 +110,7 @@
 				
  				TotalCount += Integer.parseInt(childList.getJSONArray(i).getString(6));
 				
- 				Line_Pstmt.setString(8, childList.getJSONArray(i).getString(7).substring(0, 3)); // 판매경로
+ 				Line_Pstmt.setString(8, childList.getJSONArray(i).getString(7)); // 판매경로
  				Line_Pstmt.setString(9, headDataList.getString(1)); // 거래처
  				Line_Pstmt.setString(10, childList.getJSONArray(i).getString(1)); // 고객주문번호
  				Line_Pstmt.setString(11, childList.getJSONArray(i).getString(5)); // 납품장소 

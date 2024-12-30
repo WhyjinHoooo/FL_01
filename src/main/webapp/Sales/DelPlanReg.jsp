@@ -48,6 +48,11 @@ function InfoSearch(field){
 		popupHeight = 610;
 		window.open("${contextPath}/Sales/Popup/FindBizArea.jsp?ComCode=" + UserComCode, "POPUP02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	break;
+	case "SalesRoute":
+		popupWidth = 550;
+		popupHeight = 610;
+		window.open("${contextPath}/Sales/Popup/FindSalesRoute.jsp", "POPUP03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+	break;
 	}
 }
 $(document).ready(function(){
@@ -102,11 +107,6 @@ $(document).ready(function(){
 			}
 		});
 	});
-	
-	$('.SalesRouteCode').change(function(){
-		var Value = $(this).val();
-		$('.SalesRouteCodeDes').val(Value.substring(4));
-	})
 	
 	$('.DoItBtn').on('click',function(){
 		var DealCom = $('.DealComCode').val();
@@ -277,27 +277,22 @@ $(document).ready(function(){
 					const resetElements = [
 		        		".DealComCodeDes",".SalesRouteCodeDes",
 		        		".DealComCode", ".BalanceAdjDate",
-		        		".DeliveryPlanNo"
+		        		".DeliveryPlanNo", ".SalesRouteCode",
+		        		".FinalPlace", ".TPChannel"
 		    	    ];
 					resetElements.forEach(selector => {
 		    	        const element = document.querySelector(selector);
 		    	        if (element) {
-		    	        	if(selector === ".DealComCode"){
-		    	        		element.value = 'SELECT';
+		    	        	if(selector === ".TPChannel"){
+		    	        		element.prop('selectedIndex', 0);
+		    	        	}else if(selector === ".SalesRouteCode" || selector === ".FinalPlace" || selector === ".DealComCode"){
+								element.value = '';
+								element.attr('placeholder', 'SELECT');
 		    	        	}else{
 		    	        		element.value = '';  // 나머지는 빈 값으로 초기화
 		    	        	}
 		    	        }
 		    	    });
-		    	    const updatedOptions = `
-						<option>SELECT</option>
-						<option value="EX1,직수출">EX1</option>
-						<option value="EX2,국판매출">EX2</option>
-						<option value="EX3,대행수출">EX3</option>
-						<option value="EX4,삼국수출">EX4</option>
-						<option value="EX5,기타매출">EX5</option>
-	                `;
-	                $(".SalesRouteCode").html(updatedOptions);
 	                console.log('저장되었습니다.');
 				}else{
 					console.log('저장 실패');
@@ -343,15 +338,8 @@ $(document).ready(function(){
 			</div>
 			<div class="DelPlan-Main-Input">
 				<label>판매경로: </label>
-				<div class="ColumnInput SalesRouteArea">
-					<select class="SalesRouteCode SelectInput">
-						<option>SELECT</option>
-						<option value="EX1,직수출">EX1</option>
-						<option value="EX2,국판매출">EX2</option>
-						<option value="EX3,대행수출">EX3</option>
-						<option value="EX4,삼국수출">EX4</option>
-						<option value="EX5,기타매출">EX5</option>
-					</select>
+				<div class="ColumnInput">
+					<input class="SalesRouteCode SelectInput" placeholder="SELECT" onclick="InfoSearch('SalesRoute')" readonly>
 					<input class="SalesRouteCodeDes" readonly>
 				</div>
 			</div>

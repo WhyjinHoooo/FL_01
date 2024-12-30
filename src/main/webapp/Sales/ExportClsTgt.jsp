@@ -56,7 +56,7 @@ $(document).ready(function(){
 		for (let i = 0; i < 50; i++) {
             const row = $('<tr></tr>'); // 새로운 <tr> 생성
             // 34개의 빈 <td> 요소 추가 (3개의 헤더 항목 이후 31일치 데이터)
-            for (let j = 0; j < 16; j++) {
+            for (let j = 0; j < 17; j++) {
                 row.append('<td></td>');
             }
             // 생성한 <tr>을 <tbody>에 추가
@@ -82,11 +82,11 @@ $(document).ready(function(){
                 	function FormChange(value){
                     	return parseFloat(value.replace(/,/g,'').trim() || 0);
                     }
-                    var OutDate = $tr.find('td:nth-child(2)').text().trim(); // 반출일자
-					var ConfirmCount = FormChange($tr.find('td:nth-child(7)').text()); // 납품수량
-                    var SPriceSum = FormChange($tr.find('td:nth-child(10)').text()); // 공급가액
-                    var VATSum = FormChange($tr.find('td:nth-child(11)').text()); // 부가세액
-                    var ToTalSum = FormChange($tr.find('td:nth-child(12)').text()); // 합계
+                    var MatCode = $tr.find('td:nth-child(7)').text().trim(); // 반출일자
+					var ConfirmCount = FormChange($tr.find('td:nth-child(9)').text()); // 납품수량
+//                     var SPriceSum = FormChange($tr.find('td:nth-child(13)').text()); // 공급가액
+//                     var VATSum = FormChange($tr.find('td:nth-child(11)').text()); // 부가세액
+                    var ToTalSum = FormChange($tr.find('td:nth-child(16)').text()); // 합계
 
                     // 고유값 추가 함수
                     function AddUnique(Value) {
@@ -94,10 +94,10 @@ $(document).ready(function(){
                             ChkDataLust.push(Value);
                         }
                     }
-                    AddUnique(OutDate);
+                    AddUnique(MatCode);
                     ChkTotalItemCount += ConfirmCount;
-                    ChkSPriceSum += SPriceSum;
-                    ChkVATSum += VATSum;
+                    ChkSPriceSum += ToTalSum;
+//                     ChkVATSum += VATSum;
                     ChkToTalSum += ToTalSum;
                     	
                 }
@@ -105,7 +105,7 @@ $(document).ready(function(){
             $('.FProCount').val(ChkDataLust.length);  // 마감 품목 수
             $('.FProTotal').val(ChkTotalItemCount);  // 마감수량
             $('.SPriceSum').val(ChkSPriceSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));// 공급가액 합계
-            $('.VATSum').val(ChkVATSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));// 부가가치세 합계
+//             $('.VATSum').val(ChkVATSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));// 부가가치세 합계
             $('.ToTalSum').val(ChkToTalSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));// 총 합계
         }
     };
@@ -163,6 +163,7 @@ $(document).ready(function(){
 		var DealCom = $('.DealComCode').val(); // 거래처
 		var UCom = $('.UserCompany').val(); // 회사
 		var UBizArea = $('.BizCode').val();
+		var EndMonth = $('.SalesClsMonth').val();
 		
 		var Start = $('.StartDate').val();
 		var End = $('.EndDate').val();
@@ -176,7 +177,7 @@ $(document).ready(function(){
 	 		InfoList = [UCom, UBizArea, DealCom, Start, End]
 			console.log(InfoList);
 			$.ajax({
-				url: '${contextPath}/Sales/ajax/OverseasEndFetch.jsp',
+				url: '${contextPath}/Sales/ajax/DomesticEndFetch.jsp',
 				type: 'POST',
 				data: JSON.stringify(InfoList),
 				contentType: 'application/json; charset=utf-8',
@@ -207,19 +208,22 @@ $(document).ready(function(){
 						        var index = indices[j];
 						        var row = '<tr>' +
 						            '<td><input type="checkbox" class="checkboxBtn"></td>' + // 체크 박스 1
-						            '<td>' + data[index].OutDate + '</td>' + // 반출예정일자 2
-						            '<td>' + data[index].OrderNum + '</td>' + // 납품번호 3
-						            '<td>' + data[index].Seq + '</td>' + // 항번 4
-						            '<td>' + data[index].MatCode + '</td>' + // 품번 5 
-						            '<td>' + data[index].MatCodeDes + '</td>' + // 품명 6
-						            '<td>' + data[index].Quantity + '</td>' + // 납품수량 7 
-						            '<td>' + data[index].Unit + '</td>' + // 수량단위 8
-						            '<td>' + data[index].UnitPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>' + // 개당가격 9
-						            '<td>' + (data[index].Quantity * data[index].UnitPrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>' + // 공급가액 10
-						            '<td>' + ((data[index].Quantity * data[index].UnitPrice) / 10.0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>' + // 부가세액 11
-						            '<td>' + (data[index].Quantity * data[index].UnitPrice + (data[index].Quantity * data[index].UnitPrice) / 10.0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>' + // 합계 12
-						            '<td>' + data[index].DealCom + '</td>' + // 거래처 13
-						            '<td>' + data[index].Tax + '</td>' + // Tax구분 14
+						            '<td>' + EndMonth + '</td>' + // 반출예정일자 2
+						            '<td>' + data[index].DealCom + '</td>' + // 납품번호 3
+						            '<td>' + '' + '</td>' + // 항번 4
+						            '<td>' + data[index].OrderNum + '</td>' + // 납품번호 5
+						            '<td>' + data[index].Seq + '</td>' + // 항번 6 
+						            '<td>' + data[index].MatCode + '</td>' + // 품번 7
+						            '<td>' + data[index].MatCodeDes + '</td>' + // 품명 8
+						            '<td>' + data[index].Quantity + '</td>' + // 납품수량 9 
+						            '<td>' + data[index].Unit + '</td>' + // 수량단위 10
+						            '<td>' + data[index].UnitPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>' + // 판매단가 11
+						            '<td>' + 'USD' + '</td>' + // 거래통화 12
+						            '<td>' + ((data[index].Quantity * data[index].UnitPrice)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>' + // 거래통화매출금액 13
+						            '<td>' + 'BRE' + '</td>' + // 환율유형 14
+						            '<td>' + '1475.29' + '</td>' + // 환율
+						            '<td>' + ((data[index].Quantity * data[index].UnitPrice * 1475.29)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>' + // 장부통화매출금액
+						            '<td>' + 'KRW' + '</td>' + // 장부통화
 						            '</tr>';
 						        $('.ConfirmTable_Body').append(row);
 						    }
@@ -240,15 +244,15 @@ $(document).ready(function(){
 			var $tr = $(tr);
 			var $Chk = $tr.find('input[type="checkbox"]');
 			
-			var TestDate = $tr.find('td:nth-child(2)').text().trim(); // 테스트
-			var TestValue = parseInt($tr.find('td:nth-child(7)').text().trim()); // 테스트
+			var MatCode = $tr.find('td:nth-child(7)').text().trim(); // 테스트
+			var Count = parseInt($tr.find('td:nth-child(9)').text().trim()); // 테스트
 			function AddUnique(Value){
 				if(!DataList.includes(Value)){
 					DataList.push(Value)
 				}
 			}
-			AddUnique(TestDate)
-			TotalItemCount += TestValue;
+			AddUnique(MatCode)
+			TotalItemCount += Count;
 		})
 		$('.CloseItemCount').val(DataList.length);
 		$('.CloseItemTotal').val(TotalItemCount);
@@ -399,13 +403,14 @@ $(document).ready(function(){
 		</div>
 		
 		<div class="Overseas-Sub">
-			<div class="Overseas-Sub-Header">국판 매출 마감 대상 현황</div>
+			<div class="Overseas-Sub-Header">수출 매출 마감 대상 현황</div>
 			
 			<div class="OverseasInfoArea">
 				<table class="ConfirmTable">
 					<thead>
-						<th>매출마감월</th><th>거래처</th><th>사업자번호</th><th>납품번호</th><th>항번</th><th>품번</th><th>품명</th><th>납품수량</th><th>수량단위</th>
-						<th>판매단가</th><th>거래통화</th><th>거래통화매출금액</th><th>환율유형</th><th>환율</th><th>장부통화매출금액</th><th>장부통화</th>
+						<th>선택</th><th>매출마감월</th><th>거래처</th><th>사업자번호</th><th>납품번호</th><th>항번</th><th>품번</th><th>품명</th><th>납품수량</th>
+						<th>수량단위</th><th>판매단가</th><th>거래통화</th><th>거래통화매출금액</th><th>환율유형</th><th>환율</th><th>장부통화매출금액</th>
+						<th>장부통화</th>
 					</thead>
 					<tbody class="ConfirmTable_Body">
 					</tbody>

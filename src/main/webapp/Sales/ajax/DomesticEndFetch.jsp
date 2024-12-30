@@ -73,16 +73,34 @@
 		 	    josnobject.put("Quantity", DPL_Rs02.getString("DelivOrdQty")); // 납품수량
 		 	    josnobject.put("Unit", DPL_Rs02.getString("QtyUnit")); // 수량단위
 		 	   	josnobject.put("DealCom", DPL_Rs02.getString("TradingPartner")); // 거래처
-		 	   
-		 	   	String PriceSql = "SELECT * FROM project.sales_realprice WHERE MatCode = ? AND SalesCurr = ? ORDER BY SalesCurr DESC, MatCode DESC";
-		 	    PreparedStatement Price_Pstmt = conn.prepareStatement(PriceSql);
+				
+				String PriceSql = "SELECT * FROM project.sales_realprice WHERE MatCode = ? AND SalesCurr = ? ORDER BY SalesCurr DESC, MatCode DESC";
+		 	   	PreparedStatement Price_Pstmt = conn.prepareStatement(PriceSql);
 		 	   	Price_Pstmt.setString(1, DPL_Rs02.getString("MatCode"));
-		 	   	Price_Pstmt.setString(2, "KRW");
+		 	   	
+		 	   	String DoExSql = "SELECT * FROM sales_route WHERE SalesRoute = ?";
+		 	   	PreparedStatement DoExPstmt = conn.prepareStatement(DoExSql);
+				DoExPstmt.setString(1, DPL_Rs02.getString("SalesChannel"));
+				ResultSet DoExRs = DoExPstmt.executeQuery();
+				if(DoExRs.next()){
+					String DoEx = DoExRs.getString("EXDO");;
+					switch(DoEx){
+					case "EXPORTS":
+						Price_Pstmt.setString(2, "USD");
+						break;
+					case "DOMESTIC":
+						Price_Pstmt.setString(2, "KRW");
+						break;
+					}
+				}
 		 	   	ResultSet Price_Rs = Price_Pstmt.executeQuery();
 		 	   	if(Price_Rs.next()){
 		 	   		josnobject.put("UnitPrice", Price_Rs.getDouble("SalesUnitPrice")); // 개당가격
+		 	   		josnobject.put("SalesCurr", Price_Rs.getString("SalesCurr")); // 거래통화
 		 	   	}
-		 	   	josnobject.put("Tax", "A과세"); // 개당가격
+// 		 	   josnobject.put("", Price_Rs.getDouble("SalesCurr")); // 환율
+// 		 	   josnobject.put("", Price_Rs.getDouble("SalesCurr")); // 장부통화 KRW
+		 	   	
 		 	    jsonArray.put(josnobject);
 	    	}
 	    }
