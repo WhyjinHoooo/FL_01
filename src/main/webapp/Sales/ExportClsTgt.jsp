@@ -105,7 +105,7 @@ $(document).ready(function(){
             $('.FProCount').val(ChkDataLust.length);  // 마감 품목 수
             $('.FProTotal').val(ChkTotalItemCount);  // 마감수량
             $('.SPriceSum').val(ChkSPriceSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));// 공급가액 합계
-//             $('.VATSum').val(ChkVATSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));// 부가가치세 합계
+            $('.VATSum').val('0');// 부가가치세 합계
             $('.ToTalSum').val(ChkToTalSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));// 총 합계
         }
     };
@@ -224,6 +224,7 @@ $(document).ready(function(){
 						            '<td>' + '1475.29' + '</td>' + // 환율
 						            '<td>' + ((data[index].Quantity * data[index].UnitPrice * 1475.29)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>' + // 장부통화매출금액
 						            '<td>' + 'KRW' + '</td>' + // 장부통화
+						            '<td hidden>' + data[index].Channel + '</td>' + // 장부통화
 						            '</tr>';
 						        $('.ConfirmTable_Body').append(row);
 						    }
@@ -261,46 +262,47 @@ $(document).ready(function(){
 	var SaveList = {};
 	$('.SaveBtn').on('click',function(){
 		var Month = $('.SalesClsMonth').val(); // 매출마감월
-		var TaxCode = $('.SalesTaxType').val(); // 과세구분(세율코드)
-		var TaxInvoiceDate = $('.SalesEndDate').val();
-		var SalesChannel = 'DO1';
-		var BizArea = $('.BizCode').val();
-		var UserCom = $('.UserCompany').val();
-		var SalesClsOrder = $('.SalesClsOrder').val(); // 매출마감차수
-		var KeyValue = null;
-		
+		var DealCom = $('.DealComCode').val(); // 거래처
+// 		var TaxCode = $('.SalesTaxType').val(); // 과세구분(세율코드)
+ 		var TaxInvoiceDate = $('.SalesEndDate').val();
+// 		var SalesChannel = 'DO1';
+ 		var BizArea = $('.BizCode').val(); // 회계단위
+//  		var EndDate = $('.UserCompany').val();
+ 		var KeyValue = null; 
+ 		var TranCurr = null;   
 		var OrderNum = null;
-		var DealCom = null;
 		$('.ConfirmTable_Body tr').each(function(index, tr){
 			var $tr = $(tr);
 			var $Chk = $tr.find('input[type="checkbox"]');
 			if($Chk.prop('checked')){
-				OrderNum = $tr.find('td:nth-child(3)').text().trim(); // 납품번호
-				var Seq = String($tr.find('td:nth-child(4)').text().trim()).padStart(2, '0'); // 항번
-				var MatCode = $tr.find('td:nth-child(5)').text().trim(); // 품번
-				var MatCodeDes = $tr.find('td:nth-child(6)').text().trim(); // 품번
-				var DelivOrdQty = $tr.find('td:nth-child(7)').text().trim(); // 납품수량
-				var QtyUnit = $tr.find('td:nth-child(8)').text().trim(); // 수량단위
-				var SalesUnitPrice = $tr.find('td:nth-child(9)').text().trim(); // 판매단가
-				var LocalCurr = 'KRW'; // 장부통화
-				var ExRate = 1; // 환율
+				OrderNum = $tr.find('td:nth-child(5)').text().trim(); // 납품번호
+				var Seq = String($tr.find('td:nth-child(6)').text().trim()).padStart(2, '0'); // 항번
+				var MatCode = $tr.find('td:nth-child(7)').text().trim(); // 품번
+				var MatCodeDes = $tr.find('td:nth-child(8)').text().trim(); // 품번
+				var DelivOrdQty = $tr.find('td:nth-child(9)').text().trim(); // 납품수량
+				var QtyUnit = $tr.find('td:nth-child(10)').text().trim(); // 수량단위
+				var SalesUnitPrice = $tr.find('td:nth-child(11)').text().trim(); // 판매단가
+				TranCurr = $tr.find('td:nth-child(12)').text().trim(); // 거래통화
 				var ExRateType = 'BRE'; // 환율유형
-				DealCom = $tr.find('td:nth-child(13)').text().trim(); // 거래처
-				KeyValue = OrderNum + Seq + UserCom;
+				var ExRate = $tr.find('td:nth-child(15)').text().trim(); // 환율
+				var LocalCurr = $tr.find('td:nth-child(16)').text().trim(); // 장부통화
+				var Channel = $tr.find('td:nth-child(18)').text().trim(); // 판매경로
+				
+				KeyValue = OrderNum + Seq + MatCode;
 				if(!SaveList[KeyValue]){
 					SaveList[KeyValue] = [];
 				}
 				SaveList[KeyValue].push({
 					Month : Month, DealCom : DealCom, OrderNum : OrderNum, Seq : Seq, MatCode : MatCode, MatCodeDes : MatCodeDes,
-					DelivOrdQty : DelivOrdQty, DelivOrdQty : DelivOrdQty, SalesUnitPrice : SalesUnitPrice, LocalCurr : LocalCurr,
-					ExRateType : ExRateType, ExRate : ExRate, LocalCurr : LocalCurr, TaxCode : TaxCode, SalesChannel : SalesChannel,
-					BizArea : BizArea, UserCom : UserCom, QtyUnit : QtyUnit, TaxInvoiceDate : TaxInvoiceDate, SalesClsOrder: SalesClsOrder
+					DelivOrdQty : DelivOrdQty, SalesUnitPrice : SalesUnitPrice, LocalCurr : LocalCurr, QtyUnit : QtyUnit,
+					ExRateType : ExRateType, ExRate : ExRate, TranCurr : TranCurr, Channel : Channel, BizArea : BizArea, KeyValue : KeyValue,
+					TaxInvoiceDate : TaxInvoiceDate
 				})
 			}
 		})
 		console.log(SaveList);
 		$.ajax({
-			url: '${contextPath}/Sales/ajax/DomesticClsTgtSave.jsp',
+			url: '${contextPath}/Sales/ajax/ExportsClsTgtSave.jsp',
 			type: 'POST',
 			data: JSON.stringify(SaveList),
 			contentType: 'application/json; charset=utf-8',
@@ -309,29 +311,29 @@ $(document).ready(function(){
 			success: function(data){
 				if(data.status === "Success"){
 					SaveList = {}
-					InitialTable();
-					const resetElements = [
-						".CloseItemCount",	".CloseItemTotal",
-						".FProCount", ".FProTotal", ".SPriceSum",
-						".VATSum", ".ToTalSum",
-						".DealComCode", ".DealComCodeDes",
-						".SalesClsMonth", ".SalesClsOrder",
-						".SalesTaxType", ".StartDate"
-					]
-					resetElements.forEach(selector => {
-						const element = document.querySelector(selector);
-						if(element){
-							if(element === ".DealComCode"){
-								element.value = '';
-								element.attr('placeholder', 'SELECT');
-							}else if(element === ".SalesClsMonth" || element === ".SalesClsOrder" ||element === ".SalesTaxType"){
-								 $('.SalesClsMonth').prop('selectedIndex', 0);
-							}else{
-								element.value = '';
-							}
+// 					InitialTable();
+// 					const resetElements = [
+// 						".CloseItemCount",	".CloseItemTotal",
+// 						".FProCount", ".FProTotal", ".SPriceSum",
+// 						".VATSum", ".ToTalSum",
+// 						".DealComCode", ".DealComCodeDes",
+// 						".SalesClsMonth", ".SalesClsOrder",
+// 						".SalesTaxType", ".StartDate"
+// 					]
+// 					resetElements.forEach(selector => {
+// 						const element = document.querySelector(selector);
+// 						if(element){
+// 							if(element === ".DealComCode"){
+// 								element.value = '';
+// 								element.attr('placeholder', 'SELECT');
+// 							}else if(element === ".SalesClsMonth" || element === ".SalesClsOrder" ||element === ".SalesTaxType"){
+// 								 $('.SalesClsMonth').prop('selectedIndex', 0);
+// 							}else{
+// 								element.value = '';
+// 							}
 							
-						}
-					})
+// 						}
+// 					})
 				}else{
 					console.log('저장 실패');
 				}

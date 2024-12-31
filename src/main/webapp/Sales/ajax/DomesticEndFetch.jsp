@@ -98,7 +98,7 @@
 		 	   		josnobject.put("UnitPrice", Price_Rs.getDouble("SalesUnitPrice")); // 개당가격
 		 	   		josnobject.put("SalesCurr", Price_Rs.getString("SalesCurr")); // 거래통화
 		 	   	}
-// 		 	   josnobject.put("", Price_Rs.getDouble("SalesCurr")); // 환율
+ 		 	   josnobject.put("Channel", DPL_Rs02.getString("SalesChannel")); // 환율
 // 		 	   josnobject.put("", Price_Rs.getDouble("SalesCurr")); // 장부통화 KRW
 		 	   	
 		 	    jsonArray.put(josnobject);
