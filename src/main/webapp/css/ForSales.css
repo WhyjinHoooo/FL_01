@@ -1844,4 +1844,139 @@
 	color: #fff;
 	border: 1px solid #0068ff;
 	}
+	/* ------------------------Export Permit Bill of Landing Form------------------------ */
+	.EPBLForm{
+	height: 90vh;
+	}
+	.EPBL_MainArea {
+	height: 28%;
+	border: 3px solid rgb(111, 167, 235);
+	border-radius: 10px;
+	margin: 1%;
+    }
+	.EPBL_MainArea > .EPBL-Column{
+	margin: 0.9% 10%;
+	}
+	.EPBL_MainArea > .EPBL-Column > label{
+	font-weight: 900;
+	display: inline-block;
+	width: 8em;
+	text-align: right;
+	letter-spacing: 0.1em;
+	}
+	.EPBL_MainArea > .EPBL-Column > input{
+	width: 6.5%;
+	text-align: center;
+	}
+	.EPBL_MainArea > .EPBL-Column > input.Des {
+    margin-right: 51.7%;
+    width: 8%;
+    text-align: center;
+	}
+	.EPBL_MainArea > .EPBL-Column:nth-child(1) > button{
+	width: 100px;
+	text-align: center;
+	padding: 5px;
+	background-color: #1F4E79;
+	color: white;
+	border: 1px solid #1F4E79;
+	margin-right: 55%;
+	border-radius: 5px;
+	}
+	.EPBL_MainArea > .EPBL-Column:nth-child(1) > button:hover {
+    background: #0068ff;
+	color: #fff;
+    border: 1px solid #0068ff;
+	}
+	.EPBL_MainArea > .EPBL-Column:nth-child(1) > button:active {
+    background: #0068ff;
+    color: #fff;
+    border: 1px solid #0068ff;
+	}
+	.EPBL_MainArea > .EPBL-Column:nth-child(3) > select{
+	width: 177px;
+	text-align: center;
+	height: 22px;
+	}
+	.EPBL_MainArea > .EPBL-Column:nth-child(5) > input:nth-child(2),
+	.EPBL_MainArea > .EPBL-Column:nth-child(6) > input:nth-child(2){
+	margin-right: 10%;
+ 	}
+	.EPBLForm > .BtnArea{
+	margin: 1% 0% 0% 85%;
+    }
+	.EPBLForm > .BtnArea button {
+	width: 50%;
+	text-align: center;
+	padding: 13px;
+	background-color: #1F4E79;
+	color: white;
+	border: 1px solid #1F4E79;
+	border-radius: 5px;
+	font-size: larger;
+	font-weight: bold;
+	letter-spacing: 10px;
+    }
+	.EPBLForm > .BtnArea button:hover {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.EPBLForm > .BtnArea button:active {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.EPBL_SubArea {
+	margin: 1.4% 1%;
+	border: 3px solid rgb(111, 167, 235);
+    }
+    .EPBL_Table{
+	border-collapse: collapse;
+	width: 100%;
+	table-layout: fixed;
+	overflow: scroll;
+    }
+    .EPBL_Header{
+	display: table;
+	width: 100%;
+    }
+    .EPBL_Table .EPBL_Header th{
+	background-color: rgb(111,167,235);
+	position: sticky;
+	top:0;
+	color: white;
+	text-align: center;
+	z-index: 10;
+	padding: 8px;
+	border: 1px solid white;
+	width: 120px;
+	font-size: smaller;
+    }
+    .EPBL_Body{
+	table-layout: fixed;
+	display: block;
+	width: 100.3%;
+	height: 650px;
+	max-height: 100%;
+	overflow-y: auto;
+    }
+    .EPBL_Table .EPBL_Body td {
+	padding: 8px;
+	border: 1px solid #ddd;
+	width: 300px;
+	height: 10px;
+	}
+	.EPBL_SubArea .EPBL_Table tbody::-webkit-scrollbar {
+    width: 5px;
+  	}
+  	.EPBL_SubArea .EPBL_Table tbody::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+  	}
+  	.EPBL_SubArea .EPBL_Table tbody::-webkit-scrollbar-track {
+    background-color: white;
+    border-radius: 1px;
+    box-shadow: inset 0px 0px 5px white;
+  	}
 }

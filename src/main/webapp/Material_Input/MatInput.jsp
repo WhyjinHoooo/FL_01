@@ -129,8 +129,6 @@ $(document).ready(function(){
 	
 	$(document).on('click', '.sendBtn', function() {
 		
-		
-		
 		var row = $(this).closest('tr');
 		var Key = row.find('.key').text();
 		var MMPO = row.find('.MMPO').text();
