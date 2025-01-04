@@ -63,15 +63,22 @@
         		String unit = rs.getString("purprice.PurCurr") + "/" + rs.getString("purprice.PurUnit");
     %>
 		<tr>
-			<%-- <td><%=rs.getString("matmaster.Material_code") %></td>
-			<td><%=rs.getString("matmaster.Type") %></td>
-			<td hidden><%=rs.getString("company.Local_Currency") %></td>
-			<td hidden><%=rs.getString("matmaster.InvUnit") %></td>
-			<td hidden><%=rs.getString("matmaster.DefaultWARE") %></td>
-			<td><a href="javascript:void(0)" onClick="window.opener.document.querySelector('.MatCode').value='<%=rs.getString("matmaster.Material_code")%>'; window.opener.document.querySelector('.OrderUnit').value='<%=rs.getString("matmaster.InvUnit")%>'; window.opener.document.querySelector('.StockUnit').value='<%=rs.getString("matmaster.InvUnit")%>'; window.opener.document.querySelector('.SlocaCode').value='<%=rs.getString("matmaster.DefaultWARE")%>'; window.opener.document.querySelector('.SlocaCode').dispatchEvent(new Event('change'));
- window.opener.document.querySelector('.MatDes').value='<%=rs.getString("matmaster.Description")%>'; window.opener.document.querySelector('.MatType').value='<%=rs.getString("matmaster.Type")%>'; window.close();"><%=rs.getString("matmaster.Description") %></a></td> --%>
- 			<td><a href="javascript:void(0)" onClick="window.opener.document.querySelector('.MatCode').value='<%=rs.getString("purprice.MatCode")%>'; window.opener.document.querySelector('.MatDes').value='<%=rs.getString("purprice.MatDesc")%>'; window.opener.document.querySelector('.StockUnit').value='<%=rs.getString("purprice.PurUnit")%>'; window.opener.document.querySelector('.OrderUnit').value='<%=rs.getString("purprice.PurUnit")%>'; window.opener.document.querySelector('.SlocaCode').value='<%=rs.getString("matmaster.DefaultWARE")%>';
- 			window.opener.document.querySelector('.MonUnit').value='<%=rs.getString("purprice.PurCurr")%>'; window.opener.document.querySelector('.PriUnit').value='<%=unit%>'; window.opener.document.querySelector('.MatType').value='<%=rs.getString("purprice.MatType")%>';window.opener.document.querySelector('.Oriprice').value='<%=price %>'; window.opener.document.querySelector('.SlocaCode').dispatchEvent(new Event('change')); window.close();"><%=rs.getString("purprice.MatCode") %></a></td>
+ 			<td>
+			  <a href="javascript:void(0)" onClick="
+			    window.opener.document.querySelector('.MatCode').value='<%=rs.getString("purprice.MatCode")%>';
+			    window.opener.document.querySelector('.MatDes').value='<%=rs.getString("purprice.MatDesc")%>';
+			    window.opener.document.querySelector('.StockUnit').value='<%=rs.getString("purprice.PurUnit")%>';
+			    window.opener.document.querySelector('.OrderUnit').value='<%=rs.getString("purprice.PurUnit")%>';
+			    window.opener.document.querySelector('.SlocaCode').value='<%=rs.getString("matmaster.DefaultWARE")%>';
+			    window.opener.document.querySelector('.MonUnit').value='<%=rs.getString("purprice.PurCurr")%>';
+			    window.opener.document.querySelector('.PriUnit').value='<%=unit%>';
+			    window.opener.document.querySelector('.MatType').value='<%=rs.getString("purprice.MatType")%>';
+			    window.opener.document.querySelector('.Oriprice').value='<%=price %>';
+			    window.opener.document.querySelector('.SlocaCode').dispatchEvent(new Event('change'));
+			    window.close();">
+			    <%=rs.getString("purprice.MatCode") %>
+			  </a>
+			</td>
  			<td><%=rs.getString("purprice.MatType") %></td>
  			<td><%=rs.getString("purprice.MatDesc") %></td>
  			<td><%=price %></td>

@@ -38,6 +38,7 @@
 	    } else {
 	        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
 	        var monitorWidth = 2560;
+	        
 	        var monitorHeight = 1440;
 	        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
 	        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;

@@ -363,10 +363,9 @@
         flex: 3; /* flex-grow 값을 3으로 설정하여 side-menu-container보다 넓은 공간을 차지하도록 함 */
         background-color: #ffffff; /* 배경색은 예시이므로 원하는 대로 조정하세요 */
         width: 100%;
-        margin-bottom: 25px;
     }
     .side-menu-container {
-	    border: 1px solid rgb(111,167,235); /* 기존의 테두리 스타일 유지 */
+	    border: 3px solid rgb(111,167,235); /* 기존의 테두리 스타일 유지 */
 	    width: 7.5%; /* 폭을 100px로 설정 */
 	    margin-right: 100px;
 	    border-radius: 20px;
@@ -609,9 +608,9 @@
 	.order-sub-info {
 	margin-left: 200px;
 	    margin-bottom: 10px;
-	    border: 1px solid #000;
+	    border: 3px solid rgb(111,167,235);
+	    border-radius: 10px;
 	    width: 60%;
-	    /* height: 60%; */
 	}
 	.table-container table td.spaceCell-b{
 	width: 490px !important;
@@ -686,7 +685,7 @@
 	.order-ready .table-container {
     overflow-y: auto;
     height: 550px;
-    border: 1px solid rgba(111,167,235, .5);
+    border: 3px solid rgba(111,167,235);
     border-radius: 0px 0px 20px 20px;
 	}
 

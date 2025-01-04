@@ -28,88 +28,87 @@
 		}
 	    navigator.sendBeacon('../DeleteOrder', JSON.stringify(data));
 	});
-</script>
-<script type='text/javascript'>
-function InfoSearch(field){
-	var popupWidth = 1000;
-    var popupHeight = 600;
-    
-    // 현재 활성화된 모니터의 위치를 감지
-    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
-    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
-    
-    // 전체 화면의 크기를 감지
-    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
-    var xPos, yPos;
-    
-    if (width == 2560 && height == 1440) {
-        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
-        xPos = (2560 / 2) - (popupWidth / 2);
-        yPos = (1440 / 2) - (popupHeight / 2);
-    } else if (width == 1920 && height == 1080) {
-        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
-        xPos = (1920 / 2) - (popupWidth / 2);
-        yPos = (1080 / 2) - (popupHeight / 2);
-    } else {
-        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
-        var monitorWidth = 2560;
-        var monitorHeight = 1440;
-        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
-        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
-    }
-    
-    var ComCode = document.querySelector('.plantComCode').value;
-    var VenCode = document.querySelector('.VendorCode').value;
-    
-    switch(field){
-    case "PlantSearch":
-    	window.open("${contextPath}/Material/PlantSerach.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-    	break;
-    case "OrdTypeSearch":
-    	window.open("${contextPath}/Material_Order/OrdTypeSerach.jsp", "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-    	break;
-    case "VendorSearch":
-    	window.open("${contextPath}/Material_Order/VendorSerach.jsp?ComCode=" + ComCode, "PopUp03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-    	break;
-    case "MatSearch":
-    	window.open("${contextPath}/Material_Order/MaterialSerach.jsp?ComCode=" + ComCode + "&Vendor=" + VenCode, "PopUp04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-    	break;
-    }
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-    var now_utc = Date.now();
-    var timeOff = new Date().getTimezoneOffset() * 60000;
-    var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
-    var dateElement = document.getElementById("Date");
-
-    if (dateElement) {
-        dateElement.setAttribute("min", today);
-    } else {
-        console.error("Element with id 'Date' not found.");
-    }
-});
-
-window.addEventListener('DOMContentLoaded',(event) => {
-	const ORDTYPE = document.querySelector('.ordType');
-	const matCode = document.querySelector('.MatCode');
-	const matDes = document.querySelector('.MatDes');
-	const matType = document.querySelector('.MatType');
-	const count = document.querySelector('.OrderCount');
-	const orUnit = document.querySelector('.OrderUnit');
-	const stUnit = document.querySelector('.StockUnit');
-	const date = document.querySelector('.Date');
-	const sCode = document.querySelector('.SlocaCode');
-	const sDes = document.querySelector('.SlocaDes');
 	
-	const resetInputs = (inputs) => {
-        inputs.forEach(input => input.value = '');
-    };
+	function InfoSearch(field){
+		var popupWidth = 1000;
+	    var popupHeight = 600;
+	    
+	    // 현재 활성화된 모니터의 위치를 감지
+	    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+	    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
+	    
+	    // 전체 화면의 크기를 감지
+	    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+	    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+	    var xPos, yPos;
+	    
+	    if (width == 2560 && height == 1440) {
+	        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
+	        xPos = (2560 / 2) - (popupWidth / 2);
+	        yPos = (1440 / 2) - (popupHeight / 2);
+	    } else if (width == 1920 && height == 1080) {
+	        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
+	        xPos = (1920 / 2) - (popupWidth / 2);
+	        yPos = (1080 / 2) - (popupHeight / 2);
+	    } else {
+	        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
+	        var monitorWidth = 2560;
+	        var monitorHeight = 1440;
+	        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+	        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+	    }
+	    
+	    var ComCode = document.querySelector('.plantComCode').value;
+	    var VenCode = document.querySelector('.VendorCode').value;
+	    
+	    switch(field){
+	    case "PlantSearch":
+	    	window.open("${contextPath}/Material/PlantSerach.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+	    	break;
+	    case "OrdTypeSearch":
+	    	window.open("${contextPath}/Material_Order/OrdTypeSerach.jsp", "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+	    	break;
+	    case "VendorSearch":
+	    	window.open("${contextPath}/Material_Order/VendorSerach.jsp?ComCode=" + ComCode, "PopUp03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+	    	break;
+	    case "MatSearch":
+	    	window.open("${contextPath}/Material_Order/MaterialSerach.jsp?ComCode=" + ComCode + "&Vendor=" + VenCode, "PopUp04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+	    	break;
+	    }
+	}
 	
-    const Subinfo = [matCode, matDes, matType, count, orUnit, stUnit, date, sCode, sDes];
-    ORDTYPE.addEventListener('change', () => resetInputs(Subinfo));
-});
+	document.addEventListener("DOMContentLoaded", function() {
+	    var now_utc = Date.now();
+	    var timeOff = new Date().getTimezoneOffset() * 60000;
+	    var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
+	    var dateElement = document.getElementById("Date");
+	
+	    if (dateElement) {
+	        dateElement.setAttribute("min", today);
+	    } else {
+	        console.error("Element with id 'Date' not found.");
+	    }
+	});
+	
+	window.addEventListener('DOMContentLoaded',(event) => {
+		const ORDTYPE = document.querySelector('.ordType');
+		const matCode = document.querySelector('.MatCode');
+		const matDes = document.querySelector('.MatDes');
+		const matType = document.querySelector('.MatType');
+		const count = document.querySelector('.OrderCount');
+		const orUnit = document.querySelector('.OrderUnit');
+		const stUnit = document.querySelector('.StockUnit');
+		const date = document.querySelector('.Date');
+		const sCode = document.querySelector('.SlocaCode');
+		const sDes = document.querySelector('.SlocaDes');
+		
+		const resetInputs = (inputs) => {
+	        inputs.forEach(input => input.value = '');
+	    };
+		
+	    const Subinfo = [matCode, matDes, matType, count, orUnit, stUnit, date, sCode, sDes];
+	    ORDTYPE.addEventListener('change', () => resetInputs(Subinfo));
+	});
 </script>
 
 <script>
@@ -119,6 +118,43 @@ $(document).ready(function(){
     /* var deletedRowNums = [];  // 삭제한 항번을 저장하는 배열 */
     var deletedItems = [];  // 삭제된 항번의 OrderNum, OIN을 저장하는 리스트, 추가된 부분
     var maxRowNum = 0;
+    
+    function CallORD() {
+		var type=$('.ordType').val();
+		var date = $('.date').val();
+		console.log('ORD type : ' + type);
+		
+		$.ajax({
+            type: "POST",
+            url: "${contextPath}/Material_Order/MakeNumber.jsp", // 실제 요청을 보낼 URL을 입력해주세요.
+            data: { type: type, date: date }, // 서버로 보낼 데이터를 입력해주세요.
+            success: function(response) {
+                console.log(response);
+                $('input[name="OrderNum"]').val($.trim(response));
+                $('input[name="OIN"]').val("0001");  // OrderNum이 변경되면 Item 번호를 '0001'로 초기화
+            }
+        });
+	}
+	CallORD();
+	$('.ordType').change(CallORD);
+    
+	$('.SlocaCode').change(function() {
+		var Code = $(this).val();
+		console.log('Storage Code : ' + Code);
+		$.ajax({
+			type: "POST",
+			url: "${contextPath}/Material_Order/StorageCodeFind.jsp",
+			data: { SCode: Code },
+			success: function(response) {
+				console.log(response);
+				$('input[name="SlocaDes"]').val($.trim(response));
+			},
+			error: function(xhr, textStatus, errorThrown) {
+				console.log(xhr.statusText);
+			}
+		});
+	});
+	
     $(".container").on('click', "img[name='Down']", function(){
     	console.log($("img[name='Down']").length);
     	itemNum++;
@@ -139,7 +175,7 @@ $(document).ready(function(){
                 alert(messages[i]);
                 break;
             }
-        }; // for문의 끝
+        } // for문의 끝
         
         const Subinfo = [$('.MatCode'), $('.MatDes'), $('.MatType'), $('.OrderCount'), $('.OrderUnit'), $('.StockUnit'), $('.Date'), $('.SlocaCode'), $('.SlocaDes')];
         Subinfo.forEach(input => input.val(''));
@@ -178,6 +214,7 @@ $(document).ready(function(){
             } // success: function(data) 의 끝
         }); // $.ajax({의 끝
     });
+        
  	// 삭제 버튼 클릭 이벤트
     $(".WirteForm").on('click', "input[name='deleteBTN']", function(){
         var row = $(this).closest('tr');  // 클릭된 버튼이 속한 행 선택
@@ -220,6 +257,20 @@ $(document).ready(function(){
         }); // 'edit.jsp'의 끝
         console.log(deletedItems);  // log 추가
     }); // .WirteForm의 끝
+    
+    $('.OrderCount').on('input', function(){
+        var count = parseFloat($(this).val());
+        var unit = parseFloat($('.Oriprice').val());
+        var money = $('.MonUnit').val();
+        var total;
+        if(money == "KRW"){
+            total = Math.round(count * unit);
+        } else{
+            total = (count * unit).toFixed(2);
+        }
+        console.log('발주수량 : ' + count + ', 구입단가 : ' + unit + ', 거래통화 : ' + money + ', 총액 : ' + total);
+        $('input[name="OrdPrice"]').val(total);
+    });
 });
 </script>
 <%
@@ -236,7 +287,6 @@ $(document).ready(function(){
 %>
 </head>
 <body>
-	<h1>자재발주</h1>
 	<jsp:include page="../HeaderTest.jsp"></jsp:include>
 		<form name="OrderRegistForm" id="OrderRegistForm" action="OrderRegist_Ok.jsp" method="POST" enctype="UTF-8">
 		<div class="content-wrapper">
@@ -296,28 +346,6 @@ $(document).ready(function(){
 							<input type="text" class="date" name="date" value="<%=Today%>" readonly>
 					</td>
 			</aside>
-				<script type="text/javascript">
-					$(document).ready(function(){
-						function CallORD() {
-							var type=$('.ordType').val();
-							var date = $('.date').val();
-							console.log('ORD type : ' + type);
-							
-							$.ajax({
-					            type: "POST",
-					            url: "${contextPath}/Material_Order/MakeNumber.jsp", // 실제 요청을 보낼 URL을 입력해주세요.
-					            data: { type: type, date: date }, // 서버로 보낼 데이터를 입력해주세요.
-					            success: function(response) {
-					                console.log(response);
-					                $('input[name="OrderNum"]').val($.trim(response));
-					                $('input[name="OIN"]').val("0001");  // OrderNum이 변경되면 Item 번호를 '0001'로 초기화
-					            }
-					        });
-						}
-						CallORD();
-						$('.ordType').change(CallORD);
-					});
-					</script>
 			
 			<section class="main-content-container">
 			<div class="order-sub-info">
@@ -382,28 +410,6 @@ $(document).ready(function(){
 							<th class="info">납품S.Location : </th>
 								<td class="input-info" id="twoLines" colspan="2">
 									<input type="text" class="SlocaCode Key-Com" name="SlocaCode" size="10" readonly> <!-- 전송 -->
-									
-									<script type="text/javascript">
-									$(document).ready(function() {
-										  $('.SlocaCode').change(function() {
-										    var Code = $(this).val();
-										    console.log('Storage Code : ' + Code);
-										    $.ajax({
-										      type: "POST",
-										      url: "${contextPath}/Material_Order/StorageCodeFind.jsp",
-										      data: { SCode: Code },
-										      success: function(response) {
-										        console.log(response);
-										        $('input[name="SlocaDes"]').val($.trim(response));
-										      },
-										      error: function(xhr, textStatus, errorThrown) {
-										        console.log(xhr.statusText);
-										      }
-										    });
-										  });
-										});
-									</script>
-									
 									<input type="text" class="SlocaDes" name="SlocaDes" readonly>
 								</td>
 						</tr>
@@ -433,21 +439,21 @@ $(document).ready(function(){
 							<td class="spaceCell-90"></td>
 							
 							<script type="text/javascript">
-							$(document).ready(function(){
-							    $('.OrderCount').on('input', function(){
-							        var count = parseFloat($(this).val());
-							        var unit = parseFloat($('.Oriprice').val());
-							        var money = $('.MonUnit').val();
-							        var total;
-							        if(money == "KRW"){
-							            total = Math.round(count * unit);
-							        } else{
-							            total = (count * unit).toFixed(2);
-							        }
-							        console.log('발주수량 : ' + count + ', 구입단가 : ' + unit + ', 거래통화 : ' + money + ', 총액 : ' + total);
-							        $('input[name="OrdPrice"]').val(total);
-							    });
-							})
+// 							$(document).ready(function(){
+// 							    $('.OrderCount').on('input', function(){
+// 							        var count = parseFloat($(this).val());
+// 							        var unit = parseFloat($('.Oriprice').val());
+// 							        var money = $('.MonUnit').val();
+// 							        var total;
+// 							        if(money == "KRW"){
+// 							            total = Math.round(count * unit);
+// 							        } else{
+// 							            total = (count * unit).toFixed(2);
+// 							        }
+// 							        console.log('발주수량 : ' + count + ', 구입단가 : ' + unit + ', 거래통화 : ' + money + ', 총액 : ' + total);
+// 							        $('input[name="OrdPrice"]').val(total);
+// 							    });
+// 							})
 							</script>
 								
 							<th class="info">거래통화 : </th>
