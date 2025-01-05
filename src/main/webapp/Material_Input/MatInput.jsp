@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDateTime"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,37 +24,50 @@
 		}
 	    navigator.sendBeacon('../DeleteOrder', JSON.stringify(data));
 	});
-
-	function PlantSearch(){
-	    var xPos = (window.screen.width-2560) / 2;
-	    var yPos = (window.screen.height-1440) / 2;
+	function InfoSearch(field){
+		var popupWidth = 1000;
+	    var popupHeight = 600;
 	    
-	    var newWindow = window.open("MIPlantSerach.jsp", "테스트", "width=500,height=500, left=500 ,top=" + yPos);	 
+	    // 현재 활성화된 모니터의 위치를 감지
+	    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+	    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
 	    
-	    newWindow.onbeforeunload = function(){
-	    	document.querySelector(".plantCode").dispatchEvent(new Event('change'));
+	    // 전체 화면의 크기를 감지
+	    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+	    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+	    var xPos, yPos;
+	    
+	    if (width == 2560 && height == 1440) {
+	        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
+	        xPos = (2560 / 2) - (popupWidth / 2);
+	        yPos = (1440 / 2) - (popupHeight / 2);
+	    } else if (width == 1920 && height == 1080) {
+	        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
+	        xPos = (1920 / 2) - (popupWidth / 2);
+	        yPos = (1080 / 2) - (popupHeight / 2);
+	    } else {
+	        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
+	        var monitorWidth = 2560;
+	        var monitorHeight = 1440;
+	        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+	        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
 	    }
-	}
-	function MoveTypeSearch(){
-		var xPos = (window.screen.width-2560) / 2;
-	    var yPos = (window.screen.height-1440) / 2;
-	    window.open("MoveTypeSerach.jsp", "테스트", "width=600,height=580, left=500 ,top=" + yPos);
-	}
-	function VendorSearch(){
-		var xPos = (window.screen.width-2560) / 2;
-	    var yPos = (window.screen.height-1440) / 2;
-	    var ComCode = document.querySelector('.plantComCode').value;
 	    
-	    window.open("FindVendor.jsp?ComCode=" + ComCode, "테스트", "width=500,height=500, left=500 ,top=" + yPos);
-	}
-	function totalMatSearch(){
-		var xPos = (window.screen.width-2560) / 2;
-	    var yPos = (window.screen.height-1440) / 2;
 	    var ComCode = document.querySelector('.plantComCode').value;
+	    var VenCode = document.querySelector('.VendorCode').value;
 	    
-	    window.open("FindVendor.jsp?ComCode=" + ComCode, "테스트", "width=500,height=500, left=500 ,top=" + yPos);
-	}
-	
+	    switch(field){
+	    case "PlantSearch":
+	    	window.open("${contextPath}/Material_Input/MIPlantSerach.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+	    	break;
+	    case "MoveTypeSearch":
+	    	window.open("${contextPath}/Material_Input/MoveTypeSerach.jsp", "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+	    	break;
+	    case "VendorSearch":
+	    	window.open("${contextPath}/Material_Input/FindVendor.jsp?ComCode=" + ComCode, "PopUp03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+	    	break;
+	    }
+	}	
 	window.addEventListener('DOMContentLoaded',(event) => {
 		const PlantCode = document.querySelector(".plantCode");
 		const VenCode = document.querySelector(".VendorCode");
@@ -65,14 +80,21 @@
 		
 		PlantCode.addEventListener('change', () => resetVendor(VENDOR));
 	});
-</script>
-
-<script type="text/javascript">
-$(document).ready(function(){
-	var rowNum = 1;
-	var maxRowNum = 0;
 	
-	$('input.VendorCode, .plantCode').on('input',function(){
+	function checkCount(){
+		var remain = parseInt(document.MatInputRegistForm.NotInput.value, 10); // 미입고 수량
+		var input = parseInt(document.MatInputRegistForm.InputCount.value, 10); // 입고 수량
+		
+		if(input == 0 || (input > remain)){
+			alert('입고 수량을 수정해주세요');
+			return false;
+		}else{
+			return true;
+		} 
+		
+	}
+$(document).ready(function(){
+	function UpdateTable(){
 		var vendorcode = $('.VendorCode').val();/* $(this).val(); */
 		var vendorname = $('.VendorDes').val();
 		var plantcode = $('.plantCode').val();
@@ -124,7 +146,11 @@ $(document).ready(function(){
 			error: function() {
 		          alert("에러 발생");
 		    }
-		}); // ajax의 끝
+		});
+	}
+	
+	$('input.VendorCode, .plantCode').on('input',function(){
+		UpdateTable();
 	});
 	
 	$(document).on('click', '.sendBtn', function() {
@@ -207,6 +233,41 @@ $(document).ready(function(){
 		//resetVendor(typing);
 		
 	}); //$(document).on('click', '.sendBtn', function(){...}의 끝
+			
+	$('input.MovType').on('input', function(){
+		var Movement_Code = $(this).val();
+		console.log('Movement_Code : ' + Movement_Code);
+		$.ajax({
+			type : "POST",
+			url : "CheckMat.jsp",
+			data : {movcode : Movement_Code},
+			dataType : "json",
+			success: function(response){
+				if(response.result === "fail") {
+					alert(response.message);
+					$('input.MovType').val('');
+					$('input.MovType_Des').val('');
+					$('input.PlusMinus').val('');
+				}
+			}
+		})
+	});
+	
+	$('input.SLocCode').on('input', function(){
+		var storageLoc = $(this).val();
+		console.log('Storage Location Code : ' + storageLoc);
+		$.ajax({
+			type : "POST",
+			url : "FindsLoc.jsp",
+			data : {sloccode : storageLoc},
+			success: function(response){
+				console.log(response);
+				if(response.SLocName) {
+					$('.SLocDes').val(response.SLocName);
+				}
+			}
+		})
+	});
 	
 	$('.MatNum').on('change', function(){
 		var matinputNumber = $(this).val();
@@ -225,65 +286,6 @@ $(document).ready(function(){
 			}
 		})
 	});
-}); //$(document).ready(function(){...}의 끝
-</script>
-
-<script type="text/javascript">
-$(document).ready(function(){
-	function UpdateTable(){
-		var vendorcode = $('.VendorCode').val();/* $(this).val(); */
-		var vendorname = $('.VendorDes').val();
-		var plantcode = $('.plantCode').val();
-		var table = $('.WrittenForm');
-	
-	    // 테이블 초기화
-	     table.find('tr:gt(0)').remove();
-		
-		console.log('입력받은 Vendor코드 : ' + vendorcode + '입력받은 Plant코드 : ' + plantcode);
-		
-		$.ajax({
-			type : "POST",
-			url : "FindInfo.jsp",
-			data : {vendor : vendorcode, plant : plantcode},
-			dataType: "text",
-			success: function(response){
-				console.log(response);
-				if (response.trim() !== '') {
-					var data = JSON.parse(response);
-					/* var table = $('.WrittenForm'); */
-					
-					table.find('tr:gt(0)').remove();
-					
-					for (var i = 0; i < data.length; i++) {
-						var row = '<tr>' +
-						'<td>' + (i + 1) + '</td>' + // 항번
-						'<td><button type="button" class="sendBtn">전송</button></td>' + //선택 버튼
-						'<td class="datasize">' + vendorcode + '</td>' + //벤더 코드
-						'<td class="datasize">' + vendorname + '</td>' + // 벤더 설명
-						'<td class="key datasize" hidden>' + data[i].Key + '</td>' + // 데이터의 key값
-						'<td class="MMPO datasize">' + data[i].MMPO + '</td>' + // PO번호
-						'<td class="ItemNo datasize">' + String(data[i].ItemNo).padStart(4, '0') + '</td>' + // Item번호
-						'<td class="MatCode datasize">' + data[i].MatCode + '</td>' + // 재료 코드
-						'<td class="MatDes datasize">' + data[i].MatDes + '</td>' + // 재료에 대한 설명
-						'<td class="MatType datasize">' + data[i].MatType + '</td>' + // 재료의 타입
-						'<td class="Quantity datasize">' + data[i].Quantity + '</td>' + // 발주 수량
-						'<td class="PoUnit datasize">' + data[i].PoUnit + '</td>' + // 구매 단위
-						'<td class="StoredInput datasize">' + data[i].Count + '</td>' + // 입고 수량
-						'<td class="NotStored datasize">' + data[i].PO_Rem + '</td>' + // 미입고수량
-						'<td class="TraCurr datasize">' + data[i].Money + '</td>' + //거래 통화
-						'<td>' + data[i].Hdate + '</td>' + // 입고예정일자
-						'<td class="Storage datasize">' + data[i].Storage + '</td>' + // 입고창고 코드
-						'<td class="PlantCode datasize">' + data[i].PlantCode + '</td>' + // 플랜트 코드
-						'</tr>';
-						table.append(row);
-					};
-				}
-			},
-			error: function() {
-		          alert("에러 발생");
-		    }
-		});
-	}
 	
 	var RowNum = 1;
 	var itemNum = 0; // Item 번호를 위한 변수 
@@ -455,34 +457,9 @@ $(document).ready(function(){
 		var EditItemNum = ("0000" + (Add - Minus + 1)).slice(-4);
 		console.log("수정한 ItemNumber : " + EditItemNum);
 		$(".ItemNum").val(EditItemNum);
-	}); // 삭제버튼이 클릭된 경우 기능 끝
-	/* 	var TestNum = 0; 
-	$(".WrittenForm").on('click',".sendBtn", function(){
-		console.log("잠시 확인용 : " + Add);
-		if(Add == 0){
-			$('.ItemNum').val("0001");
-		} else {
-			TestNum = ("0000" + (Add + 1)).slice(-4);
-		}
-		console.log("잠시 확인용 2 : " + TestNum);
-		$('.ItemNum').val(TestNum);
-	}); */
-});
-</script>
+	});
+}); //$(document).ready(function(){...}의 끝
 
-<script>
-function checkCount(){
-	var remain = parseInt(document.MatInputRegistForm.NotInput.value, 10); // 미입고 수량
-	var input = parseInt(document.MatInputRegistForm.InputCount.value, 10); // 입고 수량
-	
-	if(input == 0 || (input > remain)){
-		alert('입고 수량을 수정해주세요');
-		return false;
-	}else{
-		return true;
-	} 
-	
-}
 </script>
 <!-- --------------------------------- -->
 
@@ -491,12 +468,6 @@ function checkCount(){
 	LocalDateTime today = LocalDateTime.now();
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	String Today = today.format(formatter);
-	
-/* 	session.removeAttribute("pCode");
-	session.removeAttribute("pDes");
-	session.removeAttribute("pComCode");
-	session.removeAttribute("vCode");
-	session.removeAttribute("vDes"); */
 	
 	String pCode = (String) session.getAttribute("pCode");
 	String pDes = (String) session.getAttribute("pDes");
@@ -509,7 +480,6 @@ function checkCount(){
 <title>자재입고</title>
 </head>
 <body>
-	<h1>자재입고</h1>
 	<jsp:include page="../HeaderTest.jsp"></jsp:include>
 		<form name="MatInputRegistForm" id="MatInputRegistForm" action="MatInput_OK.jsp" method="POST" onSubmit="return checkCount()" enctype="UTF-8">
 		<div class="content-wrapper">
@@ -519,14 +489,15 @@ function checkCount(){
 					<%
 						if(pCode == null){
 					%>
-						<a href="javascript:PlantSearch()"><input type="text" class="plantCode" name="plantCode" readonly></a> <!-- 전송 -->
+						<!-- <a href="javascript:PlantSearch()"></a> 전송 -->
+						<input type="text" class="plantCode" name="plantCode" onclick="InfoSearch('PlantSearch')" readonly>
 						<input type="text" class="plantDes" name="plantDes" readonly> 
 						<input type="text" name="plantComCode" class="plantComCode Dinfo" size="5" hidden><!-- hidden -->
 					</td>
 					<%
 						}else{
 					%>
-					<a href="javascript:PlantSearch()"><input type="text" class="plantCode" name="plantCode" readonly value="<%=pCode%>"></a> <!-- 전송 -->
+					<input type="text" class="plantCode" name="plantCode" onclick="InfoSearch('PlantSearch')" readonly value="<%=pCode%>">
 						<input type="text" class="plantDes" name="plantDes" readonly value="<%=pDes%>"> 
 						<input type="text" name="plantComCode" class="plantComCode Dinfo" size="5" value="<%=pComCode%>" hidden><!-- hidden -->
 					</td>
@@ -540,14 +511,15 @@ function checkCount(){
 						if(vCode == null){
 					%>
 					<td class="input-info">
-						<a href="javascript:VendorSearch()"><input type="text" class="VendorCode Dinfo" name="VendorCode" readonly></a> <!-- 전송 -->
+<!-- 						<a href="javascript:VendorSearch()"></a> 전송 -->
+						<input type="text" class="VendorCode Dinfo" name="VendorCode" onclick="InfoSearch('VendorSearch')" readonly>
 						<input type="text" class="VendorDes" name="VendorDes" readonly> 
 					</td>
 					<%
 						}else{
 					%>
 					<td class="input-info">
-						<a href="javascript:VendorSearch()"><input type="text" class="VendorCode Dinfo" name="VendorCode" readonly  value="<%=vCode%>"></a> <!-- 전송 -->
+						<input type="text" class="VendorCode Dinfo" name="VendorCode" onclick="InfoSearch('VendorSearch')" readonly value="<%=vCode%>">
 						<input type="text" class="VendorDes" name="VendorDes" readonly  value="<%=vDes%>"> 
 					</td>
 					<script type="text/javascript">
@@ -579,26 +551,6 @@ function checkCount(){
 						}
 						%>						
 					</td>
-					
-					<!-- <script type="text/javascript">
-					$(document).ready(function(){
-						$('input.plantComCode').on('input', function(){
-							var plantcomcode = $(this).val();
-							console.log('Plant Code : ' + plantcomcode);
-							$.ajax({
-								type : "POST",
-								url : "FindVendor.jsp",
-								data : {PlantComCode : plantcomcode},
-								success: function(response){
-				                    console.log(response);
-				                    $('.VendorCode').val(response.VenCode);
-				                    $('.VenderDes').val(response.VenDes);
-				                    $('.VendorCode').trigger('input');
-				                }
-							})
-						});
-					});
-					</script> -->	
 				<br><br>				
 				<li>입고 일자</li>
 					<td class="input-info">
@@ -644,37 +596,14 @@ function checkCount(){
 									
 									<th class="info">Movement Type: </th>
 										<td class="input-info" colsapn="2">
-											<a href="javascript:MoveTypeSearch()"><input type="text" class="MovType Dinfo" name="MovType" value="GR101" readonly></a>
+											<!-- <a href="javascript:MoveTypeSearch()"><input type="text" class="MovType Dinfo" name="MovType" value="GR101" readonly></a> -->
+											<input type="text" class="MovType Dinfo" name="MovType" value="GR101" onclick="InfoSearch('MoveTypeSearch')" readonly>
 											<input type="text" class="MovType_Des" name="MovType_Des" size="40" value="구매발주 Material 입고" readonly>
 											<input type="text" class="PlusMinus Dinfo" name="PlusMinus" value="Plus" hidden><!-- hidden -->
 										</td>
 								</tr>
 							</table>
-							
-							<script type="text/javascript">
-								$(document).ready(function(){
-									$('input.MovType').on('input', function(){
-										var Movement_Code = $(this).val();
-										console.log('Movement_Code : ' + Movement_Code);
-										$.ajax({
-											type : "POST",
-											url : "CheckMat.jsp",
-											data : {movcode : Movement_Code},
-											dataType : "json",
-											success: function(response){
-												if(response.result === "fail") {
-													alert(response.message);
-													$('input.MovType').val('');
-													$('input.MovType_Des').val('');
-													$('input.PlusMinus').val('');
-												}
-											}
-										})
-									});
-								});
-							</script>
-							
-							
+
 							<table class="table_2">
 								<tr>
 									<th class="info">Purchase Order No : </th>
@@ -722,27 +651,6 @@ function checkCount(){
 											<input type="text" class="SLocCode Dinfo" name="SLocCode" readonly> <!-- ? -->
 											<input type="text" class="SLocDes" name="SLocDes" readonly>
 										</td>
-									
-									<script type="text/javascript">
-									$(document).ready(function(){
-										$('input.SLocCode').on('input', function(){
-											var storageLoc = $(this).val();
-											console.log('Storage Location Code : ' + storageLoc);
-											$.ajax({
-												type : "POST",
-												url : "FindsLoc.jsp",
-												data : {sloccode : storageLoc},
-												success: function(response){
-													console.log(response);
-													if(response.SLocName) {
-														$('.SLocDes').val(response.SLocName);
-													}
-												}
-											})
-										});
-									});
-									</script>
-										
 										
 									<td class="spaceCell-250"></td>
 									

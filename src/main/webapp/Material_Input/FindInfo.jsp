@@ -31,7 +31,14 @@ try{
 		System.out.println("MMPO 값: " + rs.getString("Mmpo"));
 		String Check = "A";
 		PreparedStatement pstmt2 = null;
-        String sql2 = "SELECT pochild.keyValue, pochild.MMPO, pochild.ItemNo, pochild.MatCode, pochild.MatDes, pochild.MatType, pochild.Quantity, pochild.PoUnit, pochild.PO_Rem, pochild.Money, pochild.Hdate, pochild.Storage, pochild.PlantCode, pochild.Count FROM pochild WHERE MMPO = ? AND DeadLine = ? ";
+		String sql2 = "SELECT pochild.keyValue, pochild.MMPO, pochild.ItemNo, " +
+	              "pochild.MatCode, pochild.MatDes, pochild.MatType, " + 
+	              "pochild.Quantity, pochild.PoUnit, pochild.PO_Rem, " + 
+	              "pochild.Money, pochild.Hdate, pochild.Storage, "+ 
+	              "pochild.PlantCode, pochild.Count " + 
+	              "FROM pochild " + 
+	              "WHERE MMPO = ? AND DeadLine = ?";
+
         pstmt2 = conn.prepareStatement(sql2);
         pstmt2.setString(1, rs.getString("Mmpo"));
         pstmt2.setString(2, Check);
