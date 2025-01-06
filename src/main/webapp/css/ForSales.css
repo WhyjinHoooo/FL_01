@@ -1894,7 +1894,7 @@
     border: 1px solid #0068ff;
 	}
 	.EPBL_MainArea > .EPBL-Column:nth-child(3) > select{
-	width: 177px;
+	width: 138px;
 	text-align: center;
 	height: 22px;
 	}
@@ -1903,7 +1903,22 @@
 	margin-right: 10%;
  	}
 	.EPBLForm > .BtnArea{
-	margin: 1% 0% 0% 85%;
+	display: flex;
+	flex-direction: row;
+	margin: 1% 5% 0% 80%;
+    }
+    .EPBLForm > .BtnArea button.SearchBtn {
+	width: 50%;
+	text-align: center;
+	padding: 13px;
+	background-color: #1F4E79;
+	color: white;
+	border: 1px solid #1F4E79;
+	border-radius: 5px;
+	font-size: larger;
+	font-weight: bold;
+	letter-spacing: 10px;
+	margin-right: 10px;
     }
 	.EPBLForm > .BtnArea button {
 	width: 50%;
