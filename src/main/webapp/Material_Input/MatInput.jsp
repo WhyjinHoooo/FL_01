@@ -168,7 +168,7 @@ $(document).ready(function(){
 		var Storage = row.find('.Storage').text();
 		var PlantCode = row.find('.PlantCode').text();
 		var TraCurr = row.find('.TraCurr').text();
-		/* var StoreCount = row.find('.StoredInput').text(); */
+		var KeyValue = row.find('.key').text();
 		
 		const TableName = document.getElementById('TemTable');
 		const RowCount = TableName.rows.length - 1;
@@ -200,6 +200,7 @@ $(document).ready(function(){
 		$('.WareRack').val(''); //창고 Rack
 		$('.Bin').val(''); // Bin
 		$('.Money').val(TraCurr);
+		$('.KeyValue').val(KeyValue);
 	
 		var date = new Date();
 		var year = date.getFullYear();
@@ -368,13 +369,14 @@ $(document).ready(function(){
 			success: function(data){
 				var DelBtn = "삭제";
 				var NewRow = "<tr class='dTitle'>";
-				var RowNum = $('.TemTable tr').length;
+				var A_RowNum = $('.TemTable tr').length;
+				console.log('잉잉잉잉 : ' + A_RowNum);
 				
-				NewRow += "<td>" + RowNum + "</td>";
+				NewRow += "<td>" + A_RowNum + "</td>";
 				NewRow += "<td><input type='Button' name='DeleteBtn' value='" + DelBtn + "'></td>";
 				
 				var List = ["MatNum", "ItemNum", "MovType", "MatCode", "MatDes", "SLocCode",   
-					 "Bin", "InputCount", "GoodUnit","LotName","PlantCode", "VendorCode", "MadeDate", "Deadline", "PurOrdNo","plantComCode"];
+					 "Bin", "InputCount", "GoodUnit","LotName","PlantCode", "VendorCode", "MadeDate", "Deadline", "PurOrdNo","plantComCode", "KeyValue"];
 				
 				var InputCountValue = data["InputCount"];
 				$('.NotInput').val($('.NotInput').val() - InputCountValue); /* <?> */
@@ -385,6 +387,8 @@ $(document).ready(function(){
 					} else if(key === "Bin"){
 						data[key] = "NULL";
 				        NewRow += "<td class='datasize'>" + data[key] + "</td>"; 
+					}else if(key === "KeyValue"){
+						NewRow += "<td class='datasize' hidden>" + data[key] + "</td>";
 					}else{
 						NewRow += "<td class='datasize'>" + data[key] + "</td>";
 					}
@@ -395,7 +399,7 @@ $(document).ready(function(){
 				$('.ItemNum').val(("0000" + (CurOIN + 1)).slice(-4));
 				console.log("다음 ItemNumber : " + ("0000" + (CurOIN + 1)).slice(-4));
 				$('.NotInput').val();
-				MaxRowNum = RowNum;
+				MaxRowNum = A_RowNum;
 				
 				UpdateTable();
 			}
@@ -404,6 +408,7 @@ $(document).ready(function(){
 		
 	}); // 화살표이미지 끝
 	$(".TemTable").on('click',"input[name='DeleteBtn']", function(){
+		console.log(RowNum);
 		Minus++;
 		console.log("삭제한 횟수 : " + Minus);
 		var Row = $(this).closest('tr'); // 클릭된 번특이 속한 행 선택 
@@ -414,7 +419,8 @@ $(document).ready(function(){
 		var DelMatCode = Row.find('td:eq(5)').text(); // 010201-00003
 		var DelPoCode = Row.find('td:eq(16)').text(); // PURO20240404S00001
 		var DelCount = Row.find('td:eq(9)').text();// 1(입고수량)
-		deletedItems.push({MatNum: DelMatNum, ItemNum: DelItemNum, LotName: DelLotNum, MatCode: DelMatCode, PoNum: DelPoCode, Count: DelCount});
+		var KeyValue = Row.find('td:eq(18)').text();// 1(입고수량)
+		deletedItems.push({MatNum: DelMatNum, ItemNum: DelItemNum, LotName: DelLotNum, MatCode: DelMatCode, PoNum: DelPoCode, Count: DelCount, KeyValue : KeyValue});
 		console.log(deletedItems);
 		Row.remove();
 		RowNum--;
@@ -580,6 +586,7 @@ $(document).ready(function(){
 									<th class="info">Material 입고 번호 : </th>
 										<td class="input-info">
 											<input type="text" class="MatNum Dinfo" name="MatNum" readonly><!-- 中 -->
+											<input type="text" class="KeyValue Dinfo" name="KeyValue" hidden><!-- 中 -->
 										</td>
 										<td>
 											<input type="text" class="MatKeyData Pinfo" name="MatKeyData" hidden><!-- hidden -->

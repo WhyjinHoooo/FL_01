@@ -21,6 +21,7 @@
         String MatCode = null;
         String PoCode = null;
         int Count = 0;
+        String KeyValue = null;
         // 삭제된 항목들에 대해 반복
         for (int i = 0; i < deletedItems.size(); i++) {
             JSONObject item = (JSONObject) deletedItems.get(i);
@@ -29,6 +30,7 @@
             MatCode = (String) item.get("MatCode");
             PoCode = (String) item.get("PoNum");
             Count = Integer.parseInt((String) item.get("Count"));
+            KeyValue = (String) item.get("KeyValue");
             
             if(item == null ) {
                 System.out.println(item + "에는 데이터가 존제하지 않습니다.");
@@ -39,12 +41,11 @@
             System.out.println("삭제할MatCode: " + MatCode);  // log 추가
             System.out.println("삭제할PoCode: " + PoCode);  // log 추가
             System.out.println("삭제할Count: " + Count);  // log 추가
+            System.out.println("삭제할 잉잉: " + KeyValue);  // log 추가
             
             // 해당 항목을 DB에서 삭제
             String sql = "DELETE FROM temtable WHERE LotName='" + LotName + "'";
             int result = st.executeUpdate(sql);
-           
-            
            
             if (result > 0) {
                 // 삭제 성공
@@ -56,15 +57,13 @@
             }
         }
         
-        String SelectSQL = "SELECT * FROM pochild WHERE MMPO = ? AND MatCode = ?";
+        String SelectSQL = "SELECT * FROM pochild WHERE keyValue = ?";
         PreparedStatement pstmt = conn.prepareStatement(SelectSQL);
-        pstmt.setString(1, PoCode);
-        pstmt.setString(2, MatCode);
+        pstmt.setString(1, KeyValue);
         ResultSet rs = pstmt.executeQuery();
         
-        String ModifiedSQL = "UPDATE pochild SET Count = ?, PO_Rem = ? WHERE MMPO = ? AND MatCode = ?";
+        String ModifiedSQL = "UPDATE pochild SET Count = ?, PO_Rem = ? WHERE keyValue = ?";
         PreparedStatement Mpstmt = conn.prepareStatement(ModifiedSQL);
-        
         
         if(rs.next()){
         	int ModifiedCount = Integer.parseInt(rs.getString("Count")) - Count;
@@ -76,8 +75,7 @@
         	
         	Mpstmt.setInt(1, ModifiedCount);
         	Mpstmt.setInt(2, ModifiedPoRem);
-        	Mpstmt.setString(3, PoCode);
-        	Mpstmt.setString(4, MatCode);
+        	Mpstmt.setString(3, KeyValue);
         	
         	Mpstmt.executeUpdate();
         }

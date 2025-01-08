@@ -27,7 +27,7 @@
 	
 	String[] keys = {
 		"MatNum", "ItemNum", "PurOrdNo", "MovType", "MatType", "MatCode", "MatDes", "PlantCode", "VendorCode",
-		"SLocCode", "Bin", "InputCount", "GoodUnit", "LotName", "MadeDate", "Deadline", "PlusMinus", "Money", "plantComCode",
+		"SLocCode", "Bin", "InputCount", "GoodUnit", "LotName", "MadeDate", "Deadline", "PlusMinus", "Money", "plantComCode", "KeyValue"
 		// ItemNum,InputCount은 int
 	};
 	
@@ -40,7 +40,7 @@
 		System.out.println(Ckey + ": " + CountList.get(Ckey));
 	}
 	
-	String sql = "INSERT INTO temtable(MatNum, ItemNum, PurOrdNo, MovCode, MatType, MatCode, MatDes, PlantCode, VenCode, SLocCode, Bin, Count, Unit, LotName, MadeDate, DeadDate, PlusMinus, Money, ComCode) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	String sql = "INSERT INTO temtable(MatNum, ItemNum, PurOrdNo, MovCode, MatType, MatCode, MatDes, PlantCode, VenCode, SLocCode, Bin, Count, Unit, LotName, MadeDate, DeadDate, PlusMinus, Money, ComCode, KeyValue) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	
 	String sql2 = "SELECT * FROM pochild WHERE keyValue = ?";

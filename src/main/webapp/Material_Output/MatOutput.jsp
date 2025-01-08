@@ -87,14 +87,6 @@ window.addEventListener('DOMContentLoaded',(event) => {
 	const InStor = document.querySelector('.InputStorage');
 	const LotNumber = document.querySelector('.LotNumber');
     
-    
-	/* const resetInputs = (inputs, enableInput, ) => {
-	    inputs.forEach(input => input.value = '');
-	    if (enableInput) {
-	        enableInput.disabled = false;
-	    }
-	    checkInputs();
-	}; */
 	const resetInputs = (inputs, enableInput) => {
         inputs.forEach(input => input.value = '');
         if (enableInput) {
@@ -167,8 +159,6 @@ $(document).ready(function(){
 			var value = $(this).val();
 			DataToSend[name] = value;
 		});
-/* 		console.log(DataToSend); 
-		console.log(JSON.stringify(DataToSend)); */
 
 		const DataArry = [$('.MatCode'),$('.MatDes'),$('.MatType'),$('.MatLotNo'),$('.MakeDate'),$('.DeadDete'),$('.OutCount'),$('.OrderUnit'),$('.UseDepart'),$('.BeforeCount'),$('.DepartName'),$('.InputStorage'),$('.LotNumber')];
 		DataArry.forEach(input => input.val(''));
@@ -340,7 +330,7 @@ $(document).ready(function(){
 				    });
 				});	
 			</script>
-<div class="Content-Wrapper-OutMain">
+	<div class="Content-Wrapper-OutMain">
 		<section>
 			<div class="output-sub-info"> <!-- output-sub-info START -->
 				<div class="table-container">
@@ -445,11 +435,6 @@ $(document).ready(function(){
 								</td>	 
 								
 								<td class="spaceCell-40"></td>
-								
-							<!-- <th class="info">출고 전 Lot 재로 : </th>
-								<td class="input-info">
-									<input type="text" class="BeforeLotNo" name="BeforeLotNo" readonly>
-								</td> -->	
 						</tr>
 					</table>
 					
