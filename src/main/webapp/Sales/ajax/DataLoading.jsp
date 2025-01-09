@@ -44,16 +44,15 @@
     	ResultSet Rs = Pstmt.executeQuery();
 	    while(Rs.next()){
 		   	JSONObject josnobject = new JSONObject();
-		    josnobject.put("OutDate", Rs.getString("MatCode")); // 품번
-		    josnobject.put("OrderNum", Rs.getString("MatDesc")); // 품명
-		    josnobject.put("Seq", Rs.getString("QtyUnit")); // 수량단위
-		    josnobject.put("MatCode", Rs.getString("DelivOrdQty")); // 수량
-		    josnobject.put("MatCodeDes", Rs.getString("SalesUnitPrice")); // 판매단가
-		    josnobject.put("Quantity", Rs.getString("TranCurr")); // 거래통화
-		    josnobject.put("Unit", Rs.getString("TranSalesAmt")); // 거래통화매출금액
+		    josnobject.put("MatCode", Rs.getString("MatCode")); // 품번
+		    josnobject.put("MatCodeDes", Rs.getString("MatDesc")); // 품명
+		    josnobject.put("Unit", Rs.getString("QtyUnit")); // 수량단위
+		    josnobject.put("Qty", Rs.getString("DelivOrdQty")); // 수량
+		    josnobject.put("SalesUnit", Rs.getString("SalesUnitPrice")); // 판매단가
+		    josnobject.put("Currency", Rs.getString("TranCurr")); // 거래통화
+		    josnobject.put("TotalPrice", Rs.getString("TranSalesAmt")); // 거래통화매출금액
 			jsonArray.put(josnobject);
 	    }
-
 	    response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().write(jsonArray.toString());

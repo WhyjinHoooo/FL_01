@@ -78,8 +78,8 @@ $(document).ready(function(){
 	/* 위에는 함수 영역 */
 	var Btnclick = 0;
 	InitialTable();
-	const button = document.querySelector('#ChangeMode');
-	const ChgBtn = document.querySelector('#SearchBtn');
+	const button = document.querySelector('#ChangeMode'); // 변경 버튼
+	const ChgBtn = document.querySelector('#SearchBtn'); // 검색 버튼
 	
 	var Company = null;
 	var BizArea = null;
@@ -118,9 +118,43 @@ $(document).ready(function(){
 				dataType: 'json',
 				async: false,
 				success: function(data){
-					
+					$('.EPBL_Body').empty();
+					console.log(data);
+					console.log(data.length);
+					var DataList = {};
+					if(data.length > 0){
+						for(var i = 0 ; i < data.length ; i++){
+							var key = data[i];
+							if(!DataList[key]){
+								DataList[key] = [];	
+							}
+							DataList[key].push(i);
+						}
+						for(var key in DataList){
+							var KeyNumber = DataList[key];
+							console.log('KeyNumber : ' + KeyNumber);
+							for(var j = 0 ; j < KeyNumber.length ; j++){
+								var index = KeyNumber[j];
+								console.log('index : ' + index);
+								var row = '<tr>' +
+									'<td>' + (index + 1) + '</td>' +
+									'<td>' + data[index].MatCode + '</td>' + 
+									'<td>' + data[index].MatCodeDes + '</td>' + 
+									'<td>' + data[index].Unit + '</td>' + 
+									'<td>' + data[index].Qty + '</td>' + 
+									'<td>' + data[index].SalesUnit + '</td>' + 
+									'<td>' + data[index].Currency + '</td>' + 
+									'<td>' + Number(data[index].TotalPrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>' + 
+									'</tr>';
+								$('.EPBL_Body').append(row);
+							}
+						}
+					} else{
+						alert('해당 검색 조건에 만족하는 데이터가 존재하지 않습니다.');
+						return false;
+					}
 				}
-			})
+			});
 		}else{
 			alert('aaa');
 		}

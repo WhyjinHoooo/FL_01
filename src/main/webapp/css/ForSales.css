@@ -1979,8 +1979,9 @@
     .EPBL_Table .EPBL_Body td {
 	padding: 8px;
 	border: 1px solid #ddd;
-	width: 300px;
+	width: 294px;
 	height: 10px;
+	text-align: center;
 	}
 	.EPBL_SubArea .EPBL_Table tbody::-webkit-scrollbar {
     width: 5px;
