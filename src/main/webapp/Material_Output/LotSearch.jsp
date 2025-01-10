@@ -37,7 +37,13 @@
         } else{
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        String sql = "SELECT DISTINCT storechild.VendProdLotNum, storechild.ManifacDate, storechild.ValidToDate, storechild.InvUnit, totalmaterial_child.Inventory_Qty FROM storechild,totalmaterial_child WHERE storechild.StoLoca = ? AND totalmaterial_child.StorLoc = ? AND SUBSTRING(storechild.MovType, 1, 2) = ? AND totalmaterial_child.YYMM = ?";
+        String sql = "SELECT " +
+					 "DISTINCT storechild.VendProdLotNum, storechild.ManifacDate, storechild.ValidToDate, storechild.InvUnit, totalmaterial_child.Inventory_Qty " +
+        			 "FROM storechild,totalmaterial_child WHERE " +
+        			 "storechild.StoLoca = ? AND " + 
+        			 "totalmaterial_child.StorLoc = ? AND " +
+        			 "SUBSTRING(storechild.MovType, 1, 2) = ? AND " +
+        			 "totalmaterial_child.YYMM = ?";
         
         pstmt = conn.prepareStatement(sql);
         pstmt.setString(1, Storagecode);
@@ -57,7 +63,18 @@
         	do{
     %>
 		<tr>
-			<td><a href="javascript:void(0)" onClick="window.opener.document.querySelector('.MatLotNo').value='<%=rs.getString("storechild.VendProdLotNum")%>'; window.opener.document.querySelector('.MakeDate').value='<%=rs.getString("storechild.ManifacDate")%>'; window.opener.document.querySelector('.DeadDete').value='<%=rs.getString("storechild.ValidToDate")%>'; window.opener.document.querySelector('.OrderUnit').value='<%=rs.getString("storechild.InvUnit")%>'; window.opener.document.querySelector('.BeforeCount').value='<%=rs.getString("totalmaterial_child.Inventory_Qty")%>';window.opener.document.querySelector('.MatLotNo').dispatchEvent(new Event('change')); window.close();"><%=rs.getString("storechild.VendProdLotNum") %></a></td>
+			<td>
+				<a href="javascript:void(0)" onClick="
+					window.opener.document.querySelector('.MatLotNo').value='<%=rs.getString("storechild.VendProdLotNum")%>';
+					window.opener.document.querySelector('.MakeDate').value='<%=rs.getString("storechild.ManifacDate")%>'; 
+					window.opener.document.querySelector('.DeadDete').value='<%=rs.getString("storechild.ValidToDate")%>'; 
+					window.opener.document.querySelector('.OrderUnit').value='<%=rs.getString("storechild.InvUnit")%>';
+					window.opener.document.querySelector('.BeforeCount').value='<%=rs.getString("totalmaterial_child.Inventory_Qty")%>';
+					window.opener.document.querySelector('.MatLotNo').dispatchEvent(new Event('change'));
+					window.close();">
+					<%=rs.getString("storechild.VendProdLotNum") %>
+				</a>
+			</td>
 			<td><%=rs.getString("storechild.ManifacDate") %></td>
 			<td><%=rs.getString("storechild.ValidToDate") %></td>
 		</tr>    

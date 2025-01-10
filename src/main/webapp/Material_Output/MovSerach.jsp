@@ -39,7 +39,18 @@
 			<tr>
 			    <td><%=rs.getString("MoveType") %></td>
 			    <td><%= rs.getString("QtyPlusMinus")%></td>
-			    <td><a href="javascript:void(0)" onClick="var MovType = '<%=rs.getString("MoveType")%>'; var MovDes = '<%=rs.getString("MoveTypeDes")%>';var PlMi = '<%=rs.getString("QtyPlusMinus")%>'; window.opener.document.querySelector('.movCode').value=MovType; window.opener.document.querySelector('.movDes').value=MovDes;window.opener.document.querySelector('.PlusMinus').value=PlMi; window.opener.document.querySelector('.movCode').dispatchEvent(new Event('change')); window.opener.console.log('Selected MovType ' + MovType + ', Selected MovDes ' + MovDes); window.close();"><%=rs.getString("MoveTypeDes") %></a></td>
+			    <td>
+			    	<a href="javascript:void(0)" onClick="
+			    		var MovType = '<%=rs.getString("MoveType")%>';
+			    		var MovDes = '<%=rs.getString("MoveTypeDes")%>';
+			    		var PlMi = '<%=rs.getString("QtyPlusMinus")%>';
+			    		window.opener.document.querySelector('.movCode').value=MovType;
+			    		window.opener.document.querySelector('.movDes').value=MovDes;window.opener.document.querySelector('.PlusMinus').value=PlMi;
+			    		window.opener.document.querySelector('.movCode').dispatchEvent(new Event('change')); 
+			    		window.opener.console.log('Selected MovType ' + MovType + ', Selected MovDes ' + MovDes); window.close();">
+			    		<%=rs.getString("MoveTypeDes") %>
+			    	</a>
+			    </td>
 			</tr>
 
 			<%  

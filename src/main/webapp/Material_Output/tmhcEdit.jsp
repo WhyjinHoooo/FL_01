@@ -84,6 +84,7 @@
 	try{
 	if(movType.equals("GI")){	
 		if(rs01.next() && rs02.next()){
+			System.out.println("1");
 			int New_Count = Integer.parseInt(Count); //String타입으로 전달받은 Count를 Integer로 전환 , 새로 사용한 재료의 수 : 1개			
 			/* totalMaterial_head START */
 			BigDecimal H_IUprice = rs01.getBigDecimal("Inventory_UnitPrice"); // 재고단가 3.000원
@@ -128,10 +129,12 @@
 			pstmt01_01.executeUpdate();
 			pstmt02_01.executeUpdate();
 			updated = true; // 새로 추가된 부분
+			System.out.println("1.1");
 		}
 	} else if(movType.equals("IR") && (rs01.next() && rs02.next())){
+		System.out.println("2");
 		if(!hasNext){ // 이체출고 했는데, 입고할 창고(?)의 데이터가 DB에 없는 경우
-			
+			System.out.println("2.1");
 			BigDecimal H_IUprice = rs01.getBigDecimal("Inventory_UnitPrice"); // 재고단가
 			int H_TransInOut = rs01.getInt("Transfer_InOut"); //기존의 저장되어 있는 이체출고수량 : 0개
 			int H_TransAMT = rs01.getInt("Transfer_Amt"); //기존의 저장되어 있는 이체출고금액 : 0원
@@ -186,11 +189,17 @@
 			IRnew.setBigDecimal(16, Bigzero);
 			IRnew.setBigDecimal(17, Bigzero);
 			
+			System.out.println("pstmt03_01 쿼리: " + pstmt03_01.toString());
+			System.out.println("pstmt04_01 쿼리: " + pstmt04_01.toString());
+			System.out.println("IRnew 쿼리: " + IRnew.toString());
+			
 			pstmt03_01.executeUpdate();
 			pstmt04_01.executeUpdate();
 			IRnew.executeUpdate();
 			updated = true;
+			System.out.println("2.2");
 		} else if(hasNext){
+			System.out.println("3");
 			BigDecimal H_IUprice = rs01.getBigDecimal("Inventory_UnitPrice"); // 재고단가
 			int H_TransInOut = rs01.getInt("Transfer_InOut"); //기존의 저장되어 있는 이체출고수량 : 1개
 			int H_TransAMT = rs01.getInt("Transfer_Amt"); //기존의 저장되어 있는 이체출고금액 : 0원
@@ -244,6 +253,7 @@
 			pstmt04_01.executeUpdate();
 			pstmt05_01.executeUpdate();
 			updated = true;
+			System.out.println("3.1");
 		}
 	}
 	}catch(SQLException e){

@@ -47,22 +47,22 @@ function InfoSearch(field){
     switch(field){
     case "PlantSearch":
     	popupWidth = 550;
-    	popupHeight = 610;
+    	popupHeight = 635;
     	window.open("${contextPath}/Material/PlantSerach.jsp", "POPUP01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     break;
 	case "StorageSearch":
 		popupWidth = 550;
-		popupHeight = 610;
+		popupHeight = 635;
 		window.open("${contextPath}/Material_Output/StorageSerach.jsp?comcode=" + comcode, "POPUP02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	break;
 	case "MovSearch":
-		popupWidth = 550;
-		popupHeight = 610;
+		popupWidth = 1075;
+		popupHeight = 750;
 		window.open("${contextPath}/Material_Output/MovSerach.jsp", "POPUP03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	break;
 	case "MatSearch":
-		popupWidth = 550;
-		popupHeight = 610;
+		popupWidth = 910;
+		popupHeight = 600;
 		window.open("${contextPath}/Material_Output/MatSearch.jsp?plantcode=" + plantcode + "&storagecode=" + storagecode, "POPUP04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	break;
 	case "LotSearch":
@@ -179,7 +179,6 @@ $(document).ready(function(){
     var maxRowNum = 0;
 	
 	$(document).on('click', "img[name='Down']", function(){
-		
 	var outCount = $('.OutCount').val(); // 출고 수량 3
 	var materialCode = $('.MaterialCode').val();// 출고 자재코드 010101-00001
 	var outStorage = $('.StorageCode').val();// 출고창고
@@ -208,22 +207,23 @@ $(document).ready(function(){
 	$('.InputStorage').prop('disabled', false);
 	$('.LotNumber').prop('disabled', false);
 		
-	$.ajax({
-		url : /* 'EXP.jsp' */ 'tmhcEdit.jsp',
-		type : 'POST',
-		data : {count : outCount, matCode : materialCode, Storage : outStorage, giir : giIr, Input : inputStorage, ComPany : ComCode, Plant : plantCode, OutPlantCd : OutPlant , InputComCd : InputComCode},
-		success : function(response){
-	        if(response.status == "success"){
-	            console.log('수정 완료' + response.message);
-	        } else {
-	            console.log('수정 실패: ' + response.message);
-	        }
-	    },
-	    error: function(jqXHR, textStatus, errorThrown){
-	        alert('오류 발생: ' + textStatus + ', ' + errorThrown);
-	    }
+		$.ajax({
+			url : /* 'EXP.jsp' */ 'tmhcEdit.jsp',
+			type : 'POST',
+			data : {count : outCount, matCode : materialCode, Storage : outStorage, giir : giIr, Input : inputStorage, ComPany : ComCode, Plant : plantCode, OutPlantCd : OutPlant , InputComCd : InputComCode},
+			success : function(response){
+				console.log(response);
+		        if(response.status == "success"){
+		            console.log('수정 완료' + response.message);
+		        } else {
+		            console.log('수정 실패: ' + response.message);
+		        }
+		    },
+		    error: function(jqXHR, textStatus, errorThrown){
+		        alert('오류 발생: ' + textStatus + ', ' + errorThrown);
+		    }
+		});
 	});
-});
 	$(".WrittenForm").on('click',"input[name='deleteBTN']",function(){
 		var row = $(this).closest('tr');
 		var orderNum = row.find('td:eq(2)').text();
@@ -289,7 +289,6 @@ $(document).ready(function(){
 %>
 </head>
 <body>
-	<h1>자재출고</h1>
 	<jsp:include page="../HeaderTest.jsp"></jsp:include>
 		<form name="OPResgistform" id="OPResgistform" action="OutPut_Ok.jsp" method="POST" enctype="UTF-8">
 			<div class="Content-Wrapper-OutAside">

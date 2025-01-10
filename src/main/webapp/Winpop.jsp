@@ -44,13 +44,13 @@ $(document).ready(function(){
         <!-- 기타 nav-item들 -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle Category" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Type</a>
-          <ul class="dropdown-menu Sang" aria-labelledby="navbarDropdownMenuLink" style="background-color: #d9f28c;">
+          <ul class="dropdown-menu Sang" aria-labelledby="navbarDropdownMenuLink">
             <li class="dropdown-submenu">
             	<a class="dropdown-item dropdown-toggle" href="#">GI(출고)/IR(이체출고)</a>
             	<ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="MovSerach.jsp">출고(GI)</a></li>
-                <li><a class="dropdown-item" href="Test_IR.jsp">이체출고(IR)</a></li>
-              </ul>
+	                <li><a class="dropdown-item" href="MovSerach.jsp">출고(GI)</a></li>
+	                <li><a class="dropdown-item" href="Test_IR.jsp">이체출고(IR)</a></li>
+              	</ul>
             </li>          
           </ul>
         </li>
