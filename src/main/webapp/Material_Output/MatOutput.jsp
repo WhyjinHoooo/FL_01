@@ -179,8 +179,10 @@ $(document).ready(function(){
     var maxRowNum = 0;
 	
 	$(document).on('click', "img[name='Down']", function(){
+	var InfoArray = [];
+	
 	var outCount = $('.OutCount').val(); // 출고 수량 3
-	var materialCode = $('.MaterialCode').val();// 출고 자재코드 010101-00001
+	var materialCode = $('.MatCode').val();// 출고 자재코드 010101-00001
 	var outStorage = $('.StorageCode').val();// 출고창고
 	var inputStorage = $('.InputStorage').val(); // IR일 때, 입고 창고
 	var giIr = $('.movCode').val();
@@ -188,8 +190,9 @@ $(document).ready(function(){
 	var OutPlant = $('.plantCode').val();
 	var plantCode = $('.TransPlantCode').val();
 	var InputComCode = $('.TransComCode').val();
+	var DocCode = $('.Doc_Num').val();
 	
-	console.log('확인용 출고 수량 : ' + outCount + ', 출고자재코드 : ' + materialCode + ', 출고창고 : ' + outStorage + ", MovementType : " + giIr + ", IR일 경우 입고 창고 : " + inputStorage);
+	InfoArray = [outCount, materialCode, outStorage, giIr, inputStorage, ComCode, plantCode, OutPlant, InputComCode];
 	
 	itemNum++;
 	var currentGIN = parseInt($('.GINo').val(), 10);
@@ -206,17 +209,17 @@ $(document).ready(function(){
 	$('.UseDepart').prop('disabled', false);
 	$('.InputStorage').prop('disabled', false);
 	$('.LotNumber').prop('disabled', false);
-		
+	console.log('InfoArray : ',InfoArray);
 		$.ajax({
 			url : /* 'EXP.jsp' */ 'tmhcEdit.jsp',
 			type : 'POST',
-			data : {count : outCount, matCode : materialCode, Storage : outStorage, giir : giIr, Input : inputStorage, ComPany : ComCode, Plant : plantCode, OutPlantCd : OutPlant , InputComCd : InputComCode},
-			success : function(response){
-				console.log(response);
-		        if(response.status == "success"){
-		            console.log('수정 완료' + response.message);
+			data :  JSON.stringify(InfoArray),
+			success : function(Data){
+				console.log(Data);
+		        if(Data.status == "success"){
+		            console.log('수정 완료' + Data.message);
 		        } else {
-		            console.log('수정 실패: ' + response.message);
+		            console.log('수정 실패: ' + Data.message);
 		        }
 		    },
 		    error: function(jqXHR, textStatus, errorThrown){
@@ -373,7 +376,7 @@ $(document).ready(function(){
 								<input type="text" class="MatCode KeyInfo" name="MatCode" onclick="InfoSearch('MatSearch')" readonly>
 								<input type="text" class="MatDes KeyInfo" name="MatDes" readonly><!--  전송 -->
 								<input type="text" class="MatType KeyInfo" name="MatType" hidden>
-								<input type="text" class="MaterialCode KeyInfo" name="MaterialCode" hidden> <!-- //? -->
+								<input type="text" class="MatDocCode KeyInfo" name="MatDocCode" hidden> <!-- //? -->
 							</td>
 						</tr>
 					</table>

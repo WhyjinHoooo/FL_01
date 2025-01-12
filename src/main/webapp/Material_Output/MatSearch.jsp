@@ -58,10 +58,10 @@
 			<td><%=rs.getString("PO_Rem") %></td>
 			<td>
 			  <a href="javascript:void(0)" onclick="
-			    window.opener.document.querySelector('.MatCode').value='<%=rs.getString("mmpo")%>';
+			    window.opener.document.querySelector('.MatCode').value='<%=rs.getString("MatCode")%>';
 			    window.opener.document.querySelector('.MatDes').value='<%=rs.getString("MatDes")%>';
 			    window.opener.document.querySelector('.MatType').value='<%=rs.getString("MatType")%>';
-			    window.opener.document.querySelector('.MaterialCode').value='<%=rs.getString("MatCode")%>';
+			    window.opener.document.querySelector('.MatDocCode').value='<%=rs.getString("MMPO")%>';
 			    window.opener.document.querySelector('.MatCode').dispatchEvent(new Event('change'));
 			    window.close();">
 			    <%=rs.getString("MatDes")%>

@@ -1,3 +1,4 @@
+<%@page import="org.json.JSONArray"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDateTime"%>
 <%@page import="java.sql.SQLException"%>
@@ -10,15 +11,24 @@
 <%@page import="java.io.BufferedReader"%>
 <%@ include file="../mydbcon.jsp" %>
 <%
-	String Count = request.getParameter("count"); // 새로 저장하는 출고 수량 1
-	String Material = request.getParameter("matCode"); // 출고하는 자재 코드 010101-00001
-	String Storage = request.getParameter("Storage"); // 출고 창고 testmk1
-	String InputStorage = request.getParameter("Input"); // IR일 때, 입고 창고 V
-	String movType = request.getParameter("giir").substring(0, 2); // Movement Type 종류 GI
-	String ComCode = request.getParameter("ComPany"); // E2000
-	String PlantCode = request.getParameter("Plant"); // 입고 창고 코드 V
-	String OutPlant = request.getParameter("OutPlantCd"); // 출고 창고 코드
-	String InputComCode = request.getParameter("InputComCd"); //V
+	StringBuilder jsonString = new StringBuilder();
+	String line = null;
+	try (BufferedReader reader = request.getReader()) {
+	    while ((line = reader.readLine()) != null) {
+	        jsonString.append(line);
+	    }
+	}
+	JSONArray saveListData = new JSONArray(jsonString.toString());
+
+	String Count = saveListData.getString(0);
+	String Material = saveListData.getString(1);
+	String Storage = saveListData.getString(2);
+	String InputStorage = saveListData.getString(4);
+	String movType = saveListData.getString(3).substring(0, 2);
+	String ComCode = saveListData.getString(5);
+	String PlantCode = saveListData.getString(6);
+	String OutPlant = saveListData.getString(7);
+	String InputComCode = saveListData.getString(8);
 	
 	LocalDateTime now = LocalDateTime.now();
 	String YYMM = now.format(DateTimeFormatter.ofPattern("yyyy-MM"));
@@ -188,10 +198,6 @@
 			IRnew.setInt(15, zero);
 			IRnew.setBigDecimal(16, Bigzero);
 			IRnew.setBigDecimal(17, Bigzero);
-			
-			System.out.println("pstmt03_01 쿼리: " + pstmt03_01.toString());
-			System.out.println("pstmt04_01 쿼리: " + pstmt04_01.toString());
-			System.out.println("IRnew 쿼리: " + IRnew.toString());
 			
 			pstmt03_01.executeUpdate();
 			pstmt04_01.executeUpdate();
