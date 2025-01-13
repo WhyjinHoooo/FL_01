@@ -20,7 +20,7 @@ function InfoSearch(field){
 	var popupWidth = 1000;
     var popupHeight = 600;
     
-    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+   	var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
     var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
     
     var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
@@ -128,6 +128,19 @@ window.addEventListener('DOMContentLoaded',(event) => {
 });
 
 $(document).ready(function(){
+	function InitialTable(){
+		$('.WrittenForm_Body').empty();
+		for (let i = 0; i < 50; i++) {
+            const row = $('<tr></tr>'); // 새로운 <tr> 생성
+            // 34개의 빈 <td> 요소 추가 (3개의 헤더 항목 이후 31일치 데이터)
+            for (let j = 0; j < 17; j++) {
+                row.append('<td></td>');
+            }
+            // 생성한 <tr>을 <tbody>에 추가
+            $('.WrittenForm_Body').append(row);
+        }
+	}
+	
 	function checkInputs() {
 		if ($('.UseDepart').val().length > 0 || $('.InputStorage').val().length > 0) {  // 사용 부서나 입고 창고에 한 글자라도 작성되어 있으면
 			$('.LotNumber').prop('disabled', true);  // 'LotNumber' 클래스를 가진 input 필드 사용 불가능
@@ -144,6 +157,7 @@ $(document).ready(function(){
 	
 	// 페이지 로드 시 초기 상태 체크
 	checkInputs();
+	InitialTable();
 	
 	$('.IR').hide();
     $('.movCode').change(function() {
@@ -177,12 +191,19 @@ $(document).ready(function(){
 	var itemNum = 0;
 	var deletedItems = []; 
     var maxRowNum = 0;
-	
 	$(document).on('click', "img[name='Down']", function(){
 	var InfoArray = [];
+
+	var DocCode = $('.Doc_Num').val(); // Mat. 출고 문서번호 !
+	var SeqNum = $('.GINo').val(); // 아이템 번호 !
 	
 	var outCount = $('.OutCount').val(); // 출고 수량 3
+	
 	var materialCode = $('.MatCode').val();// 출고 자재코드 010101-00001
+	var MatDes = $('.MatDes').val(); // 출고 자재에 대한 설명 !
+	var MatType = $('.MatType').val(); // 자재 종류 !
+	var MatCountUnit = $('.OrderUnit').val(); // 자재 단위 !
+	
 	var outStorage = $('.StorageCode').val();// 출고창고
 	var inputStorage = $('.InputStorage').val(); // IR일 때, 입고 창고
 	var giIr = $('.movCode').val();
@@ -190,8 +211,10 @@ $(document).ready(function(){
 	var OutPlant = $('.plantCode').val();
 	var plantCode = $('.TransPlantCode').val();
 	var InputComCode = $('.TransComCode').val();
-	var DocCode = $('.Doc_Num').val();
 	
+	var UseDepart = $('.UseDepart').val(); // 사용 부서 !
+	var ProLotNum = $('.LotNumber').val(); // 생산 Lot번호 !
+	var MatLotNum = $('.MatLotNo')// 자재 Lot 번호 !
 	InfoArray = [outCount, materialCode, outStorage, giIr, inputStorage, ComCode, plantCode, OutPlant, InputComCode];
 	
 	itemNum++;
@@ -211,16 +234,16 @@ $(document).ready(function(){
 	$('.LotNumber').prop('disabled', false);
 	console.log('InfoArray : ',InfoArray);
 		$.ajax({
-			url : /* 'EXP.jsp' */ 'tmhcEdit.jsp',
+			url : 'tmhcEdit.jsp',
 			type : 'POST',
 			data :  JSON.stringify(InfoArray),
-			success : function(Data){
-				console.log(Data);
-		        if(Data.status == "success"){
-		            console.log('수정 완료' + Data.message);
-		        } else {
-		            console.log('수정 실패: ' + Data.message);
-		        }
+			success : function(response){
+				console.log(response.status);
+				console.log(response.DataList);
+		        if(response.status == "success"){
+		        	$('.WrittenForm_Body').empty();
+		        	console.log(response.DataList.length);
+		        } 
 		    },
 		    error: function(jqXHR, textStatus, errorThrown){
 		        alert('오류 발생: ' + textStatus + ', ' + errorThrown);
@@ -298,7 +321,6 @@ $(document).ready(function(){
 				<aside class="side-menu-container" id="Out_SideMenu">
 					<li>Plant</li>
 						<td class="input-info">
-							<!-- <a href="javascript:PlantSearch()"><input type="text" class="plantCode KeyInfo" name="plantCode" readonly></a> -->
 							<input type="text" class="plantCode KeyInfo" name="plantCode" onclick="InfoSearch('PlantSearch')" readonly>
 							<input type="text" class="plantDes" name="plantDes" readonly>
 							<input type="text" class="plantComCode KeyInfo" name="plantComCode" hidden>
@@ -308,7 +330,6 @@ $(document).ready(function(){
 						
 					<li>출고창고</li>
 						<td class="input-info">
-							<!-- <a href="javascript:StorageSearch()"><input type="text" class="StorageCode KeyInfo" name="StorageCode" readonly></a> -->
 							<input type="text" class="StorageCode KeyInfo" name="StorageCode" onclick="InfoSearch('StorageSearch')" readonly>
 							<input type="text" class="StorageDes" name="StorageDes" readonly>
 							<input type="text" class="StorageComCode" name="StorageComCode" hidden>
@@ -320,7 +341,6 @@ $(document).ready(function(){
 					
 					<li>Movement Type : </li>
 						<td class="input-info">
-							<!-- <a href="javascript:MovSearch()"><input type="text" class="movCode KeyInfo" name="movCode" readonly></a> -->
 							<input type="text" class="movCode KeyInfo" name="movCode" onclick="InfoSearch('MovSearch')" readonly>
 							<input type="text" class="movDes" name="movDes" readonly>
 							<input type="text" class="PlusMinus" name="PlusMinus" hidden>
@@ -486,18 +506,18 @@ $(document).ready(function(){
 			</div>
 		</section>
 		
-			<section>				
-				<div class="expiredData">
-					<div class="table-container">
-						<table class="WrittenForm">
-							<tr>
-								<th>항번</th><th>삭제</th><th>문서번호</th><th>품목번호</th><th>자재</th><th>자재 설명</th><th>자재 유형</th><th>출고 구분</th><th>수량</th><br>
-								<th>단위</th><th>사용 부서</th><th>생산 Lot 번호</th><th>출고 일자</th><th>자재 Lot 번호</th><th>출고 창고</th><th>공장</th><th>입고 창고</th>
-							</tr>
-						</table>
-					</div>
-				</div>
-			</section>				
+		<section>				
+			<div class="expiredData">
+				<table class="WrittenForm">
+					<thead class="WrittenForm_Head">
+						<th>항번</th><th>삭제</th><th>문서번호</th><th>품목번호</th><th>자재</th><th>자재 설명</th><th>자재 유형</th><th>출고 구분</th><th>수량</th><br>
+						<th>단위</th><th>사용 부서</th><th>생산 Lot 번호</th><th>출고 일자</th><th>자재 Lot 번호</th><th>출고 창고</th><th>공장</th><th>입고 창고</th>
+					</thead>
+					<tbody class="WrittenForm_Body">
+					</tbody>
+				</table>
+			</div>
+		</section>				
 </div>				
 			</div> <!-- Content-Wrapper-OutAside END -->	
 		</form>

@@ -20,14 +20,14 @@
 	}
 	JSONArray saveListData = new JSONArray(jsonString.toString());
 
-	String Count = saveListData.getString(0);
-	String Material = saveListData.getString(1);
-	String Storage = saveListData.getString(2);
-	String InputStorage = saveListData.getString(4);
-	String movType = saveListData.getString(3).substring(0, 2);
-	String ComCode = saveListData.getString(5);
-	String PlantCode = saveListData.getString(6);
-	String OutPlant = saveListData.getString(7);
+	String Count = saveListData.getString(0); // 출고 수량
+	String Material = saveListData.getString(1); // 자재 코드
+	String Storage = saveListData.getString(2); // 출고 창고 코드
+	String InputStorage = saveListData.getString(4); // 입고 공장 코드 - Movement타입이 IR인 경우
+	String movType = saveListData.getString(3).substring(0, 2); // Movement Type
+	String ComCode = saveListData.getString(5); // 회사 코드
+	String PlantCode = saveListData.getString(6); // 입고 공장 코드
+	String OutPlant = saveListData.getString(7); // 출고 공장(plant) 코드
 	String InputComCode = saveListData.getString(8);
 	
 	LocalDateTime now = LocalDateTime.now();
@@ -92,7 +92,15 @@
 	boolean hasNext = rs03.next();
 	boolean updated = false; // 새로 추가한 부분
 	try{
-	if(movType.equals("GI")){	
+		JSONArray InfoArray = new JSONArray();
+		JSONObject jsonobject = new JSONObject();
+		jsonobject.put("MatCode",Material);
+		jsonobject.put("Count",Count);
+		jsonobject.put("movType",saveListData.getString(3));
+		jsonobject.put("OutPlant",OutPlant);
+		jsonobject.put("Storage",Storage);
+		InfoArray.put(jsonobject);
+	if(movType.equals("GI")){
 		if(rs01.next() && rs02.next()){
 			System.out.println("1");
 			int New_Count = Integer.parseInt(Count); //String타입으로 전달받은 Count를 Integer로 전환 , 새로 사용한 재료의 수 : 1개			
@@ -136,8 +144,8 @@
 			pstmt02_01.setString(9, YYMM);
 			pstmt02_01.setString(10, OutPlant);
 			
-			pstmt01_01.executeUpdate();
-			pstmt02_01.executeUpdate();
+// 			pstmt01_01.executeUpdate();
+// 			pstmt02_01.executeUpdate();
 			updated = true; // 새로 추가된 부분
 			System.out.println("1.1");
 		}
@@ -199,9 +207,9 @@
 			IRnew.setBigDecimal(16, Bigzero);
 			IRnew.setBigDecimal(17, Bigzero);
 			
-			pstmt03_01.executeUpdate();
-			pstmt04_01.executeUpdate();
-			IRnew.executeUpdate();
+// 			pstmt03_01.executeUpdate();
+// 			pstmt04_01.executeUpdate();
+// 			IRnew.executeUpdate();
 			updated = true;
 			System.out.println("2.2");
 		} else if(hasNext){
@@ -255,73 +263,18 @@
 			pstmt05_01.setString(7, PlantCode);
 			
 			
-			pstmt03_01.executeUpdate();
-			pstmt04_01.executeUpdate();
-			pstmt05_01.executeUpdate();
+// 			pstmt03_01.executeUpdate();
+// 			pstmt04_01.executeUpdate();
+// 			pstmt05_01.executeUpdate();
 			updated = true;
 			System.out.println("3.1");
 		}
 	}
-	}catch(SQLException e){
-		e.printStackTrace();
-	}finally{
-	    if(rs01 != null) {
-	        try {
-	            rs01.close();
-	        } catch(SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	    if(rs02 != null) {
-	        try {
-	            rs02.close();
-	        } catch(SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	    if(pstmt01 != null) {
-	        try {
-	            pstmt01.close();
-	        } catch(SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	    if(pstmt01_01 != null) {
-	        try {
-	            pstmt01_01.close();
-	        } catch(SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	    if(pstmt02 != null) {
-	        try {
-	            pstmt02.close();
-	        } catch(SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	    if(pstmt02_01 != null) {
-	        try {
-	            pstmt02_01.close();
-	        } catch(SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	    if(conn != null) {
-	        try {
-	            conn.close();
-	        } catch(SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	}
-	/* conn.close(); */
-	
 	response.setContentType("application/json"); // set the response type as JSON
 	response.setCharacterEncoding("UTF-8"); // set the character encoding to UTF-8
-
+// 	response.getWriter().write(InfoArray.toString());
 	JSONObject jsonResponse = new JSONObject(); // create a new JSON object
-
+	jsonResponse.put("DataList", InfoArray);
 	if(updated) { // 변경된 부분
 	    jsonResponse.put("status", "success");
 	    jsonResponse.put("message", "The database has been successfully updated.");
@@ -330,4 +283,7 @@
 	    jsonResponse.put("message", "Failed to update the database.");
 	}
 	response.getWriter().write(jsonResponse.toJSONString()); // write the JSON response
+	}catch(SQLException e){
+		e.printStackTrace();
+	}
 %>

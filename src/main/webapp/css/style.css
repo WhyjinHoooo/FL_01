@@ -2068,10 +2068,14 @@ text-decoration: underline;
 	    padding-left: 10px; 
 	    padding-top: 30px;
 	    padding-bottom: 30px;
-	    width: 100%;
+	    width: 95%;
 	    border-radius: 10px;
-	    margin-left: 300px;
 	}
+	.output-sub-info > .table-container {
+	width: 51%;
+	margin-left: 21%;
+	}
+	
 	.output-main-info .table-container .main-table_01 .plantCode{
 		width : 100px;
 		text-align: center;
@@ -2214,40 +2218,72 @@ text-decoration: underline;
 	#OPResgistform, #OrderRegistForm, #MatInputRegistForm {
         margin-top: 50px;
     }
-	.expiredData .table-container {
-    overflow-y: auto;
+    
+	.expiredData {
     height: 680px;
-    width: 160%;
+    width: 95%;
     border: 1px solid rgba(111,167,235, .5);
-    border-radius: 0px 0px 20px 20px;
 	}
-	
-	.expiredData .WrittenForm {
+	.expiredData > br {
+		display: none;
+	}
+	.expiredData > .WrittenForm {
     border-collapse: collapse;
     width: 100%; /* 수정: 테이블 너비를 100%로 설정 */
+    table-layout: fixed;
+	overflow: scroll;
 	}
-
-	.expiredData .WrittenForm th,
-	.expiredData .WrittenForm td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+	.WrittenForm_Head{
+	display: table;
+	width: 100%;
 	}
-	.expiredData .WrittenForm th {
+	.WrittenForm_Head th {
     background-color: rgb(111, 167, 235);
     position: sticky;
     top: 0;
     color: white;
     text-align: center;
-    z-index: 2; /* 헤더가 다른 요소 위에 오도록 설정, 추가 */
+    z-index: 10; /* 헤더가 다른 요소 위에 오도록 설정, 추가 */
+	width: 65px;
+	font-size: small;
+	font-weight: bold;
+	padding: 8px;
+	border: 1px solid white;
 	}
-
+	.WrittenForm_Body{
+	table-layout: fixed;
+	display: block;
+	width: 100.3%;
+	height: 650px;
+	max-height: 100%;
+	overflow-y: auto;
+	}
+	.WrittenForm_Body td {
+	padding: 8px;
+	border: 1px solid #ddd;
+	width: 294px;
+	height: 10px;
+	text-align: center;
+	}
 	.expiredData .WrittenForm .datasize {
     text-align: center;
 	}
 	
+	.expiredData .WrittenForm tbody::-webkit-scrollbar {
+    width: 5px;
+  	}
+  	.expiredData .WrittenForm tbody::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+  	}
+  	.expiredData .WrittenForm tbody::-webkit-scrollbar-track {
+    background-color: white;
+    border-radius: 1px;
+    box-shadow: inset 0px 0px 5px white;
+  	}
+  	
 	.inputArea {
-	margin: 10px 0px 0px 400px;
+	margin-top: 10px;
 	width: 90%;
     position: relative;
 	}
