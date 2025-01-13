@@ -191,6 +191,7 @@ $(document).ready(function(){
 	var itemNum = 0;
 	var deletedItems = []; 
     var maxRowNum = 0;
+    
 	$(document).on('click', "img[name='Down']", function(){
 	var InfoArray = [];
 
@@ -214,7 +215,7 @@ $(document).ready(function(){
 	
 	var UseDepart = $('.UseDepart').val(); // 사용 부서 !
 	var ProLotNum = $('.LotNumber').val(); // 생산 Lot번호 !
-	var MatLotNum = $('.MatLotNo')// 자재 Lot 번호 !
+	var MatLotNum = $('.MatLotNo').val();// 자재 Lot 번호 !
 	InfoArray = [outCount, materialCode, outStorage, giIr, inputStorage, ComCode, plantCode, OutPlant, InputComCode];
 	
 	itemNum++;
@@ -243,6 +244,30 @@ $(document).ready(function(){
 		        if(response.status == "success"){
 		        	$('.WrittenForm_Body').empty();
 		        	console.log(response.DataList.length);
+		        	console.log('MatCode : ' + response.DataList[0].MatCode);
+		        	for(var i = 0 ; i < response.DataList.length ; i++){
+		        		var row = '<tr>' +
+						'<td>' + currentGIN + '</td>' +
+						'<td><button class="deleteBTN" name="deleteBTN">삭제</button></td>' + 
+						'<td>' + DocCode + '</td>' + 
+						'<td>' + String(currentGIN).padStart(4, "0") + '</td>' + 
+						'<td>' + response.DataList[i].MatCode + '</td>' + 
+						'<td>' + MatDes + '</td>' + 
+						'<td>' + MatType + '</td>' + 
+						'<td>' + response.DataList[i].movType + '</td>' +
+						'<td>' + response.DataList[i].Count + '</td>' + 
+						'<td>' + MatCountUnit + '</td>' + 
+						'<td>' + UseDepart + '</td>' + 
+						'<td>' + ProLotNum + '</td>' + 
+						'<td>' + "출고 일자" + '</td>' + 
+						'<td>' + MatLotNum + '</td>' + 
+						'<td>' + response.DataList[i].Storage + '</td>' + 
+						'<td>' + response.DataList[i].OutPlant + '</td>' +
+						'<td>' + "입고 창고" + '</td>' +
+						'</tr>';
+					$('.WrittenForm_Body').append(row);
+		        	}
+		        	console.log('(실험)길이' + $('.WrittenForm_Body > tr').length);
 		        } 
 		    },
 		    error: function(jqXHR, textStatus, errorThrown){
@@ -251,6 +276,7 @@ $(document).ready(function(){
 		});
 	});
 	$(".WrittenForm").on('click',"input[name='deleteBTN']",function(){
+		event.preventDefault();
 		var row = $(this).closest('tr');
 		var orderNum = row.find('td:eq(2)').text();
 		var GINo = row.find('td:eq(3)').text();
@@ -316,7 +342,7 @@ $(document).ready(function(){
 </head>
 <body>
 	<jsp:include page="../HeaderTest.jsp"></jsp:include>
-		<form name="OPResgistform" id="OPResgistform" action="OutPut_Ok.jsp" method="POST" enctype="UTF-8">
+		<div name="OPResgistform" id="OPResgistform"> <!-- action="OutPut_Ok.jsp" method="POST" enctype="UTF-8" -->
 			<div class="Content-Wrapper-OutAside">
 				<aside class="side-menu-container" id="Out_SideMenu">
 					<li>Plant</li>
@@ -511,7 +537,7 @@ $(document).ready(function(){
 				<table class="WrittenForm">
 					<thead class="WrittenForm_Head">
 						<th>항번</th><th>삭제</th><th>문서번호</th><th>품목번호</th><th>자재</th><th>자재 설명</th><th>자재 유형</th><th>출고 구분</th><th>수량</th><br>
-						<th>단위</th><th>사용 부서</th><th>생산 Lot 번호</th><th>출고 일자</th><th>자재 Lot 번호</th><th>출고 창고</th><th>공장</th><th>입고 창고</th>
+						<th>단위</th><th>사용 부서</th><th>생산 Lot 번호</th><th>출고 일자</th><th>자재 Lot 번호</th><th>출고 창고</th><th>공장(Plant)</th><th>입고 창고</th>
 					</thead>
 					<tbody class="WrittenForm_Body">
 					</tbody>
@@ -520,6 +546,6 @@ $(document).ready(function(){
 		</section>				
 </div>				
 			</div> <!-- Content-Wrapper-OutAside END -->	
-		</form>
+		</div>
 </body>
 </html>

@@ -2261,10 +2261,43 @@ text-decoration: underline;
 	.WrittenForm_Body td {
 	padding: 8px;
 	border: 1px solid #ddd;
-	width: 294px;
+	width: 109.3px;
 	height: 10px;
 	text-align: center;
+	font-size: 10px;
+	font-weight: bold;
 	}
+	.WrittenForm_Body td:nth-child(2) {
+	padding: 0px;
+	border: 1px solid #ddd;
+	width: 109.3px;
+	height: 10px;
+	text-align: center;
+	font-size: 10px;
+	font-weight: bold;
+	}
+	.WrittenForm_Body td > button.deleteBTN {
+	background: rgb(235, 194, 111);
+	color: white;
+	font-size: small;
+	font-weight: bold;
+	width: 125px;
+	height: 37px;
+	border: 1px solid white;
+	border-radius: 5px;
+	}
+	.WrittenForm_Body td > button.deleteBTN:hover {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid white;
+	}
+	.WrittenForm_Body td > button.deleteBTN:active {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid white;
+	}
+	
+	
 	.expiredData .WrittenForm .datasize {
     text-align: center;
 	}
