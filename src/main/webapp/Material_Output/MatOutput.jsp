@@ -193,47 +193,46 @@ $(document).ready(function(){
     var maxRowNum = 0;
     
 	$(document).on('click', "img[name='Down']", function(){
-	var InfoArray = [];
-
-	var DocCode = $('.Doc_Num').val(); // Mat. 출고 문서번호 !
-	var SeqNum = $('.GINo').val(); // 아이템 번호 !
+		var InfoArray = [];
 	
-	var outCount = $('.OutCount').val(); // 출고 수량 3
-	
-	var materialCode = $('.MatCode').val();// 출고 자재코드 010101-00001
-	var MatDes = $('.MatDes').val(); // 출고 자재에 대한 설명 !
-	var MatType = $('.MatType').val(); // 자재 종류 !
-	var MatCountUnit = $('.OrderUnit').val(); // 자재 단위 !
-	
-	var outStorage = $('.StorageCode').val();// 출고창고
-	var inputStorage = $('.InputStorage').val(); // IR일 때, 입고 창고
-	var giIr = $('.movCode').val();
-	var ComCode = $('.plantComCode').val();
-	var OutPlant = $('.plantCode').val();
-	var plantCode = $('.TransPlantCode').val();
-	var InputComCode = $('.TransComCode').val();
-	
-	var UseDepart = $('.UseDepart').val(); // 사용 부서 !
-	var ProLotNum = $('.LotNumber').val(); // 생산 Lot번호 !
-	var MatLotNum = $('.MatLotNo').val();// 자재 Lot 번호 !
-	InfoArray = [outCount, materialCode, outStorage, giIr, inputStorage, ComCode, plantCode, OutPlant, InputComCode];
-	
-	itemNum++;
-	var currentGIN = parseInt($('.GINo').val(), 10);
-	var type = $('.movCode').val().substring(0, 2);
-	var DataToSend = {};
-	$(".KeyInfo").each(function(){
-		var name = $(this).attr("name");
-		var value = $(this).val();
-		DataToSend[name] = value;
-	});
-	const DataArry = [$('.MatCode'),$('.MatDes'),$('.MatType'),$('.MatLotNo'),$('.MakeDate'),$('.DeadDete'),$('.OutCount'),$('.OrderUnit'),$('.UseDepart'),$('.BeforeCount'),$('.DepartName'),$('.InputStorage'),$('.LotNumber')];
-	DataArry.forEach(input => input.val(''));
-	
-	$('.UseDepart').prop('disabled', false);
-	$('.InputStorage').prop('disabled', false);
-	$('.LotNumber').prop('disabled', false);
-	console.log('InfoArray : ',InfoArray);
+		var DocCode = $('.Doc_Num').val(); // Mat. 출고 문서번호 !
+		var SeqNum = $('.GINo').val(); // 아이템 번호 !
+		
+		var outCount = $('.OutCount').val(); // 출고 수량 3
+		
+		var materialCode = $('.MatCode').val();// 출고 자재코드 010101-00001
+		var MatDes = $('.MatDes').val(); // 출고 자재에 대한 설명 !
+		var MatType = $('.MatType').val(); // 자재 종류 !
+		var MatCountUnit = $('.OrderUnit').val(); // 자재 단위 !
+		
+		var outStorage = $('.StorageCode').val();// 출고창고
+		var inputStorage = $('.InputStorage').val(); // IR일 때, 입고 창고
+		var giIr = $('.movCode').val();
+		var ComCode = $('.plantComCode').val();
+		var OutPlant = $('.plantCode').val();
+		var plantCode = $('.TransPlantCode').val();
+		var InputComCode = $('.TransComCode').val();
+		
+		var UseDepart = $('.UseDepart').val(); // 사용 부서 !
+		var ProLotNum = $('.LotNumber').val(); // 생산 Lot번호 !
+		var MatLotNum = $('.MatLotNo').val();// 자재 Lot 번호 !
+		InfoArray = [outCount, materialCode, outStorage, giIr, inputStorage, ComCode, plantCode, OutPlant, InputComCode];
+		
+		itemNum++;
+		var currentGIN = parseInt($('.GINo').val(), 10);
+		var type = $('.movCode').val().substring(0, 2);
+		var DataToSend = {};
+		$(".KeyInfo").each(function(){
+			var name = $(this).attr("name");
+			var value = $(this).val();
+			DataToSend[name] = value;
+		});
+		const DataArry = [$('.MatCode'),$('.MatDes'),$('.MatType'),$('.MatLotNo'),$('.MakeDate'),$('.DeadDete'),$('.OutCount'),$('.OrderUnit'),$('.UseDepart'),$('.BeforeCount'),$('.DepartName'),$('.InputStorage'),$('.LotNumber')];
+		DataArry.forEach(input => input.val(''));
+		
+		$('.UseDepart').prop('disabled', false);
+		$('.InputStorage').prop('disabled', false);
+		$('.LotNumber').prop('disabled', false);
 		$.ajax({
 			url : 'tmhcEdit.jsp',
 			type : 'POST',
@@ -242,32 +241,59 @@ $(document).ready(function(){
 				console.log(response.status);
 				console.log(response.DataList);
 		        if(response.status == "success"){
-		        	$('.WrittenForm_Body').empty();
-		        	console.log(response.DataList.length);
-		        	console.log('MatCode : ' + response.DataList[0].MatCode);
-		        	for(var i = 0 ; i < response.DataList.length ; i++){
-		        		var row = '<tr>' +
-						'<td>' + currentGIN + '</td>' +
-						'<td><button class="deleteBTN" name="deleteBTN">삭제</button></td>' + 
-						'<td>' + DocCode + '</td>' + 
-						'<td>' + String(currentGIN).padStart(4, "0") + '</td>' + 
-						'<td>' + response.DataList[i].MatCode + '</td>' + 
-						'<td>' + MatDes + '</td>' + 
-						'<td>' + MatType + '</td>' + 
-						'<td>' + response.DataList[i].movType + '</td>' +
-						'<td>' + response.DataList[i].Count + '</td>' + 
-						'<td>' + MatCountUnit + '</td>' + 
-						'<td>' + UseDepart + '</td>' + 
-						'<td>' + ProLotNum + '</td>' + 
-						'<td>' + "출고 일자" + '</td>' + 
-						'<td>' + MatLotNum + '</td>' + 
-						'<td>' + response.DataList[i].Storage + '</td>' + 
-						'<td>' + response.DataList[i].OutPlant + '</td>' +
-						'<td>' + "입고 창고" + '</td>' +
-						'</tr>';
-					$('.WrittenForm_Body').append(row);
+		        	if($('.WrittenForm_Body > tr').length === 50){
+		        		$('.WrittenForm_Body').empty();
+			        	for(var i = 0 ; i < response.DataList.length ; i++){
+			        		var row = '<tr>' +
+							'<td>' + currentGIN + '</td>' + // 0
+							'<td><button class="deleteBTN" id="deleteBTN">삭제</button></td>' + 
+							'<td>' + DocCode + '</td>' + 
+							'<td>' + String(currentGIN).padStart(4, "0") + '</td>' + 
+							'<td>' + response.DataList[i].MatCode + '</td>' + 
+							'<td>' + MatDes + '</td>' + 
+							'<td>' + MatType + '</td>' + 
+							'<td>' + response.DataList[i].movType + '</td>' +
+							'<td>' + response.DataList[i].Count + '</td>' + 
+							'<td>' + MatCountUnit + '</td>' + 
+							'<td>' + UseDepart + '</td>' + 
+							'<td>' + ProLotNum + '</td>' + 
+							'<td>' + "출고 일자" + '</td>' + 
+							'<td>' + MatLotNum + '</td>' + 
+							'<td>' + response.DataList[i].Storage + '</td>' + 
+							'<td>' + response.DataList[i].OutPlant + '</td>' +
+							'<td>' + "입고 창고" + '</td>' +
+							'<td hidden>' + response.DataList[i].ComCode + '</td>' +
+							'</tr>';
+						$('.WrittenForm_Body').append(row);
+			        	}
+		        		$('.GINo').val('0002');
+		        	} else {
+		        		for(var i = 0 ; i < response.DataList.length ; i++){
+			        		var row = '<tr>' +
+							'<td>' + currentGIN + '</td>' + // 0
+							'<td><button class="deleteBTN" name="deleteBTN">삭제</button></td>' + 
+							'<td>' + DocCode + '</td>' + 
+							'<td>' + String(currentGIN).padStart(4, "0") + '</td>' + 
+							'<td>' + response.DataList[i].MatCode + '</td>' + 
+							'<td>' + MatDes + '</td>' + 
+							'<td>' + MatType + '</td>' + 
+							'<td>' + response.DataList[i].movType + '</td>' +
+							'<td>' + response.DataList[i].Count + '</td>' + 
+							'<td>' + MatCountUnit + '</td>' + 
+							'<td>' + UseDepart + '</td>' + 
+							'<td>' + ProLotNum + '</td>' + 
+							'<td>' + "출고 일자" + '</td>' + 
+							'<td>' + MatLotNum + '</td>' + 
+							'<td>' + response.DataList[i].Storage + '</td>' + 
+							'<td>' + response.DataList[i].OutPlant + '</td>' +
+							'<td>' + "입고 창고" + '</td>' +
+							'<td hidden>' + response.DataList[i].ComCode + '</td>' +
+							'</tr>';
+						$('.WrittenForm_Body').append(row);
+			        	}
+		        		$('.GINo').val(String($('.WrittenForm_Body > tr').length + 1).padStart(4, "0"));
 		        	}
-		        	console.log('(실험)길이' + $('.WrittenForm_Body > tr').length);
+		        	
 		        } 
 		    },
 		    error: function(jqXHR, textStatus, errorThrown){
@@ -275,43 +301,53 @@ $(document).ready(function(){
 		    }
 		});
 	});
-	$(".WrittenForm").on('click',"input[name='deleteBTN']",function(){
+	var DeleteEle = [];
+	$(document).on("click", "#deleteBTN", function() {
 		event.preventDefault();
 		var row = $(this).closest('tr');
-		var orderNum = row.find('td:eq(2)').text();
-		var GINo = row.find('td:eq(3)').text();
-		console.log("삭제될 항번의 Doc_Num : " + orderNum + ", 삭제될 항번의 GI Item No : " + GINo);
-		deletedItems.push({doc_num : orderNum, GINO : GINo});
-		console.log(deletedItems);
-		console.log("곧 삭제될 항번의 Doc_Num : " + orderNum + ", GI Item No : " + GINo);
-		row.remove();
-		row--;
+		var orderNum = row.find('td:eq(2)').text(); // 문서번호
+		var GINo = row.find('td:eq(3)').text(); // 품목번호
+		var MatCode = row.find('td:eq(4)').text(); // 자재 코드
+		var ComCode = row.find('td:eq(17)').text(); // 기업 코드
+		var PlantCode = row.find('td:eq(15)').text(); // 공장(plant) 코드
+		var StorageCode = row.find('td:eq(14)').text(); // 창고(storage) 코드
+		var Date = $('.Out_date').val().substring(0,7);
+		var Count = row.find('td:eq(8)').text();
 		
-		$(".WrittenForm tr").each(function(index){
-			if(index != 0){
-				$(this).find('td:first').text(index);
-			}
-		});
+		DeleteEle = [orderNum, GINo, MatCode, ComCode, StorageCode, PlantCode, Date, Count];
+		console.log('DeleteEle : ', DeleteEle);
+		
 		$.ajax({
-			url : 'delete.jsp',
+			url : '${contextPath}/Material_Output/delete.jsp',
 			type : 'POST',
-			data : {'data' : JSON.stringify(deletedItems)},
-			contentType : 'application/x-www-form-urlencoded; charset=utf-8',
+			data : JSON.stringify(DeleteEle),
+			contentType: 'application/json; charset=utf-8',
 			dataType : 'json',
-			async : false,
-			success : function(data){
-				if(data.result){
-					console.log("삭제 성공");
-					$("input[name='GINo']").val(data.deletedGINO); // 삭제된 GINO 입력
-				} else{
-					console.log("삭제 실패 : " + data.message);
+			success : function(response){
+				if(response.status === 'success'){
+					row.remove();
+					var index = $('.WrittenForm_Body > tr').length;
+					console.log('index : ' + index);
+					if(index === 0){
+						$('.GINo').val('0001');
+						InitialTable();
+					} else{
+						console.log('%%%%%%%%%%%%%');
+						$('.GINo').val(String(index+1).padStart(4, "0"));
+						$(".WrittenForm_Body tr").each(function(index){
+							if (index > 0) {  // 0을 제외하고 모든 index에 대해 실행
+						        var number = index;
+						        console.log('number : ' + number);
+						        $(this).find('td:eq(0)').text(number);
+						        $(this).find('td:eq(3)').text(("0000" + number).slice(-4));
+						    }
+				        });
+					}
 				}
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-					console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+			},error: function(jqXHR, textStatus, errorThrown) {
+			    console.log("AJAX 오류: " + textStatus + " : " + errorThrown);
 			}
 		});
-			console.log(deletedItems);
 	});
 	$('.GINo').change(function() {
         var number = $(this).val();

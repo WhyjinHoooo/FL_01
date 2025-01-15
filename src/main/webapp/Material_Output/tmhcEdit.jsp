@@ -1,3 +1,4 @@
+<%@page import="java.math.RoundingMode"%>
 <%@page import="org.json.JSONArray"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDateTime"%>
@@ -33,17 +34,17 @@
 	LocalDateTime now = LocalDateTime.now();
 	String YYMM = now.format(DateTimeFormatter.ofPattern("yyyy-MM"));
 	
-	System.out.println("YYMM : " + YYMM);
-	System.out.println("전달받은 수량 : " + Count);
-	System.out.println("자재코드 : " + Material);
-	System.out.println("MoveCode : " + movType);
-	System.out.println("출고 Plant 코드 : " + OutPlant);
-	System.out.println("출고 Plant의 Company 코드 : " + ComCode);
-	System.out.println("출고 창고 코드 : " + Storage);
-	System.out.println("------------------------------------");
-	System.out.println("입고 Plant 코드 : " + PlantCode);
-	System.out.println("입고할 창고의 Company 코드 : " + InputComCode);
-	System.out.println("입고할 창고 코드 : " + InputStorage);
+// 	System.out.println("YYMM : " + YYMM);
+// 	System.out.println("전달받은 수량 : " + Count);
+// 	System.out.println("자재코드 : " + Material);
+// 	System.out.println("MoveCode : " + movType);
+// 	System.out.println("출고 Plant 코드 : " + OutPlant);
+// 	System.out.println("출고 Plant의 Company 코드 : " + ComCode);
+// 	System.out.println("출고 창고 코드 : " + Storage);
+// 	System.out.println("------------------------------------");
+// 	System.out.println("입고 Plant 코드 : " + PlantCode);
+// 	System.out.println("입고할 창고의 Company 코드 : " + InputComCode);
+// 	System.out.println("입고할 창고 코드 : " + InputStorage);
 	
 	String sql01 = "SELECT * FROM totalMaterial_head WHERE Material = ? AND Com_Code = ? AND YYMM = ?"; 
 	String sql02 = "SELECT * FROM totalmaterial_child WHERE StorLoc = ? AND Material = ? AND Com_Code = ? AND YYMM = ? AND Plant = ?"; // 출고 또는 이체출고 시, 출고할 창고
@@ -99,6 +100,7 @@
 		jsonobject.put("movType",saveListData.getString(3));
 		jsonobject.put("OutPlant",OutPlant);
 		jsonobject.put("Storage",Storage);
+		jsonobject.put("ComCode",ComCode);
 		InfoArray.put(jsonobject);
 	if(movType.equals("GI")){
 		if(rs01.next() && rs02.next()){
@@ -119,10 +121,10 @@
 			BigDecimal C_IUprice = rs02.getBigDecimal("Inventory_UnitPrice"); // 재고 단가 3.000원
 			
 			int Insert_MatQTY = C_MatOutQTY + New_Count; // Child에 입력할 기존의 출고 수량 + 새로운 출고 수량 -> 출고 수량 1 + 1 = 2개 Ok
-			BigDecimal Insert_MatAMT = BigDecimal.valueOf(Insert_MatQTY).multiply(H_IUprice); // Child에 저장할 출고 금액(출고수량 * 재고단가) -> 출고 금액 2 * 3.000 = 6원 Ok
+			BigDecimal Insert_MatAMT = (BigDecimal.valueOf(Insert_MatQTY).multiply(H_IUprice)).setScale(0, RoundingMode.HALF_UP); // Child에 저장할 출고 금액(출고수량 * 재고단가) -> 출고 금액 2 * 3.000 = 6원 Ok
 			int Insert_IvenQTY = rs02.getInt("Initial_Qty") + rs02.getInt("Purchase_In") - Insert_MatQTY - rs02.getInt("Transfer_InOut");//C_IQTY - New_Count, 기존의 재고수량 - 출고수량 -> 재고수량 162 - 1 = 161개 Ok 
 			BigDecimal Insert_IvenAMT = BigDecimal.valueOf(C_IAMT).subtract(BigDecimal.valueOf(New_Count).multiply(H_IUprice)); // Child에 저장된 재고 금액 - 출고 금액 -> 재고금액 486 - 6 = 480원 X 483 
-			H_IUprice = BigDecimal.valueOf(rs01.getInt("Purchase_Amt") + rs01.getInt("Initial_Amt")).divide(BigDecimal.valueOf(rs01.getInt("Initial_Qty") + rs01.getInt("Purchase_In")));
+			H_IUprice = BigDecimal.valueOf(rs01.getInt("Purchase_Amt") + rs01.getInt("Initial_Amt")).divide(BigDecimal.valueOf(rs01.getInt("Initial_Qty") + rs01.getInt("Purchase_In")),3,RoundingMode.HALF_UP);
 			// (489 + 0) / (0 + 163) = 3.0000
 			pstmt01_01.setInt(1, Insert_MatQTY); // 2
 			pstmt01_01.setBigDecimal(2, Insert_MatAMT); // 6
@@ -144,8 +146,8 @@
 			pstmt02_01.setString(9, YYMM);
 			pstmt02_01.setString(10, OutPlant);
 			
-// 			pstmt01_01.executeUpdate();
-// 			pstmt02_01.executeUpdate();
+			pstmt01_01.executeUpdate();
+			pstmt02_01.executeUpdate();
 			updated = true; // 새로 추가된 부분
 			System.out.println("1.1");
 		}
