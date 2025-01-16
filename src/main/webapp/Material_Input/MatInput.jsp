@@ -716,7 +716,7 @@ $(document).ready(function(){
 							
 							<table class="table_6">
 								<tr>
-									<th class="info">지제 Lot 번호 : </th>
+									<th class="info">자제 Lot 번호 : </th>
 										<td class="input-info">
 											<input type="text" class="LotNum Dinfo" name="LotName"> <!-- ? -->
 										</td>

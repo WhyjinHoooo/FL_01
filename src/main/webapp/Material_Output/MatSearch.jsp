@@ -27,7 +27,7 @@
         if((PlantCode == null || PlantCode.isEmpty()) || (StorageCode == null || StorageCode.isEmpty())){
 	%>
 		<tr>
-		<td colspan="3"><a href="javascript:void(0)" onClick="window.close();">Plant 또는 출고창고를(을) 선택해주세요.</a></td>
+		<td colspan="5"><a href="javascript:void(0)" onClick="window.close();">Plant 또는 출고창고를(을) 선택해주세요.</a></td>
 		</tr>
 	<%
         } else{
@@ -51,22 +51,22 @@
         	do{
     %>
 		<tr>
-			<td><%=rs.getString("MMPO") %></td>
-			<td><%=rs.getString("MatCode") %></td>
-			<td hidden><%=rs.getString("MatType") %></td>
-			<td><%=rs.getString("Count") %></td>
-			<td><%=rs.getString("PO_Rem") %></td>
 			<td>
-			  <a href="javascript:void(0)" onclick="
+				<a href="javascript:void(0)" onclick="
 			    window.opener.document.querySelector('.MatCode').value='<%=rs.getString("MatCode")%>';
 			    window.opener.document.querySelector('.MatDes').value='<%=rs.getString("MatDes")%>';
 			    window.opener.document.querySelector('.MatType').value='<%=rs.getString("MatType")%>';
 			    window.opener.document.querySelector('.MatDocCode').value='<%=rs.getString("MMPO")%>';
 			    window.opener.document.querySelector('.MatCode').dispatchEvent(new Event('change'));
 			    window.close();">
-			    <%=rs.getString("MatDes")%>
-			  </a>
+				<%=rs.getString("MMPO") %>
+				</a>
 			</td>
+			<td><%=rs.getString("MatCode") %></td>
+			<td hidden><%=rs.getString("MatType") %></td>
+			<td><%=rs.getString("Count") %></td>
+			<td><%=rs.getString("PO_Rem") %></td>
+			<td><%=rs.getString("MatDes")%></td>
 		</tr>    
     <%    		
 	    	    	}while(rs.next());

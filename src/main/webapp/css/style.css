@@ -369,6 +369,13 @@
 	    width: 7.5%; /* 폭을 100px로 설정 */
 	    margin-right: 100px;
 	    border-radius: 20px;
+	    padding: 0px 23px 0px 10px;
+    }
+    .side-menu-container li {
+        font-weight: bold;
+        list-style: none;
+        margin: 10px 0px 0px 20px;
+        padding-bottom: 5px;
     }
     
 	/* 자재입고 페이지  CSS 시작 */
@@ -731,18 +738,18 @@
 	    margin-left: 20px;
 	}
 	
-	#SideMenu li {
-	    font-weight: bold;
-	    list-style: none;
-	    margin-left: 20px;
-	    margin-top: 10px;
-	}
-	#In_SideMenu li {
-	    font-weight: bold;
-	    list-style: none;
-	    margin-left: 20px;
-	    margin-top: 10px;
-	}
+/* 	#SideMenu li { */
+/* 	    font-weight: bold; */
+/* 	    list-style: none; */
+/* 	    margin-left: 20px; */
+/* 	    margin-top: 10px; */
+/* 	} */
+/* 	#In_SideMenu li { */
+/* 	    font-weight: bold; */
+/* 	    list-style: none; */
+/* 	    margin-left: 20px; */
+/* 	    margin-top: 10px; */
+/* 	} */
 	#In_SideMenu .plantCode,
 	#In_SideMenu .VendorCode {
     text-align: center;
@@ -2029,12 +2036,12 @@ text-decoration: underline;
     display: flex; /* Flex 컨테이너 설정 */
 	}
 	
-	#Out_SideMenu li {
-	    font-weight: bold;
-	    list-style: none;
-	    margin-left: 20px;
-	    margin-top: 10px;
-	}
+/* 	#Out_SideMenu li { */
+/* 	    font-weight: bold; */
+/* 	    list-style: none; */
+/* 	    margin-left: 20px; */
+/* 	    margin-top: 10px; */
+/* 	} */
 	#Out_SideMenu .plantCode,
 	#Out_SideMenu .StorageCode,
 	#Out_SideMenu .movCode {
@@ -2072,7 +2079,7 @@ text-decoration: underline;
 	    border-radius: 10px;
 	}
 	.output-sub-info > .table-container {
-	width: 51%;
+	width: 52%;
 	margin-left: 21%;
 	}
 	
@@ -2253,7 +2260,7 @@ text-decoration: underline;
 	.WrittenForm_Body{
 	table-layout: fixed;
 	display: block;
-	width: 100.3%;
+	width: 100%;
 	height: 650px;
 	max-height: 100%;
 	overflow-y: auto;

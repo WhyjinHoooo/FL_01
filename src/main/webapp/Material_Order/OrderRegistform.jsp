@@ -296,13 +296,13 @@ $(document).ready(function(){
 				<%
 					if( plantCode == null){
 				%>
-				<a href="javascript:void(0);" onclick="InfoSearch('PlantSearch')"><input type="text" class="plantCode Key-Com" name="plantCode" placeholder="선택" readonly></a> <!-- 전송 -->
+				<input type="text" class="plantCode Key-Com" name="plantCode" onclick="InfoSearch('PlantSearch')" placeholder="선택" readonly>
 				<input type="text" class="plantDes" name="plantDes" readonly> 
 				<input type="text" name="plantComCode" class="plantComCode" hidden>
 				<%
 					} else{
 					%>
-				<a href="javascript:void(0);" onclick="InfoSearch('PlantSearch')"><input type="text" class="plantCode Key-Com" name="plantCode" readonly value="<%= plantCode %>"></a>
+				<input type="text" class="plantCode Key-Com" name="plantCode" readonly value="<%= plantCode %>" onclick="InfoSearch('PlantSearch')">
 				<input type="text" class="plantDes" name="plantDes" readonly value="<%= plantDes %>">
 				<input type="text" name="plantComCode" class="plantComCode" hidden value="<%= plantComCode %>">
 				<%
@@ -312,7 +312,7 @@ $(document).ready(function(){
 				<br><br>
 				<li>Vendor</li>
 					<td class="input-info" colspan="2">
-						<a href="javascript:void(0);" onclick="InfoSearch('VendorSearch')"><input type="text" class="VendorCode" name="VendorCode" placeholder="선택" readonly></a>
+						<input type="text" class="VendorCode" name="VendorCode" onclick="InfoSearch('VendorSearch')" placeholder="선택" readonly>
 						<input type="text" class="VendorDes" name="VendorDes" readonly>
 				</td>
 					<br><br>
@@ -323,7 +323,7 @@ $(document).ready(function(){
 					<br><br>
 				<li>ORD type</th></li>
 					<td>
-						<a href="javascript:void(0);" onclick="InfoSearch('OrdTypeSearch')"><input type="text" class="ordType Key-Com" name="ordType" value=PURO readonly></a>
+						<input type="text" class="ordType Key-Com" name="ordType" onclick="InfoSearch('OrdTypeSearch')" value=PURO readonly>
 					</td>
 					<br><br>
 				<li>발주자 사번</th></li>
@@ -361,8 +361,7 @@ $(document).ready(function(){
 					<table class="table_2">
 						<tr><th class="info">Material : </th>
 							<td class="input-info" id="twoLines" colspan="2"> 
-								<a href="javascript:void(0);" onclick="InfoSearch('MatSearch')"><input type="text" class="MatCode Key-Com" name="MatCode" size="10" readonly></a> <!-- 전송 -->
-								<!-- <input type="text" class="MatDes Key-Com" name="MatDes" readonly> 전송 -->
+								<input type="text" class="MatCode Key-Com" name="MatCode" onclick="InfoSearch('MatSearch')" size="10" readonly>
 								<input type="text" class="MatDes Key-Com" name="MatDes" readonly><!--  전송 -->
 							</td> 
 							
@@ -437,24 +436,6 @@ $(document).ready(function(){
 								</td>
 								
 							<td class="spaceCell-90"></td>
-							
-							<script type="text/javascript">
-// 							$(document).ready(function(){
-// 							    $('.OrderCount').on('input', function(){
-// 							        var count = parseFloat($(this).val());
-// 							        var unit = parseFloat($('.Oriprice').val());
-// 							        var money = $('.MonUnit').val();
-// 							        var total;
-// 							        if(money == "KRW"){
-// 							            total = Math.round(count * unit);
-// 							        } else{
-// 							            total = (count * unit).toFixed(2);
-// 							        }
-// 							        console.log('발주수량 : ' + count + ', 구입단가 : ' + unit + ', 거래통화 : ' + money + ', 총액 : ' + total);
-// 							        $('input[name="OrdPrice"]').val(total);
-// 							    });
-// 							})
-							</script>
 								
 							<th class="info">거래통화 : </th>
 								<td class="input-info">

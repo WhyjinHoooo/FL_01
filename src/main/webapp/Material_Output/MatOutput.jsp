@@ -11,7 +11,6 @@
 <%@ include file="../mydbcon.jsp" %>
 <link rel="stylesheet" href="../css/style.css?after">
 <title>자재출고</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <script>
 function InfoSearch(field){
@@ -173,7 +172,6 @@ $(document).ready(function(){
         }
         
         var date = $('.Out_date').val();
-        console.log("전달받은 Movement Type Code : " + Code + "전달받은 날짜 : " + date);
         $.ajax({
             type : "POST",
             url : "MakeDocNumber.jsp",
@@ -186,12 +184,7 @@ $(document).ready(function(){
             }
         })
     });
-	
-	var rowNum = 1;
-	var itemNum = 0;
-	var deletedItems = []; 
-    var maxRowNum = 0;
-    
+	 
 	$(document).on('click', "img[name='Down']", function(){
 		var InfoArray = [];
 	
@@ -218,7 +211,6 @@ $(document).ready(function(){
 		var MatLotNum = $('.MatLotNo').val();// 자재 Lot 번호 !
 		InfoArray = [outCount, materialCode, outStorage, giIr, inputStorage, ComCode, plantCode, OutPlant, InputComCode];
 		
-		itemNum++;
 		var currentGIN = parseInt($('.GINo').val(), 10);
 		var type = $('.movCode').val().substring(0, 2);
 		var DataToSend = {};
@@ -302,7 +294,7 @@ $(document).ready(function(){
 		});
 	});
 	var DeleteEle = [];
-	$(document).on("click", "#deleteBTN", function() {
+	$(document).on("click", ".deleteBTN", function() {
 		event.preventDefault();
 		var row = $(this).closest('tr');
 		var orderNum = row.find('td:eq(2)').text(); // 문서번호
@@ -315,8 +307,6 @@ $(document).ready(function(){
 		var Count = row.find('td:eq(8)').text();
 		
 		DeleteEle = [orderNum, GINo, MatCode, ComCode, StorageCode, PlantCode, Date, Count];
-		console.log('DeleteEle : ', DeleteEle);
-		
 		$.ajax({
 			url : '${contextPath}/Material_Output/delete.jsp',
 			type : 'POST',
@@ -326,22 +316,18 @@ $(document).ready(function(){
 			success : function(response){
 				if(response.status === 'success'){
 					row.remove();
-					var index = $('.WrittenForm_Body > tr').length;
-					console.log('index : ' + index);
+					var index = $('.WrittenForm_Body tr').length;
 					if(index === 0){
 						$('.GINo').val('0001');
 						InitialTable();
 					} else{
-						console.log('%%%%%%%%%%%%%');
 						$('.GINo').val(String(index+1).padStart(4, "0"));
-						$(".WrittenForm_Body tr").each(function(index){
-							if (index > 0) {  // 0을 제외하고 모든 index에 대해 실행
-						        var number = index;
-						        console.log('number : ' + number);
-						        $(this).find('td:eq(0)').text(number);
-						        $(this).find('td:eq(3)').text(("0000" + number).slice(-4));
-						    }
-				        });
+						$('.WrittenForm_Body tr').each(function(index){
+							var number = index + 1;
+							console.log('number : ' + number);
+							$(this).find('td:eq(0)').text(number);
+							$(this).find('td:eq(3)').text(("0000" + number).slice(-4));
+						});
 					}
 				}
 			},error: function(jqXHR, textStatus, errorThrown) {
@@ -352,7 +338,6 @@ $(document).ready(function(){
 	$('.GINo').change(function() {
         var number = $(this).val();
         var doc = $('.Doc_Num').val();
-        console.log("전달받은 GI Item No : " + number + ", Mat.출고 문서번호 : " + doc);
         $.ajax({
             type : "POST",
             url : "Deduplication.jsp",
@@ -364,6 +349,10 @@ $(document).ready(function(){
             }
         })
     });
+	
+	$('.input-btn').click(function() {
+		location.reload();
+	});
 });
 </script>
 
@@ -378,12 +367,12 @@ $(document).ready(function(){
 </head>
 <body>
 	<jsp:include page="../HeaderTest.jsp"></jsp:include>
-		<div name="OPResgistform" id="OPResgistform"> <!-- action="OutPut_Ok.jsp" method="POST" enctype="UTF-8" -->
+		<div name="OPResgistform" id="OPResgistform">
 			<div class="Content-Wrapper-OutAside">
 				<aside class="side-menu-container" id="Out_SideMenu">
 					<li>Plant</li>
 						<td class="input-info">
-							<input type="text" class="plantCode KeyInfo" name="plantCode" onclick="InfoSearch('PlantSearch')" readonly>
+							<input type="text" class="plantCode KeyInfo" name="plantCode" onclick="InfoSearch('PlantSearch')" placeholder="SELECT" readonly>
 							<input type="text" class="plantDes" name="plantDes" readonly>
 							<input type="text" class="plantComCode KeyInfo" name="plantComCode" hidden>
 						</td>
@@ -392,7 +381,7 @@ $(document).ready(function(){
 						
 					<li>출고창고</li>
 						<td class="input-info">
-							<input type="text" class="StorageCode KeyInfo" name="StorageCode" onclick="InfoSearch('StorageSearch')" readonly>
+							<input type="text" class="StorageCode KeyInfo" name="StorageCode" onclick="InfoSearch('StorageSearch')" placeholder="SELECT" readonly>
 							<input type="text" class="StorageDes" name="StorageDes" readonly>
 							<input type="text" class="StorageComCode" name="StorageComCode" hidden>
 						</td>
@@ -403,7 +392,7 @@ $(document).ready(function(){
 					
 					<li>Movement Type : </li>
 						<td class="input-info">
-							<input type="text" class="movCode KeyInfo" name="movCode" onclick="InfoSearch('MovSearch')" readonly>
+							<input type="text" class="movCode KeyInfo" name="movCode" onclick="InfoSearch('MovSearch')" placeholder="SELECT" readonly>
 							<input type="text" class="movDes" name="movDes" readonly>
 							<input type="text" class="PlusMinus" name="PlusMinus" hidden>
 						</td>
