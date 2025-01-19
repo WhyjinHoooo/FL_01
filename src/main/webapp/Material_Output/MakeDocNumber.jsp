@@ -18,12 +18,8 @@ try{
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
-	/* String sql = "SELECT * FROM ordertable WHERE SUBSTRING(Mmpo, 1, 18) = ? ORDER BY Seq ASC"; */
 	String sql = "SELECT MatDocNum FROM storehead WHERE SUBSTRING(MatDocNum, 1, 3) = ? ORDER BY MatDocNum DESC"; // 2023-12-13 수정 전, 수정 시 주석 삭제 예정
-	/* String sql = "SELECT * FROM ordertable ORDER BY Seq DESC"; */
 	pstmt = conn.prepareStatement(sql);
-	
-	/* pstmt.setString(1, first); */
 	pstmt.setString(1, three);
 	rs = pstmt.executeQuery();
 	

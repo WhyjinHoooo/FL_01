@@ -162,7 +162,6 @@ $(document).ready(function(){
     $('.movCode').change(function() {
     	console.log("movCode field has changed"); // 확인 메시지 추가
         var Code = $(this).val();
-    	
         if (Code.startsWith('IR')) {
             $('.IR').show(); // 'IR'로 시작할 때만 테이블 보이기
             $('.GI').hide();
@@ -334,22 +333,7 @@ $(document).ready(function(){
 			    console.log("AJAX 오류: " + textStatus + " : " + errorThrown);
 			}
 		});
-	});
-	$('.GINo').change(function() {
-        var number = $(this).val();
-        var doc = $('.Doc_Num').val();
-        $.ajax({
-            type : "POST",
-            url : "Deduplication.jsp",
-            data : {movCode : number, docCode : doc},
-            success : function(response){
-           		console.log(response);
-           		$('input[name="GINo"]').val($.trim(response));
-                // 여기에 성공한 경우 수행할 작업을 추가합니다.
-            }
-        })
-    });
-	
+	});	
 	$('.input-btn').click(function() {
 		location.reload();
 	});

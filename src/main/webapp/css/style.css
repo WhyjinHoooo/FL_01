@@ -2260,7 +2260,7 @@ text-decoration: underline;
 	.WrittenForm_Body{
 	table-layout: fixed;
 	display: block;
-	width: 100%;
+	width: 100.1%;
 	height: 650px;
 	max-height: 100%;
 	overflow-y: auto;
