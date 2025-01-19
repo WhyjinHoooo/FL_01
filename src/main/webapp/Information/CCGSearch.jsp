@@ -42,9 +42,9 @@
 			    <td>
 				    <a href="javascript:void(0)" 
 				       onClick="
-				           window.opener.document.querySelector('.ccc').value = '<%= rs.getString("COCT_GROUP") %>';
+				           window.opener.document.querySelector('.CCG').value = '<%= rs.getString("COCT_GROUP") %>';
 				           window.opener.document.querySelector('.CCG_Des').value = '<%= rs.getString("COCT_NAME") %>';
-				           window.opener.document.querySelector('.ccc').dispatchEvent(new Event('change'));
+				           window.opener.document.querySelector('.CCG').dispatchEvent(new Event('change'));
 				           window.close();
 				       ">
 				       <%= rs.getString("COCT_GROUP") %>

@@ -275,7 +275,7 @@ $(document).ready(function() {
 						            <input type="text" class="Addr NewAddr" name="Addr" id="address" placeholder="주소" readonly>
 						        </div>
 						        <div>
-						            <input type="text" class="AddrDetail NewAddr" name="AddrDetail" id="detailAddress" placeholder="상세주소" required>
+						            <input type="text" class="AddrDetail NewAddr" name="AddrDetail" id="detailAddress" placeholder="상세주소">
 						        </div>
 						        <div>
 						            <input type="text" class="AddrRefer NewAddr" id="extraAddress" placeholder="참고항목" hidden>

@@ -20,8 +20,9 @@
 			<%
 			    try{
 			   	String CoCd = request.getParameter("CoCd");
+			   	System.out.println("asdasdas CoCd : " + CoCd);
 			   	
-			    String sql = "SELECT * FROM taxarea WHERE Main_TA = ? ";
+			    String sql = "SELECT * FROM taxarea WHERE ComCode = ? ";
 			    PreparedStatement pstmt = null;
 			    ResultSet rs = null;
 			    

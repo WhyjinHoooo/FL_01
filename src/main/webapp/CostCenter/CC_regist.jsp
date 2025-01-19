@@ -257,7 +257,8 @@
 							
 							<tr><th class="info">Cost Center Group : </th>
 								<td class="input-info">
-									<input type="text" class="CCG_Des" name="CCG_Des" size="31" readonly>
+									<input type="text" class="CCG_Des" name="CCG_Des" size="31" onclick="InfoSearch('CCGSearch')" readonly>
+									<input type="text" class="CCG" name="CCG" hidden>
 								</td>
 							</tr>
 							

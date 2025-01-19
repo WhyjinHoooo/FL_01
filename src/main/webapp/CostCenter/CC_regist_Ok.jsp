@@ -34,7 +34,7 @@
 	String Start = request.getParameter("start_date");
 	String End = request.getParameter("end_date");
 	
-	String CCG_Des = request.getParameter("ccc");
+	String CCG_Des = request.getParameter("CCG");
 	String CCT_Des = request.getParameter("cct");
 	
 	String person = request.getParameter("RPescon_Dese"); //아직 없음

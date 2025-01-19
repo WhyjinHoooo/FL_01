@@ -28,7 +28,7 @@ $(document).ready(function(){
 		data: {DateId: DateForId},
 		success: function(response){
 			console.log(response);
-			$('input[name="Emp_id"]').val($.trim(response));
+			$('.Emp_id').val($.trim(response));
 		}
 	})
 	$('.UserDutyCode').change(function(){

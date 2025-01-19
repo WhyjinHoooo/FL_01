@@ -90,8 +90,8 @@
 	String sql = "INSERT INTO emp VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	
-	String OW_Reg_Sql = "INSERT INTO membership VALUES(?,?,?,?,?,?,?,?,?,?,?)";
-	PreparedStatement OW_Reg_Pstmt = conn.prepareStatement(OW_Reg_Sql);
+/* 	String OW_Reg_Sql = "INSERT INTO membership VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+	PreparedStatement OW_Reg_Pstmt = conn.prepareStatement(OW_Reg_Sql); */
 	
 	try{
 		pstmt.setString(1, ID);

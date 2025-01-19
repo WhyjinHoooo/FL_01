@@ -158,6 +158,7 @@
 		    window.open("${contextPath}/Information/LanSearch.jsp", "test03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	    	break;
 	    case "TACSearch":
+	    	console.log('1.ComCode : ' + ComCode);
 		    window.open("${contextPath}/Information/TACSearch.jsp?CoCd=" + ComCode, "test04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	    	break;
 	    case "BAGSearch":
