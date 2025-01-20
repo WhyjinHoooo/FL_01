@@ -71,4 +71,56 @@
 	    font-weight: bold;
 	}
 	/* 영업계획 중 매출계획(년간) */
+	.Total_board{
+    border: 1px solid rgb(111, 167, 235);
+    max-height: 80vh; /* 최대 높이 제한 */
+    width: 70vh;
+    overflow: scroll; /* 세로 스크롤 생성 */
+    table-layout: fixed;
+    border-collapse: collapse;
+	}
+	.TotalTable {
+	border-collapse: collapse;
+	width: 100%;
+    table-layout: fixed;
+	}
+	
+	.Total_board.SpecialSize{
+    border: 1px solid rgb(111, 167, 235);
+    max-height: 80vh; /* 최대 높이 제한 */
+    width: 110vh;
+    overflow: scroll; /* 세로 스크롤 생성 */
+    table-layout: fixed;
+	}
+	.TotalTable.SpecialSize {
+	border-collapse: collapse;
+	width: 100%;
+    table-layout: fixed;
+	}
+	
+/* 	.TotalTable thead{ */
+    	
+/* 	} */
+	.TotalTable thead > tr > th{
+	background: rgb(111, 167, 235);
+    	color: white;
+    	padding: 8px;
+    	border: 1px solid white;
+    	position: sticky;
+        top: 0;
+        z-index: 1;
+	}
+	.TotalTable tbody > tr{
+    	border: 1px solid white;
+    	text-align: center;
+	}
+	.TotalTable tbody > tr > td{
+    	background: #F5F5F5;
+	    color: #22577A;
+	    border: 1px solid white;
+	    text-align: center;
+	    padding: 8px;
+	    font-weight: bold;
+	}
+	
 	

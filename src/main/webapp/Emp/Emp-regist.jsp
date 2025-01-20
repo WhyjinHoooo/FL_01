@@ -32,11 +32,15 @@ $(document).ready(function(){
 		}
 	})
 	$('.UserDutyCode').change(function(){
-		var testValue = $(this).val();
-		console.log(testValue);
-		var Des = testValue.split(",");
-		$('.UserDutyDes').val(Des[1]);
+		console.log($(this).val());
+// 		var testValue = $(this).find('option:selected').text();
+// 		console.log(testValue);
+// 		console.log(testValue.substring(1,5));
+// 		console.log(testValue.substring(7));
+// 		$('.UserDutyCode').val(testValue.substring(1,5));
+// 		$('.UserDutyDes').val(testValue.substring(7));
 	});
+	
 })
 window.addEventListener('DOMContentLoaded', (event) => {
     const comCodeInput = document.querySelector('.ComCode');
@@ -69,8 +73,8 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function InfoSearch(field){
-	var popupWidth = 1000;
-    var popupHeight = 600;
+	var popupWidth = 520;
+    var popupHeight = 680;
     
     // 현재 활성화된 모니터의 위치를 감지
     var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
@@ -106,12 +110,16 @@ function InfoSearch(field){
     	window.open("${contextPath}/Information/CostCenterSearch.jsp?ComCode=" + ComCode, "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     	break;
     case "DutySearch":
-    	 window.open("${contextPath}/Information/DutySearch.jsp", "PopUp03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	popupWidth = 800;
+    	window.open("${contextPath}/Information/DutySearch.jsp", "PopUp03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     	break;
     case "titleSearch":
     	window.open("${contextPath}/Information/titleSearch.jsp", "PopUp04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     	break;
-    }
+	case "RoleSearch":
+		window.open("${contextPath}/Information/RoleSearch.jsp", "PopUp04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+		break;
+	}
 }
 
 function execDaumPostcode() {
@@ -262,23 +270,7 @@ function execDaumPostcode() {
 						
 						<tr><th class="info">수행직무 : </th>
 							<td class="input-info">
-								<select type="text" class="UserDutyCode" name="UserDutyCode">
-								<option>SELECT</option>
-								<%
-									try{
-										String sql = "SELECT * FROM sys_dute";
-										PreparedStatement pstmt = conn.prepareStatement(sql);
-										ResultSet rs = pstmt.executeQuery();
-										while(rs.next()){
-								%>
-									<option value="<%=rs.getString("RnRCode")%>,<%=rs.getString("RnRDescp")%>"><%=rs.getString("RnRCode")%></option>
-								<%
-										}
-									}catch(SQLException e){
-										e.printStackTrace();
-									}
-								%>
-								</select>
+								<input type="text" class="UserDutyCode" name="UserDutyCode" onclick="InfoSearch('RoleSearch')" placeholder="SELECT" readonly>
 								<input type="text" class="UserDutyDes" name="UserDutyDes" readonly>
 							</td>
 						</tr>

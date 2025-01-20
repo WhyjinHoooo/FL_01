@@ -70,19 +70,18 @@
 		Retire = null;
 	}
 	
-	
 	String Duty = request.getParameter("duty_Des");
 	String Duty_Start = request.getParameter("duty_Start");
 	
 	String Title = request.getParameter("title_Des");
 	String Title_Start = request.getParameter("promot");
 	
-	String UserDutylist = request.getParameter("UserDutyCode");
-	System.out.println(UserDutylist);
-	String[] UserDuty = null;
-	if(UserDutylist != null && !UserDutylist.isEmpty()){
-		UserDuty = UserDutylist.split(",");
-	}
+	String UserDuty = request.getParameter("UserDutyCode");
+// 	System.out.println(UserDutylist);
+// 	String[] UserDuty = null;
+// 	if(UserDutylist != null && !UserDutylist.isEmpty()){
+// 		UserDuty = UserDutylist.split(",");
+// 	}
 	
 	int id1 = 17011381;
 	int id2 = 76019202;
@@ -102,7 +101,7 @@
 		pstmt.setString(6, CCName);
 		pstmt.setString(7, P_Code);
 		pstmt.setString(8, AddrDetail);
-		pstmt.setString(9, UserDuty[0]);
+		pstmt.setString(9, UserDuty);
 		pstmt.setString(10, Birth);
 		pstmt.setInt(11, Jumin_1st);
 		pstmt.setInt(12, Jumin_2nd);

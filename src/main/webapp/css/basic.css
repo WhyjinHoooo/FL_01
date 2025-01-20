@@ -7,13 +7,15 @@
 }
 
 body.RegistArea {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  	display: flex;
+  	flex-direction: row;
+  	justify-content: center;
+	background: rgba(65, 105, 225, 0.2);
 }
+
 body#MyPEdit {
-  flex-direction: row;
-  justify-content: center;
+	flex-direction: row;
+	justify-content: center;
 }
 .Find-container{
 	display: flex;

@@ -51,19 +51,20 @@
 	    case "PwFind":
 	    	window.open("${contextPath}/Basic/PwFind.jsp", "PwPopUp", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	    	break;
+	    case "NewComer":
+	    	location.href = "${contextPath}/Basic/RegistMember.jsp";
 	    }
 	}
-	function NewComer(){
-		/* window.location.href = "${contextPath}/Basic/RegistMember.jsp"; */
-		location.href = "${contextPath}/Basic/RegistMember.jsp";
-	}
+// 	function NewComer(){
+// 		location.href = "${contextPath}/Basic/RegistMember.jsp";
+// 	}
 </script>
 </head>
 <body>
 	<form name="LoginPage" id="LoginPageId" action="LoginOk.jsp" method="POST" onsubmit="" enctype="UTF-8">
 		<div class="Login-wrapper">
 			<aside>
-				<img id="logo" name="Logo" src="${contextPath}/img/Logo.png" alt="">
+				<img id="logo" name="Logo" src="${contextPath}/img/reflect.png" alt="">
 			</aside>
 			<div class="Login-Area">
 				<table class="Com-Area">
@@ -115,7 +116,7 @@
 							<tr class="JoinSec">
 								<th>※ 신규 회원 가입 신청</th>
 									<td>
-										<Button class="Join CommonBtn" name="Join" type="button" onclick="NewComer()">회원가입</Button>
+										<Button class="Join CommonBtn" name="Join" type="button" onclick="InfoSearch('NewComer')">회원가입</Button> <!-- onclick="NewComer()" -->
 									</td>
 							</tr>
 							<tr class="JoinSec">

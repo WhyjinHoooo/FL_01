@@ -6,18 +6,21 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../mydbcon.jsp" %>
-<link rel="stylesheet" href="../css/style.css?after">
+<link rel="stylesheet" href="../css/PopUp.css?after">
 </head>
 
 <body>
 <h1>검색</h1>
 <hr>
 	<center>
-		<div class="ComSearch-board">
-			<table>
-			    <tr>
-			        <th>코드</th><th>설명</th>
-			    </tr>
+		<div class="Total_board">
+			<table class="TotalTable">
+				<thead>
+				    <tr>
+				        <th>코드</th><th>설명</th>
+				    </tr>
+			    </thead>
+			    <tbody>
 			<%
 			    try{
 			    String sql = "SELECT * FROM jobtitle ORDER BY code ASC";
@@ -40,6 +43,7 @@
 			        e.printStackTrace();
 			    }
 			%>
+				</tbody>
 			</table>	
 		</div>	
 	</center>

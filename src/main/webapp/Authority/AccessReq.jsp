@@ -540,7 +540,7 @@ $(document).ready(function(){
 						ResultSet rs = pstmt.executeQuery();
 						while(rs.next()){
 					%>
-						<option value="<%=rs.getString("RnRCode")%>,<%=rs.getString("RnRDescp")%>"><%=rs.getString("RnRCode")%></option>
+						<option value="<%=rs.getString("RnRCode")%>,<%=rs.getString("RnRDescp")%>">(<%=rs.getString("RnRCode")%>)<%=rs.getString("RnRDescp")%></option>
 					<%
 						}
 					}catch(SQLException e){
