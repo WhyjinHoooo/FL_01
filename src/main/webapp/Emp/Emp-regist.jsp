@@ -33,12 +33,6 @@ $(document).ready(function(){
 	})
 	$('.UserDutyCode').change(function(){
 		console.log($(this).val());
-// 		var testValue = $(this).find('option:selected').text();
-// 		console.log(testValue);
-// 		console.log(testValue.substring(1,5));
-// 		console.log(testValue.substring(7));
-// 		$('.UserDutyCode').val(testValue.substring(1,5));
-// 		$('.UserDutyDes').val(testValue.substring(7));
 	});
 	
 })

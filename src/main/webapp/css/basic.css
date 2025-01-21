@@ -455,6 +455,19 @@ input[type="radio"] {
         margin: 10px 0px 0px 40px;
         border-radius: 10px;
         font-size: 25px;
+        text-align: center;
+        background-color: #1F4E79;
+        color: white;
+	}
+	.Login_Btn:hover {
+    background: #0068ff;
+	color: #fff;
+    border: 1px solid #0068ff;
+	}
+	.Login_Btn:active {
+    background: #0068ff;
+    color: #fff;
+    border: 1px solid #0068ff;
 	}
 	.JoinSec th,
 	.JoinSec td {

@@ -23,7 +23,7 @@ $(document).ready(function(){
         	success : function(response){
         		console.log(response);
         		$('input[name="matCode"]').val($.trim(response));
-        	}
+        	} 
         });
     });
 });
