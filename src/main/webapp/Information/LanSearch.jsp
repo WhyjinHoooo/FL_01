@@ -9,7 +9,7 @@
 <%@ include file="../mydbcon.jsp" %>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet" href="../css/style.css?after">
+<link rel="stylesheet" href="../css/PopUp.css?after">
 </head>
 <script>
 	$(document).ready(function(){
@@ -43,8 +43,8 @@
 			<button class="SearchBtn">Search</button>
 			<button class="ReSetBtn" onClick="window.location.reload()">Reset</button>
 		</div>	
-		<div class="ComSearch-board">
-			<table class="LanguageTable">
+		<div class="Total_board">
+			<table class="TotalTable">
 				<thead>
 				    <tr>
 				        <th>언어(영문)</th><th>나라(국문)</th>

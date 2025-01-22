@@ -29,19 +29,27 @@
     justify-content: center;
     align-items: center;
 }
-.ComInfoDetail .ComInfoTable th{
-	background-color: #6fa7eb;
-	color: white;
-	position: sticky;
-	top: 0;
-	z-index: 1;
-	padding: 5px;
-	text-align: center;
+table.ComInfoTable {
+    border-collapse: collapse;
 }
-.ComInfoDetail .ComInfoTable td{
-	padding: 5px;
-	text-align: center;
-	border: 1px solid #6fa7eb;
+.ComInfoDetail .ComInfoTable th {
+    background-color: #6fa7eb;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: 5px;
+    text-align: center;
+    font-size: small;
+    font-weight: bold;
+    border: 1px solid white;
+}
+.ComInfoDetail .ComInfoTable td {
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #6fa7eb;
+    font-size: small;
+    font-weight: bold;
 }
 .ComInfoDetail {
     margin-top: 20px;

@@ -18,22 +18,19 @@
 <title>회원가입</title>
 <script>
 $(document).ready(function(){
-	$('#checkbtn').click(function(event) {
-		event.preventDefault(); // 이벤트 기본 동작(페이지 이동 등)을 취소합니다.
-	});
 	$('#UserM').change(function(){
 	var selectedMonth = parseInt($(this).val());
 	var selectedYear = parseInt($('.Year').val());
 	var daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
 	         		        
-		for(var i = 1; i <= daysInMonth; i++) {
+	for(var i = 1; i <= daysInMonth; i++) {
 			$('#UserD').append('<option value="' + i + '">' + i + '</option>');
 		}
 	});
+	
 	$('.Year').change(function(){
 		$('#UserM').trigger('change');
 	});
-	$('#UserM').trigger('change');
 	
 	$('.ComSelect').on('change',function(){
 		var SelectedComCode = $('.ComSelect').val();
@@ -47,6 +44,7 @@ $(document).ready(function(){
 		});
 	})
 	$('#checkbtn').click(function() {
+		event.preventDefault();
 		var id = $('.InputId').val();
 			if(!id){
 				alert('아이디를 입력해주세요.');
@@ -69,154 +67,122 @@ $(document).ready(function(){
 				}
 			}
 		})
+	})	
+});
+window.addEventListener('DOMContentLoaded',(event) => {	
+	const domainList = document.querySelector('#UserDoM');
+	const domainListInput = document.querySelector('#UserDom_txt');
+		if(domainList.value === "text"){
+			domainListInput.readOnly = false;
+		} else{
+			domainList.value = domainListInput.value;
+			domainListInput.readOnly = true;
+		}
+	domainList.addEventListener('change', (event) => {
+		if(event.target.value === "text"){
+			domainListInput.value = "";
+			domainListInput.readOnly = false;
+		} else{
+			domainListInput.value = event.target.value;
+			domainListInput.readOnly = true;
+		}
+	});
+});
+function execDaumPostcode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            var addr = '';
+            var extraAddr = '';
+
+            if (data.userSelectedType === 'R') {
+                addr = data.roadAddress;
+                addr = data.jibunAddress;
+            }
+            if(data.userSelectedType === 'R'){
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraAddr += data.bname;
+                }
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                if(extraAddr !== ''){
+                    extraAddr = ' (' + extraAddr + ')';
+                }
+                document.getElementById("Addr_extraAddress").value = extraAddr;
+            
+            } else {
+                document.getElementById("Addr_extraAddress").value = '';
+            }
+
+            document.getElementById('Addr_postcode').value = data.zonecode;
+            document.getElementById("Addr_address").value = addr;
+            document.getElementById("Addr_detailAddress").focus();
+        }
+    }).open();
+}
+function emptyCheck(){
+	event.preventDefault();
+	
+	var UserInfoSet = {};
+	$('.UserInfo').each(function(){
+		var name = $(this).attr('name');
+		var value = $(this).val();
+		UserInfoSet[name] = value;
 	})
-		
-	});
-	window.addEventListener('DOMContentLoaded',(event) => {
-		
-		const domainList = document.querySelector('#UserDoM');
-		const domainListInput = document.querySelector('#UserDom_txt');
-			if(domainList.value === "text"){
-				domainListInput.readOnly = false;
-			} else{
-				domainList.value = domainListInput.value;
-				domainListInput.readOnly = true;
-			}
-			domainList.addEventListener('change', (event) => {
-				if(event.target.value === "text"){
-					domainListInput.value = "";
-					domainListInput.readOnly = false;
-				} else{
-					domainListInput.value = event.target.value;
-					domainListInput.readOnly = true;
-				}
-			});
-	});
-	function execDaumPostcode() {
-	    new daum.Postcode({
-	        oncomplete: function(data) {
-	            var addr = '';
-	            var extraAddr = '';
-	
-	            if (data.userSelectedType === 'R') {
-	                addr = data.roadAddress;
-	                addr = data.jibunAddress;
-	            }
-	            if(data.userSelectedType === 'R'){
-	                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-	                    extraAddr += data.bname;
-	                }
-	                if(data.buildingName !== '' && data.apartment === 'Y'){
-	                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-	                }
-	                if(extraAddr !== ''){
-	                    extraAddr = ' (' + extraAddr + ')';
-	                }
-	                document.getElementById("Addr_extraAddress").value = extraAddr;
-	            
-	            } else {
-	                document.getElementById("Addr_extraAddress").value = '';
-	            }
-	
-	            document.getElementById('Addr_postcode').value = data.zonecode;
-	            document.getElementById("Addr_address").value = addr;
-	            document.getElementById("Addr_detailAddress").focus();
-	        }
-	    }).open();
-	}
-	function emptyCheck(){
-		event.preventDefault();
-		
-		var UName = document.Registform.UserName.value;
-		
-		var UIdCd1 = document.Registform.UserIdCard1.value;
-		var UIdCd2 = document.Registform.UserIdCard2.value;
-		
-		var Id = document.Registform.UserId.value;
-		
-		var Pw1 = document.Registform.UserPw1.value;
-		var Pw2 = document.Registform.UserPw2.value;
-		
-		var EmF = document.Registform.UserEm.value;
-		var EmD = document.Registform.UserDom_txt.value;
-		
-		var Y = document.Registform.UserY.value;
-		var M = document.Registform.UserM.value;
-		var D = document.Registform.UserD.value;
-		
-		var ZipCd = document.Registform.ZipCd.value;
-		var Addr = document.Registform.Addr.value;
-		var AddrRef = document.Registform.AddrRefer.value;
-		
-		var Gen = document.Registform.gender.value;
-		
-		var PH_f = document.Registform.Ph_F.value;
-		var PH_m = document.Registform.Ph_M.value;
-		var PH_e = document.Registform.Ph_E.value;
-		
-		var Be = document.Registform.Belong.value;
-		var CoCt = document.Registform.CoCtSelect.value;
-		
-		var EMP_ID = document.Registform.Employee_ID.value;
-		
-		var UserInfoSet = {};
-		$('.UserInfo').each(function(){
-			var name = $(this).attr('name');
-			var value = $(this).val();
-			UserInfoSet[name] = value;
-		})
-		console.log(UserInfoSet);
-		$.ajax({
-			url:'${contextPath}/Information/AjaxSet/EMPList.jsp',
-			type: 'POST',
-			data: {SendCom : Be, SendCoCt : CoCt, SendID : EMP_ID},
-			success: function(response){
-				console.log(response);
-				if(response.trim() === 'Yes'){
-					var pass = false;
-					$.each(UserInfoSet, function(key, value){
-						if(value == null || value === ""){
-							console.log(key + ' : ' + value);
-							pass == true;
-							return false;
-						}
-					});
-					if (pass){
-						alert("모든 필수 항목을 입력해주세요.");
-					    return false;
-					}else{
-						if(UIdCd1.length !== 6 || UIdCd2.length !== 7){
-							alert("주민등록번호를 정확하게 입력해주세요.")
-							return false;
-						}
-						if(Pw1 !== Pw2){
-							alert('비밀번호가 같지 않습니다.')
-							return false;
-						} else {
-							let reg = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[~?!@#$%^&*_-]).{8,}$/
-							if(!reg.test(Pw1)){
-								alert('비밀번호는 소문자, 특수문자를 포함한 8자 이상을 입력해주세요.');
-								return false;
-							}
-						}
-						if(PH_m.length !== 4 || PH_e.length!== 4){
-							alert('전화번호를 올바르게 입력하세요.');
-							return false;
-						}
-	                    document.Registform.submit();
+	$.ajax({
+		url:'${contextPath}/Information/AjaxSet/EMPList.jsp',
+		type: 'POST',
+		data: JSON.stringify(UserInfoSet),
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		async: false,
+		success: function(response){
+			console.log(response);
+			if(response.status === 'Success'){
+				var pass = false;
+				$.each(UserInfoSet, function(key, value){
+					if(value == null || value === ""){
+						console.log(key + ' : ' + value);
+						pass == true;
+						return false;
 					}
-				} else{
-					alert(" 해당 사번(" + EMP_ID + ")은 등록되지 않았습니다.");
-	                return false;
+				});
+				if (pass){
+					alert("모든 필수 항목을 입력해주세요.");
+				    return false;
+				}else{
+					if(response.UserInfoList.UserIdCard1.length !== 6 || response.UserInfoList.UserIdCard2.length !== 7){
+						alert("주민등록번호를 정확하게 입력해주세요.")
+						return false;
+					}
+					if(response.UserInfoList.UserPw1 !== response.UserInfoList.UserPw2){
+						alert('비밀번호가 같지 않습니다.')
+						return false;
+					} else {
+						let reg = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[~?!@#$%^&*_-]).{8,}$/
+						if(!reg.test(response.UserInfoList.UserPw1)){
+							alert('비밀번호는 소문자, 특수문자를 포함한 8자 이상을 입력해주세요.');
+							return false;
+						}
+					}
+					if(response.UserInfoList.Ph_M.length !== 4 || response.UserInfoList.Ph_E.length!== 4){
+						alert('전화번호를 올바르게 입력하세요.');
+						return false;
+					}
+                    document.Registform.submit();
 				}
-			},
-		    error: function(xhr, status, error) {
-		        console.error("AJAX 요청에 실패했습니다.");
-		        console.error("상태: " + status);
-		        console.error("에러: " + error);
-		    }
-		});
-	}
+			} else{
+				alert(" 해당 사번(" + response.UserInfoList.UserId + ")은 등록되지 않았습니다.");
+                return false;
+			}
+		},
+	    error: function(xhr, status, error) {
+	        console.error("AJAX 요청에 실패했습니다.");
+	        console.error("상태: " + status);
+	        console.error("에러: " + error);
+	    }
+	});
+}
 </script>
 <script type="text/javascript">
 
@@ -253,15 +219,15 @@ $(document).ready(function(){
           	<div class="domain">
 	          	<div class="Cate">E-Mail</div>
 	          		<input type="text" class="Email UserInfo" name="UserEm" placeholder="Email">@
-		          		<input type="text" class="Domain_txt UserInfo" name="UserDom_txt" id="UserDom_txt"  placeholder="Domain" readonly>
-		          		<select class="Domain" name="UserDoM" id="UserDoM">
-		          			<option value="text">Select</option>
-		          			<option value="naver.com">naver.com</option>
-							<option value="gmail.com">gmail.com</option>
-							<option value="hanmail.net">hanmail.net</option>
-							<option value="nate.com">nate.com</option>
-							<option value="kakao.com">kakao.com</option>
-		          		</select>
+		          	<input type="text" class="Domain_txt UserInfo" name="UserDom_txt" id="UserDom_txt"  placeholder="Domain" readonly>
+		          	<select class="Domain" name="UserDoM" id="UserDoM">
+		          		<option value="text">Select</option>
+		          		<option value="naver.com">naver.com</option>
+						<option value="gmail.com">gmail.com</option>
+						<option value="hanmail.net">hanmail.net</option>
+						<option value="nate.com">nate.com</option>
+						<option value="kakao.com">kakao.com</option>
+		          	</select>
           	</div>
           	
           	<div class="Cate">BirthDay</div>

@@ -9,13 +9,16 @@
 <%@ include file="../mydbcon.jsp" %>
 <link rel="stylesheet" href="../css/style.css?after">
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> 
+<script src="http://code.jquery.com/jquery-latest.js"></script> 
 <title>Company 등록</title>
 <script>
+$(document).ready(function(){
+	
 	function InfoSearch(field){
 		event.preventDefault();
 		
-		var popupWidth = 1000;
-	    var popupHeight = 600;
+		var popupWidth = 600;
+	    var popupHeight = 700;
 	    
 	    // 현재 활성화된 모니터의 위치를 감지
 	    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
@@ -44,6 +47,7 @@
 	    
 	    switch(field){
 	    case "NationSearch":
+	    	popupWidth = 510;
 	    	window.open("${contextPath}/Information/NationSearch.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	    	break;
 	    case "MoneySearch":
@@ -59,81 +63,87 @@
 	    	break;
 	    }
 	}
-	
+	var ChkList = {};
 	function comfirm(){
-		var cocd = document.Com_registform.Com_code.value;
-		var Des = document.Com_registform.Des.value;
+// 		var cocd = document.Com_registform.Com_code.value;
+// 		var Des = document.Com_registform.Des.value;
 		
-		var NaCode = document.Com_registform.NationCode.value;
-		var NaName = document.Com_registform.NationName_input.value;
+// 		var NaCode = document.Com_registform.NationCode.value;
+// 		var NaName = document.Com_registform.NationName_input.value;
 		
-		var PtCd = document.Com_registform.PtCd.value;
+// 		var PtCd = document.Com_registform.PtCd.value;
 		
-		var Addr01 = document.Com_registform.Addr01.value;
-		var Addr02 = document.Com_registform.Addr02.value;
+// 		var Addr01 = document.Com_registform.Addr01.value;
+// 		var Addr02 = document.Com_registform.Addr02.value;
 		
-		var money = document.Com_registform.money.value;
-		var lang = document.Com_registform.lang.value;
+// 		var money = document.Com_registform.money.value;
+// 		var lang = document.Com_registform.lang.value;
 		
-		var BA_use = document.Com_registform.BA_use.value;
-		var TA_use = document.Com_registform.TA_use.value;
-		var TB_use = document.Com_registform.TB_use.value;
-		var FSRL = document.Com_registform.FSRL.value;
+// 		var BA_use = document.Com_registform.BA_use.value;
+// 		var TA_use = document.Com_registform.TA_use.value;
+// 		var TB_use = document.Com_registform.TB_use.value;
+// 		var FSRL = document.Com_registform.FSRL.value;
 	    
-	    if(!cocd || !Des || !NaCode || !NaName || !PtCd || !Addr01 || !Addr02 || !money || !lang || !BA_use || !TA_use || !TB_use || !FSRL){
-	    	alert('모든 항목을 입력해주세요.');
-	    	return false;
-	    } else{
-	    	return true;
-	    }
+		$('.ComInfo').each(function(){
+			var Name = $(this).arrt('name');
+			var Value = $(this).val();
+			ChkList[Name] = Value;
+		})
+		console.log(ChkList);
+		$.each(ChkList, function(key, value){
+			if(value == null || value ===''){
+				alert('모든 항목을 입력해주세요.');
+				return false;
+			} else{
+				return true;
+			}
+		})
+		
+// 	    if(!cocd || !Des || !NaCode || !NaName || !PtCd || !Addr01 || !Addr02 || !money || !lang || !BA_use || !TA_use || !TB_use || !FSRL){
+// 	    	alert('모든 항목을 입력해주세요.');
+// 	    	return false;
+// 	    } else{
+// 	    	return true;
+// 	    }
 	}
 	function execDaumPostcode() {
 	    new daum.Postcode({
 	        oncomplete: function(data) {
-	            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-	
-	            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-	            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-	            var addr = ''; // 주소 변수
-	            var extraAddr = ''; // 참고항목 변수
-	
-	            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-	            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+	            var addr = '';
+	            var extraAddr = '';
+
+	            if (data.userSelectedType === 'R') {
 	                addr = data.roadAddress;
-	            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+	            } else {
 	                addr = data.jibunAddress;
 	            }
-	
-	            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+
 	            if(data.userSelectedType === 'R'){
-	                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-	                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
 	                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
 	                    extraAddr += data.bname;
 	                }
-	                // 건물명이 있고, 공동주택일 경우 추가한다.
+
 	                if(data.buildingName !== '' && data.apartment === 'Y'){
 	                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
 	                }
-	                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+
 	                if(extraAddr !== ''){
 	                    extraAddr = ' (' + extraAddr + ')';
 	                }
-	                // 조합된 참고항목을 해당 필드에 넣는다.
+
 	                document.getElementById("extraAddress").value = extraAddr;
 	            
 	            } else {
 	                document.getElementById("extraAddress").value = '';
 	            }
-	
-	            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+
 	            document.getElementById('postcode').value = data.zonecode;
 	            document.getElementById("address").value = addr;
-	            // 커서를 상세주소 필드로 이동한다.
 	            document.getElementById("detailAddress").focus();
 	        }
 	    }).open();
 	}
+});
 </script>
 </head>
 <body>
@@ -141,13 +151,13 @@
 	<hr>
 	<jsp:include page="../HeaderTest.jsp"></jsp:include>
 	<center>
-		<form id="Com_registform" name="Com_registform" action="Company_Regist_Ok.jsp" method="post" onSubmit="return comfirm()" enctype="UTF-8">
+		<form id="Com_registform" name="Com_registform" action="###" method="post" onSubmit="return comfirm()" enctype="UTF-8"><!-- ChkList -->
 			<div class="main-info">
 				<div class="table-container">
 					<table>
 						<tr><th class="info">Company Code : </th>
 							<td class="input_info">
-								<input type="text" name="Com_code" size="10">
+								<input type="text" class="ComInfo" name="Com_code" size="10">
 								<input type="button" class="search-link" value="Search" onclick="InfoSearch('ComSearch')" readonly>	
 							</td>
 						</tr>
@@ -156,7 +166,7 @@
 						
 						<tr><th class="info">Description : </th>
 							<td class="input_info">
-								<input type="text" name="Des" size="41">
+								<input type="text" class="ComInfo" name="Des" size="41">
 							</td>
 						</tr>
 					</table>
@@ -170,8 +180,8 @@
 				<table>
 					<tr><th class="info">Nationality : </th>
 						<td class="input_info">
-							<input type="text" id="NationCode" name="NationCode" onclick="InfoSearch('NationSearch')" readonly>	
-							<input type="text" id="NationDes" name="NationName_input" readonly>
+							<input type="text" class="ComInfo" id="NationCode" name="NationCode" onclick="InfoSearch('NationSearch')" readonly>	
+							<input type="text" class="ComInfo" id="NationDes" name="NationName_input" readonly>
 						</td>
 					</tr>	
 					
@@ -179,7 +189,7 @@
 					
 					<tr><th class="info">Postal Code : </th>
 							<td class="input-info">
-								<input type="text" class="AddrCode NewAddr" name="AddrCode" id="postcode" placeholder="우편번호" readonly>
+								<input type="text" class="AddrCode NewAddr ComInfo" name="AddrCode" id="postcode" placeholder="우편번호" readonly>
 						        <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기">
 							</td>
 						</tr>
@@ -189,10 +199,10 @@
 					<tr><th class="info">Address : </th>
 						<td class="input-info">
 					        <div>
-					            <input type="text" class="Addr NewAddr" name="Addr" id="address" placeholder="주소" readonly>
+					            <input type="text" class="Addr NewAddr ComInfo" name="Addr" id="address" placeholder="주소" readonly>
 					        </div>
 					        <div>
-					            <input type="text" class="AddrDetail NewAddr" name="AddrDetail" id="detailAddress" placeholder="상세주소" required>
+					            <input type="text" class="AddrDetail NewAddr ComInfo" name="AddrDetail" id="detailAddress" placeholder="상세주소" required>
 					        </div>
 					        <div>
 					            <input type="text" class="AddrRefer NewAddr" id="extraAddress" placeholder="참고항목" hidden>
@@ -204,12 +214,12 @@
 					
 					<tr><th class="info">Local Currency : </th>
 						<td class="input_info">
-							<input type="text" class="money-code" name="money" onclick="InfoSearch('MoneySearch')" readonly>
+							<input type="text" class="money-code ComInfo" name="money" onclick="InfoSearch('MoneySearch')" readonly>
 						</td>
 						
 						<th class="info">Language : </th>
 							<td class="input_info">
-								<input type="text" class="language-code" name="lang" onclick="InfoSearch('LanSearch')" readonly>
+								<input type="text" class="language-code ComInfo" name="lang" onclick="InfoSearch('LanSearch')" readonly>
 							</td>
 					</tr>	
 					
@@ -217,7 +227,7 @@
 					
 					<tr><th class="info">Business Area 사용 : </th>
 						<td class="input_info">
-							<select class="yn" name="BA_use" id="BA_use">
+							<select class="yn ComInfo" name="BA_use" id="BA_use">
 								<option value="true">Yes</option>
 								<option value="false">No</option>
 							</select>
@@ -228,7 +238,7 @@
 					
 					<tr><th class="info">Tax Area 사용 : </th>
 						<td class="input_info">
-							<select class="yn" name="TA_use" id="TA_use">
+							<select class="yn ComInfo" name="TA_use" id="TA_use">
 								<option value="true">Yes</option>
 								<option value="false">No</option>
 							</select>
@@ -239,7 +249,7 @@
 					
 					<tr><th class="info">TaxArea vs BizArea : </th>
 						<td class="input_info">
-							<select class="yn" name="TB_use" id="TB_use">
+							<select class="yn ComInfo" name="TB_use" id="TB_use">
 								<option value="true">Yes</option>
 								<option value="false">No</option>
 							</select>
@@ -250,7 +260,7 @@
 					
 					<tr><th class="info">Financial Statement Reporting Level : </th>
 						<td class="input_info">
-							<select name="FSRL" id="FSRL">
+							<select class="ComInfo" name="FSRL" id="FSRL">
 								<option value="1">1(Company)</option>
 								<option value="2">2(Biz Area)</option>
 								<option value="3">3(Tax Area)</option>
