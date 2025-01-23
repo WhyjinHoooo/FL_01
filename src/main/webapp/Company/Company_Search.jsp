@@ -38,7 +38,6 @@
 </script>
 </script>
 <body>
-	<h1>Company Search</h1>
 	<hr>
 	<center>
 		<div class="ComInfoSearchArea">

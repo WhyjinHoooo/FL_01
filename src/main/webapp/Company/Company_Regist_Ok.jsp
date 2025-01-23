@@ -1,43 +1,46 @@
+<%@page import="org.json.JSONObject"%>
+<%@page import="java.io.BufferedReader"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDateTime"%>
 <%@page import="java.sql.SQLException"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
 <%@ include file="../mydbcon.jsp" %>
-<title>Input</title>
-</head>
-<body>
-<%
-	request.setCharacterEncoding("UTF-8");
 
-	request.setCharacterEncoding("UTF-8");
+<%
+	StringBuilder jsonString = new StringBuilder();
+	String line = null;
+	try (BufferedReader reader = request.getReader()) {
+	    while ((line = reader.readLine()) != null) {
+	        jsonString.append(line);
+	    }
+	}
+	try{
+	JSONObject saveListData = new JSONObject(jsonString.toString());
+	
 	LocalDateTime now = LocalDateTime.now();
 	String formattedNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-	String cocd = request.getParameter("Com_code");
-	String Des = request.getParameter("Des");
+	String cocd = saveListData.getString("Com_code");
+	String Des = saveListData.getString("Des");
 	
-	String NaCode = request.getParameter("NationCode");
-	String NaName = request.getParameter("NationName_input");
+	String NaCode = saveListData.getString("NationCode");
+	String NaName = saveListData.getString("NationName_input");
 	
-	String PtCd = request.getParameter("AddrCode");
+	String PtCd = saveListData.getString("AddrCode");
 	
-	String Addr = request.getParameter("Addr");
-	String AddrDetail = request.getParameter("AddrDetail");
+	String Addr = saveListData.getString("AddrCode");
+	String AddrDetail = saveListData.getString("AddrDetail");
 	
-	String money = request.getParameter("money");
-	String lang = request.getParameter("lang");
+	String money = saveListData.getString("money");
+	String lang = saveListData.getString("lang");
 	
 	
-	boolean BA = Boolean.parseBoolean(request.getParameter("BA_use"));
-	boolean TA = Boolean.parseBoolean(request.getParameter("TA_use"));
+	boolean BA = Boolean.parseBoolean(saveListData.getString("BA_use"));
+	boolean TA = Boolean.parseBoolean(saveListData.getString("FSRL"));
 	
-	String TB = request.getParameter("TB_use");
-	String FSRL = request.getParameter("FSRL");
+	String TB = saveListData.getString("TB_use");
+	String FSRL = saveListData.getString("Des");
 	
 	int init_ID = 17011381;
 	int init_lv = 0;
@@ -50,7 +53,7 @@
 	PreparedStatement pstmt2 = conn.prepareStatement(sql2);
 	PreparedStatement pstmt3 = conn.prepareStatement(sql3);
 	
-	try{
+	
 		pstmt.setString(1, cocd);
 		pstmt.setString(2, Des);
 		pstmt.setString(3, NaCode);
@@ -94,44 +97,15 @@
 		pstmt3.setInt(11,init_ID);
 		pstmt3.executeUpdate();
 		
-		out.println("<script>alert('등록 완료');</script>");
-		out.println("<script>window.location.href='Company_Regist.jsp';</script>");
-		
+		JSONObject Result = new JSONObject();
+		Result.put("status", "Success");
+	    Result.put("message", "로그인 성공");
+	    
+	    response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(Result.toString());
 	} catch(SQLException e){
 		e.printStackTrace();
-		out.println("<script>alert('등록 실패');</script>");
-	} finally{
-		try{
-			if(pstmt != null && !pstmt.isClosed()){
-				pstmt.close();
-			}
-			if (pstmt2 != null && !pstmt2.isClosed()) {
-				pstmt2.close();
-			}
-			if (pstmt3 != null && !pstmt3.isClosed()) {
-				pstmt3.close();
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
+		
 	}
-	conn.close();
 %>
-<script>
-console.log("Company Code: " + '<%= cocd %>');
-console.log("Description: " + '<%= Des %>');
-console.log("NaCode: " + '<%= NaCode %>');
-console.log("Nationality Name: " + '<%= NaName %>');
-console.log("Postal Code: " + '<%= PtCd %>');
-console.log("Address 1: " + '<%= Addr %>');
-console.log("Address 2: " + '<%= AddrDetail %>');
-console.log("Local Currency: " + '<%= money %>');
-console.log("Language: " + '<%= lang %>');
-console.log("Business Area 사용: " + '<%= BA %>');
-console.log("Tax Area 사용: " + '<%= TA %>');
-console.log("TaxArea vs BizArea: " + '<%= TB %>');
-console.log("Financial Statement Reporting Level: " + '<%= FSRL %>');
-</script>
-
-</body>
-</html>

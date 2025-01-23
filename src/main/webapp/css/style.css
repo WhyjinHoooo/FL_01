@@ -1,5 +1,24 @@
 @charset "UTF-8";
-
+body,html{
+	height: 100%;
+  	margin: 0;
+  	padding: 0;
+}
+.testCenter{
+  height: 50%;
+  padding-bottom: 60px; /* footer의 높이만큼 지정 */
+  box-sizing: border-box;	
+}
+footer {
+    background: #002060;
+    height: 254px;
+    margin-top: 10.86%;
+    border-top: 1px solid rgb(111, 167, 235);
+}
+footer > img#logo {
+    width: 250px;
+    padding: 10px 0px 0px 10px;
+}
 .info {
 	text-align: right;
 }
@@ -1350,6 +1369,7 @@ table.ComInfoTable {
 .sub-info .table-container #NationDes{
 	width: 200px;
 	text-align: center;
+	font-size: 12px;
 }
 /* Company END */
 
