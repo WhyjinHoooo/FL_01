@@ -1,8 +1,6 @@
 <%@page import="java.sql.SQLException"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" isELIgnored="false"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.sql.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
@@ -18,7 +16,7 @@
 
 <script>
 function InfoSearch(field){
-	var popupWidth = 1000;
+	var popupWidth = 460;
 	var popupHeight = 600;
 	
 	var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
@@ -43,7 +41,7 @@ function InfoSearch(field){
 	    
 	switch(field){
 	case "ComSearch":
-		window.open("${contextPath}/Information/ComSearch.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+		window.open("${contextPath}/Information/CompanySerach.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 		break;
 	}
 }
@@ -75,133 +73,167 @@ function sendData(Biz_level, CompanyCode) {
             $('#Upper-Biz-level').prop('selectedIndex', 0).change();
          }
      });
-     $('select[name="Upper-Biz-level"]').change(function() {
-         var selectedOptionValue = $(this).val();
-     });
 }
-window.onload = function() { 
-	document.querySelector('.Com-code').addEventListener('change', function() { 
-	var v = this.value; 
-	document.querySelector('input[name="ComName_input"]').value = v; 
-	});  
-};  
-	$(document).ready(function() {
-		$('.Com-code').change(function() {
-			var selectedCode = $(this).val();
-			console.log('selectedCode: ' + selectedCode);
-			$.ajax({
-				type: 'POST',
-				url: 'getMaxLevel.jsp',  // 요청을 보낼 JSP 파일의 URL
-				data: {ComCode: selectedCode}, // 선택된 회사 코드
-				success: function(response) {
-					// 서버로부터 받은 응답 처리
-					var maxLevel = response;  // 응답은 최대 레벨이어야 함
-					var options = '';
-					for(var i=1; i<=maxLevel; i++){
-						options += '<option value="' + i + '">' + i + ' Level</option>';
-					}                
-				$('.Biz-level').html(options);
-				}
-			});
-			
-			var Biz_level = 1;
-	        var CompanyCode = $(this).val();
-	        
-	        sendData(Biz_level, CompanyCode);
-	        
-	        $('input[name="ComName_input"]').val('');
-	        $('input[name="Upper-Biz-Name"]').val('');
+$(document).ready(function() {
+	var ChkList = {};
+	$('.ComCode').change(function() {
+		var selectedCode = $(this).val();
+		$.ajax({
+			type: 'POST',
+			url: 'getMaxLevel.jsp',
+			data: {ComCode: selectedCode},
+			success: function(response) {
+				var maxLevel = response;
+				var options = '';
+				for(var i=1; i<=maxLevel; i++){
+					options += '<option value="' + i + '">' + i + ' Level</option>';
+				}                
+			$('.Biz-level').html(options);
+			}
 		});
 		
-	    $('.Biz-level').change(function(){
-	        var Biz_level = $(this).val();
-	        var CompanyCode = $('.Com-code').val();
-	        
-	        sendData(Biz_level, CompanyCode);
-	    });
+		var Biz_level = 1;
+        var CompanyCode = $(this).val();
+        
+        sendData(Biz_level, CompanyCode);
 	});
+	
+    $('.Biz-level').change(function(){
+        var Biz_level = $(this).val();
+        var CompanyCode = $('.ComCode').val();
+        
+        sendData(Biz_level, CompanyCode);
+    });
+    
+    $('.Info-input-btn').click(function(){
+    	event.preventDefault();
+    	$('.KeyInfo').each(function(){
+			var Name = $(this).attr('name');
+			var Value;
+			if ($(this).attr('type') === 'radio') {
+		        Value = $('input[name="' + Name + '"]:checked').val();
+		    } else {
+		        Value = $(this).val();
+		    }
+			
+			ChkList[Name] = Value;
+		})
+    	var pass = true;
+    	$.each(ChkList,function(key, value){
+    		if(value == null || value === ''){
+    			pass = false;
+    			return false;
+    		}
+    	})
+    	if(!pass){
+    		alert('모든 항목을 입력해주세요.');
+    	}else{
+    		$.ajax({
+				url:'${contextPath}/Business/BAG-Regist-Ok.jsp',
+				type: 'POST',
+				data: JSON.stringify(ChkList),
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				async: false,
+				success: function(data){
+					if(data.status === 'Success'){
+					alert('회사가 등록되었습니다.');
+					$('.KeyInfo').each(function(){
+						var name = $(this).attr('name');
+						if(name === 'ComCode'){
+							$(this).val('');
+						       $(this).attr('placeholder', 'SELECT');
+						} else if(name === 'Biz-level' || name === 'Upper-Biz-level'){
+							$('#' + name).html('<option value="">선택</option>');
+						} else if(name === 'Use-Useless'){
+							$('input[type="radio"][value="true"]').prop('checked', true);
+						} else{
+							$(this).val('');
+						}
+					})
+					}else{
+							alert('다시 입력해주세요.');
+					}
+				}
+			});
+		}
+	})
+});
 </script>
 </head>
 <body>
 	<jsp:include page="../HeaderTest.jsp"></jsp:include>
 	<center class="testCenter">
-		<form id="Bag_registform" name="Bag_registform" action="BAG-Regist-Ok.jsp" method="post" onSubmit="" encType="UTF-8">
-			<div class="bag-main-info">
-				<div class="table-container">
-					<table>
-						<tr><th class="info">Business Area Group : </th>
-							<td class="input-info">
-								<input type="text" name="bag" size="10">
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">Description : </th>
-							<td class="input-info">
-								<input type="text" name="bag-des" size="41">
-							</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			
-			<input class="Info-input-btn" id="btn" type="submit" value="Insert">
-			
-			<div class="bag-sub-info">
-				<div class="table-container">
-					<table>
-						<tr><th class="info">Company Code : </th>
-							<td class="input_info">
-									<input type="text" class="Com-code" name="Com-code" placeholder="SELECT" onclick="InfoSearch('ComSearch')" readonly>
-									<th class="info">Top Biz.Area Group : </th>
-									<td>
-										<input type="text" name="ComName_input" readonly>
-									</td>
-							</td>
-						</tr>
-						
+		<div class="bag-main-info">
+			<div class="table-container">
+				<table>
+					<tr><th class="info">Business Area Group : </th>
+						<td class="input-info">
+							<input class="KeyInfo" type="text" name="bag" size="10">
+						</td>
+					</tr>
 					
-						
-						<tr class="spacer-row"></tr>
-						<tr><th class="info">Biz.Group Level : </th>
-							<td class="input_info">
-								<select class="Biz-level" id="BizlevelSelected" name="Biz-level">
-									<option value="">선택</option>
-								</select>
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						<!-- END -->
-						<tr><th class="info"> Upper Biz,Group : </th>
-							<td class="input_info">
-								<select class="Upper-Biz-level" id="Upper-Biz-level" name="Upper-Biz-level">
-									<option value="">선택</option>
-								</select>
-									<th class="info">Description : </th>
-									<td>
-										<input type="text" name="Upper-Biz-Name" readonly>
-									</td>
-							</td>
-						</tr>	
-						
-						
-						<!-- TEST END -->
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">사용 여부: </th>
-							<td class="input_info">
-									<input type="radio" class="InputUse" name="Use-Useless" value="true" checked>사용
-									<span class="spacing"></span>
-									<input type="radio" class="InputUse" name="Use-Useless" value="false">미사용								
-								</select>
-							</td>
-						</tr>										
-					</table>
-				</div>
+					<tr class="spacer-row"></tr>
+					
+					<tr><th class="info">Description : </th>
+						<td class="input-info">
+							<input class="KeyInfo" type="text" name="bag-des" size="41">
+						</td>
+					</tr>
+				</table>
 			</div>
-		</form>
+		</div>
+		
+		<button class="Info-input-btn" id="btn">Insert</button>
+		
+		<div class="bag-sub-info">
+			<div class="table-container">
+				<table>
+					<tr><th class="info">Company Code : </th>
+						<td class="input_info">
+							<input type="text" class="ComCode KeyInfo" name="ComCode" placeholder="SELECT" onclick="InfoSearch('ComSearch')" readonly>
+							<th class="info">Top Biz.Area Group : </th>
+							<td>
+								<input type="text" class="Com_Name KeyInfo" name="Com_Name" readonly>
+							</td>
+						</td>
+					</tr>
+					<tr class="spacer-row"></tr>
+					
+					<tr><th class="info">Biz.Group Level : </th>
+						<td class="input_info">
+							<select class="Biz-level KeyInfo" id="Biz-level" name="Biz-level">
+								<option value="">선택</option>
+							</select>
+						</td>
+					</tr>
+					
+					<tr class="spacer-row"></tr>
+
+					<tr><th class="info"> Upper Biz,Group : </th>
+						<td class="input_info">
+							<select class="Upper-Biz-level KeyInfo" id="Upper-Biz-level" name="Upper-Biz-level">
+								<option value="">선택</option>
+							</select>
+								<th class="info">Description : </th>
+								<td>
+									<input type="text" class="Upper-Biz-Name KeyInfo" name="Upper-Biz-Name" readonly>
+								</td>
+						</td>
+					</tr>
+
+					<tr class="spacer-row"></tr>
+					
+					<tr><th class="info">사용 여부: </th>
+						<td class="input_info">
+							<input type="radio" class="InputUse KeyInfo" name="Use-Useless" value="true" checked>사용
+							<span class="spacing"></span>
+							<input type="radio" class="InputUse KeyInfo" name="Use-Useless" value="false">미사용
+						</td>
+					</tr>										
+				</table>
+			</div>
+		</div>
 	</center>
 	<footer>
 		<img id="logo" name="Logo" src="${contextPath}/img/White_Logo.png" alt="">

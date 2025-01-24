@@ -42,8 +42,7 @@
 			    <tr>
 			        <td><%=rs.getString("Com_Cd") %></td>
 			        <td>
-			        	<a href="javascript:void(0)"
-			        		 onClick="
+			        	<a href="javascript:void(0)"onClick="
 			        		 window.opener.document.querySelector('.ComCode').value='<%=rs.getString("Com_Cd")%>';
 			        		 window.opener.document.querySelector('.Com_Name').value='<%=rs.getString("Com_Des")%>';
 			        		 window.opener.document.querySelector('.ComCode').dispatchEvent(new Event('change'));

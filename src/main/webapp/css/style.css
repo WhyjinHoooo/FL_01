@@ -4,11 +4,6 @@ body,html{
   	margin: 0;
   	padding: 0;
 }
-.testCenter{
-  height: 50%;
-  padding-bottom: 60px; /* footer의 높이만큼 지정 */
-  box-sizing: border-box;	
-}
 footer {
     background: #002060;
     height: 254px;
@@ -377,6 +372,12 @@ table.ComInfoTable {
 }
 
 @media only screen and (min-width: 1537px) { /* 화면 너비가 1536px 이상인 경우에 적용되는 CSS 미디어 쿼리를 지정 */
+	.testCenter{
+	  height: 50%;
+	  padding-bottom: 60px; /* footer의 높이만큼 지정 */
+	  box-sizing: border-box;	
+	}
+	
 	.table-container br {
 	    display: none;
 	}
@@ -1268,95 +1269,96 @@ table.ComInfoTable {
 
 /*main-info END*/
 /*sub-info START*/
-.sub-info {
-    border: 1px solid #000;
-    margin-top: 50px;
-    padding-left: 10px; 
-    padding-top: 30px;
-    padding-bottom: 30px;
-    width: 80%;
+@media only screen and (min-width: 1536px) {
+	.sub-info {
+	    border: 1px solid #000;
+	    margin-top: 50px;
+	    padding-left: 10px; 
+	    padding-top: 30px;
+	    padding-bottom: 30px;
+	    width: 80%;
+	}
+	.bag-sub-info {
+	    border: 1px solid #000;
+	    margin-top: 50px;
+	    padding-left: 10px; 
+	    padding-top: 30px;
+	    padding-bottom: 30px;
+	    width: 80%;
+	}
+	.tax-sub-info {
+	    border: 1px solid #000;
+	    margin-top: 50px;
+	    padding-left: 10px; 
+	    padding-top: 30px;
+	    padding-bottom: 30px;
+	    width: 80%;
+	}
+	.ba-sub-info {
+	    border: 1px solid #000;
+	    margin-top: 50px;
+	    padding-left: 10px; 
+	    padding-top: 30px;
+	    padding-bottom: 30px;
+	    width: 80%;
+	}
+	.ccg-sub-info {
+	    border: 1px solid #000;
+	    margin-top: 50px;
+	    padding-left: 10px; 
+	    padding-top: 30px;
+	    padding-bottom: 30px;
+	    width: 80%;
+	}
+	.cc-sub-info {
+	    border: 1px solid #000;
+	    margin-top: 50px;
+	    padding-left: 10px; 
+	    padding-top: 30px;
+	    padding-bottom: 30px;
+	    width: 80%;
+	}
+	.plant-sub-info {
+	    border: 1px solid #000;
+	    margin-top: 50px;
+	    padding-left: 10px; 
+	    padding-top: 30px;
+	    padding-bottom: 30px;
+	    width: 80%;
+	}
+	.emp-sub-info {
+	    border: 1px solid #000;
+	    margin-top: 50px;
+	    padding-left: 10px; 
+	    padding-top: 30px;
+	    padding-bottom: 30px;
+	    width: 80%;
+	}
+	.storage-sub-info {
+	    border: 1px solid #000;
+	    margin-top: 50px;
+	    padding-left: 10px; 
+	    padding-top: 30px;
+	    padding-bottom: 30px;
+	    width: 80%;
+	}
+	.mat-sub-info {
+	    border: 1px solid #000;
+	    margin-top: 50px;
+	    padding-left: 10px; 
+	    padding-top: 30px;
+	    padding-bottom: 30px;
+	    width: 80%;
+	}
+	.ven-sub-info {
+	    border: 1px solid #000;
+	    margin-top: 50px;
+	    padding-left: 10px; 
+	    padding-top: 30px;
+	    padding-bottom: 30px;
+	    width: 80%;
+	}
 }
-.bag-sub-info {
-    border: 1px solid #000;
-    margin-top: 50px;
-    padding-left: 10px; 
-    padding-top: 30px;
-    padding-bottom: 30px;
-    width: 80%;
-}
-.tax-sub-info {
-    border: 1px solid #000;
-    margin-top: 50px;
-    padding-left: 10px; 
-    padding-top: 30px;
-    padding-bottom: 30px;
-    width: 80%;
-}
-.ba-sub-info {
-    border: 1px solid #000;
-    margin-top: 50px;
-    padding-left: 10px; 
-    padding-top: 30px;
-    padding-bottom: 30px;
-    width: 80%;
-}
-.ccg-sub-info {
-    border: 1px solid #000;
-    margin-top: 50px;
-    padding-left: 10px; 
-    padding-top: 30px;
-    padding-bottom: 30px;
-    width: 80%;
-}
-.cc-sub-info {
-    border: 1px solid #000;
-    margin-top: 50px;
-    padding-left: 10px; 
-    padding-top: 30px;
-    padding-bottom: 30px;
-    width: 80%;
-}
-.plant-sub-info {
-    border: 1px solid #000;
-    margin-top: 50px;
-    padding-left: 10px; 
-    padding-top: 30px;
-    padding-bottom: 30px;
-    width: 80%;
-}
-.emp-sub-info {
-    border: 1px solid #000;
-    margin-top: 50px;
-    padding-left: 10px; 
-    padding-top: 30px;
-    padding-bottom: 30px;
-    width: 80%;
-}
-.storage-sub-info {
-    border: 1px solid #000;
-    margin-top: 50px;
-    padding-left: 10px; 
-    padding-top: 30px;
-    padding-bottom: 30px;
-    width: 80%;
-}
-.mat-sub-info {
-    border: 1px solid #000;
-    margin-top: 50px;
-    padding-left: 10px; 
-    padding-top: 30px;
-    padding-bottom: 30px;
-    width: 80%;
-}
-.ven-sub-info {
-    border: 1px solid #000;
-    margin-top: 50px;
-    padding-left: 10px; 
-    padding-top: 30px;
-    padding-bottom: 30px;
-    width: 80%;
-}
-
 
 /*sub-info END*/
 
@@ -1374,11 +1376,18 @@ table.ComInfoTable {
 /* Company END */
 
 /* Business Area Group START */
-.bag-sub-info .table-container .Com-code{
-	text-align: center;
-	width: 95px;
+@media only screen and (min-width: 1536px) {
+	.bag-sub-info .table-container .Upper-Biz-Name{
+		text-align: center;
+	}
+	.bag-sub-info .table-container .ComCode{
+		text-align: center;
+		width: 95px;
+	}	
 }
-.ba-sub-info .table-container .TA-code, .ba-sub-info .table-container .BAG-code{
+
+.ba-sub-info .table-container .TA-code,
+.ba-sub-info .table-container .BAG-code{
 	text-align: center;
 	width: 105px;
 }
