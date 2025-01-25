@@ -23,14 +23,14 @@
 	LocalDateTime now = LocalDateTime.now();
 	String formattedNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	/*main-info*/
-	String Bag = saveListData.getString("bag");/*  request.getParameter("bag"); // Business Area Group  */
-	String Name = saveListData.getString("bag-des");/*  request.getParameter("bag-des"); //Description */
+	String Bag = saveListData.getString("bag");
+	String Name = saveListData.getString("bag-des");
 	/*sub-info*/
-	String ComCode = saveListData.getString("ComCode");/*  request.getParameter("Com-code"); // Company Code */
-	String Tbag = saveListData.getString("Com_Name");/*  request.getParameter("ComName_input"); // Top Biz.Area Group */
-	int level = Integer.parseInt(saveListData.getString("Biz-level"));/*  Integer.parseInt(request.getParameter("Biz-level")); // Level */
-	String Biz_level = saveListData.getString("Upper-Biz-level"); /* request.getParameter("Upper-Biz-level"); //Upper Biz,Group */
-	boolean Use = Boolean.parseBoolean(saveListData.getString("Use-Useless"));/*  Boolean.parseBoolean(request.getParameter("Use-Useless")); //사용 여부 */
+	String ComCode = saveListData.getString("ComCode");
+	String Tbag = saveListData.getString("Com_Name");
+	int level = Integer.parseInt(saveListData.getString("Biz-level"));
+	String Biz_level = saveListData.getString("Upper-Biz-level");
+	boolean Use = Boolean.parseBoolean(saveListData.getString("Use-Useless"));
 	
 	int test2 = 1;
 	int test4 = 2;

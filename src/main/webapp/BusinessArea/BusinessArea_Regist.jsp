@@ -12,175 +12,197 @@
 <link rel="stylesheet" href="../css/style.css?after">
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> 
-<script type='text/javascript'>
-	$(document).ready(function(){
-	    $('.Com-code').change(function(){
-	        var CompanyCode = $(this).val();
-	        console.log('1. 선택된 값: ' + CompanyCode);
-	        
-	        var popupWidth = 1000;
-		    var popupHeight = 600;
-		    
-		    // 현재 활성화된 모니터의 위치를 감지
-		    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
-		    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
-		    
-		    // 전체 화면의 크기를 감지
-		    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-		    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
-		    var xPos, yPos;
-		    
-		    if (width == 2560 && height == 1440) {
-		        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
-		        xPos = (2560 / 2) - (popupWidth / 2);
-		        yPos = (1440 / 2) - (popupHeight / 2);
-		    } else if (width == 1920 && height == 1080) {
-		        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
-		        xPos = (1920 / 2) - (popupWidth / 2);
-		        yPos = (1080 / 2) - (popupHeight / 2);
-		    } else {
-		        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
-		        var monitorWidth = 2560;
-		        var monitorHeight = 1440;
-		        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
-		        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
-		    }
-		    
-		    $.ajax({
-	            type: 'post',
-	            url: '${contextPath}/Tax/Com-Na-Output.jsp',
-	            data: { Company_Code : CompanyCode }, // 수정된 부분
-	            success: function(response) {
-	                if (response !== 'error') {
-	                    var dataArr = response.split("|");
-	                    var NaCodeInput = document.getElementById("Na-Code");
-	                    var NaDesInput = document.getElementById("na-Des");
+<script>
+function execDaumPostcode() {
+	new daum.Postcode({
+		oncomplete: function(data) {
+			var addr = '';
+			var extraAddr = '';
+            if (data.userSelectedType === 'R') {
+				addr = data.roadAddress;
+			} else {
+				addr = data.jibunAddress;
+			}
+		if(data.userSelectedType === 'R'){
+			if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+				extraAddr += data.bname;
+			}
+			if(data.buildingName !== '' && data.apartment === 'Y'){
+				extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+			}
+			if(extraAddr !== ''){
+				extraAddr = ' (' + extraAddr + ')';
+			}
+			document.getElementById("extraAddress").value = extraAddr;
+		} else {
+			document.getElementById("extraAddress").value = '';
+		}
+			document.getElementById('postcode').value = data.zonecode;
+            document.getElementById("address").value = addr;
+            document.getElementById("detailAddress").focus();
+        }
+    }).open();
+}
+function InfoSearch(field){
+	var popupWidth = 500;
+    var popupHeight = 600;
+    var ComCode = $('.ComCode').val();
 
-	                    NaCodeInput.value = dataArr[0];
-	                    NaDesInput.value = dataArr[1];
-	                } else {
-	                    console.error('An error occurred while retrieving the nationality.');
-	                }
-	            }
-	        });
-		    
-		    console.log('2. 선택된 값: ' + CompanyCode);
-		    window.open("${contextPath}/Information/TACSearch.jsp?CoCd=" + CompanyCode, "Pop01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-	    });
-	});
-	function execDaumPostcode() {
-	    new daum.Postcode({
-	        oncomplete: function(data) {
-	            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-	
-	            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-	            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-	            var addr = ''; // 주소 변수
-	            var extraAddr = ''; // 참고항목 변수
-	
-	            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-	            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-	                addr = data.roadAddress;
-	            } else { // 사용자가 지번 주소를 선택했을 경우(J)
-	                addr = data.jibunAddress;
-	            }
-	
-	            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-	            if(data.userSelectedType === 'R'){
-	                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-	                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-	                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-	                    extraAddr += data.bname;
-	                }
-	                // 건물명이 있고, 공동주택일 경우 추가한다.
-	                if(data.buildingName !== '' && data.apartment === 'Y'){
-	                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-	                }
-	                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-	                if(extraAddr !== ''){
-	                    extraAddr = ' (' + extraAddr + ')';
-	                }
-	                // 조합된 참고항목을 해당 필드에 넣는다.
-	                document.getElementById("extraAddress").value = extraAddr;
-	            
-	            } else {
-	                document.getElementById("extraAddress").value = '';
-	            }
-	
-	            // 우편번호와 주소 정보를 해당 필드에 넣는다.
-	            document.getElementById('postcode').value = data.zonecode;
-	            document.getElementById("address").value = addr;
-	            // 커서를 상세주소 필드로 이동한다.
-	            document.getElementById("detailAddress").focus();
-	        }
-	    }).open();
-	}
-	
-	function InfoFunction(field){
-		var popupWidth = 1000;
+    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
+
+    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+    var xPos, yPos;
+	    
+    if (width == 2560 && height == 1440) {
+        xPos = (2560 / 2) - (popupWidth / 2);
+        yPos = (1440 / 2) - (popupHeight / 2);
+    } else if (width == 1920 && height == 1080) {
+        xPos = (1920 / 2) - (popupWidth / 2);
+        yPos = (1080 / 2) - (popupHeight / 2);
+    } else {
+        var monitorWidth = 2560;
+        var monitorHeight = 1440;
+        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+    }
+	    
+    switch(field){
+    case "ComSearch":
+    	window.open("${contextPath}/Information/CompanySerach.jsp", "test01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    case "MoneySearch":
+    	window.open("${contextPath}/Information/MoneySearch.jsp", "test02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    case "LanSearch":
+	    window.open("${contextPath}/Information/LanSearch.jsp", "test03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    case "TACSearch":
+	    window.open("${contextPath}/Information/TACSearch.jsp?CoCd=" + ComCode, "test04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    case "BAGSearch":
+	    window.open("${contextPath}/Information/BAGSearch.jsp?CoCd=" + ComCode, "test05", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    }
+}
+$(document).ready(function(){
+    $('.ComCode').change(function(){
+        var CompanyCode = $(this).val();
+        
+        var popupWidth = 500;
 	    var popupHeight = 600;
 	    
-	    // 현재 활성화된 모니터의 위치를 감지
 	    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
 	    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
 	    
-	    // 전체 화면의 크기를 감지
 	    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
 	    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
 	    var xPos, yPos;
 	    
 	    if (width == 2560 && height == 1440) {
-	        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
 	        xPos = (2560 / 2) - (popupWidth / 2);
 	        yPos = (1440 / 2) - (popupHeight / 2);
 	    } else if (width == 1920 && height == 1080) {
-	        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
 	        xPos = (1920 / 2) - (popupWidth / 2);
 	        yPos = (1080 / 2) - (popupHeight / 2);
 	    } else {
-	        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
 	        var monitorWidth = 2560;
 	        var monitorHeight = 1440;
 	        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
 	        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
 	    }
-	    
-	    var ComCode = document.querySelector('.Com-code').value;
-	    
-	    switch(field){
-	    case "ComSearch":
-	    	window.open("${contextPath}/Information/ComSearch.jsp", "test01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-	    	break;
-	    case "MoneySearch":
-	    	window.open("${contextPath}/Information/MoneySearch.jsp", "test02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-	    	break;
-	    case "LanSearch":
-		    window.open("${contextPath}/Information/LanSearch.jsp", "test03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-	    	break;
-	    case "TACSearch":
-	    	console.log('1.ComCode : ' + ComCode);
-		    window.open("${contextPath}/Information/TACSearch.jsp?CoCd=" + ComCode, "test04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-	    	break;
-	    case "BAGSearch":
-		    window.open("${contextPath}/Information/BAGSearch.jsp?CoCd=" + ComCode, "test05", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-	    	break;
-	    }
-	}
+	    $.ajax({
+            type: 'post',
+            url: '${contextPath}/Tax/Com-Na-Output.jsp',
+            data: { Company_Code : CompanyCode },
+            success: function(response) {
+                if (response !== 'error') {
+                    var dataArr = response.split("|");
+                    var NaCodeInput = document.getElementById("Na-Code");
+                    var NaDesInput = document.getElementById("na-Des");
+	                    NaCodeInput.value = dataArr[0];
+                    NaDesInput.value = dataArr[1];
+                } else {
+                    console.error('An error occurred while retrieving the nationality.');
+                }
+            }
+        });
+	    window.open("${contextPath}/Information/TACSearch.jsp?CoCd=" + CompanyCode, "Pop01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    });
+    var ChkList = {};
+    $('.Info-input-btn').click(function(){
+    	event.preventDefault();
+    	$('.KeyInfo').each(function(){
+			var Name = $(this).attr('name');
+			var Value;
+			if ($(this).attr('type') === 'radio') {
+		        Value = $('input[name="' + Name + '"]:checked').val();
+		    } else {
+		        Value = $(this).val();
+		    }			
+			ChkList[Name] = Value;
+		})
+		var pass = true;
+		$.each(ChkList,function(key, value){
+	    	if(value == null || value === ''){
+	    		pass = false;
+	    		return false;
+	    	}
+	    })
+	    if(!pass){
+	    	alert('모든 항목을 입력해주세요.');
+	    }else{
+	    	$.ajax({
+				url:'${contextPath}/BusinessArea/BusinessArea_Regist_Ok.jsp',
+				type: 'POST',
+				data: JSON.stringify(ChkList),
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				async: false,
+				success: function(data){
+					if(data.status === 'Success'){
+						alert('회사가 등록되었습니다.');
+						$('.KeyInfo').each(function(){
+							var name = $(this).attr('name');
+							if(name === 'BAC' || name === 'Des'){
+								$(this).val('');
+							}else if(name === 'AddrCode'){
+								$(this).val('');
+								$(this).attr('placeholder', '우편번호');
+							} else if(name === 'Addr'){
+								$(this).val('');
+								$(this).attr('placeholder', '주소');
+							} else if(name === 'AddrDetail'){
+								$(this).val('');
+								$(this).attr('placeholder', '상세주소');
+							} else if(name === 'Use-Useless'){
+								$('input[type="radio"][value="true"]').prop('checked', true);
+							} else{
+								$(this).val('');
+							    $(this).attr('placeholder', 'SELECT');
+							}
+						})
+					}else{
+						alert('다시 입력해주세요.');
+					}
+				}
+			});
+		}
+	})
+});
 </script>
 <title>Business Area 등록</title>
 </head>
 <body>
-	<h1>Business Area 등록</h1>
-	<hr>
 	<jsp:include page="../HeaderTest.jsp"></jsp:include>
-	<center>
-		<form id="BusA-RegistForm" name="BusA-RegistForm" action="BusinessArea_Regist_Ok.jsp" method="post" onSubmit="" encType="UTF-8">
+	<center class="testCenter">
 			<div class="ba-main-info">
 				<div class="table-container">
 					<table>
 						<tr><th class="info">Business Area Code : </th>
 							<td class="input-info">
-								<input type="text" name="BAC" size="10">
+								<input type="text" class="KeyInfo" name="BAC" size="10">
 							</td>
 						</tr>
 						
@@ -188,21 +210,22 @@
 						
 						<tr><th class="info">Description : </th>
 							<td class="input-info">
-								<input type="text" name="Des" size="41">
+								<input type="text" class="KeyInfo" name="Des" size="41">
 							</td>
 						</tr>						
 					</table>
 				</div>
 			</div>
 			
-			<input class="Info-input-btn" id="btn" type="submit" value="Insert">
+			<button class="Info-input-btn" id="btn">Insert</button>
 			
 			<div class="ba-sub-info">
 				<div class="table-container">
 					<table>
 						<tr><th class="info">Company Code : </th>
 							<td class="input-info">
-								<input type="text" class="Com-code" name="Com-code" onclick="InfoFunction('ComSearch')" readonly>
+								<input type="text" class="ComCode KeyInfo" name="ComCode" onclick="InfoSearch('ComSearch')" placeholder="SELECT" readonly>
+								<input class="Com_Name" hidden>
 							</td>
 						</tr>
 						
@@ -210,8 +233,8 @@
 				
 						<tr><th class="info">Nationality : </th>
 							<td class="input-info">
-								<input type="text" class="Nationality-Code" name="Na-Code" id="Na-Code" readonly>
-								<input type="text" class="Nationality-Des" name="Na-Des" id="na-Des" readonly>
+								<input type="text" class="Nationality-Code KeyInfo" name="Na-Code" id="Na-Code" placeholder="SELECT" readonly>
+								<input type="text" class="Nationality-Des KeyInfo" name="Na-Des" id="na-Des" readonly>
 							</td>
 						</tr>
 												
@@ -219,7 +242,7 @@
 						
 						<tr><th class="info">Postal Code : </th>
 							<td class="input-info">
-								<input type="text" class="AddrCode NewAddr" name="AddrCode" id="postcode" placeholder="우편번호" readonly>
+								<input type="text" class="AddrCode NewAddr KeyInfo" name="AddrCode" id="postcode" placeholder="우편번호" readonly>
 						        <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기">
 							</td>
 						</tr>
@@ -229,10 +252,10 @@
 						<tr><th class="info">Address : </th>
 							<td class="input-info">
 						        <div>
-						            <input type="text" class="Addr NewAddr" name="Addr" id="address" placeholder="주소" readonly>
+						            <input type="text" class="Addr NewAddr KeyInfo" name="Addr" id="address" placeholder="주소" readonly>
 						        </div>
 						        <div>
-						            <input type="text" class="AddrDetail NewAddr" name="AddrDetail" id="detailAddress" placeholder="상세주소" required>
+						            <input type="text" class="AddrDetail NewAddr KeyInfo" name="AddrDetail" id="detailAddress" placeholder="상세주소" required>
 						        </div>
 						        <div>
 						            <input type="text" class="AddrRefer NewAddr" id="extraAddress" placeholder="참고항목" hidden>
@@ -244,13 +267,12 @@
 					
 					<tr><th class="info">Local Currency : </th>
 						<td class="input_info">
-							<!-- <a href="javascript:void(0);" onclick="InfoFunction('MoneySearch')"></a> -->
-							<input type="text" class="money-code" name="money" placeholder="SELECT" onclick="InfoFunction('MoneySearch')" readonly>
+							<input type="text" class="money-code KeyInfo" name="money" placeholder="SELECT" onclick="InfoSearch('MoneySearch')" placeholder="SELECT" readonly>
 						</td>
 						
 						<th class="info">Language : </th>
 							<td class="input_info">
-								<input type="text" class="language-code" name="lang" placeholder="SELECT" onclick="InfoFunction('LanSearch')" readonly>
+								<input type="text" class="language-code KeyInfo" name="lang" placeholder="SELECT" onclick="InfoSearch('LanSearch')" placeholder="SELECT" readonly>
 							</td>
 					</tr>	
 					
@@ -258,7 +280,7 @@
 					
 						<tr><th class="info">Tax Area Code : </th>
 							<td class="input-info">
-								<input type="text" class="TA-code" name="TA-code" placeholder="SELECT" onclick="InfoFunction('TACSearch')" readonly>
+								<input type="text" class="TA-code KeyInfo" name="TA-code" placeholder="SELECT" onclick="InfoSearch('TACSearch')" placeholder="SELECT" readonly>
 							</td>
 						</tr>
 
@@ -266,7 +288,7 @@
 						
 						<tr><th class="info">Biz.Area Group : </th>
 							<td class="input-info">
-								<input type="text" class="BAG-code" name="BAG-code" placeholder="SELECT" onclick="InfoFunction('BAGSearch')" readonly>
+								<input type="text" class="BAG-code KeyInfo" name="BAG-code" placeholder="SELECT" onclick="InfoSearch('BAGSearch')" placeholder="SELECT" readonly>
 							</td>
 						</tr>
 						
@@ -274,17 +296,18 @@
 						
 						<tr><th class="info">사용 여부: </th>
 							<td class="input_info">
-									<input type="radio" class="InputUse" name="Use-Useless" value="true" checked>사용
+									<input type="radio" class="InputUse KeyInfo" name="Use-Useless" value="true" checked>사용
 									<span class="spacing"></span>
-									<input type="radio" class="InputUse" name="Use-Useless" value="false">미사용								
+									<input type="radio" class="InputUse KeyInfo" name="Use-Useless" value="false">미사용								
 								</select>
 							</td>
 						</tr>																		
 					</table>
 				</div>
 			</div>
-			
-		</form>
 	</center>
+	<footer>
+		<img id="logo" name="Logo" src="${contextPath}/img/White_Logo.png" alt="">
+	</footer>
 </body>
 </html>

@@ -1294,14 +1294,6 @@ table.ComInfoTable {
 	    padding-bottom: 30px;
 	    width: 80%;
 	}
-	.ba-sub-info {
-	    border: 1px solid #000;
-	    margin-top: 50px;
-	    padding-left: 10px; 
-	    padding-top: 30px;
-	    padding-bottom: 30px;
-	    width: 80%;
-	}
 	.ccg-sub-info {
 	    border: 1px solid #000;
 	    margin-top: 50px;
@@ -1384,13 +1376,33 @@ table.ComInfoTable {
 		text-align: center;
 		width: 95px;
 	}	
+	.ba-sub-info {
+	    border: 1px solid #000;
+	    margin-top: 50px;
+	    padding-left: 10px; 
+	    padding-top: 30px;
+	    padding-bottom: 30px;
+	    width: 80%;
+	}
+	.ba-sub-info .table-container .TA-code,
+	.ba-sub-info .table-container .BAG-code,
+	.ba-sub-info .table-container .ComCode{
+		text-align: center;
+		width: 105px;
+	}
+	.ba-sub-info .table-container .Nationality-Code{
+		text-align: center;
+		width: 103px;
+	}
+	.tax-sub-info .table-container .Nationality-Code,
+	.tax-sub-info .table-container .ComCode{
+		text-align: center;
+		width: 103px;
+	}
+	
 }
 
-.ba-sub-info .table-container .TA-code,
-.ba-sub-info .table-container .BAG-code{
-	text-align: center;
-	width: 105px;
-}
+
 /* Business Area Group END */
 
 /* Cost Center Group START */
@@ -1537,7 +1549,6 @@ table.ComInfoTable {
 }
 .Nationality-Code{
 	text-align: center;
-	padding-right: 20px;
 	width: 85px;
 }
 
