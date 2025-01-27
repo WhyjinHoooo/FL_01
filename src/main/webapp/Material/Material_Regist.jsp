@@ -126,7 +126,6 @@ function InfoSearch(field){
 </script>
 </head>
 <body>
-	<h1>Material Code 생성</h1>
 	<center>
 		<jsp:include page="../HeaderTest.jsp"></jsp:include>
 		<form name="matRegistForm" id="matRegistForm" action="Material_Regist_Ok.jsp" method="post" enctype="UTF-8">

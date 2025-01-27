@@ -23,10 +23,10 @@
 	String NaCode = request.getParameter("NationCode");
 	String NaDes = request.getParameter("NationDes");
 	
-	String PostalCode = request.getParameter("PostalCode");
+	String PostalCode = request.getParameter("AddrCode");
 	
-	String Addr1 = request.getParameter("Addr1");
-	String Addr2 = request.getParameter("Addr2");
+	String Addr1 = request.getParameter("Addr");
+	String Addr2 = request.getParameter("AddrDetail");
 	
 	String RepPhone = request.getParameter("RepPhone");
 	String RepName = request.getParameter("RepName");

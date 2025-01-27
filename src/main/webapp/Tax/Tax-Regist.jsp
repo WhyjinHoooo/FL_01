@@ -99,45 +99,83 @@
 	    }
 	};
 $(document).ready(function() {
-	$('.ComCode').change(function() {
-		var selectedValue = $(this).val();
-		$.ajax({
-			type: 'post',
-			url: 'Com-Na-Output.jsp',
-			data: { Company_Code : selectedValue }, // 수정된 부분
-			success: function(response) {
-				if (response !== 'error') {
-		        var dataArr = response.split("|");
-		        var NaCodeInput = document.getElementById("Na-Code");
-		        var NaDesInput = document.getElementById("na-Des");
-			        NaCodeInput.value = dataArr[0];
-		        NaDesInput.value = dataArr[1];
-		                    
-				} else {
-					console.error('An error occurred while retrieving the nationality.');
-				}
-			}
-		});
-	});
 	function MainSubFunc(Value){
 		var ComValue = $('.ComCode').val();
 		var taxAreaValue = $('.TaxArea_MS:checked').val();
+		console.log('1.taxAreaValue : ' + taxAreaValue);
 		if(taxAreaValue === "1"){
-			$('input[name="main-TA-Code"]').val(Value);
-			$('#main-tax-area-code-row button').prop('disabled', false);
+			$.ajax({
+				type: 'POST',
+				url: 'FindMainTax.jsp',
+				data: { Company_Code: ComValue },
+				dataType: 'text',
+				success: function(response) {
+					console.log("FindMainTax Response: ", response.trim());
+					if (response !== 'error' && response !== null && response.trim() !== '') {
+						alert('해당 기업에 대한 Main Tax Area는 등록됐었습니다. \n 다시 입력해주세요.');
+						$('.TAC').val('');
+						$('.TAC_Des').val('');
+						$('.ComCode').val('');
+						$('.ComCode').attr('placeholder', 'SELECT');
+					} else {
+						$('input[name="main-TA-Code"]').val(Value);
+						$('#main-tax-area-code-row button').prop('disabled', true);
+						$.ajax({
+							type: 'post',
+							url: 'Com-Na-Output.jsp',
+							data: { Company_Code : ComValue }, // 수정된 부분
+							success: function(response) {
+								if (response !== 'error') {
+						        var dataArr = response.split("|");
+						        var NaCodeInput = document.getElementById("Na-Code");
+						        var NaDesInput = document.getElementById("na-Des");
+							        NaCodeInput.value = dataArr[0];
+						        NaDesInput.value = dataArr[1];
+						                    
+								} else {
+									console.error('An error occurred while retrieving the nationality.');
+								}
+							}
+						});
+					}
+				},
+				error: function(xhr, status, error) {
+					console.error("Error: ", error);
+					alert("서버 요청에 실패했습니다. 다시 시도해주세요.");
+				}
+			});
 		} else if(taxAreaValue === "2"){
 			$.ajax({
 				type: 'POST',
 				url: 'FindMainTax.jsp',
 				data: { Company_Code: ComValue },
+				dataType: 'text',
 				success: function(response) {
-					console.log("FindMainTax Response: ", response);
+					console.log("FindMainTax Response: ", response.trim());
 					if (response !== 'error' && response !== null && response.trim() !== '') {
 						$('input[name="main-TA-Code"]').val($.trim(response));
 						$('#main-tax-area-code-row button').prop('disabled', true);
+						$.ajax({
+							type: 'post',
+							url: 'Com-Na-Output.jsp',
+							data: { Company_Code : ComValue }, // 수정된 부분
+							success: function(response) {
+								if (response !== 'error') {
+						        var dataArr = response.split("|");
+						        var NaCodeInput = document.getElementById("Na-Code");
+						        var NaDesInput = document.getElementById("na-Des");
+							        NaCodeInput.value = dataArr[0];
+						        NaDesInput.value = dataArr[1];
+						                    
+								} else {
+									console.error('An error occurred while retrieving the nationality.');
+								}
+							}
+						});
 					} else {
 						alert("Main Tax Area를 등록해주세요.");
-						$('input[name="main-TA-Code"]').val(Value);
+						$('.ComCode').val('');
+						$('.ComCode').attr('placeholder', 'SELECT');
 		                $('input.TaxArea_MS[value="1"]').prop('checked', true);
 					}
 				},
@@ -148,17 +186,11 @@ $(document).ready(function() {
 			});
 		}
 	}
-	
-	$('.TAC').on('input', function() {
-		var MainValue = $(this).val();
-		MainSubFunc(MainValue);
-	});
-	  
-	$('.TaxArea_MS').change(function() {
+	$('.ComCode').change(function() {
 		var MainValue = $('.TAC').val();
+		console.log('MainValue : ' + MainValue);
 		MainSubFunc(MainValue);
 	});
-	
 	var ChkList = {};
     $('.Info-input-btn').click(function(){
     	console.log('asd');
@@ -187,7 +219,6 @@ $(document).ready(function() {
 	    if(!pass){
 	    	alert('모든 항목을 입력해주세요.');
 	    }else{
-	    	console.log('123');
 	    	$.ajax({
 				url:'${contextPath}/Tax/Tax-Regist_Ok.jsp',
 				type: 'POST',
@@ -197,7 +228,7 @@ $(document).ready(function() {
 				async: false,
 				success: function(data){
 					if(data.status === 'Success'){
-						alert('회사가 등록되었습니다.');
+						alert('과세항목이 등록되었습니다.');
 						$('.KeyInfo').each(function(){
 							var name = $(this).attr('name');
 							if(name === 'TAC' || name === 'Des'){
@@ -247,8 +278,18 @@ $(document).ready(function() {
 					
 					<tr><th class="info">Description : </th>
 						<td>
-							<input type="text" class="KeyInfo" name="Des" size="41">
+							<input type="text" class="TAC_Des KeyInfo" name="Des" size="41">
 						</td>
+					</tr>											
+					
+					<tr class="spacer-row"></tr>
+						
+					<tr><th class="info">Tax Area :</th>
+					    <td class="input-info">
+					        <input type="radio" class="TaxArea_MS KeyInfo" name="Select_MS" value="1" checked> Main
+					        <span class="spacing"></span>
+					        <input type="radio" class="TaxArea_MS KeyInfo" name="Select_MS" value="2"> Sub
+					    </td>
 					</tr>
 				</table>
 			</div>
@@ -298,16 +339,6 @@ $(document).ready(function() {
 					            <input type="text" class="AddrRefer NewAddr" id="extraAddress" placeholder="참고항목" hidden>
 					        </div>
 						</td>
-					</tr>											
-					
-					<tr class="spacer-row"></tr>
-						
-					<tr><th class="info">Main Tax Area :</th>
-					    <td class="input-info">
-					        <input type="radio" class="TaxArea_MS KeyInfo" name="Select_MS" value="1" checked> Main Tax Area
-					        <span class="spacing"></span>
-					        <input type="radio" class="TaxArea_MS KeyInfo" name="Select_MS" value="2"> Sub Tax Area
-					    </td>
 					</tr>
 					
 					<tr class="spacer-row"></tr>

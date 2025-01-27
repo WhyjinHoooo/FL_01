@@ -42,7 +42,15 @@
     %>
                 <tr>
                     <td><%=rs.getString("Level") %></td>
-                    <td><a href="javascript:void(0)" onClick="window.opener.document.querySelector('.matadjustCode').value='<%=rs.getString("Level")%>'; window.opener.document.querySelector('.matadjustDes').value='<%=rs.getString("Name")%>'; window.close();"><%=rs.getString("Name") %></a></td>
+                    <td>
+	                    <a href="javascript:void(0)" onClick=
+	                    "window.opener.document.querySelector('.matadjustCode').value='<%=rs.getString("Level")%>';
+	                     window.opener.document.querySelector('.matadjustDes').value='<%=rs.getString("Name")%>'; 
+	                     window.close();
+	                     ">
+	                     <%=rs.getString("Name") %>
+	                     </a>
+                     </td>
                 </tr>
     <%  
             } while(rs.next());

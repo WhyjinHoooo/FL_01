@@ -630,7 +630,9 @@
 	        </div>
     	</div>
 	</div>
-	<footer></footer>
+	<footer>
+		<img id="logo" name="Logo" src="${contextPath}/img/White_Logo.png" alt="">
+	</footer>
 </body>
 
 </html>

@@ -60,7 +60,7 @@ function execDaumPostcode() {
 }
 
 function InfoSearch(field){
-	var popupWidth = 1000;
+	var popupWidth = 500;
     var popupHeight = 600;
     
     // 현재 활성화된 모니터의 위치를 감지

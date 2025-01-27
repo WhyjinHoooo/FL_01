@@ -21,12 +21,12 @@ try{
 	rs = pstmt.executeQuery();
 	
 	if(!rs.next()) {
-		first = first + "-00001";
+		first = first + "-0001";
 	} else {
 		String recentData = rs.getString("Material_code");
 		String[] splitData = recentData.split("-");
 		int incrementedValue = Integer.parseInt(splitData[1]) + 1;
-		first = splitData[0] + "-" + String.format("%05d", incrementedValue);
+		first = splitData[0] + "-" + String.format("%04d", incrementedValue);
 	}
 	out.print(first.trim());
 } catch(SQLException e){

@@ -75,7 +75,7 @@
     border: 1px solid rgb(111, 167, 235);
     max-height: 80vh; /* 최대 높이 제한 */
     width: 70vh;
-    overflow: scroll; /* 세로 스크롤 생성 */
+    overflow-y: scroll; /* 세로 스크롤 생성 */
     table-layout: fixed;
     border-collapse: collapse;
 	}

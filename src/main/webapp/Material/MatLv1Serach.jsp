@@ -21,7 +21,6 @@
 			<%
 			    try {
 			        String matType = request.getParameter("matType");
-			
 			        if (matType == null || matType.isEmpty()) {
 			%>
 			        <tr>
@@ -29,7 +28,7 @@
 			        </tr>
 			<%
 			        } else {
-			            String sql = "SELECT * FROM matgroup WHERE length(MatGroup) = 2 AND MatType = ? AND Level = 1";
+			            String sql = "SELECT * FROM matgroup WHERE MatType = ? AND Level = 1";
 			            PreparedStatement pstmt = null;
 			            ResultSet rs = null;
 			            pstmt = conn.prepareStatement(sql);

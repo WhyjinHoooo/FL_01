@@ -30,7 +30,7 @@
 			        </tr>
 			<%
 			        } else {
-			            String sql = "SELECT * FROM matgroup WHERE SUBSTRING(MatGroup, 1, 2) = ? AND LENGTH(MatGroup) = 4 AND MatType = ? AND Level = 2";
+			            String sql = "SELECT * FROM matgroup WHERE SUBSTRING(MatGroup, 1, 5) = ?  AND MatType = ? AND Level = 2";
 			            PreparedStatement pstmt = null;
 			            ResultSet rs = null;
 			            pstmt = conn.prepareStatement(sql);

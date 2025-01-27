@@ -3,7 +3,7 @@
 @media only screen and (min-width: 1537px){
 	.content-wrapper {
 		display: flex; /* Flex 컨테이너 설정 */
-		min-height: calc(100vh - 148px);
+		min-height: calc(100vh - 150px);
 	}
 	.Main-side {
 		/* border: 1px solid rgb(111,167,235); */ /* 기존의 테두리 스타일 유지 */
@@ -87,6 +87,10 @@
 		height: 100px;
 		background-color: #002060;
 		position : relative;
+	}
+	footer > img#logo {
+	    width: 80px;
+	    padding: 10px;
 	}
 }
 @media only screen and (max-width: 1537px) {

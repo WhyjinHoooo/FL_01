@@ -21,7 +21,7 @@
 				type: 'POST',
 				data: {SearchWord : Word},
 				success: function(response){
-					$('.NationTable tbody').html(response);
+					$('.TotalTable tbody').html(response);
 				}
 			});
 		});

@@ -2,9 +2,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../../mydbcon.jsp" %>
-
 <%
 	String S_Nation = request.getParameter("SearchWord");
+	System.out.println("S_Nation : " + S_Nation);
 	String sql = "SELECT * FROM nation WHERE Name LIKE ?";
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1, "%"+S_Nation+"%");

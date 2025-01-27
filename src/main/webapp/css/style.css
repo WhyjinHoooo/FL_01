@@ -1406,15 +1406,18 @@ table.ComInfoTable {
 /* Business Area Group END */
 
 /* Cost Center Group START */
-.ccg-sub-info .table-container .Com-code,
-.ccg-sub-info .table-container .CCTR-level,
+.ccg-sub-info .table-container .ComCode,
 .ccg-sub-info .table-container .Upper-CCT-Group,
 .ccg-sub-info .table-container .Upper-Cct-Name,
-.ccg-sub-info .table-container .tccg {
+.ccg-sub-info .table-container .Com_Name {
 	text-align: center;
 	width: 103px;
 }
 
+.ccg-sub-info .table-container .CCTR-level{
+	text-align: center;
+	width: 110px;
+}
 /* Cost Center Group END */
 
 /* Cost Center START */

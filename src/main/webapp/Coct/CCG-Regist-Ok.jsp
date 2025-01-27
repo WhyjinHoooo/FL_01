@@ -1,31 +1,34 @@
+<%@page import="org.json.JSONObject"%>
+<%@page import="java.io.BufferedReader"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDateTime"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
 <%@ include file="../mydbcon.jsp" %>
-<title>Insert title here</title>
-</head>
-<body>
 <%
-	request.setCharacterEncoding("UTF-8");
+	StringBuilder jsonString = new StringBuilder();
+	String line = null;
+	try (BufferedReader reader = request.getReader()) {
+	    while ((line = reader.readLine()) != null) {
+	        jsonString.append(line);
+	    }
+	}
+	try{
+	JSONObject saveListData = new JSONObject(jsonString.toString());
 	LocalDateTime now = LocalDateTime.now();
 	String formattedNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	
-	String ccg = request.getParameter("CCG");
-	String Des = request.getParameter("Des");
+	String ccg = saveListData.getString("CCG");/* request.getParameter("CCG"); */
+	String Des = saveListData.getString("Des");/* request.getParameter("Des"); */
 	
-	String ComCode = request.getParameter("Com-Code");
-	String tccg = request.getParameter("tccg");
+	String ComCode = saveListData.getString("ComCode");/* request.getParameter("ComCode"); */
+	String tccg = saveListData.getString("Com_Name");/* request.getParameter("Com_Name"); */
 	
-	int level = Integer.parseInt(request.getParameter("CCT-level"));
-	String Upper = request.getParameter("Upper-CCT-Group");
+	int level = Integer.parseInt(saveListData.getString("CCTR-level"));/* request.getParameter("CCTR-level")); */
+	String Upper = saveListData.getString("Upper-CCT-Group");/* request.getParameter("Upper-CCT-Group"); */
 	
-	boolean Use = Boolean.parseBoolean(request.getParameter("Use-Useless"));
+	boolean Use = Boolean.parseBoolean(saveListData.getString("Use-Useless"));/* request.getParameter("Use-Useless")); */
 	
 	int Id1 = 17011381;
 	int Id2 = 76019202;
@@ -34,7 +37,7 @@
 	
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	
-	try{
+
 		pstmt.setString(1, ccg);
 		pstmt.setString(2, Des);
 		pstmt.setString(3, ComCode);
@@ -48,31 +51,14 @@
 		pstmt.setInt(11, Id2);
 		
 		pstmt.executeUpdate();
+		
+		JSONObject Result = new JSONObject();
+		Result.put("status", "Success");
+		
+	    response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(Result.toString());
 	}catch(SQLException e){
 		e.printStackTrace();
-	} finally{
-		try{
-			if(pstmt != null && !pstmt.isClosed()){
-				pstmt.close();
-			}
-		} catch(Exception e){
-			e.printStackTrace();
-		}
 	}
-	conn.close();
-	
-	System.out.println("Formatted Date: " + formattedNow);
-	System.out.println("CCG: " + ccg);
-	System.out.println("Des: " + Des);
-	System.out.println("ComCode: " + ComCode);
-	System.out.println("TCCG: " + tccg);
-	System.out.println("Level: " + level);
-	System.out.println("Upper: " + Upper);
-	System.out.println("Use: " + Use);
 %>
-<script>
-	alert("Complete");
-	window.location.href="CCG-Regist.jsp";
-</script>
-</body>
-</html>

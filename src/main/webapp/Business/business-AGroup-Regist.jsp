@@ -77,11 +77,12 @@ function sendData(Biz_level, CompanyCode) {
 $(document).ready(function() {
 	var ChkList = {};
 	$('.ComCode').change(function() {
+		var ClassType = 'BAG';
 		var selectedCode = $(this).val();
 		$.ajax({
 			type: 'POST',
-			url: 'getMaxLevel.jsp',
-			data: {ComCode: selectedCode},
+			url: '${contextPath}/Information/AjaxSet/SelectMaxLevel.jsp',
+			data: {ComCode: selectedCode, Cate : ClassType},
 			success: function(response) {
 				var maxLevel = response;
 				var options = '';

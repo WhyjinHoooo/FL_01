@@ -5,18 +5,21 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../mydbcon.jsp" %>
-<link rel="stylesheet" href="../css/style.css?after">
+<link rel="stylesheet" href="../css/PopUp.css?after">
 </head>
 
 <body>
 <h1>검색</h1>
 <hr>
 	<center>
-		<div class="ComSearch-board">
-			<table>
+		<div class="Total_board">
+			<table class="TotalTable">
+				<thead>
 			    <tr>
 			        <th>코드(Code)</th><th>이름(Description)</th>
 			    </tr>
+			    </thead>
+			    <tbody>
 			<%
 			    try{
 			   	String ComCode = request.getParameter("ComCode");
@@ -40,21 +43,30 @@
 			    if(Upper_Group == 0){
 			%>
 				<tr>
-					<td colspan="3"><a href="javascript:void(0)" onClick="window.close();">레벨을 선택해주세요.</a></td>
+					<td colspan="2"><a href="javascript:void(0)" onClick="window.close();">레벨을 선택해주세요.</a></td>
 				</tr>
 			<%
 			    } else if(!rs.next()){
 			%>
 				<tr>
-					<td colspan="3"><a href="javascript:void(0)" onClick="window.close();">회사코드를 선택해주세요.</a></td>
+					<td colspan="2"><a href="javascript:void(0)" onClick="window.close();">회사코드를 선택해주세요.</a></td>
 				</tr>
 			<%
 			    } else{
 			    	do{
 			%>
 			<tr>
-			    <td><a href="javascript:void(0)" onClick="window.opener.document.querySelector('.Upper-CCT-Group').value='<%=rs.getString("ComCode")%>'; window.opener.document.querySelector('.Upper-Cct-Name').value='<%=rs.getString("COCT_GROUP")%>';window.opener.document.querySelector('.Upper-CCT-Group').dispatchEvent(new Event('change')); window.close();"><%=rs.getString("ComCode") %></a></td>
-			    <td><%=rs.getString("COCT_GROUP") %></td>
+			    <td>
+				    <a href="javascript:void(0)" onClick=
+				    "window.opener.document.querySelector('.Upper-CCT-Group').value='<%=rs.getString("COCT_GROUP")%>';
+				     window.opener.document.querySelector('.Upper-Cct-Name').value='<%=rs.getString("COCT_NAME")%>';
+				     window.opener.document.querySelector('.Upper-CCT-Group').dispatchEvent(new Event('change'));
+				     window.close();
+				     ">
+				     <%=rs.getString("COCT_GROUP") %>
+				     </a>
+			      </td>
+			    <td><%=rs.getString("COCT_NAME") %></td>
 			</tr>
 
 			<%  
@@ -64,6 +76,7 @@
 			        e.printStackTrace();
 			    }
 			%>
+				</tbody>
 			</table>	
 		</div>	
 	</center>

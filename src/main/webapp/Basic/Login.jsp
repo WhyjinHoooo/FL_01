@@ -68,8 +68,6 @@ $(document).ready(function(){
 			alert('아이디와 비밀번호를 입력해주세요.');
 			return false;
 		}else{
-			console.log('click');
-			console.log(ChkList);
 			$.ajax({
 				url: '${contextPath}/Basic/LoginOk.jsp',
 				type: 'POST',
@@ -88,8 +86,13 @@ $(document).ready(function(){
 				}
 			});
 		}
-		
 	});
+	$('.UserPw').keydown(function(e){
+    	if(e.which == 13){
+    		$('.Login_Btn').trigger("click");
+    		return false;
+    	}
+    });
 })
 </script>
 </head>
