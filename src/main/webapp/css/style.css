@@ -1369,10 +1369,21 @@ table.ComInfoTable {
 
 /* Business Area Group START */
 @media only screen and (min-width: 1536px) {
+	.sub-info .AddrCode,
+	.emp-sub-info .AddrCode,
+	.plant-sub-info .AddrCode,
+	.ba-sub-info .AddrCode,
+	.cc-sub-info .AddrCode,
+	.tax-sub-info .AddrCode{
+	    width: 105px;
+		text-align: center;
+	}
+	
 	.bag-sub-info .table-container .Upper-Biz-Name{
 		text-align: center;
 	}
-	.bag-sub-info .table-container .ComCode{
+	.bag-sub-info .table-container .ComCode,
+	.bag-sub-info .table-container .Upper-Biz-level{
 		text-align: center;
 		width: 95px;
 	}	
@@ -1399,6 +1410,18 @@ table.ComInfoTable {
 		text-align: center;
 		width: 103px;
 	}
+	.cc-sub-info .table-container .Biz_Code,
+	.cc-sub-info .table-container .ccc,
+	.cc-sub-info .table-container .cct,
+	.cc-sub-info .table-container .ComCode,
+	.cc-sub-info .table-container .CCG_Des{
+		text-align: center;
+		width: 103px;
+	}
+	.cc-sub-info .table-container .rp{
+		text-align: center;
+		width: 110px;
+	}
 	
 }
 
@@ -1421,16 +1444,7 @@ table.ComInfoTable {
 /* Cost Center Group END */
 
 /* Cost Center START */
-.cc-sub-info .table-container .Biz_Code,
-.cc-sub-info .table-container .ccc,
-.cc-sub-info .table-container .cct{
-	text-align: center;
-	width: 103px;
-}
-.cc-sub-info .table-container .rp{
-	text-align: center;
-	width: 110px;
-}
+
 /* Cost Center END */
 
 /* Plant START */
@@ -1537,10 +1551,6 @@ table.ComInfoTable {
 	width: 103px;
 	text-align: center;
 }
-.Upper-Biz-level{
-	width: 103px;
-	text-align: center;	
-}
 .Biz-level{
 	width: 103px;
 	text-align: center;	
@@ -1561,15 +1571,6 @@ table.ComInfoTable {
 }
 .emp-sub-info .NewAddr{
 	margin-bottom: 5px;
-}
-.sub-info .AddrCode,
-.emp-sub-info .AddrCode,
-.plant-sub-info .AddrCode,
-.ba-sub-info .AddrCode,
-.cc-sub-info .AddrCode,
-.tax-sub-info .AddrCode{
-    width: 105px;
-	text-align: center;
 }
 @media only screen and (min-width: 1536px) {
 	.ven-sub-info .AddrCode{

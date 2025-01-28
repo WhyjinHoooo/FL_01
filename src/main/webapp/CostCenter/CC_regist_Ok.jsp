@@ -1,45 +1,49 @@
+<%@page import="org.json.JSONObject"%>
+<%@page import="java.io.BufferedReader"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDateTime"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
 <%@ include file="../mydbcon.jsp" %>
-<title>Insert title here</title>
-</head>
-<body>
 <%
-	request.setCharacterEncoding("UTF-8");
+	StringBuilder jsonString = new StringBuilder();
+	String line = null;
+	try (BufferedReader reader = request.getReader()) {
+	    while ((line = reader.readLine()) != null) {
+	        jsonString.append(line);
+	    }
+	}
+try {
+	JSONObject saveListData = new JSONObject(jsonString.toString());
+	
 	LocalDateTime now = LocalDateTime.now();
 	String formattedNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	
-	String CC_code = request.getParameter("cost_code");
-	String CC_Des = request.getParameter("Des");
+	String CC_code = saveListData.getString("cost_code");
+	String CC_Des = saveListData.getString("Des");
 	
-	String COM_code = request.getParameter("Com_Des");
-	String BIZ_Des = request.getParameter("Biz_Code");
+	String COM_code = saveListData.getString("ComCode");
+	String BIZ_Des = saveListData.getString("Biz_Code");
 	
-	String POS_code = request.getParameter("AddrCode");
+	String POS_code = saveListData.getString("AddrCode");
 	
-	String Addr1 = request.getParameter("Addr");
-	String Addr2 = request.getParameter("AddrDetail");
+	String Addr1 = saveListData.getString("Addr");
+	String Addr2 = saveListData.getString("AddrDetail");
 	
-	String Money = request.getParameter("money");
-	String Lan = request.getParameter("lang");
+	String Money = saveListData.getString("money");
+	String Lan = saveListData.getString("lang");
 	
-	String Start = request.getParameter("start_date");
-	String End = request.getParameter("end_date");
+	String Start = saveListData.getString("start_date");
+	String End = saveListData.getString("end_date");
 	
-	String CCG_Des = request.getParameter("CCG");
-	String CCT_Des = request.getParameter("cct");
+	String CCG_Des = saveListData.getString("CCG");
+	String CCT_Des = saveListData.getString("cct");
 	
-	String person = request.getParameter("RPescon_Dese"); //아직 없음
+	/*String person = saveListData.getString("RPescon_Dese");//아직 없음 */
 	
-	boolean yes_no = Boolean.parseBoolean(request.getParameter("Use-Useless"));  
+	boolean yes_no = Boolean.parseBoolean(saveListData.getString("Use-Useless"));
 	
 	int id1 = 17011381;
 	int id2 = 17011382;
@@ -50,7 +54,7 @@
 
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 
-	try {
+	
 	    pstmt.setString(1, CC_code);       // COCT
 	    pstmt.setString(2, CC_Des);        // COCT_NAME
 	    pstmt.setString(3, COM_code);      // ComCode
@@ -71,22 +75,15 @@
 	    pstmt.setInt(18, id2);             // ChangerID
 
 	    pstmt.executeUpdate();
+	    
+	    JSONObject Result = new JSONObject();
+		Result.put("status", "Success");
+	    Result.put("message", "로그인 성공");
+	    
+	    response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(Result.toString());
 	} catch (SQLException e) {
 	    e.printStackTrace();
-	} finally{
-		try{
-			if(pstmt != null && !pstmt.isClosed()){
-				pstmt.close();
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}
 	}
-	conn.close();
 %>
-<script>
-	alert("Complete");
-	window.location.href="CC_regist.jsp";
-</script>
-</body>
-</html>

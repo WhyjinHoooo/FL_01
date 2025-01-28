@@ -5,18 +5,21 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../mydbcon.jsp" %>
-<link rel="stylesheet" href="../css/style.css?after">
+<link rel="stylesheet" href="../css/PopUp.css?after">
 </head>
 
 <body>
 <h1>검색</h1>
 <hr>
 	<center>
-		<div class="ComSearch-board">
-			<table>
+		<div class="Total_board">
+			<table class="TotalTable">
+				<thead>
 			    <tr>
 			        <th>코드(Code)</th><th>이름(Description)</th>
 			    </tr>
+			    </thead>
+			    <tbody>
 			<%
 			    try{
 			   	
@@ -50,6 +53,7 @@
 			        e.printStackTrace();
 			    }
 			%>
+				</tbody>
 			</table>	
 		</div>	
 	</center>

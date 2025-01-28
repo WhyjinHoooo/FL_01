@@ -19,6 +19,9 @@ function InfoSearch(field){
 	var popupWidth = 460;
 	var popupHeight = 600;
 	
+	var Code = $('.ComCode').val();
+    var lv = $('.Biz-level').val();
+	
 	var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
 	var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
 	    
@@ -43,36 +46,9 @@ function InfoSearch(field){
 	case "ComSearch":
 		window.open("${contextPath}/Information/CompanySerach.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 		break;
+	case "BAGSearch":
+    	window.open("${contextPath}/Information/UpBAGSearch.jsp?ComCode=" + Code + "&Level=" + lv, "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ", left=" + xPos + ",top=" + yPos);
 	}
-}
-function sendData(Biz_level, CompanyCode) {
-    console.log('Biz_level: ' + Biz_level);
-    console.log('Company Code: ' + CompanyCode);
-    $.ajax({
-        type: 'POST',
-        url: 'business-AGroup-LevelChange.jsp',
-        data: { 
-            Level: Biz_level, // 해당 기업 코드
-            ComCode: CompanyCode // 입력 페이지에서 선택한 기업 코드
-        },
-        success: function(response) {
-            response = JSON.parse(response);
-            var options = '';
-            for(var i=0; i<response.length; i++){
-                if (response[i].BAGroup !== undefined && response[i].BAG_Name !== undefined) {
-                    options += '<option value="' + response[i].BAG_Name + '">' + response[i].BAGroup + '</option>';
-                } else {
-                    console.error('응답의 ' + i.toString() + '번째 항목에 ComCode 속성이 없습니다:', response[i]);
-                }
-            }
-            $('#Upper-Biz-level').html(options);
-            $('select[name="Upper-Biz-level"]').change(function() {
-                 var selectedOption = $(this).children("option:selected");
-                 $('input[name="Upper-Biz-Name"]').val(selectedOption.val());
-             });
-            $('#Upper-Biz-level').prop('selectedIndex', 0).change();
-         }
-     });
 }
 $(document).ready(function() {
 	var ChkList = {};
@@ -92,19 +68,7 @@ $(document).ready(function() {
 			$('.Biz-level').html(options);
 			}
 		});
-		
-		var Biz_level = 1;
-        var CompanyCode = $(this).val();
-        
-        sendData(Biz_level, CompanyCode);
 	});
-	
-    $('.Biz-level').change(function(){
-        var Biz_level = $(this).val();
-        var CompanyCode = $('.ComCode').val();
-        
-        sendData(Biz_level, CompanyCode);
-    });
     
     $('.Info-input-btn').click(function(){
     	event.preventDefault();
@@ -213,9 +177,7 @@ $(document).ready(function() {
 
 					<tr><th class="info"> Upper Biz,Group : </th>
 						<td class="input_info">
-							<select class="Upper-Biz-level KeyInfo" id="Upper-Biz-level" name="Upper-Biz-level">
-								<option value="">선택</option>
-							</select>
+							<input class="Upper-Biz-level KeyInfo" id="Upper-Biz-level" name="Upper-Biz-level" placeholder="SELECT" onclick="InfoSearch('BAGSearch')" readonly>
 								<th class="info">Description : </th>
 								<td>
 									<input type="text" class="Upper-Biz-Name KeyInfo" name="Upper-Biz-Name" readonly>
