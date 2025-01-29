@@ -1,0 +1,215 @@
+@charset "UTF-8";
+@media only screen and (min-width: 1537px) {
+	.Req-Centralize {
+    display: flex;
+    flex-direction: row;
+    height: 85vh;
+    margin-top: 3%;
+	}
+	.Req-Header {
+    border: 3px solid rgb(111, 167, 235);
+    width: 25%;
+	}
+	.Req-Body {
+    border: 3px solid rgb(111, 167, 235);
+    margin-left: 2%;
+    width: 73%;
+	}
+	.Req-Body > .Info-Area {
+    border: 1px solid blue;
+    height: 45%;
+	}
+	.Req-Body > .Btn-Area {
+    height: 5%;
+    margin-top: 2%;
+	}
+	.Req-Body > .Req-Area {
+    border: 1px solid blue;
+    height: 45%;
+    margin-top: 0.5%;
+	}
+	.Req-Title {
+	background: #260FB1;
+	color: white;
+	text-align: center;
+	font-size: x-large;
+	padding: 5px;
+    }
+	.Req-Header > .InfoInput {
+	display: flex;
+	flex-direction: row;
+	margin: 20px 0px 0px 50px;
+	width: 100%;
+    }
+	.Req-Header > div:nth-of-type(7) {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 30px;
+	}
+	.Req-Header > div:nth-of-type(8) > input,
+	.Req-Header > div:nth-of-type(9) > input {
+    text-align: center;
+    background: gray;
+	}
+    .Req-Header > .InfoInput label{
+   	font-weight: 900;
+    display: inline-block;
+	width: 10em;
+	text-align: right;
+	letter-spacing: 0.1em;
+    }
+    .Req-Header > button {
+	width: 24%;
+	height: 5%;
+	text-align: center;
+	background-color: #002060;
+	color: white;
+	border: 1px solid #1F4E79;
+	margin: 25% 0px 0px 35%;
+	border-radius: 10px;
+	font-size: 25px;
+	}
+	.Req-Header > button:hover {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.Req-Header > button:active {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+    .InfoInput input{
+    margin-left: 10px;
+    width: 200px;
+	text-align: center;
+    }
+    
+    .Info-Area > table.InfoTable{
+	border-collapse: collapse;
+	width: 100%;
+	height: 92.1%;
+	table-layout: fixed;
+	overflow: scroll;
+    }
+    .Info-Area > table.InfoTable thead{
+    display: table;
+    width: 100%;
+    }
+    .Info-Area > table.InfoTable tbody{
+	table-layout: fixed;
+	display: block;
+	width: 100.3%;
+	height: 93.2%;
+	max-height: 97%;
+	overflow-y: auto;
+    }
+    .Info-Area > table.InfoTable tbody td{
+	padding: 8px;
+	border: 1px solid #ddd;
+	width: 130px;
+	height: 10px;
+	text-align: center;
+	font-size: 10px;
+	font-weight: bold;
+    }
+    .Info-Area > table.InfoTable thead > tr > th{
+	background-color: rgb(111, 167, 235);
+	position: sticky;
+	top: 0;
+	color: white;
+	text-align: center;
+	z-index: 10;
+	padding: 8px;
+	border: 1px solid white;
+	width: 120px;
+	font-size: 11px;
+    }
+    .Info-Area > table.InfoTable tbody::-webkit-scrollbar {
+    width: 5px;
+  	}
+  	.Info-Area > table.InfoTable tbody::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+  	}
+  	.Info-Area > table.InfoTable tbody::-webkit-scrollbar-track {
+    background-color: white;
+    border-radius: 1px;
+    box-shadow: inset 0px 0px 5px white;
+  	}
+  	.Btn-Area button.NewEntryBtn {
+    margin: 15px 0px 0px 10px;
+    width: 6%;
+    background: darkred;
+    color: white;
+    font-weight: bold;
+    border: 1px solid darkred;
+	padding: 5px;
+	}
+	.Btn-Area button.SaveBtn {
+    background: darkgreen;
+    margin-left: 75%;
+    width: 6%;
+    color: white;
+    font-weight: bold;
+    border: 1px solid darkgreen;
+	padding: 5px;
+	}
+	.Btn-Area button.EditBtn {
+    background: darkred;
+    width: 6%;
+    color: white;
+    font-weight: bold;
+	margin-left: 3%;
+	border: 1px solid darkred;
+	padding: 5px;
+	}
+	
+	.Btn-Area > button.SaveBtn:hover {
+	background: #32CD32;
+	color: #fff;
+	border: 1px solid #32CD32;
+	}
+	.Btn-Area > button.SaveBtn:active {
+	background: #32CD32;
+	color: black;
+	border: 1px solid #32CD32;
+	}
+	
+	.Btn-Area > button.NewEntryBtn:hover,
+	.Btn-Area > button.EditBtn:hover {
+	background: #FA8072;
+	color: #fff;
+	border: 1px solid #FA8072;
+	}
+	.Btn-Area > button.NewEntryBtn:active,
+	.Btn-Area > button.EditBtn:active {
+	background: #FA8072;
+	color: black;
+	border: 1px solid #FA8072;
+	}
+	.Req-Area > .MatInput{
+	display: flex;
+	flex-direction: row;
+	margin: 30px 0px 0px 25%;
+	}
+	.Req-Area > .MatInput label{
+   	font-weight: 900;
+    display: inline-block;
+	width: 10em;
+	text-align: right;
+	letter-spacing: 0.1em;
+    }
+    .Req-Area > div:nth-of-type(3) > input:nth-child(4),
+	.Req-Area > div:nth-of-type(6) > input:nth-child(4) {
+    text-align: left;
+    width: 30%
+	}
+	.Req-Area > div:nth-of-type(7) > input:nth-child(2){
+	width: 55.5%
+	}
+	.MatInput input{
+    margin-left: 10px;
+	text-align: center;
+    }
+}
