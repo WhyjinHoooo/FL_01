@@ -192,7 +192,6 @@ $(document).ready(function() {
 <body>
 	<jsp:include page="../HeaderTest.jsp"></jsp:include>
 	<center class="testCenter">
-		<!-- <form id="CC_Registform" name="CC_Registform" action="CC_regist_Ok.jsp" method="post" enctype="UTF-8"> -->
 		<div class="cc-main-info">
 			<div class="table-container">
 				<table>

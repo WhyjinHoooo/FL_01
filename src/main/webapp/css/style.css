@@ -1422,7 +1422,16 @@ table.ComInfoTable {
 		text-align: center;
 		width: 110px;
 	}
-	
+	.plant-sub-info .table-container .BizSelect,
+	.plant-sub-info .table-container .ComCode{
+	width: 103px;
+	text-align: center;
+	}
+	.plant-sub-info .table-container .Com_Name,
+	.plant-sub-info .table-container .Biz_Des{
+		text-align: center;
+		width: 250px;
+	}
 }
 
 
@@ -1448,14 +1457,7 @@ table.ComInfoTable {
 /* Cost Center END */
 
 /* Plant START */
-.plant-sub-info .table-container .BizSelect{
-	width: 103px;
-	text-align: center;
-}
-.plant-sub-info .table-container .Com_Des,
-.plant-sub-info .table-container .Biz_Des{
-	text-align: center;
-}
+
 
 /* Plant END */
 /* Storage START */ 
@@ -1705,7 +1707,7 @@ text-decoration: underline;
 }
 	/* 네비게이션 부분 CSS END */
 /* 실험 부분 끝 */
-.emp-sub-info .table-container .CC_Code, .CC_Name , .Com_Name, .duty_Des , .title_Des{
+.emp-sub-info .table-container .CC_Code, .CC_Name , .duty_Des , .title_Des{
 	text-align: center;
 }
 .storage-sub-info .table-container .Storage_Type_Des{

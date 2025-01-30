@@ -5,13 +5,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="http://code.jquery.com/jquery-latest.js"></script> 
+<script src="http://code.jquery.com/jquery-latest.js"></script>
 <meta charset="UTF-8">
 <title>구매 요청서</title>
 <script>
+function InfoSearch(field){
+	event.preventDefault();
+	
+	var popupWidth = 500;
+    var popupHeight = 600;
+    
+    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
+    
+    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+    var xPos, yPos;
+    
+    if (width == 2560 && height == 1440) {
+        xPos = (2560 / 2) - (popupWidth / 2);
+        yPos = (1440 / 2) - (popupHeight / 2);
+    } else if (width == 1920 && height == 1080) {
+        xPos = (1920 / 2) - (popupWidth / 2);
+        yPos = (1080 / 2) - (popupHeight / 2);
+    } else {
+        var monitorWidth = 2560;
+        var monitorHeight = 1440;
+        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+    }
+    
+    switch(field){
+    case "Plant":
+    	window.open("${contextPath}/Purchasing/PopUp/FindPlant.jsp", "POPUP01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    break;
+    case "Material":
+    	popupWidth = 700;
+        popupHeight = 600;
+    	window.open("${contextPath}/Purchasing/PopUp/FindMat.jsp", "POPUP02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    break;
+	}
+}
 $(document).ready(function(){
-	function InitialTable(){
+	function InitialTable(UserId){
 		$('.InfoTable-Body').empty();
+		var UserId = $('.Client').val();
 		for (let i = 0; i < 20; i++) {
             const row = $('<tr></tr>'); // 새로운 <tr> 생성
             // 34개의 빈 <td> 요소 추가 (3개의 헤더 항목 이후 31일치 데이터)
@@ -21,12 +59,42 @@ $(document).ready(function(){
             // 생성한 <tr>을 <tbody>에 추가
             $('.InfoTable-Body').append(row);
         }
+		$.ajax({
+			url:'${contextPath}/Purchasing/AjaxSet/ForPlant.jsp',
+			type:'GET',
+			data:{id : UserId},
+			dataType: 'text',
+			success: function(data){
+				console.log(data.trim());
+				var dataList = data.trim().split('-');
+				console.log(dataList);
+				$('.PlantCode').val(dataList[0]+'('+dataList[1]+')');
+			}
+		})
 	}
-	InitialTable();
+	var Userid = $('.Client').val();
+	InitialTable(Userid);
+	
+	var CurrentDate = new Date();
+	var today = CurrentDate.getFullYear() + '-' + ('0' + (CurrentDate.getMonth() + 1)).slice(-2) + '-' + ('0' + CurrentDate.getDate()).slice(-2);
+	$('.BuyDate').val(today);
+	$('.FromDate').val(today);
+	
+	var Future = new Date(today);
+	Future.setMonth(Future.getMonth() + 1);
+	var futureDate = Future.getFullYear() + '-' + ('0' + (Future.getMonth() + 1)).slice(-2) + '-' + ('0' + Future.getDate()).slice(-2);
+	
+	$('.FromDate').attr('max', today);
+	$('.EndDate').attr('min', today);
+	$('.EndDate').attr('max', futureDate);
 })
 </script>
 </head>
 <body>
+<%
+String UserId = (String)session.getAttribute("id");
+String userComCode = (String)session.getAttribute("depart");
+%>
 <link rel="stylesheet" href="../css/ReqCss.css?after">
 <jsp:include page="../HeaderTest.jsp"></jsp:include>
 	<div class="Req-Centralize">
@@ -34,17 +102,17 @@ $(document).ready(function(){
 				<div class="Req-Title">구매요청 Header</div>
 				<div class="InfoInput">
 					<label>Company : </label> 
-					<input type="text" class="ComCode" readonly>
+					<input type="text" class="ComCode" name="ComCode" value="<%=userComCode %>" readonly>
 				</div>
 				
 				<div class="InfoInput">
 					<label>Plant :  </label>
-					<input type="text" class="PlantCode" readonly>
+					<input type="text" class="PlantCode" onclick="InfoSearch('Plant')" readonly>
 				</div>
 				
 				<div class="InfoInput">
 					<label>Material :  </label>
-					<input type="text" class="MatCode" placeholder="SELECT" readonly>
+					<input type="text" class="MatCode" onclick="InfoSearch('Material')" placeholder="SELECT" readonly>
 				</div>
 				
 				<div class="InfoInput">
@@ -59,12 +127,12 @@ $(document).ready(function(){
 				
 				<div class="InfoInput">
 					<label>구매 요청자 :  </label>
-					<input type="text" class="Client" readonly>
+					<input type="text" class="Client" value="<%=UserId %>" readonly>
 				</div>
 				
 				<div class="InfoInput">
 					<label>ORD TYPE :  </label>
-					<input type="text" class="DocCode" readonly>
+					<input type="text" class="DocCode" value="PREO" readonly>
 				</div>
 				
 				<div class="InfoInput">

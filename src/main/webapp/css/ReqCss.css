@@ -49,7 +49,7 @@
 	.Req-Header > div:nth-of-type(8) > input,
 	.Req-Header > div:nth-of-type(9) > input {
     text-align: center;
-    background: gray;
+    background: lightsteelblue;
 	}
     .Req-Header > .InfoInput label{
    	font-weight: 900;
