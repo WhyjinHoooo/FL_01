@@ -40,13 +40,27 @@ function InfoSearch(field){
     	window.open("${contextPath}/Purchasing/PopUp/FindPlant.jsp", "POPUP01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     break;
     case "Material":
-    	popupWidth = 700;
+    	popupWidth = 1000;
         popupHeight = 600;
-    	window.open("${contextPath}/Purchasing/PopUp/FindMat.jsp", "POPUP02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	window.open("${contextPath}/Purchasing/PopUp/FindMat.jsp?Category=Search", "POPUP02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     break;
+    case "Client":
+    	window.open("${contextPath}/Purchasing/PopUp/FindClient.jsp?Category=Search", "POPUP03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+        break;
+    case "EntryMaterial":
+    	popupWidth = 1000;
+        popupHeight = 600;
+    	window.open("${contextPath}/Purchasing/PopUp/FindMat.jsp?Category=Entry", "POPUP02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    case "EntryClient":
+    	window.open("${contextPath}/Purchasing/PopUp/FindClient.jsp?Category=Entry", "POPUP03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+        break;	
 	}
 }
 $(document).ready(function(){
+	function EntryDisabled(){
+		$('.Req-Area').find('input').prop('disabled', true);
+	}
 	function InitialTable(UserId){
 		$('.InfoTable-Body').empty();
 		var UserId = $('.Client').val();
@@ -61,7 +75,7 @@ $(document).ready(function(){
         }
 		$.ajax({
 			url:'${contextPath}/Purchasing/AjaxSet/ForPlant.jsp',
-			type:'GET',
+			type:'POST',
 			data:{id : UserId},
 			dataType: 'text',
 			success: function(data){
@@ -72,21 +86,70 @@ $(document).ready(function(){
 			}
 		})
 	}
+	function DateSetting(){
+		var CurrentDate = new Date();
+		var today = CurrentDate.getFullYear() + '-' + ('0' + (CurrentDate.getMonth() + 1)).slice(-2) + '-' + ('0' + CurrentDate.getDate()).slice(-2);
+		$('.BuyDate').val(today);
+		$('.FromDate').val(today);
+		
+		var Past = new Date(today);
+		Past.setMonth(Past.getMonth() - 1);
+		var PastDate = Past.getFullYear() + '-' + ('0' + (Past.getMonth() + 1)).slice(-2) + '-' + ('0' + Past.getDate()).slice(-2);
+		
+		
+		$('.FromDate').attr('min', today);
+		$('.EndDate').attr('max', today);
+		$('.EndDate').val(PastDate);
+		$('.Entry_EndDate').attr('min', today);
+	}
 	var Userid = $('.Client').val();
 	InitialTable(Userid);
+	EntryDisabled();
+	DateSetting();
+
 	
-	var CurrentDate = new Date();
-	var today = CurrentDate.getFullYear() + '-' + ('0' + (CurrentDate.getMonth() + 1)).slice(-2) + '-' + ('0' + CurrentDate.getDate()).slice(-2);
-	$('.BuyDate').val(today);
-	$('.FromDate').val(today);
+	$('.SearBtn').click(function(){
+		var DataArray = [];
+		event.preventDefault();
+		$('.SearOption').each(function(){
+			var value = $(this).val();
+			DataArray.push(value);
+		})
+		console.log(DataArray);
+		$.ajax({
+			url: '${contextPath}/Purchasing/AjaxSet/ImportFile.jsp',
+			type: 'POST',
+			data: JSON.stringify(DataArray),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			async: false,
+			success: function(data){
+				console.log(data);
+				console.log(data.length);
+				if(data.length === 0){
+					alert('등록된 데이터가 존재하지 않습니다. \n신규등록을 해주시길 바랍니다.');
+				}else{
+					
+				}
+			}
+		})
+	})
+	$('.NewEntryBtn').click(function(){
+		var DocTopic = $('.DocCode').val();
+		var DocDate = $('.BuyDate').val();
+		$('.Req-Area').find('input').prop('disabled', false);
+		$.ajax({
+			url:'${contextPath}/Purchasing/AjaxSet/ForEntryDoc.jsp',
+			type:'POST',
+			data:{Code : DocTopic, Date : DocDate},
+			dataType: 'text',
+			success: function(data){
+				console.log(data);
+				$('.Entry_DocNum').val(data);
+			}
+		})
+	})
 	
-	var Future = new Date(today);
-	Future.setMonth(Future.getMonth() + 1);
-	var futureDate = Future.getFullYear() + '-' + ('0' + (Future.getMonth() + 1)).slice(-2) + '-' + ('0' + Future.getDate()).slice(-2);
-	
-	$('.FromDate').attr('max', today);
-	$('.EndDate').attr('min', today);
-	$('.EndDate').attr('max', futureDate);
 })
 </script>
 </head>
@@ -94,6 +157,7 @@ $(document).ready(function(){
 <%
 String UserId = (String)session.getAttribute("id");
 String userComCode = (String)session.getAttribute("depart");
+String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 %>
 <link rel="stylesheet" href="../css/ReqCss.css?after">
 <jsp:include page="../HeaderTest.jsp"></jsp:include>
@@ -102,32 +166,32 @@ String userComCode = (String)session.getAttribute("depart");
 				<div class="Req-Title">구매요청 Header</div>
 				<div class="InfoInput">
 					<label>Company : </label> 
-					<input type="text" class="ComCode" name="ComCode" value="<%=userComCode %>" readonly>
+					<input type="text" class="ComCode SearOption" name="ComCode" value="<%=userComCode %>" readonly>
 				</div>
 				
 				<div class="InfoInput">
 					<label>Plant :  </label>
-					<input type="text" class="PlantCode" onclick="InfoSearch('Plant')" readonly>
+					<input type="text" class="PlantCode SearOption" onclick="InfoSearch('Plant')" readonly>
 				</div>
 				
 				<div class="InfoInput">
 					<label>Material :  </label>
-					<input type="text" class="MatCode" onclick="InfoSearch('Material')" placeholder="SELECT" readonly>
+					<input type="text" class="MatCode SearOption" onclick="InfoSearch('Material')" placeholder="SELECT" readonly>
 				</div>
 				
 				<div class="InfoInput">
 					<label>등록일자(From) :  </label>
-					<input type="date" class="FromDate">
+					<input type="date" class="EndDate SearOption">
 				</div>
 				
 				<div class="InfoInput">
 					<label>등록일자(To) :  </label>
-					<input type="date" class="EndDate">
+					<input type="date" class="FromDate SearOption">
 				</div>
 				
 				<div class="InfoInput">
 					<label>구매 요청자 :  </label>
-					<input type="text" class="Client" value="<%=UserId %>" readonly>
+					<input type="text" class="Client SearOption" value="<%=UserIdNumber %>" onclick="InfoSearch('Client')" readonly>
 				</div>
 				
 				<div class="InfoInput">
@@ -166,35 +230,35 @@ String userComCode = (String)session.getAttribute("depart");
 				<div class="Req-Title">구매 요청 신청/등록</div>
 				<div class="MatInput">
 					<label>구매요청번호 :  </label>
-					<input type="text" class="###" readonly>
+					<input type="text" class="Entry_DocNum" readonly>
 				</div>
 				<div class="MatInput">
 					<label>Material :  </label>
-					<input type="text" class="###" placeholder="SELECT" readonly>
+					<input type="text" class="Entry_MatCode" placeholder="SELECT" onclick="InfoSearch('EntryMaterial')" readonly>
 					<label>Description :  </label>
-					<input type="text" class="###" readonly>
+					<input type="text" class="Entry_MatDes" readonly>
 				</div>
 				<div class="MatInput">
 					<label>구매 요청 수량 :  </label>
-					<input type="text" class="###" placeholder="INPUT" readonly>
+					<input type="text" class="Entry_Count" placeholder="INPUT">
 					<label>재고관리 단위 :  </label>
-					<input type="text" class="###" readonly>
+					<input type="text" class="Entry_Unit" readonly>
 				</div>
 				<div class="MatInput">
 					<label>납품요청일자 :  </label>
-					<input type="text" class="###" readonly>
+					<input type="date" class="Entry_EndDate">
 					<label>구매담당자 :  </label>
-					<input type="text" class="###" readonly>
+					<input type="text" class="Entry_Client" onclick="InfoSearch('EntryClient')" placeholder="SELECT" readonly>
 				</div>
 				<div class="MatInput">
 					<label>납품 장소 :  </label>
-					<input type="text" class="###" placeholder="SELECT" readonly>
+					<input type="text" class="Entry_PCode" placeholder="SELECT" readonly>
 					<label>납품 장소명 :  </label>
-					<input type="text" class="###" readonly>
+					<input type="text" class="Entry_PCodeDes" readonly>
 				</div>
 				<div class="MatInput">
 					<label>구매 요청 내용 :  </label>
-					<input type="text" class="###" placeholder="INPUT" readonly>
+					<input type="text" class="Entry_Ref" placeholder="INPUT">
 				</div>
 			</div>
 		</div>

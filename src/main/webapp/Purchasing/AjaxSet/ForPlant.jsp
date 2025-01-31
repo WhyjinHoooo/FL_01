@@ -5,11 +5,6 @@
 
 <%
 String UserId = request.getParameter("id");
-System.out.println("UserId : " + UserId);
-String sql = "SELECT * FROM membership WHERE Id = ?";
-PreparedStatement pstmt = conn.prepareStatement(sql);
-pstmt.setString(1, UserId);
-ResultSet rs = pstmt.executeQuery();
 
 String EmpNo = null;
 String Coct = null;
@@ -18,8 +13,8 @@ String BizAreaName = null;
 String PlantCode = null;
 String PlantDes = null;
 try{
-	if(rs.next()){
-		EmpNo = rs.getString("EmployeeId");
+
+		EmpNo = UserId;
 		String sql02 = "SELECT * FROM emp WHERE EMPLOYEE_ID = ?";
 		PreparedStatement pstmt02 = conn.prepareStatement(sql02);
 		pstmt02.setString(1, EmpNo);
@@ -48,9 +43,7 @@ try{
 					}
 				}
 			}
-		}
-
-	}		
+		}	
 	
 	out.print(PlantCode + "-" + PlantDes);
 }catch(SQLException e){

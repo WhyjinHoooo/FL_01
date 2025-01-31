@@ -28,7 +28,7 @@
 	
 	while(keys.hasNext()){
 		String key = keys.next();
-		System.out.println(key + " : " + saveListData.get(key));
+		System.out.println(key + " :? " + saveListData.get(key));
 		switch(key){
 		case "UserPw":
 			UserPW = saveListData.getString(key);
@@ -55,7 +55,7 @@
 		session.setAttribute("id", UserId);
 		session.setAttribute("depart", UserBelong);
 		session.setAttribute("name", rs.getString("UserName"));
-		session.setAttribute("UserCode", rs.getString("Id"));
+		session.setAttribute("UserIdNumber", rs.getString("EmployeeId"));
 	    Result.put("status", "Success");
 	    Result.put("message", "로그인 성공");
 	}else{

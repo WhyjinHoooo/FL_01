@@ -22,30 +22,50 @@
 				<tbody>
 			<%
 			try{
+				String Category = request.getParameter("Category");
+				System.out.println("1.Category : " + Category);
 			    String sql = "SELECT * FROM matmaster";
 			    PreparedStatement pstmt = null;
 			    ResultSet rs = null;
 			    
 			    pstmt = conn.prepareStatement(sql);
 			    rs = pstmt.executeQuery();
-			    
-		        if(rs.next()){ // 데이터가 없을 경우
-		    %>
-			    <tr>
-			        <td>
-			        	<a href="javascript:void(0)" onclick="
-			        		window.opener.document.querySelector('.MatCode').value='<%=rs.getString("Material_code")%>';
-			        		window.opener.document.querySelector('.MatCode').dispatchEvent(new Event('change'));
-			        		window.close();
-			        	">
-			        	<%=rs.getString("Material_code") %>
-			        	</a>
-			        </td>
-			        <td><%=rs.getString("Description") %></td>
-			    </tr>		    
-		    <%
-			    }
-			}catch(SQLException e){
+			    while(rs.next()) {
+		            if(Category.equals("Search")) {
+			%>
+		                <tr>
+		                    <td>
+		                        <a href="javascript:void(0)" onclick="
+		                            window.opener.document.querySelector('.MatCode').value='<%=rs.getString("Material_code")%>';
+		                            window.opener.document.querySelector('.MatCode').dispatchEvent(new Event('change'));
+		                            window.close();
+		                        ">
+		                        <%=rs.getString("Material_code") %>
+		                        </a>
+		                    </td>
+		                    <td><%=rs.getString("Description") %></td>
+		                </tr>
+			<%
+		            } else if(Category.equals("Entry")) {
+			%>
+		                <tr>
+		                    <td>
+		                        <a href="javascript:void(0)" onclick="
+		                            window.opener.document.querySelector('.Entry_MatCode').value='<%=rs.getString("Material_code")%>';
+		                            window.opener.document.querySelector('.Entry_MatDes').value='<%=rs.getString("Description")%>';
+		                            window.opener.document.querySelector('.Entry_Unit').value='<%=rs.getString("InvUnit")%>';
+		                            window.opener.document.querySelector('.Entry_MatCode').dispatchEvent(new Event('change'));
+		                            window.close();
+		                        ">
+		                        <%=rs.getString("Material_code") %>
+		                        </a>
+		                    </td>
+		                    <td><%=rs.getString("Description") %></td>
+		                </tr>
+			<%
+		            }
+		        }
+		    }catch(SQLException e){
 			        e.printStackTrace();
 			}     
 			%>

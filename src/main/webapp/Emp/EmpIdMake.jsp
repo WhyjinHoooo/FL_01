@@ -29,7 +29,8 @@ try{
             idFound = true; // 사용 가능한 ID를 찾았으므로 루프 종료
         } else {
             String recentData = rs.getString("EMPLOYEE_ID");
-            String numberPart = recentData.substring(6, 10);
+            String numberPart = recentData.substring(6);
+            System.out.println("numberPart: " + numberPart);
             int incrementedValue = Integer.parseInt(numberPart) + 1;
             firstId = firstId.substring(0, 6) + String.format("%04d", incrementedValue);
             System.out.println("firstId: " + firstId);
