@@ -39,6 +39,7 @@
     JSONArray ResultArray = new JSONArray();
     switch(pass){
     case "Success":
+    	System.out.println("Success");
     	sql = "SELECT * FROM request_doc WHERE ComCode = ? AND Plant = ? " + 
     		  "AND MatCode = ? AND RegistDate >= ? AND RegistDate <= ? " +
     		  "AND ReqPerson = ?";
@@ -72,6 +73,7 @@
     	}
     	break;
     case "Fail":
+    	System.out.println("Fail");
     	sql = "SELECT * FROM request_doc WHERE ComCode = ? AND Plant = ? " + 
       		  "AND RegistDate >= ? AND RegistDate <= ? " +
       		  "AND ReqPerson = ?";

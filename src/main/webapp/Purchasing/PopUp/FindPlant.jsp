@@ -29,7 +29,7 @@
 			    pstmt = conn.prepareStatement(sql);
 			    rs = pstmt.executeQuery();
 			    
-		        if(rs.next()){ // 데이터가 없을 경우
+		        while(rs.next()){ // 데이터가 없을 경우
 		    %>
 			    <tr>
 			        <td>

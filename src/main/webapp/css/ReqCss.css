@@ -105,7 +105,7 @@
 	overflow-y: auto;
     }
     .Info-Area > table.InfoTable tbody td{
-	padding: 8px;
+	padding: 8px 5.5px;
 	border: 1px solid #ddd;
 	width: 130px;
 	height: 10px;
