@@ -42,7 +42,7 @@
     	System.out.println("Success");
     	sql = "SELECT * FROM request_doc WHERE ComCode = ? AND Plant = ? " + 
     		  "AND MatCode = ? AND RegistDate >= ? AND RegistDate <= ? " +
-    		  "AND ReqPerson = ?";
+    		  "AND PurPerson = ?";
     	pstmt = conn.prepareStatement(sql);
     	pstmt.setString(1, ComCode);
     	pstmt.setString(2, PlantCode);
@@ -76,7 +76,7 @@
     	System.out.println("Fail");
     	sql = "SELECT * FROM request_doc WHERE ComCode = ? AND Plant = ? " + 
       		  "AND RegistDate >= ? AND RegistDate <= ? " +
-      		  "AND ReqPerson = ?";
+      		  "AND PurPerson = ?";
       	pstmt = conn.prepareStatement(sql);
       	pstmt.setString(1, ComCode);
       	pstmt.setString(2, PlantCode);
@@ -85,6 +85,7 @@
       	pstmt.setString(5, User);
       	rs = pstmt.executeQuery();
       	while(rs.next()){
+      		System.out.println("asd");
       		JSONObject ResultObject = new JSONObject();
       		ResultObject.put("DocNumPR", rs.getString("DocNumPR"));
       		ResultObject.put("MatCode", rs.getString("MatCode"));

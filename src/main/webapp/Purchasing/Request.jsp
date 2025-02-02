@@ -66,7 +66,8 @@ $(document).ready(function(){
 	}
 	function InitialTable(UserId){
 		$('.InfoTable-Body').empty();
-		var UserId = $('.Client').val();
+		var UserId = UserId;
+		console.log(UserId);
 		for (let i = 0; i < 20; i++) {
             const row = $('<tr></tr>'); // 새로운 <tr> 생성
             // 34개의 빈 <td> 요소 추가 (3개의 헤더 항목 이후 31일치 데이터)
@@ -194,6 +195,7 @@ $(document).ready(function(){
 		CreateEntryDocument();
 	})
 	$('.SaveBtn').click(function(){
+		console.log(Userid);
 		var EntryDataArray = {};
 		event.preventDefault();
 		$('.EntryItem').each(function(){
@@ -226,6 +228,7 @@ $(document).ready(function(){
 				success: function(data){
 					if(data.status === 'Success'){
 						CreateEntryDocument()
+						InitialTable(Userid);
 						$('.EntryItem').each(function(){
 							var name = $(this).attr('name');
 							if(name === 'Entry_MatCode' || name === 'Entry_Client' || name === 'Entry_PCode'){
@@ -241,11 +244,47 @@ $(document).ready(function(){
 					}else{
 						alert('다시 입력해주세요.');
 					}
-				}
+				},
+				error: function(xhr, status, error) {
+			        console.log('AJAX 요청 실패:', error);
+			    }
 			});
 		}
 	})
-	
+	var EditedList = [];
+	$('.EditBtn').click(function(){
+		$('.InfoTable-Body tr').each(function(index, tr){
+			console.log(index);
+			var AllTr = $(tr);
+			var checkboxTr = AllTr.find('input[type="checkbox"]');
+			var IsChecked = checkboxTr.prop('checked');
+			if(IsChecked && index === 0){
+				AllTr.css('color', 'red');
+				console.log(IsChecked);
+				for(var i = 2 ; i < 14 ; i++){
+					if(i === 12){
+						continue;
+					}
+					EditedList.push(AllTr.find('td:nth-child('+i+')').text().trim())
+				}
+				console.log(EditedList);
+				$('.Entry_DocNum').val(EditedList[0]);
+				$('.Entry_MatCode').val(EditedList[1]);
+				$('.Entry_MatDes').val(EditedList[2]);
+				$('.Entry_Count').val(EditedList[4]);
+				$('.Entry_Unit').val(EditedList[5]);
+				$('.Entry_EndDate').val(EditedList[6]);
+				$('.Entry_Client').val(EditedList[10]);
+				$('.Entry_PCode').val(EditedList[7].substring(0,5));
+				$('.Entry_PCodeDes').val(EditedList[7].substring(6,14));
+				$('.Entry_Ref').val(EditedList[8]);
+				$('.Req-Area').find('input').prop('disabled', false);
+			}else{
+				checkboxTr = AllTr.find('input[type="checkbox"]');
+				IsChecked = checkboxTr.prop('checked', false);
+			}
+		})
+	}) // $('.EditBtn').click(function(){...})
 })
 </script>
 </head>
@@ -326,35 +365,35 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 				<div class="Req-Title">구매 요청 신청/등록</div>
 				<div class="MatInput">
 					<label>구매요청번호 :  </label>
-					<input type="text" class="Entry_DocNum EntryItem" name="Entry_DocNum" readonly>
+					<input type="text" class="Entry_DocNum EntryItem" id="Entry_DocNum" name="Entry_DocNum" readonly>
 				</div>
 				<div class="MatInput">
 					<label>Material :  </label>
-					<input type="text" class="Entry_MatCode EntryItem" name="Entry_MatCode" placeholder="SELECT" onclick="InfoSearch('EntryMaterial')" readonly>
+					<input type="text" class="Entry_MatCode EntryItem" id="Entry_MatCode" name="Entry_MatCode" placeholder="SELECT" onclick="InfoSearch('EntryMaterial')" readonly>
 					<label>Description :  </label>
-					<input type="text" class="Entry_MatDes EntryItem" name="Entry_MatDes" readonly>
+					<input type="text" class="Entry_MatDes EntryItem" id="Entry_MatDes" name="Entry_MatDes" readonly>
 				</div>
 				<div class="MatInput">
 					<label>구매 요청 수량 :  </label>
-					<input type="text" class="Entry_Count EntryItem" name="Entry_Count" placeholder="INPUT">
+					<input type="text" class="Entry_Count EntryItem" id="Entry_Count" name="Entry_Count" placeholder="INPUT">
 					<label>재고관리 단위 :  </label>
-					<input type="text" class="Entry_Unit EntryItem" name="Entry_Unit" readonly>
+					<input type="text" class="Entry_Unit EntryItem" id="Entry_Unit" name="Entry_Unit" readonly>
 				</div>
 				<div class="MatInput">
 					<label>납품요청일자 :  </label>
-					<input type="date" class="Entry_EndDate EntryItem" name="Entry_EndDate">
+					<input type="date" class="Entry_EndDate EntryItem" id="Entry_EndDate" name="Entry_EndDate">
 					<label>구매담당자 :  </label>
-					<input type="text" class="Entry_Client EntryItem" name="Entry_Client" onclick="InfoSearch('EntryClient')" placeholder="SELECT" readonly>
+					<input type="text" class="Entry_Client EntryItem" id="Entry_Client" name="Entry_Client" onclick="InfoSearch('EntryClient')" placeholder="SELECT" readonly>
 				</div>
 				<div class="MatInput">
 					<label>납품 장소 :  </label>
-					<input type="text" class="Entry_PCode EntryItem" name="Entry_PCode" placeholder="SELECT" onclick="InfoSearch('EntryDeli')" readonly>
+					<input type="text" class="Entry_PCode EntryItem" id="Entry_PCode" name="Entry_PCode" placeholder="SELECT" onclick="InfoSearch('EntryDeli')" readonly>
 					<label>납품 장소명 :  </label>
-					<input type="text" class="Entry_PCodeDes EntryItem" name="Entry_PCodeDes" readonly>
+					<input type="text" class="Entry_PCodeDes EntryItem" id="Entry_PCodeDes" name="Entry_PCodeDes" readonly>
 				</div>
 				<div class="MatInput">
 					<label>구매 요청 내용 :  </label>
-					<input type="text" class="Entry_Ref EntryItem" name="Entry_Ref" placeholder="INPUT">
+					<input type="text" class="Entry_Ref EntryItem" id="Entry_Ref" name="Entry_Ref" placeholder="INPUT">
 				</div>
 			</div>
 		</div>
