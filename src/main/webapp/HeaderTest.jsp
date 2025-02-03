@@ -234,6 +234,10 @@ $(document).ready(function(){
               	<a class="dropdown-item dropdown-toggle" href="#">발주관리</a>
             	<ul class="dropdown-menu">
 	                <li class="dropdown-submenu">
+	                <a class="dropdown-item dropdown-toggle" href="###">구매 요청</a>
+	                <ul class="dropdown-menu">
+		                <li><a class="dropdown-item" href="${contextPath}/Purchasing/Request.jsp">등록/수정/조회 </a></li>
+		              </ul>
 		              <a class="dropdown-item dropdown-toggle" href="#">구매 발주서</a>
 		              <ul class="dropdown-menu">
 		                <li><a class="dropdown-item" href="#">MPR구매 요청 발주서 전황</a></li>

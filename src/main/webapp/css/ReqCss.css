@@ -7,16 +7,16 @@
     margin-top: 3%;
 	}
 	.Req-Header {
-    border: 3px solid rgb(111, 167, 235);
+    border: 1px solid black;
     width: 25%;
 	}
 	.Req-Body {
-    border: 3px solid rgb(111, 167, 235);
+    border: 1px solid black;
     margin-left: 2%;
     width: 73%;
 	}
 	.Req-Body > .Info-Area {
-    border: 1px solid blue;
+    border: 1px solid black;
     height: 45%;
 	}
 	.Req-Body > .Btn-Area {
@@ -24,8 +24,8 @@
     margin-top: 2%;
 	}
 	.Req-Body > .Req-Area {
-    border: 1px solid blue;
-    height: 45%;
+    border: 1px solid black;
+    height: 45.3%;
     margin-top: 0.5%;
 	}
 	.Req-Title {
@@ -84,7 +84,11 @@
     width: 200px;
 	text-align: center;
     }
-    
+    .InfoInput select{
+    margin-left: 10px;
+    width: 210px;
+	text-align: center;
+    }
     .Info-Area > table.InfoTable{
 	border-collapse: collapse;
 	width: 100%;
@@ -107,7 +111,7 @@
     .Info-Area > table.InfoTable tbody td{
 	padding: 8px 5.5px;
 	border: 1px solid #ddd;
-	width: 130px;
+	width: 131px;
 	height: 10px;
 	text-align: center;
 	font-size: 10px;
@@ -205,8 +209,26 @@
     text-align: left;
     width: 30%
 	}
+	.OrdArea > div:nth-of-type(3) > input:nth-child(4) {
+    text-align: left;
+    width: initial;
+	}
+	.OrdArea > div:nth-of-type(6) > input:nth-child(5),
+	.OrdArea > div:nth-of-type(6) > input:nth-child(7) {
+    text-align: left;
+    width: 35px;
+	}
+	.OrdArea  > div:nth-of-type(6) > span:nth-child(4){
+	padding: 0px 0px 0px 7px;
+	}
 	.Req-Area > div:nth-of-type(7) > input:nth-child(2){
 	width: 55.5%
+	}
+	.OrdArea > div:nth-of-type(7) > input:nth-child(2){
+	width: initial;
+	}
+	.OrdArea > div:nth-of-type(8) > input:nth-child(2){
+	width: 37.4%;
 	}
 	.MatInput input{
     margin-left: 10px;
