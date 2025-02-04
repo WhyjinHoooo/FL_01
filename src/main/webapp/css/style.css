@@ -116,11 +116,7 @@ table.ComInfoTable {
     margin-top: 50px;
     margin-right: -45px;
 }
-.mat-main-info {
-    width: 40%; /* 가운데 정렬을 위해 전체 너비의 절반으로 설정합니다 */
-    margin-top: 50px;
-    margin-right: -45px;
-}
+
 .ven-main-info {
     width: 40%; /* 가운데 정렬을 위해 전체 너비의 절반으로 설정합니다 */
     margin-top: 50px;
@@ -1334,14 +1330,6 @@ table.ComInfoTable {
 	    padding-bottom: 30px;
 	    width: 80%;
 	}
-	.mat-sub-info {
-	    border: 1px solid #000;
-	    margin-top: 50px;
-	    padding-left: 10px; 
-	    padding-top: 30px;
-	    padding-bottom: 30px;
-	    width: 80%;
-	}
 	.ven-sub-info {
 	    border: 1px solid #000;
 	    margin-top: 50px;
@@ -1378,7 +1366,15 @@ table.ComInfoTable {
 	    width: 105px;
 		text-align: center;
 	}
-	
+	.sub-info .Addr, .sub-info .AddrDetail, .sub-info .AddrRefer,
+	.emp-sub-info .Addr, .emp-sub-info .AddrDetail, .emp-sub-info .AddrRefer,
+	.plant-sub-info .Addr, .plant-sub-info .AddrDetail, .plant-sub-info .AddrRefer,
+	.ba-sub-info .Addr, .ba-sub-info .AddrDetail, .ba-sub-info .AddrRefer,
+	.cc-sub-info .Addr, .cc-sub-info .AddrDetail, .cc-sub-info .AddrRefer,
+	.ven-sub-info .Addr, .ven-sub-info .AddrDetail, .ven-sub-info .AddrRefer,
+	.tax-sub-info .Addr, .tax-sub-info .AddrDetail, .tax-sub-info .AddrRefer {
+	    width: 99%;
+	}
 	.bag-sub-info .table-container .Upper-Biz-Name{
 		text-align: center;
 	}
@@ -1432,6 +1428,271 @@ table.ComInfoTable {
 		text-align: center;
 		width: 250px;
 	}
+	.emp-sub-info .CCSelect,
+	.emp-sub-info .PosCode,
+	.emp-sub-info .duty,
+	.emp-sub-info .title{
+	width: 110px;
+	text-align: center;
+	}
+	.emp-sub-info .NewAddr{
+		margin-bottom: 5px;
+	}
+	.emp-sub-info .PosCode{
+		width: 105px;	
+	}
+	.emp-sub-info .today ,
+	.emp-sub-info .duty_Start{
+		width: 105px;
+	}
+	.emp-sub-info .join,
+	.emp-sub-info .Birth{
+		width: 109px;
+		text-align: center;
+	}
+	.emp-sub-info .UserDutyCode{
+		width: 107px;
+		text-align: center;
+	}
+	.emp-sub-info .UserDutyDes{
+		width: 113px;
+		text-align: center;
+	}
+	.emp-sub-info .Jumin_1st,
+	.emp-sub-info .Jumin_2nd{
+		width: 109px;
+		text-align: center;
+	}
+	.emp-sub-info .ComCode,
+	.emp-sub-info .duty_code ,
+	.emp-sub-info .title_Code{
+		width: 105px;
+		text-align: center;
+	}
+	.emp-sub-info .Com-Search img {
+	    width: 10px;
+	    height: 10px;
+	}
+	.Mat-Registed {
+    display: flex;
+    flex-direction: row;
+    height: 52vh;
+    margin-top: 0.98%;
+	}
+	.Mat-Registed > .Mat-Header > .Header-Title,
+	.Mat-Registed > .Mat-Body > .Body-Title,
+	.Mat-Registed > .Mat-Body > .Info-Area > .Tail-Title{
+		background: #260FB1;
+		color: white;
+	    text-align: center;
+		font-size: x-large;
+		padding: 5px;
+	}
+	.Mat-Header {
+	    border: 1px solid #89CFF0;
+	    margin-left: 1%;
+	    height: 132.5%;
+	    width: 25%;
+	}
+	.Mat-Header >.InfoInput {
+	    display: flex;
+	    flex-direction: row;
+	    margin: 50px 0px 10px 20px;
+	    width: 100%;
+	}
+	.Mat-Header > .InfoInput label {
+		font-weight: 900;
+		display: inline-block;
+		width: 12em;
+		text-align: right;
+		letter-spacing: 0.1em;
+	}
+	.Mat-Header > .InfoInput input:nth-child(2) {
+		margin: 0px 10px;
+		width: 150px;
+		text-align: center;
+	}
+	.Mat-Header > .InfoInput:nth-child(n+2):nth-child(-n+7) input {
+		margin: 0px 10px;
+		text-align: center;
+	}
+	.Mat-Header > .InfoInput:nth-child(8) input {
+		margin: 0px 10px;
+		width: 55%;
+		text-align: center;
+	}
+	.Mat-Header > .Mat-Header-btnArea > button {
+		width: 24%;
+		height: 5%;
+		text-align: center;
+		background-color: #002060;
+		color: white;
+		border: 1px solid #1F4E79;
+		margin: 20% 0px 0px 35%;
+		border-radius: 10px;
+		font-size: 25px;
+		padding: 5px;
+		}
+	.Mat-Header > .Mat-Header-btnArea > button:hover {
+		background: #0068ff;
+		color: #fff;
+		border: 1px solid #0068ff;
+		}
+	.Mat-Header > .Mat-Header-btnArea > button:active {
+		background: #0068ff;
+		color: #fff;
+		border: 1px solid #0068ff;
+		}
+	.Mat-Body {
+		border: 1px solid #89CFF0;
+	    margin-left: 2%;
+	    height: 60%;
+	    width: 70%;
+	}
+	.Mat-Body > .Mat-Area > .InfoInput {
+	    display: flex;
+	    flex-direction: row;
+	    margin: 20px 0px 10px 32%; 
+	}
+	.Mat-Body > .Mat-Area > .InfoInput label {
+		font-weight: 900;
+		display: inline-block;
+		width: 12em;
+		text-align: right;
+		letter-spacing: 0.1em;
+	}
+	.Mat-Body > .Mat-Area > .InfoInput:nth-child(-n+4) input:nth-child(2) {
+		margin: 0px 10px;
+		width: 150px;
+		text-align: center;
+	}
+	.Mat-Body > .Mat-Area > .InfoInput:nth-child(1) input:nth-child(3),
+	.Mat-Body > .Mat-Area > .InfoInput:nth-child(3) input:nth-child(3) {
+		width: 25.5%;
+		text-align: center;
+	}
+	.Mat-Body > .Mat-Area > .InfoInput:nth-child(2) input:nth-child(2) {
+		margin: 0px 10px;
+		width: 39.4%;
+		text-align: center;
+	}
+	.Mat-Body > .Mat-Area > .InfoInput:nth-child(5) select:nth-child(2) {
+		margin: 0px 10px;
+		width: 157px;
+		text-align: center;
+	}
+	.Mat-Body > .Mat-Area > .InfoInput:nth-child(n+6):nth-child(-n+7) input {
+		width: 35px;
+	}
+	.Mat-Body > .Mat-Area > .InfoInput:nth-child(7) input:nth-child(3) {
+		margin-left: 4.9%;
+		width: 35px;
+	}
+	.Mat-Body > .BtnArea {
+	    margin-top: 50px;
+	    height: 50px;
+	    display: flex;
+	    flex-direction: row;
+	    justify-content: space-between;
+	}
+	.Mat-Body > .BtnArea > button.InsertBtn {
+	    width: 10%;
+	    height: 50px;
+	    background: darkred;
+	    color: white;
+	    font-weight: bold;
+	    border: 1px solid darkred;
+		padding: 5px;
+		border-radius: 10px;
+	}
+	.Mat-Body > .BtnArea > button.InsertBtn:hover{
+		background: #FA8072;
+		color: #fff;
+		border: 1px solid #FA8072;
+	}
+	.Mat-Body > .BtnArea > button.InsertBtn:active {
+		background: #FA8072;
+		color: black;
+		border: 1px solid #FA8072;
+	}	
+	.Mat-Body > .BtnArea > button.SaveBtn {
+	    background: darkgreen;
+	    width: 10%;
+	    height: 50px;
+	    margin-left: 79.68%;
+	    color: white;
+	    font-weight: bold;
+	    border: 1px solid darkgreen;
+		padding: 5px;
+		border-radius: 10px;
+	}
+	.Mat-Body > .BtnArea > button.SaveBtn:hover {
+		background: #32CD32;
+		color: #fff;
+		border: 1px solid #32CD32;
+	}
+	.Mat-Body > .BtnArea > button.SaveBtn:active {
+		background: #32CD32;
+		color: black;
+		border: 1px solid #32CD32;
+	}	
+	.Mat-Body > .Info-Area {
+	    border: 1px solid #89CFF0;
+	    height: 100%;
+		margin-top: 15px;
+	}
+	.Mat-Body > .Info-Area > table.InfoTable{
+		border-collapse: collapse;
+		width: 100%;
+		height: 92.1%;
+		table-layout: fixed;
+		overflow: scroll;
+	}
+	.Mat-Body > .Info-Area > table.InfoTable thead{
+	    display: table;
+	    width: 100%;
+	}
+	.Mat-Body > .Info-Area > table.InfoTable tbody{
+		table-layout: fixed;
+		display: block;
+		width: 100.3%;
+		height: 90%;
+		max-height: 90%;
+		overflow-y: auto;
+	}
+	.Mat-Body > .Info-Area > table.InfoTable tbody td{
+		padding: 8px 5.5px;
+		border: 1px solid #ddd;
+		width: 215px;
+		height: 10px;
+		text-align: center;
+		font-size: 10px;
+		font-weight: bold;
+	}
+	.Mat-Body > .Info-Area > table.InfoTable thead > tr > th{
+		background-color: rgb(111, 167, 235);
+		position: sticky;
+		top: 0;
+		color: white;
+		text-align: center;
+		z-index: 10;
+		padding: 8px;
+		border: 1px solid white;
+		width: 120px;
+		font-size: 11px;
+	}
+	.Mat-Body > .Info-Area > table.InfoTable tbody::-webkit-scrollbar {
+	    width: 5px;
+	}
+	.Mat-Body > .Info-Area > table.InfoTable tbody::-webkit-scrollbar-thumb {
+	    background-color: #2f3542;
+	    border-radius: 10px;
+	}
+	.Mat-Body > .Info-Area > table.InfoTable tbody::-webkit-scrollbar-track {
+	    background-color: white;
+	    border-radius: 1px;
+	    box-shadow: inset 0px 0px 5px white;
+	}	
 }
 
 
@@ -1445,18 +1706,10 @@ table.ComInfoTable {
 	text-align: center;
 	width: 103px;
 }
-
 .ccg-sub-info .table-container .CCTR-level{
 	text-align: center;
 	width: 110px;
 }
-/* Cost Center Group END */
-
-/* Cost Center START */
-
-/* Cost Center END */
-
-/* Plant START */
 
 
 /* Plant END */
@@ -1567,13 +1820,7 @@ table.ComInfoTable {
 	width: 85px;
 }
 
-.emp-sub-info .CCSelect , .PosCode, .duty , .title{
-	width: 110px;
-	text-align: center;
-}
-.emp-sub-info .NewAddr{
-	margin-bottom: 5px;
-}
+
 @media only screen and (min-width: 1536px) {
 	.ven-sub-info .AddrCode{
 	text-align: center;
@@ -1585,48 +1832,6 @@ table.ComInfoTable {
 	text-align: center;
 	width: 95px;
 	}	
-}
-.sub-info .Addr, .sub-info .AddrDetail, .sub-info .AddrRefer,
-.emp-sub-info .Addr, .emp-sub-info .AddrDetail, .emp-sub-info .AddrRefer,
-.plant-sub-info .Addr, .plant-sub-info .AddrDetail, .plant-sub-info .AddrRefer,
-.ba-sub-info .Addr, .ba-sub-info .AddrDetail, .ba-sub-info .AddrRefer,
-.cc-sub-info .Addr, .cc-sub-info .AddrDetail, .cc-sub-info .AddrRefer,
-.ven-sub-info .Addr, .ven-sub-info .AddrDetail, .ven-sub-info .AddrRefer,
-.tax-sub-info .Addr, .tax-sub-info .AddrDetail, .tax-sub-info .AddrRefer {
-    width: 99%;
-}
-.emp-sub-info .PosCode{
-	width: 105px;
-}
-.emp-sub-info .today , .duty_Start{
-	width: 105px;
-}
-.emp-sub-info .join,
-.emp-sub-info #Birth{
-	width: 109px;
-	text-align: center;
-}
-.emp-sub-info .UserDutyCode{
-	width: 107px;
-	text-align: center;
-}
-.emp-sub-info .UserDutyDes{
-	width: 113px;
-	text-align: center;
-}
-.emp-sub-info .Jumin_1st,
-.emp-sub-info .Jumin_2nd{
-	width: 109px;
-}
-.emp-sub-info .ComCode,
-.emp-sub-info .duty_code ,
-.emp-sub-info .title_Code{
-	width: 105px;
-	text-align: center;
-}
-.emp-sub-info .Com-Search img {
-    width: 10px;
-    height: 10px;
 }
 
 .ComSearch-board {
@@ -1716,26 +1921,7 @@ text-decoration: underline;
 	font-size: 10px;
 	text-align: center;
 }
-.mat-main-info .table-container .plantCode, .matTypeCode, .matTypeDes , .matlv1Code, .matlv1Des , .matlv2Code , .matlv2Des, .matlv3Code , .matlv3Des{
-	text-align: center;
-}
-.mat-main-info .table-container .matCode{
-	background-color : #D3D3D3;
-	text-align: center;
-}
-.mat-sub-info .table-container .unit{
-	width : 101px;
-	text-align: center;
-}
-.mat-sub-info .table-container .examineItem2{
-	margin-left: 50px;
-}
-.mat-sub-info .table-container .useYN2{
-	margin-left: 103px;
-}
-.mat-sub-info .table-container .StorageCode, .StorageDes, .matGroupCode, .matGroupDes, .matadjustCode, .matadjustDes{
-	text-align: center;
-}
+	
 .ven-main-info .table-container .ComCode{
 	text-align: center;
 }

@@ -21,31 +21,6 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    var now_utc = Date.now();
-    var timeOff = new Date().getTimezoneOffset() * 60000;
-    var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
-    var testElement = document.getElementById("today");
-
-    if (testElement) {
-        testElement.setAttribute("min", today);
-        testElement.setAttribute("max", today);
-    } else {
-        console.error("Element with id 'today' not found.");
-    }
-});
-document.addEventListener("DOMContentLoaded", function() {
-    var now_utc = Date.now();
-    var timeOff = new Date().getTimezoneOffset() * 60000;
-    var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
-    var testElement = document.getElementById("future");
-
-    if (testElement) {
-        testElement.setAttribute("min", today);
-    } else {
-        console.error("Element with id 'test' not found.");
-    }
-});
 function InfoSearch(field){
 	var popupWidth = 500;
     var popupHeight = 600;
@@ -119,17 +94,91 @@ function execDaumPostcode() {
         }
     }).open();
 }
+$(document).ready(function(){
+	function DateSetting(){
+		var CurrentDate = new Date();
+		var TodayDate = CurrentDate.getFullYear() + '-' + ('0' + (CurrentDate.getMonth() + 1)).slice(-2) + '-' + ('0' + CurrentDate.getDate()).slice(-2);
+		$('.today').val(TodayDate);
+		$('.today').attr('max', TodayDate);
+		$('.today').attr('min', TodayDate);
+		$('.future').attr('min', TodayDate);
+	}
+	DateSetting();
+	var ChkList = {};
+	$('.Info-input-btn').click(function(){
+		event.preventDefault();
+		$('.KeyInfo').each(function(){
+			var Name = $(this).attr('name');
+			var Value;
+			if ($(this).attr('type') === 'radio') {
+		        Value = $('input[name="' + Name + '"]:checked').val();
+		    } else {
+		        Value = $(this).val();
+		    }
+			ChkList[Name] = Value;
+		})
+		console.log(ChkList);
+		var pass = true;
+		$.each(ChkList, function(key, value){
+			if(value == null || value ===''){
+				pass = false;
+				return false;
+			}
+		})
+		if(!pass){
+			alert('모든 항목을 입력해주세요.');
+		}else{
+			$.ajax({
+				url:'${contextPath}/Plant/plant_regist_Ok.jsp',
+				type: 'POST',
+				data: JSON.stringify(ChkList),
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				success: function(data){
+					console.log(data);
+					DateSetting();
+					if(data.status === 'Success'){
+						$('.KeyInfo').each(function(){
+							var name = $(this).attr('name');
+							if(name === 'ComCode' || name === 'BizSelect' || name === 'money' || name === 'lang'){
+								$(this).val('');
+						        $(this).attr('placeholder', 'SELECT');
+							} else if(name === 'AddrCode'){
+								$(this).val('');
+						        $(this).attr('placeholder', '우편번호');
+							} else if(name === 'Addr'){
+								$(this).val('');
+						        $(this).attr('placeholder', '주소');
+							} else if(name === 'AddrDetail'){
+								$(this).val('');
+						        $(this).attr('placeholder', '상세주소');
+							} else if(name === 'Use-Useless'){
+								$(this).find('option:first').prop('selected', true);
+							} else {
+								$(this).val('');
+							}
+						})
+					}else{
+						alert('다시 입력해주세요.');
+					}
+				},
+			    error: function(jqXHR, textStatus, errorThrown) {
+			        console.log("AJAX Error: " + textStatus + ' : ' + errorThrown);
+			    }
+			});
+		}
+	})
+})
 </script>
 <body>
 	<jsp:include page="../HeaderTest.jsp"></jsp:include>
 	<center class="testCenter">
-		<!-- <form id="plant_RegistForm" name="plant_RegistForm" action="plant_regist_Ok.jsp" method="post" ecntype="UTF-8"> -->
 		<div class="plant-main-info">
 			<div class="table-container">
 				<table>
 					<tr><th class="info">Plant Code : </th>
 						<td class="input-info">
-							<input typr="text" name="plant_code" size="10">
+							<input typr="text" class="KeyInfo" name="plant_code" size="10">
 						</td>
 					</tr>
 					
@@ -137,21 +186,21 @@ function execDaumPostcode() {
 					
 					<tr><th class="info">Description : </th>
 						<td class="input-info">
-							<input type="text" name="Des" size="41">
+							<input type="text" class="KeyInfo" name="Des" size="41">
 						</td>
 					</tr>
 				</table>
 			</div>
 		</div>
 		
-		<input class="Info-input-btn" id="btn" type="submit" value="Insert">
+		<button class="Info-input-btn" id="btn">Insert</button>
 				
 		<div class="plant-sub-info">
 			<div class="table-container">
 				<table>
 					<tr><th class="info">Company Code : </th>
 						<td class="input-info">
-							<input type="text" class="ComCode" name="ComCode" placeholder="SELECT" onclick="InfoSearch('ComPany')" readonly>
+							<input type="text" class="ComCode KeyInfo" name="ComCode" placeholder="SELECT" onclick="InfoSearch('ComPany')" readonly>
 							<input type="text" class="Com_Name" name="Com_Name" readonly >
 						</td>
 					</tr>
@@ -160,7 +209,7 @@ function execDaumPostcode() {
 					
 					<tr><th class="info">Biz.Area Code : </th>
 						<td class="input-info">
-							<input type="text" class="BizSelect" name="BizSelect" placeholder="SELECT" onclick="InfoSearch('BizArea')" readonly>
+							<input type="text" class="BizSelect KeyInfo" name="BizSelect" placeholder="SELECT" onclick="InfoSearch('BizArea')" readonly>
 							<input type="text" class="Biz_Des" name="Biz_Des" readonly>
 						</td>
 					</tr>
@@ -169,7 +218,7 @@ function execDaumPostcode() {
 					
 					<tr><th class="info">Postal Code : </th>
 						<td class="input-info">
-							<input type="text" class="AddrCode NewAddr" name="AddrCode" id="postcode" placeholder="우편번호" readonly>
+							<input type="text" class="AddrCode NewAddr KeyInfo" name="AddrCode" id="postcode" placeholder="우편번호" readonly>
 					        <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기">
 						</td>
 					</tr>
@@ -179,10 +228,10 @@ function execDaumPostcode() {
 					<tr><th class="info">Address : </th>
 						<td class="input-info">
 					        <div>
-					            <input type="text" class="Addr NewAddr" name="Addr" id="address" placeholder="주소" readonly>
+					            <input type="text" class="Addr NewAddr KeyInfo" name="Addr" id="address" placeholder="주소" readonly>
 					        </div>
 					        <div>
-					            <input type="text" class="AddrDetail NewAddr" name="AddrDetail" id="detailAddress" placeholder="상세주소" required>
+					            <input type="text" class="AddrDetail NewAddr KeyInfo" name="AddrDetail" id="detailAddress" placeholder="상세주소" required>
 					        </div>
 					        <div>
 					            <input type="text" class="AddrRefer NewAddr" id="extraAddress" placeholder="참고항목" hidden>
@@ -194,11 +243,11 @@ function execDaumPostcode() {
 					
 					<tr><th class="info">Local Currency : </th>
 						<td class="input-info">
-							<input type="text" class="money-code" name="money" placeholder="SELECT" onclick="InfoSearch('Money')" readonly>
+							<input type="text" class="money-code KeyInfo" name="money" placeholder="SELECT" onclick="InfoSearch('Money')" readonly>
 						</td>
 						<th class="info">Language</th>
 							<td class="input-info">
-								<input type="text" class="language-code" name="lang" placeholder="SELECT" onclick="InfoSearch('Language')" readonly>
+								<input type="text" class="language-code KeyInfo" name="lang" placeholder="SELECT" onclick="InfoSearch('Language')" readonly>
 							</td>
 							
 					</tr>
@@ -207,9 +256,9 @@ function execDaumPostcode() {
 					
 					<tr><th class="info">유효기간 : </th>
 						<td class="input-info">
-							<input type="date" class="today" id="today" name="today">
+							<input type="date" class="today KeyInfo" id="today" name="today">
 							~
-							<input type="date" class="future" id="future" name="future">
+							<input type="date" class="future KeyInfo" id="future" name="future">
 						</td>
 					</tr>
 					
@@ -217,9 +266,9 @@ function execDaumPostcode() {
 				
 					<tr><th class="info">사용 여부: </th>
 						<td class="input_info">
-								<input type="radio" class="InputUse" name="Use-Useless" value="true" checked>사용
+								<input type="radio" class="InputUse KeyInfo" name="Use-Useless" value="true" checked>사용
 								<span class="spacing"></span>
-								<input type="radio" class="InputUse" name="Use-Useless" value="false">미사용								
+								<input type="radio" class="InputUse KeyInfo" name="Use-Useless" value="false">미사용								
 							</select>
 						</td>
 					</tr>			

@@ -353,7 +353,6 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 					</thead>
 					<tbody class="InfoTable-Body">
 					</tbody>
-				
 				</table>
 			</div>
 			<div class="Btn-Area">

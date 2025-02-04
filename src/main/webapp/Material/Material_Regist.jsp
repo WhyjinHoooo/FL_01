@@ -13,6 +13,21 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <script type='text/javascript'>
 $(document).ready(function(){
+	function InitialTable(){
+		$('.InfoTable-Body').empty();
+		var UserId = UserId;
+		console.log(UserId);
+		for (let i = 0; i < 20; i++) {
+            const row = $('<tr></tr>'); // 새로운 <tr> 생성
+            // 34개의 빈 <td> 요소 추가 (3개의 헤더 항목 이후 31일치 데이터)
+            for (let j = 0; j < 8; j++) {
+                row.append('<td></td>');
+            }
+            // 생성한 <tr>을 <tbody>에 추가
+            $('.InfoTable-Body').append(row);
+        }
+	}
+	InitialTable();
 	$('.matlv3Code').change(function(){
         var lv3 = $(this).val();
         console.log('lv3 Code : ' + lv3);
@@ -126,164 +141,124 @@ function InfoSearch(field){
 </script>
 </head>
 <body>
-	<center>
-		<jsp:include page="../HeaderTest.jsp"></jsp:include>
-		<form name="matRegistForm" id="matRegistForm" action="Material_Regist_Ok.jsp" method="post" enctype="UTF-8">
-			<div class="mat-main-info">
-				<div class="table-container">
-					<table>
-						<tr><th class="info">Plant Code : </th>
-							<td class="input-info">
-								<input type="text" name="plantCode" class="plantCode" size="10" placeholder="선택" onclick="InfoSearch('PlantSearch')" readonly>
-								<input type="text" name="plantDes" class="plantDes" size="31" readonly>
-								<input type="text" name="plantComCode" class="plantComCode" size="5" hidden>
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">Material 유형 : </th>
-							<td class="input-info">
-								<input type="text" name="matTypeCode" class="matTypeCode" size="10" placeholder="선택" onclick="InfoSearch('MatTypeSearch')" readonly>
-								<input type="text" name="matTypeDes" class="matTypeDes" size="31" readonly>
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">MatGroup 1 Level : </th>
-							<td class="input-info">
-								<input type="text" name="matlv1Code" class="matlv1Code" size="10" placeholder="선택" onclick="InfoSearch('MatLv1Search')" readonly>
-								<input type="text" name="matlv1Des" class="matlv1Des" size="31" readonly>
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">MatGroup 2 Level : </th>
-							<td class="input-info">
-								<input type="text" name="matlv2Code" class="matlv2Code" size="10" placeholder="선택" onclick="InfoSearch('MatLv2Search')" readonly>
-								<input type="text" name="matlv2Des" class="matlv2Des" size="31" readonly>
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">MatGroup 3 Level : </th>
-							<td class="input-info">
-								<input type="text" name="matlv3Code" class="matlv3Code" size="10" placeholder="선택" onclick="InfoSearch('MatLv3Search')" readonly>
-								<input type="text" name="matlv3Des" class="matlv3Des" size="31" readonly>
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">Material Code : </th>
-							<td class="input-info">
-								<input type="text" name="matCode" class="matCode" size="10" readonly>
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">Description : </th>
-							<td class="input-info">
-								<input type="text" name="Des" class="Des" size="47">
-							</td>
-						</tr>
-					</table>
-				</div>
+<jsp:include page="../HeaderTest.jsp"></jsp:include>
+<div class="Mat-Registed">
+	<div class="Mat-Header">
+		<div class="Header-Title">MaterialCode Generation</div>
+		<div class="InfoInput">
+			<label>Plant Code :</label>
+			<input type="text" name="plantCode" class="plantCode" placeholder="선택" onclick="InfoSearch('PlantSearch')" readonly>
+			<input type="text" name="plantDes" class="plantDes" readonly>
+			<input type="text" name="plantComCode" class="plantComCode" hidden>
+		</div>
+				
+		<div class="InfoInput">
+			<label>Material 유형 : </label>
+			<input type="text" name="matTypeCode" class="matTypeCode" placeholder="선택" onclick="InfoSearch('MatTypeSearch')" readonly>
+			<input type="text" name="matTypeDes" class="matTypeDes" readonly>
+		</div>
+	
+		<div class="InfoInput">
+			<label>MatGroup 1 Level : </label>
+			<input type="text" name="matlv1Code" class="matlv1Code" placeholder="선택" onclick="InfoSearch('MatLv1Search')" readonly>
+			<input type="text" name="matlv1Des" class="matlv1Des" readonly>
+		</div>
+	
+		<div class="InfoInput">
+			<label>MatGroup 2 Level : </label>
+			<input type="text" name="matlv2Code" class="matlv2Code" placeholder="선택" onclick="InfoSearch('MatLv2Search')" readonly>
+			<input type="text" name="matlv2Des" class="matlv2Des" readonly>
+		</div>
+	
+		<div class="InfoInput">
+			<label>MatGroup 3 Level : </label>
+			<input type="text" name="matlv3Code" class="matlv3Code" placeholder="선택" onclick="InfoSearch('MatLv3Search')" readonly>
+			<input type="text" name="matlv3Des" class="matlv3Des" readonly>
+		</div>
+	
+		<div class="InfoInput">
+			<label>Material Code : </label>
+			<input type="text" name="matCode" class="matCode" readonly>
+		</div>
+		
+		<div class="InfoInput">
+			<label>Description : </label>
+			<input type="text" name="Des" class="Des">
+		</div>
+		
+		<div class="Mat-Header-btnArea">
+			<button>CREATE</button>
+		</div>
+	</div>
+	
+	<div class="Mat-Body">
+		<div class="Body-Title">MaterialCode Detail</div>
+		<div class="Mat-Area">
+			<div class="InfoInput">		
+				<label>Default 입고창고 : </label>
+				<input type="text" name="StorageCode" class="StorageCode" onclick="InfoSearch('WareSearch')" placeholder="선택" readonly>
+				<input type="text" name="StorageDes" class="StorageDes" readonly> 
 			</div>
 			
-			<input class="Info-input-btn" id="btn" type="submit" value="Insert">
-			
-			<div class="mat-sub-info">
-				<div class="table-container">
-					<table>
-						<tr><th class="info">재고관리 단위 : </th>
-							<td class="input-info">
-								<select class="unit" name="unit">
-									<optipn>SELECT</optipn>
-									<%
-									try{
-										PreparedStatement pstmt = null;
-										ResultSet rs = null;
-										
-										String sql = "SELECT * FROM sku";
-										
-										pstmt = conn.prepareStatement(sql);
-										rs = pstmt.executeQuery();
-										
-										while(rs.next()){
-											String code = rs.getString("code");
-									%>
-										<option value="<%=code%>"><%=code%></option>
-									<%
-										}
-									}catch(Exception e){
-										e.printStackTrace();
-									}
-									%>
-								</select>
-							</td>	
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">Default 입고창고 : </th>
-							<td class="input-info">
-								<input type="text" name="StorageCode" class="StorageCode" size="10" onclick="InfoSearch('WareSearch')" placeholder="선택" readonly>
-								<input type="text" name="StorageDes" class="StorageDes" size="31" readonly> 
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">규격 : </th>
-							<td class="input-info">
-								<input type="text" name="size" class="size" size="47">
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">Material Group : </th>
-							<td class="input-info">
-								<input type="text" name="matGroupCode" class="matGroupCode" size="10" readonly>
-								<input type="text" name="matGroupDes" class="matGroupDes" size="31" readonly> 
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">Material 적용단계 : </th>
-							<td class="input-info">
-								<input type="text" name="matadjustCode" class="matadjustCode" size="10" onclick="InfoSearch('AdjustSearch')" placeholder="선택" readonly>
-								<input type="text" name="matadjustDes" class="matadjustDes" size="31" readonly> 
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">수입검사 품목 여부 : </th>
-							<td class="input-info">
-								<input type="radio" name="examine" class="examineItem1" value="true" checked>유검사 품목	
-								<input type="radio" name="examine" class="examineItem2" value="false">무검사 품목 
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">사용 여부 : </th>
-							<td class="input-info">
-								<input type="radio" name="useYN" class="useYN1" value="true" checked>사용
-								<input type="radio" name="useYN" class="useYN2" value="false">미사용
-							</td>
-						</tr>
-					</table>
-				</div>
+			<div class="InfoInput">	
+				<label>규격 : </label>
+				<input type="text" name="size" class="size">
 			</div>
-		</form>
-	</center>
+	
+			<div class="InfoInput">
+				<label>Material Group : </label>
+				<input type="text" name="matGroupCode" class="matGroupCode" readonly>
+				<input type="text" name="matGroupDes" class="matGroupDes" readonly> 
+			</div>
+				
+			<div class="InfoInput">
+				<label>Material 적용단계 : </label>
+				<input type="text" name="matadjustCode" class="matadjustCode" onclick="InfoSearch('AdjustSearch')" placeholder="선택" readonly>
+				<input type="text" name="matadjustDes" class="matadjustDes" readonly> 
+			</div>
+			
+			<div class="InfoInput">
+				<label>재고관리 단위 :</label>
+				<select class="unit" name="unit">
+					<optipn>SELECT</optipn>
+				</select>
+			</div>
+			
+			<div class="InfoInput">
+				<label>수입검사 품목 여부 : </label>
+				<input type="radio" name="examine" class="examineItem1" value="true" checked>유검사 품목	
+				<input type="radio" name="examine" class="examineItem2" value="false">무검사 품목 
+			</div>
+			
+			<div class="InfoInput">
+				<label>사용 여부 : </label>
+				<input type="radio" name="useYN" class="useYN1" value="true" checked>사용
+				<input type="radio" name="useYN" class="useYN2" value="false">미사용
+			</div>
+		</div>
+		
+		<div class="BtnArea">
+			<button class="InsertBtn">INSERT</button>
+			<button class="SaveBtn">SAVE</button>
+		</div>
+		
+		<div class="Info-Area">
+			<div class="Tail-Title">Generated Material</div>
+			<table class="InfoTable">
+				<thead class="InfoTable-Header">
+					<tr>
+						<th>Material</th><th>Material Description</th><th>Storage</th><th>Standard</th><th>Material Group</th>
+						<th>Material Level</th><th>Incoming Inspection</th><th>Availability</th>
+					</tr>
+				</thead>
+				<tbody class="InfoTable-Body">
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<footer>
+	<img id="logo" name="Logo" src="${contextPath}/img/White_Logo.png" alt="">
+</footer>
 </body>
 </html>
