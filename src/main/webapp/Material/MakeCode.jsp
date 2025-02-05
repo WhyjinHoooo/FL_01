@@ -7,26 +7,28 @@
 
 <%
 try{
-	String first = request.getParameter("first");
+	String first = request.getParameter("first") + "-0001";
 	System.out.println("first : " + first);
 	
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
-	String sql = "SELECT * FROM matmaster WHERE SUBSTRING(Material_code, 1, 6) = ? ORDER BY Material_code DESC";
+	String sql = "SELECT * FROM matmaster WHERE Material_code = ? ORDER BY Material_code DESC";
 	pstmt = conn.prepareStatement(sql);
 	
-	pstmt.setString(1, first);
-	
-	rs = pstmt.executeQuery();
-	
-	if(!rs.next()) {
-		first = first + "-0001";
-	} else {
-		String recentData = rs.getString("Material_code");
-		String[] splitData = recentData.split("-");
-		int incrementedValue = Integer.parseInt(splitData[1]) + 1;
-		first = splitData[0] + "-" + String.format("%04d", incrementedValue);
+	boolean idFound = false;
+	while(!idFound){
+		pstmt.setString(1, first);
+		rs = pstmt.executeQuery();
+		
+		if(!rs.next()) {
+			idFound = true;
+		} else {
+			String recentData = rs.getString("Material_code");
+			String[] splitData = recentData.split("-");
+			int incrementedValue = Integer.parseInt(splitData[1]) + 1;
+			first = splitData[0] + "-" + String.format("%04d", incrementedValue);
+		}
 	}
 	out.print(first.trim());
 } catch(SQLException e){

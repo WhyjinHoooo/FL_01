@@ -5,23 +5,25 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<%@ include file="../mydbcon.jsp" %>
-<link rel="stylesheet" href="../css/style.css?after">
+<%@ include file="../../mydbcon.jsp" %>
+<link rel="stylesheet" href="../../css/PopUp.css?after">
 <title>Insert title here</title>
 </head>
 <body>
 <h1>검색</h1>
 <hr>
     <center>
-<div class="ComSearch-board">
-    <table>
-        <tr>
-            <th>코드</th><th>설명</th>
-        </tr>
+		<div class="Total_board">
+			<table class="TotalTable">
+				<thead>
+	        		<tr>
+	            		<th>코드</th><th>설명</th>
+	        		</tr>
+	        	</thead>
+	        	<tbody>
     <%
         try{
         String ComCode = request.getParameter("ComCode"); // URL에서 Com_Cd 값을 가져옴
-        System.out.println("ComCode111: " + ComCode); // ComCode 값을 console에 출력
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         String sql = "SELECT * FROM adjust WHERE Company = ?";
@@ -59,8 +61,9 @@
             e.printStackTrace();
         }
     %>
-    </table>    
-</div>    
+		    	</tbody>	
+		    </table>    
+		</div>    
     </center>
 </body>
 </html>

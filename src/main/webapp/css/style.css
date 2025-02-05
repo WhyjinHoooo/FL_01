@@ -1561,7 +1561,7 @@ table.ComInfoTable {
 		text-align: right;
 		letter-spacing: 0.1em;
 	}
-	.Mat-Body > .Mat-Area > .InfoInput:nth-child(-n+4) input:nth-child(2) {
+	.Mat-Body > .Mat-Area > .InfoInput:nth-child(-n+5) input:nth-child(2) {
 		margin: 0px 10px;
 		width: 150px;
 		text-align: center;
@@ -1576,11 +1576,6 @@ table.ComInfoTable {
 		width: 39.4%;
 		text-align: center;
 	}
-	.Mat-Body > .Mat-Area > .InfoInput:nth-child(5) select:nth-child(2) {
-		margin: 0px 10px;
-		width: 157px;
-		text-align: center;
-	}
 	.Mat-Body > .Mat-Area > .InfoInput:nth-child(n+6):nth-child(-n+7) input {
 		width: 35px;
 	}
@@ -1593,7 +1588,7 @@ table.ComInfoTable {
 	    height: 50px;
 	    display: flex;
 	    flex-direction: row;
-	    justify-content: space-between;
+	    justify-content: flex-end;
 	}
 	.Mat-Body > .BtnArea > button.InsertBtn {
 	    width: 10%;
@@ -1619,7 +1614,7 @@ table.ComInfoTable {
 	    background: darkgreen;
 	    width: 10%;
 	    height: 50px;
-	    margin-left: 79.68%;
+	    margin-left: 1%;
 	    color: white;
 	    font-weight: bold;
 	    border: 1px solid darkgreen;
@@ -1655,13 +1650,46 @@ table.ComInfoTable {
 	.Mat-Body > .Info-Area > table.InfoTable tbody{
 		table-layout: fixed;
 		display: block;
-		width: 100.3%;
+		width: 100.2%;
 		height: 90%;
 		max-height: 90%;
 		overflow-y: auto;
 	}
-	.Mat-Body > .Info-Area > table.InfoTable tbody td{
+	.Mat-Body > .Info-Area > table.InfoTable tbody td:empty{
 		padding: 8px 5.5px;
+		border: 1px solid #ddd;
+		width: 215px;
+		height: 10px;
+		text-align: center;
+		font-size: 10px;
+		font-weight: bold;
+	}
+	.Mat-Body > .Info-Area > table.InfoTable tbody td:not(:empty):first-child{
+		padding: 8px 0px;
+		border: 1px solid #ddd;
+		width: 215px;
+		height: 10px;
+		text-align: center;
+		font-size: 10px;
+		font-weight: bold;
+	}
+	.Mat-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2),
+	.Mat-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(3),
+	.Mat-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(4),
+	.Mat-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(5),
+	.Mat-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(6),
+	.Mat-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(7){
+		padding: 8px 1px;
+		border: 1px solid #ddd;
+		width: 215px;
+		height: 10px;
+		text-align: center;
+		font-size: 10px;
+		font-weight: bold;
+	}
+	.Mat-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(8),
+	.Mat-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(9){
+		padding: 8px 3px;
 		border: 1px solid #ddd;
 		width: 215px;
 		height: 10px;
@@ -1681,6 +1709,7 @@ table.ComInfoTable {
 		width: 120px;
 		font-size: 11px;
 	}
+	
 	.Mat-Body > .Info-Area > table.InfoTable tbody::-webkit-scrollbar {
 	    width: 5px;
 	}

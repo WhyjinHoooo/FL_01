@@ -5,19 +5,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<%@ include file="../mydbcon.jsp" %>
-<link rel="stylesheet" href="../css/style.css?after">
+<%@ include file="../../mydbcon.jsp" %>
+<link rel="stylesheet" href="../../css/PopUp.css?after">
 </head>
 
 <body>
 <h1>검색</h1>
 <hr>
 	<center>
-		<div class="ComSearch-board">
-			<table>
+		<div class="Total_board">
+			<table class="TotalTable">
+				<thead>
 			    <tr>
 			        <th>코드</th><th>설명</th>
 			    </tr>
+			    </thead>
+			    <tbody>
 			<%
 			    try {
 			        String matType = request.getParameter("matType");
@@ -66,8 +69,6 @@
 							           window.opener.document.querySelector('.matGroupCode').value = lv3Group;
 							           window.opener.document.querySelector('.matGroupDes').value = lv3Des;
 							           
-							           window.opener.console.log('Selected lv3Group ' + lv3Group + ', lv3Des ' + lv3Des);
-							           
 							           window.close();
 							       ">
 							       <%=rs.getString("Des") %>
@@ -82,6 +83,7 @@
 			        e.printStackTrace();
 			    }
 			%>
+				</tbody>
 			</table>	
 		</div>	
 	</center>

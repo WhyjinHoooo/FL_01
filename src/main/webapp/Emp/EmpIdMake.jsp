@@ -17,9 +17,7 @@ try{
 	
 	String sql = "SELECT * FROM emp WHERE EMPLOYEE_ID = ? ORDER BY EMPLOYEE_ID DESC";
 	pstmt = conn.prepareStatement(sql);
-	pstmt.setString(1, firstId);
-	
-	rs = pstmt.executeQuery();
+
     boolean idFound = false;
     while (!idFound) {
         pstmt.setString(1, firstId);

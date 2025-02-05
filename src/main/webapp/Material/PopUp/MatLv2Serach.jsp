@@ -5,19 +5,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<%@ include file="../mydbcon.jsp" %>
-<link rel="stylesheet" href="../css/style.css?after">
+<%@ include file="../../mydbcon.jsp" %>
+<link rel="stylesheet" href="../../css/PopUp.css?after">
 </head>
 
 <body>
 <h1>검색</h1>
 <hr>
 	<center>
-		<div class="ComSearch-board">
-			<table>
+		<div class="Total_board">
+			<table class="TotalTable">
+				<thead>
 			    <tr>
 			        <th>코드</th><th>설명</th>
 			    </tr>
+			    </thead>
+			    <tbody>
 			<%
 			    try {
 			        String matType = request.getParameter("matType");
@@ -68,16 +71,11 @@
 							           var Array = existingDes.split(',');
 							           var length = Array.length;
 							           
-							           window.opener.console.log('2Lv-Array ', Array);
-							           window.opener.console.log('2Lv-length ' + length);
-							           
 							           if(Array == 1){
 							               existingDesField.value = existingDes + ', ' + lv2Des;
 							           } else {
 							               existingDesField.value = Array[0] + ', ' + lv2Des
 							           }
-							           
-							           window.opener.console.log('Selected lv2Group ' + lv2Group + ', lv2Des ' + lv2Des);
 							           
 							           window.close();
 							       ">
@@ -93,6 +91,7 @@
 			        e.printStackTrace();
 			    }
 			%>
+				</tbody>
 			</table>	
 		</div>	
 	</center>
