@@ -19,16 +19,16 @@
 	LocalDateTime now = LocalDateTime.now();
 	String formattedNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	
-	String ccg = saveListData.getString("CCG");/* request.getParameter("CCG"); */
-	String Des = saveListData.getString("Des");/* request.getParameter("Des"); */
+	String ccg = saveListData.getString("CCG");
+	String Des = saveListData.getString("Des");
 	
-	String ComCode = saveListData.getString("ComCode");/* request.getParameter("ComCode"); */
-	String tccg = saveListData.getString("Com_Name");/* request.getParameter("Com_Name"); */
+	String ComCode = saveListData.getString("ComCode");
+	String tccg = saveListData.getString("Com_Name");
 	
-	int level = Integer.parseInt(saveListData.getString("CCTR-level"));/* request.getParameter("CCTR-level")); */
-	String Upper = saveListData.getString("Upper-CCT-Group");/* request.getParameter("Upper-CCT-Group"); */
+	int level = Integer.parseInt(saveListData.getString("CCTR-level"));
+	String Upper = saveListData.getString("Upper-CCT-Group");
 	
-	boolean Use = Boolean.parseBoolean(saveListData.getString("Use-Useless"));/* request.getParameter("Use-Useless")); */
+	boolean Use = Boolean.parseBoolean(saveListData.getString("Use-Useless"));
 	
 	int Id1 = 17011381;
 	int Id2 = 76019202;

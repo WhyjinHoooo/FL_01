@@ -10,50 +10,38 @@
 <link rel="stylesheet" href="../css/style.css?after">
 <title>Vendor Master 등록</title>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script type='text/javascript'>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
 function execDaumPostcode() {
     new daum.Postcode({
         oncomplete: function(data) {
-            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+            var addr = '';
+            var extraAddr = '';
 
-            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-            var addr = ''; // 주소 변수
-            var extraAddr = ''; // 참고항목 변수
-
-            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+            if (data.userSelectedType === 'R') {
                 addr = data.roadAddress;
-            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+            } else {
                 addr = data.jibunAddress;
             }
 
-            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
             if(data.userSelectedType === 'R'){
-                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
                 if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
                     extraAddr += data.bname;
                 }
-                // 건물명이 있고, 공동주택일 경우 추가한다.
                 if(data.buildingName !== '' && data.apartment === 'Y'){
                     extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
                 }
-                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
                 if(extraAddr !== ''){
                     extraAddr = ' (' + extraAddr + ')';
                 }
-                // 조합된 참고항목을 해당 필드에 넣는다.
                 document.getElementById("ExtraAddress").value = extraAddr;
             
             } else {
                 document.getElementById("ExtraAddress").value = '';
             }
 
-            // 우편번호와 주소 정보를 해당 필드에 넣는다.
             document.getElementById('Postcode').value = data.zonecode;
             document.getElementById("Address").value = addr;
-            // 커서를 상세주소 필드로 이동한다.
             document.getElementById("DetailAddress").focus();
         }
     }).open();
@@ -62,26 +50,21 @@ function execDaumPostcode() {
 function InfoSearch(field){
 	var popupWidth = 500;
     var popupHeight = 600;
-    
-    // 현재 활성화된 모니터의 위치를 감지
+
     var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
     var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
-    
-    // 전체 화면의 크기를 감지
+
     var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
     var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
     var xPos, yPos;
     
     if (width == 2560 && height == 1440) {
-        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
         xPos = (2560 / 2) - (popupWidth / 2);
         yPos = (1440 / 2) - (popupHeight / 2);
     } else if (width == 1920 && height == 1080) {
-        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
         xPos = (1920 / 2) - (popupWidth / 2);
         yPos = (1080 / 2) - (popupHeight / 2);
     } else {
-        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
         var monitorWidth = 2560;
         var monitorHeight = 1440;
         xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
@@ -90,138 +73,162 @@ function InfoSearch(field){
     
     switch(field){
     case "ComSearch":
-    	window.open("${contextPath}/Information/ComSearch.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	window.open("${contextPath}/Information/CompanySerach.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     	break;
     case "NationSearch":
     	window.open("${contextPath}/Information/NationSearch.jsp", "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     	break;
     }
 }
+$(document).ready(function(){
+	var ChkList = {};
+	$('.Info-input-btn').click(function(){
+		event.preventDefault();
+		$('.KeyInfo').each(function(){
+			var Name = $(this).attr('name');
+			var Value;
+			if ($(this).attr('type') === 'radio') {
+		        Value = $('input[name="' + Name + '"]:checked').val();
+		    } else {
+		        Value = $(this).val();
+		    }
+			ChkList[Name] = Value;
+		})
+		console.log(ChkList);
+		var pass = true;
+		$.each(ChkList, function(key, value){
+			if(value == null || value ===''){
+				pass = false;
+				return false;
+			}
+		})
+		if(!pass){
+			alert('모든 항목을 입력해주세요.');
+		}else{
+			$.ajax({
+				url:'${contextPath}/Vendor/Vendor_Regist_Ok.jsp',
+				type: 'POST',
+				data: JSON.stringify(ChkList),
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				success: function(data){
+					console.log(data);
+					if(data.status === 'Success'){
+						$('.KeyInfo').each(function(){
+							var name = $(this).attr('name');
+							if(name === 'ComCode' || name === 'NationCode'){
+								$(this).val('');
+						        $(this).attr('placeholder', 'SELECT');
+							} else if(name === 'AddrCode'){
+								$(this).val('');
+						        $(this).attr('placeholder', '우편번호');
+							} else if(name === 'Addr'){
+								$(this).val('');
+						        $(this).attr('placeholder', '주소');
+							} else if(name === 'AddrDetail'){
+								$(this).val('');
+						        $(this).attr('placeholder', '상세주소');
+							} else if(name === 'Deal'){
+								$(this).find('option:first').prop('selected', true);
+							} else {
+								$(this).val('');
+							}
+						})
+					}else{
+						alert('다시 입력해주세요.');
+					}
+				},
+			    error: function(jqXHR, textStatus, errorThrown) {
+			        console.log("AJAX Error: " + textStatus + ' : ' + errorThrown);
+			    }
+			});
+		}
+	})
+})
 </script>
 </head>
 <body>
-	<h1>Vendor Master 등록</h1>
-	<hr>
 	<jsp:include page="../HeaderTest.jsp"></jsp:include>
-	<center>
-		<form id="vendorRegistform" name="vendorRegistform" method="post" action="Vendor_Regist_Ok.jsp" enctype="UTF-8">
-			<div class="ven-main-info">
-				<div class="table-container">
-					<table>
-						<tr><th class="info">Company Code : </th>
-							<td class="input-info">
-								<input type="text" name="ComCode" class="Com-code" size="10" onclick="InfoSearch('ComSearch')" readonly>
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">Vendor Code : </th>
-							<td class="input-info">
-								<input type="text" name="vendorInput" class="vendorInput" size="10">
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">Description : </th>
-							<td class="input-info">
-								<input type="text" name="vendorDes" class="vendorDes" size="60">
-							</td>
-						</tr>
-					</table>
+	<center class="testCenter">
+		<div class="ven-main-info">
+			<div class="table-container">
+				<div class="InfoInput">
+					<label>Vendor Code : </label>
+					<input type="text" name="vendorInput" class="vendorInput KeyInfo">
+				</div>
+				<div class="InfoInput">
+					<label>Description : </label>
+					<input type="text" name="vendorDes" class="vendorDes KeyInfo">
 				</div>
 			</div>
-			
-			<input class="Info-input-btn" id="btn" type="submit" value="Insert">
-			
-			<div class="ven-sub-info">
-				<div class="table-container">
-					<table>
-						<tr><th class="info">Nationality : </th>
-							<td class="input-info">
-								<input type="text" name="NationCode" id="NationCode" class="NationCode" size="10" onclick="InfoSearch('NationSearch')" readonly>
-								<input type="text" name="NationDes" id="NationDes" class="NationDes" size="41">
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">Postal Code : </th>
-							<td class="input-info">
-								<input type="text" class="AddrCode NewAddr" name="AddrCode" id="Postcode" placeholder="우편번호" readonly>
-						        <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기">
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">Address : </th>
-							<td class="input-info">
-						        <div>
-						            <input type="text" class="Addr NewAddr" name="Addr" id="Address" placeholder="주소">
-						        </div>
-						        <div>
-						            <input type="text" class="AddrDetail NewAddr" name="AddrDetail" id="DetailAddress" placeholder="상세주소" required>
-						        </div>
-						        <div>
-						            <input type="text" class="AddrRefer NewAddr" id="ExtraAddress" placeholder="참고항목" hidden>
-						        </div>
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">대표 전화번호 : </th>
-							<td class="input-info">
-								<input type="text" name="RepPhone" class="RepPhone" size="10">
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">대표자 성명 : </th>
-							<td class="input-info">
-								<input type="text" name="RepName" class="RepName" size="10">
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">거래 구분 : </th>
-							<td class="input-info">
-								<input type="radio" name="Deal" class="Deal1" value="true" checked>매입
-								<input type="radio" name="Deal" class="Deal2" value="false">매출
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">사업자 번호 : </th>
-							<td class="input-info">
-								<input type="text" name="PhoneNum" class="PhoneNum" size="10">
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">업태코드 : </th>
-							<td class="input-info">
-								<input type="text" name="UptaCode" class="UptaCode" size="10">
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">업종코드 : </th>
-							<td class="input-info">
-								<input type="text" name="BusinessCode" class="BusinessCode" size="10">
-							</td>
-						</tr>
-					</table>
+		</div>
+		
+		<button class="Info-input-btn" id="btn">Insert</button>
+		
+		<div class="ven-sub-info">
+			<div class="table-container">
+				<div class="InfoInput">
+					<label>Company Code : </label>
+					<input type="text" name="ComCode" class="ComCode KeyInfo" onclick="InfoSearch('ComSearch')" placeholder="SELECT" readonly>
+					<input type="text" name="Com_Name" class="Com_Name KeyInfo" readonly>
+				</div>
+					
+				<div class="InfoInput">	
+					<label>Nationality : </label>
+					<input type="text" name="NationCode" id="NationCode" class="NationCode KeyInfo" onclick="InfoSearch('NationSearch')" placeholder="SELECT" readonly>
+					<input type="text" name="NationDes" id="NationDes" class="NationDes KeyInfo" readonly>
+				</div>
+					
+				<div class="InfoInput">	
+					<label>Postal Code : </label>
+					<input type="text" class="AddrCode NewAddr KeyInfo" name="AddrCode" id="Postcode" placeholder="우편번호" readonly>
+					<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기">
+				</div>
+					
+				<div class="InfoInput">
+					<label>Address : </label>
+					<div class="ForAddrColumn">
+						<input type="text" class="Addr NewAddr KeyInfo" name="Addr" id="Address" placeholder="주소">
+						<input type="text" class="AddrDetail NewAddr KeyInfo" name="AddrDetail" id="DetailAddress" placeholder="상세주소" required>
+						<input type="text" class="AddrRefer NewAddr" id="ExtraAddress" placeholder="참고항목" hidden>
+					</div>
+				</div>
+					
+				<div class="InfoInput">
+					<label>대표 전화번호 : </label>
+					<input type="text" name="RepPhone" class="RepPhone KeyInfo">
+				</div>
+					
+				<div class="InfoInput">
+					<label>대표자 성명 : </label>
+					<input type="text" name="RepName" class="RepName KeyInfo">
+				</div>
+				
+				<div class="InfoInput">
+					<label>거래 구분 : </label>
+					<input type="radio" name="Deal" class="Deal KeyInfo" value="true" checked>매입
+					<input type="radio" name="Deal" class="Deal KeyInfo" value="false">매출
+				</div>
+				
+				<div class="InfoInput">
+					<label>사업자 번호 : </label>
+					<input type="text" name="PhoneNum" class="PhoneNum KeyInfo">
+				</div>
+				
+				<div class="InfoInput">	
+					<label>업태코드 : </label>
+					<input type="text" name="UptaCode" class="UptaCode KeyInfo">
+				</div>
+				
+				<div class="InfoInput">	
+					<label>업종코드 : </label>
+					<input type="text" name="BusinessCode" class="BusinessCode KeyInfo">
 				</div>
 			</div>
-		</form>
+		</div>
 	</center>
+	<footer>
+		<img id="logo" name="Logo" src="${contextPath}/img/White_Logo.png" alt="">
+	</footer>
 </body>
 </html>

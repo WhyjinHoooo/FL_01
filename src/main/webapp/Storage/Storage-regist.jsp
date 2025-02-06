@@ -12,23 +12,9 @@
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
-<script type='text/javascript'>
-window.addEventListener('DOMContentLoaded', (event) => {
-    const comCodeInput = document.querySelector('.ComCode');
-    const comNameInput = document.querySelector('.Com_Name');
-    const plantSelectInput = document.querySelector('.Plant_Select');
-    const plantNameInput = document.querySelector('.Plant_Name');
-
-    const resetPlantInputs = () => {
-        plantSelectInput.value = '';
-        plantNameInput.value = '';
-    };
-
-    comCodeInput.addEventListener('change', resetPlantInputs);
-    comNameInput.addEventListener('change', resetPlantInputs);
-});
+<script>
 function InfoSearch(field){
-	var popupWidth = 1000;
+	var popupWidth = 500;
     var popupHeight = 600;
     
     // 현재 활성화된 모니터의 위치를 감지
@@ -70,93 +56,152 @@ function InfoSearch(field){
 		break;
 	}
 }
+$(document).ready(function(){
+	$('.ComCode').change(function(){
+		$('.Plant_Select').val('');
+		$('.Plant_Name').val('');
+		$('.Plant_Select').attr('placeholder','SELECT')
+	})
+	var ChkList = {};
+	$('.Info-input-btn').click(function(){
+		event.preventDefault();
+		$('.KeyInfo').each(function(){
+			var Name = $(this).attr('name');
+			var Value;
+			if ($(this).attr('type') === 'radio') {
+		        Value = $('input[name="' + Name + '"]:checked').val();
+		    } else {
+		        Value = $(this).val();
+		    }
+			ChkList[Name] = Value;
+		})
+		console.log(ChkList);
+		var pass = true;
+		$.each(ChkList, function(key, value){
+			if(value == null || value ===''){
+				pass = false;
+				return false;
+			}
+		})
+		if(!pass){
+			alert('모든 항목을 입력해주세요.');
+		}else{
+			$.ajax({
+				url:'${contextPath}/Storage/Storage-regist-Ok.jsp',
+				type: 'POST',
+				data: JSON.stringify(ChkList),
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				async: false,
+				success: function(data){
+					console.log(data.status);
+					if(data.status === 'Success'){
+						$('.KeyInfo').each(function(){
+							var name = $(this).attr('name');
+							if(name === 'ComCode' || name === 'Plant_Select' || name === 'Stor_Code'){
+								$(this).val('');
+						        $(this).attr('placeholder', 'SELECT');
+							} else if(name === 'Rack_YN' || name === 'Bin_YN' || name === 'Code_YN'){
+								$(this).find('option:first').prop('selected', true);
+							} else {
+								$(this).val('');
+							}
+						})
+					}else{
+						alert('다시 입력해주세요.');
+					}
+				}
+			});
+		}
+	})
+})
 </script>
 <body>
-	<h1>Storage Location 등록</h1>
-	<hr>
 	<jsp:include page="../HeaderTest.jsp"></jsp:include>
-	<center>
-		<form id="StorageResgistForm" name="StorageResgistForm" action="Storage-regist-Ok.jsp" method="post" enctype="UTF-8">
-			<div class="storage-main-info">
-				<div class="table-container">
-					<table>
-						<tr><th class="info">StorageLocal ID : </th>
-							<td class="input-info">
-								<input type="text" class="Storage_Id" name="Storage_Id" size="10">
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">Description : </th>
-							<td class="input-info">
-								<input type="text" class="Des" name="Des" size="50">
-							</td>
-						</tr>
-					</table>
-				</div>
+	<center class="testCenter">
+	<!-- <form id="StorageResgistForm" name="StorageResgistForm" action="Storage-regist-Ok.jsp" method="post" enctype="UTF-8"> -->
+		<div class="storage-main-info">
+			<div class="table-container">
+				<table>
+					<tr><th class="info">StorageLocal ID : </th>
+						<td class="input-info">
+							<input type="text" class="Storage_Id KeyInfo" name="Storage_Id" size="10">
+						</td>
+					</tr>
+					
+					<tr class="spacer-row"></tr>
+					
+					<tr><th class="info">Description : </th>
+						<td class="input-info">
+							<input type="text" class="Des KeyInfo" name="Des" size="50">
+						</td>
+					</tr>
+				</table>
 			</div>
-			
-			<input class="Info-input-btn" id="btn" type="submit" value="Insert">
-			
-			<div class="storage-sub-info">
-				<div class="table-container">
-					<table>
-						<tr><th class="info">Company Code : </th>
-							<td class="input-info">
-								<input type="text" class="ComCode" name="ComCode" onclick="InfoSearch('ComSearch')" placeholder="선택" readonly>
-								<input type="text" class="Com_Name" name="Com_Name" readonly>
-							</td>	
-						</tr>
+		</div>
+		
+		<button class="Info-input-btn" id="btn">Insert</button>
+		
+		<div class="storage-sub-info">
+			<div class="table-container">
+				<table>
+					<tr><th class="info">Company Code : </th>
+						<td class="input-info">
+							<input type="text" class="ComCode KeyInfo" name="ComCode" onclick="InfoSearch('ComSearch')" placeholder="선택" readonly>
+						<input type="text" class="Com_Name KeyInfo" name="Com_Name" readonly>
+					</td>	
 
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">Plant : </th>
-							<td class="input-info">
-								<input type="text" class="Plant_Select" name="Plant_Select" onclick="InfoSearch('PlantSearch')" placeholder="선택" readonly>
-								<input type="text" class="Plant_Name" name="Plant_Name" readonly>
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">Storage Location Type : </th>
-							<td class="input-info">
-							<input type="text" class="Stor_Code" name="Stor_Code" placeholder="선택" onclick="InfoSearch('StorageSearch')" readonly>
-								<input type="text" class="Stor_Des" name="Stor_Des" readonly>
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">Rack 사용 여부 : </th>
-							<td class="input-info">
-								<input type="radio" name="Rack_YN" value="true" checked>사용
-								<input type="radio" name="Rack_YN" value="false">미사용
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">Bin 사용 여부 : </th>
-							<td class="input-info">
-								<input type="radio" name="Bin_YN" value="true" checked>사용
-								<input type="radio" name="Bin_YN" value="false">미사용
-							</td>
-						</tr>
-						
-						<tr class="spacer-row"></tr>
-						
-						<tr><th class="info">창고코드 사용 여부 : </th>
-							<td class="input-info">
-								<input type="radio" name="Code_YN" value="true" checked>사용
-								<input type="radio" name="Code_YN" value="false">미사용
-							</td>
-						</tr>
-					</table>
-				</div>
+					</tr>
+					<tr class="spacer-row"></tr>
+					
+					<tr><th class="info">Plant : </th>
+						<td class="input-info">
+							<input type="text" class="Plant_Select KeyInfo" name="Plant_Select" onclick="InfoSearch('PlantSearch')" placeholder="선택" readonly>
+							<input type="text" class="Plant_Name KeyInfo" name="Plant_Name" readonly>
+						</td>
+					</tr>
+					
+					<tr class="spacer-row"></tr>
+					
+					<tr><th class="info">Storage Location Type : </th>
+						<td class="input-info">
+						<input type="text" class="Stor_Code KeyInfo" name="Stor_Code" placeholder="선택" onclick="InfoSearch('StorageSearch')" readonly>
+							<input type="text" class="Stor_Des KeyInfo" name="Stor_Des" readonly>
+						</td>
+					</tr>
+					
+					<tr class="spacer-row"></tr>
+					
+					<tr><th class="info">Rack 사용 여부 : </th>
+						<td class="input-info">
+							<input type="radio" class="Rack_YN KeyInfo" name="Rack_YN" value="true" checked>사용
+							<input type="radio" class="Rack_YN KeyInfo"name="Rack_YN" value="false">미사용
+						</td>
+					</tr>
+					
+					<tr class="spacer-row"></tr>
+					
+					<tr><th class="info">Bin 사용 여부 : </th>
+						<td class="input-info">
+							<input type="radio" class="Bin_YN KeyInfo" name="Bin_YN" value="true" checked>사용
+							<input type="radio" class="Bin_YN KeyInfo" name="Bin_YN" value="false">미사용
+						</td>
+					</tr>
+					
+					<tr class="spacer-row"></tr>
+					
+					<tr><th class="info">창고코드 사용 여부 : </th>
+						<td class="input-info">
+							<input type="radio" class="Code_YN KeyInfo"name="Code_YN" value="true" checked>사용
+							<input type="radio" class="Code_YN KeyInfo"name="Code_YN" value="false">미사용
+						</td>
+					</tr>
+				</table>
 			</div>
-		</form>
+		</div>
 	</center>
+	<footer>
+		<img id="logo" name="Logo" src="${contextPath}/img/White_Logo.png" alt="">
+	</footer>
 </body>
 </html>

@@ -1,47 +1,50 @@
+<%@page import="org.json.JSONObject"%>
+<%@page import="java.io.BufferedReader"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDateTime"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 <%@ include file="../mydbcon.jsp" %>
-</head>
-<body>
 <%
-	request.setCharacterEncoding("UTF-8");
-	LocalDateTime now = LocalDateTime.now();
-	String Time = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-	
-	String Id = request.getParameter("Storage_Id");
-	String Des = request.getParameter("Des");
-	
-	String ComCode = request.getParameter("ComCode");
-	String ComName = request.getParameter("Com_Name");
-	
-	String PlantCode = request.getParameter("Plant_Select");
-	String PlantName = request.getParameter("Plant_Name");
-	
-	String LocaType = request.getParameter("Stor_Code");
-	String LocaName = request.getParameter("Stor_Des"); 
-	
-	Boolean Rack = Boolean.parseBoolean(request.getParameter("Rack_YN"));
-	
-	Boolean Bin = Boolean.parseBoolean(request.getParameter("Bin_YN"));
-	
-	Boolean UseYN = Boolean.parseBoolean(request.getParameter("Code_YN"));
-	
-	int id1 = 17011381;
-	int id2 = 76019202;
-	
-	String sql = "INSERT INTO storage VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	
-	PreparedStatement pstmt = conn.prepareStatement(sql);
-	
+	StringBuilder jsonString = new StringBuilder();
+	String line = null;
+	try (BufferedReader reader = request.getReader()) {
+	    while ((line = reader.readLine()) != null) {
+	        jsonString.append(line);
+	    }
+	}
 	try{
+		JSONObject saveListData = new JSONObject(jsonString.toString());
+		LocalDateTime now = LocalDateTime.now();
+		String Time = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		
+		String Id = saveListData.getString("Storage_Id");
+		String Des = saveListData.getString("Des");
+		
+		String ComCode = saveListData.getString("ComCode");
+		String ComName = saveListData.getString("Com_Name");
+		
+		String PlantCode = saveListData.getString("Plant_Select");
+		String PlantName = saveListData.getString("Plant_Name");
+		
+		String LocaType = saveListData.getString("Stor_Code");
+		String LocaName = saveListData.getString("Stor_Des"); 
+		
+		Boolean Rack = Boolean.parseBoolean(saveListData.getString("Rack_YN"));
+		
+		Boolean Bin = Boolean.parseBoolean(saveListData.getString("Bin_YN"));
+		
+		Boolean UseYN = Boolean.parseBoolean(saveListData.getString("Code_YN"));
+		
+		int id1 = 17011381;
+		int id2 = 76019202;
+		
+		String sql = "INSERT INTO storage VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+	
+
 		pstmt.setString(1, Id);
 		pstmt.setString(2, Des);
 		pstmt.setString(3, ComCode);
@@ -59,23 +62,13 @@
 		pstmt.setInt(15, id2);
 		
 		pstmt.executeUpdate();
-		response.sendRedirect("Storage-regist.jsp");
+		JSONObject Result = new JSONObject();
+		Result.put("status", "Success");
+		
+	    response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(Result.toString());
 	}catch(SQLException e){
 		e.printStackTrace();
-        out.println("<script>");
-        out.println("alert('등록에 실패하였습니다. 다시 시도해주세요.');");
-        out.println("history.back();");
-        out.println("</script>");		
-	} finally{
-		try{
-			if(pstmt != null && !pstmt.isClosed()){
-				pstmt.close();
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}
 	}
-	conn.close();
 %>
-</body>
-</html>

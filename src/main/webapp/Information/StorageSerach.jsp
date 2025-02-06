@@ -6,18 +6,21 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../mydbcon.jsp" %>
-<link rel="stylesheet" href="../css/style.css?after">
+<link rel="stylesheet" href="../css/PopUp.css?after">
 </head>
 
 <body>
 <h1>검색</h1>
 <hr>
 	<center>
-		<div class="ComSearch-board">
-			<table>
-			    <tr>
-			        <th>코드</th><th>설명</th>
-			    </tr>
+		<div class="Total_board">
+			<table class="TotalTable">
+				<thead>
+				    <tr>
+				        <th>코드</th><th>설명</th>
+				    </tr>
+			    </thead>
+			    <tbody>
 			<%
 			    try{
 			    String sql = "SELECT * FROM warehouse ORDER BY code ASC";
@@ -31,8 +34,16 @@
 			        
 			%>
 			    <tr>
-			        <td><%=rs.getString("code") %></td>
-			        <td><a href="javascript:void(0)" onClick="window.opener.document.querySelector('.Stor_Code').value='<%=rs.getString("code")%>'; window.opener.document.querySelector('.Stor_Code').dispatchEvent(new Event('change')); window.opener.document.querySelector('.Stor_Des').value='<%=rs.getString("name")%>'; window.close();"><%=rs.getString("name") %></a></td>
+			        <td>
+			        	<a href="javascript:void(0)" onClick="
+			        	window.opener.document.querySelector('.Stor_Code').value='<%=rs.getString("code")%>';
+			        	window.opener.document.querySelector('.Stor_Des').value='<%=rs.getString("name")%>';
+			        	window.opener.document.querySelector('.Stor_Code').dispatchEvent(new Event('change'));
+			        	window.close();">
+			        		<%=rs.getString("code") %>
+			        	</a>
+			        </td>
+			        <td><%=rs.getString("name") %></td>
 			    </tr>
 			<%  
 			    }
@@ -40,6 +51,7 @@
 			        e.printStackTrace();
 			    }
 			%>
+				</tbody>
 			</table>	
 		</div>	
 	</center>
