@@ -45,8 +45,9 @@
 		                <tr>
 		                    <td>
 		                    	<a href="javascript:void(0)" onClick="
-		                    		window.opener.document.querySelector('.Plant_Select').value='<%=rs.getString("PLANT_ID")%>';
-		                    		window.opener.document.querySelector('.Plant_Name').value='<%=rs.getString("PLANT_NAME")%>';
+		                    		window.opener.document.querySelector('.PlantCode').value='<%=rs.getString("PLANT_ID")%>';
+		                    		window.opener.document.querySelector('.PlantDes').value='<%=rs.getString("PLANT_NAME")%>';
+		                    		window.opener.document.querySelector('.PlantCode').dispatchEvent(new Event('change'));
 		                    		window.close();">
 		                    		<%=rs.getString("PLANT_ID") %>
 		                    	</a>

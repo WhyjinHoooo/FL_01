@@ -385,8 +385,5 @@ function InfoSearch(field){
 		</div>
 	</div>
 </div>
-<footer>
-	<img id="logo" name="Logo" src="${contextPath}/img/White_Logo.png" alt="">
-</footer>
 </body>
 </html>

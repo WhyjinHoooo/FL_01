@@ -464,11 +464,8 @@ $(document).ready(function(){
 		console.log("수정한 ItemNumber : " + EditItemNum);
 		$(".ItemNum").val(EditItemNum);
 	});
-}); //$(document).ready(function(){...}의 끝
-
+});
 </script>
-<!-- --------------------------------- -->
-
 <%
 	request.setCharacterEncoding("UTF-8");
 	LocalDateTime today = LocalDateTime.now();

@@ -156,8 +156,8 @@ $(document).ready(function(){
 					
 					<tr><th class="info">Plant : </th>
 						<td class="input-info">
-							<input type="text" class="Plant_Select KeyInfo" name="Plant_Select" onclick="InfoSearch('PlantSearch')" placeholder="선택" readonly>
-							<input type="text" class="Plant_Name KeyInfo" name="Plant_Name" readonly>
+							<input type="text" class="PlantCode KeyInfo" name="PlantCode" onclick="InfoSearch('PlantSearch')" placeholder="선택" readonly>
+							<input type="text" class="PlantDes KeyInfo" name="PlantDes" readonly>
 						</td>
 					</tr>
 					
