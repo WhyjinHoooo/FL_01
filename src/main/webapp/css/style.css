@@ -860,6 +860,7 @@ table.ComInfoTable {
 	    text-align: center;
 		font-size: x-large;
 		padding: 5px;
+		letter-spacing: 1rem;
 	}
 	.MatOrder-Header {
 	    border: 1px solid #89CFF0;
@@ -969,7 +970,7 @@ table.ComInfoTable {
 	    flex-direction: row;
 	    justify-content: flex-end;
     }
-	.MatOrder-Body > .BtnArea > button.InsertBtn {
+	.MatOrder-Body > .BtnArea > button.ResetBtn {
 	    width: 10%;
 	    height: 50px;
 	    background: darkred;
@@ -979,44 +980,65 @@ table.ComInfoTable {
 		padding: 5px;
 		border-radius: 10px;
 	}
-	.MatOrder-Body > .BtnArea > button.InsertBtn:hover{
+	.MatOrder-Body > .BtnArea > button.ResetBtn:hover{
 		background: #FA8072;
 		color: #fff;
 		border: 1px solid #FA8072;
 	}
-	.MatOrder-Body > .BtnArea > button.InsertBtn:active {
+	.MatOrder-Body > .BtnArea > button.ResetBtn:active {
 		background: #FA8072;
 		color: black;
 		border: 1px solid #FA8072;
 	}	
-	.MatOrder-Body > .BtnArea > button.ResetBtn {
-	    background: darkgreen;
+	.MatOrder-Body > .BtnArea > button.InsertBtn {
+	    background: DarkBlue;
 	    width: 10%;
 	    height: 50px;
 	    margin-left: 1%;
+	    color: white;
+	    font-weight: bold;
+	    border: 1px solid DarkBlue;
+		padding: 5px;
+		border-radius: 10px;
+	}
+	.MatOrder-Body > .BtnArea > button.InsertBtn:hover {
+		background: #B0E0E6;
+		color: #fff;
+		border: 1px solid #B0E0E6;
+	}
+	.MatOrder-Body > .BtnArea > button.InsertBtn:active {
+		background: #B0E0E6;
+		color: black;
+		border: 1px solid #B0E0E6;
+	}
+    .MatOrder-Body > .BtnArea > button.SavetBtn {
+	    background: darkgreen;
+	    width: 10%;
+	    height: 50px;
+	    margin: 0% 1%;
 	    color: white;
 	    font-weight: bold;
 	    border: 1px solid darkgreen;
 		padding: 5px;
 		border-radius: 10px;
 	}
-	.MatOrder-Body > .BtnArea > button.ResetBtn:hover {
+	.MatOrder-Body > .BtnArea > button.SavetBtn:hover {
 		background: #32CD32;
 		color: #fff;
 		border: 1px solid #32CD32;
 	}
-	.MatOrder-Body > .BtnArea > button.ResetBtn:active {
+	.MatOrder-Body > .BtnArea > button.SavetBtn:active {
 		background: #32CD32;
 		color: black;
 		border: 1px solid #32CD32;
 	}
-    
+	
 	.MatOrder-Body > .Mat-Area {
         border: 1px solid #89CFF0;
         height: 30%;
     }
 	.MatOrder-Body > .Info-Area {
-        border: 1px solid #89CFF0;
+        border: 2px solid #89CFF0;
         height: 55.5%;
         margin-top: 2%;
     }
@@ -1038,6 +1060,7 @@ table.ComInfoTable {
         height: 81.5%;
         max-height: 90%;
         overflow-y: auto;
+        overflow-x: auto;
     }
 	.MatOrder-Body > .Info-Area > table.InfoTable thead > tr > th{
 		background-color: rgb(111, 167, 235);
@@ -1060,6 +1083,112 @@ table.ComInfoTable {
 		font-size: 10px;
 		font-weight: bold;
 	}
+	
+	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:not(:empty) {
+	    padding: 8px 5.5px;
+	    border: 1px solid #ddd;
+	    width: 120px;
+	    height: 10px;
+	    text-align: center;
+	    font-size: 10px;
+	    font-weight: bold;
+	}
+	
+	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(1) {
+	    width: 124px;
+	}
+	
+	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) {
+	    padding: 0px;
+	    width: 115px;
+	}
+	
+	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) > button.DeleteBtn {
+	    background: darkgray;
+        color: white;
+        width: 112px;
+        height: 50px;
+        font-weight: bold;
+        border-radius: 10px;
+        border: darkgray;
+	}
+	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) > button.DeleteBtn:hover {
+		background:  #7A7A7A;
+		color: #fff;
+		border: 1px solid  #7A7A7A;
+	}
+	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) > button.DeleteBtn:click {
+		background: #5A5A5A;
+		color: #fff;
+		border: 1px solid #5A5A5A;
+	}
+	
+	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(3) {
+	    padding: 8px 3px;
+	    width: 107px;
+	}
+	
+	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(4) {
+	    padding: 8px 7px;
+	}
+	
+	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(5) {
+	    padding: 8px 6px;
+	    width: 110px;
+	}
+	
+	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(6) {
+	    padding: 8px 0px;
+	}
+	
+	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(12) {
+	    padding: 8px 4px;
+	}
+	
+	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(15) {
+	    padding: 8px 5px;
+	}
+	
+	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(16) {
+	    width: 127px;
+	}
+
+/* 	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:empty:first-child{ */
+/* 		padding: 8px 4px; */
+/* 		border: 1px solid #ddd; */
+/* 		width: 215px; */
+/* 		height: 10px; */
+/* 		text-align: center; */
+/* 		font-size: 10px; */
+/* 		font-weight: bold; */
+/* 	} */
+/* 	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(5){ */
+/* 		padding: 8px 8px; */
+/* 		border: 1px solid #ddd; */
+/* 		width: 215px; */
+/* 		height: 10px; */
+/* 		text-align: center; */
+/* 		font-size: 10px; */
+/* 		font-weight: bold; */
+/* 	} */
+/* 	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(8){ */
+/* 		padding: 8px 5.5px; */
+/* 		border: 1px solid red; */
+/* 		width: 215px; */
+/* 		height: 10px; */
+/* 		text-align: center; */
+/* 		font-size: 10px; */
+/* 		font-weight: bold; */
+/* 	} */
+/* 	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(n+5):nth-child(-n+14){ */
+/* 		padding: 8px 5.5px; */
+/* 		border: 1px solid red; */
+/* 		width: 215px; */
+/* 		height: 10px; */
+/* 		text-align: center; */
+/* 		font-size: 10px; */
+/* 		font-weight: bold; */
+/* 	} */
 	.MatOrder-Body > .Info-Area > table.InfoTable tbody::-webkit-scrollbar {
 	    width: 5px;
 	}

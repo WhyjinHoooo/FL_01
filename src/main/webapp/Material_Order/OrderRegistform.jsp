@@ -124,14 +124,14 @@ $(document).ready(function(){
 		var UserId = $('.UserID').val();
 		$('.InfoTable-Body').empty();
 		for (let i = 0; i < 20; i++) {
-            const row = $('<tr></tr>'); // 새로운 <tr> 생성
-            // 34개의 빈 <td> 요소 추가 (3개의 헤더 항목 이후 31일치 데이터)
-            for (let j = 0; j < 16; j++) {
-                row.append('<td></td>');
-            }
-            // 생성한 <tr>을 <tbody>에 추가
-            $('.InfoTable-Body').append(row);
-        }
+	        const row = $('<tr></tr>'); // 새로운 <tr> 생성
+	        // 16개의 <td> 요소 추가, 각각에 해당하는 텍스트 콘텐츠 입력
+	        for (let j = 0; j < 16; j++) {
+	            row.append('<td></td>');
+	        }
+	        // 생성한 <tr>을 <tbody>에 추가
+	        $('.InfoTable-Body').append(row);
+	    }
 		$.ajax({
 			url:'${contextPath}/Material_Order/AjaxSet/ForPlant.jsp',
 			type:'POST',
@@ -188,10 +188,9 @@ $(document).ready(function(){
 		console.log('Storage Code : ' + Code);
 		$.ajax({
 			type: "POST",
-			url: "${contextPath}/AjaxSet/Material_Order/StorageCodeFind.jsp",
+			url: "${contextPath}/Material_Order/AjaxSet/StorageCodeFind.jsp",
 			data: { SCode: Code },
 			success: function(response) {
-				console.log(response);
 				$('input[name="SlocaDes"]').val($.trim(response));
 			},
 			error: function(xhr, textStatus, errorThrown) {
@@ -199,110 +198,122 @@ $(document).ready(function(){
 			}
 		});
 	});
-    var rowNum = 1;
-    var itemNum = 0;
-    var deletedItems = [];
-    var maxRowNum = 0;
     
-    $(".container").on('click', "img[name='Down']", function(){
-    	console.log($("img[name='Down']").length);
-    	itemNum++;
-        var currentOIN = parseInt($('.OIN').val(), 10); //이 값을 10진수로 해석하여 정수로 변환
-        /* $('.OIN').val(currentOIN); */
-        var dataToSend = {};
-        $(".Key-Com").each(function(){
+    var dataToSend = {};
+    var Plus = 0;
+    var rowNum;
+    $('.InsertBtn').click(function(){
+    	$(".Key-Com").each(function(){
             var name = $(this).attr("name");
             var value = $(this).val();
             dataToSend[name] = value;
-        }); // 끝
-        
-        var check = ["MatCode", "OrderCount", "Date"];
-        var messages = ["재료를 선택해주세요", "수량을 입력해주세요", "날짜를 선택해주세요"];
-
-        for(var i = 0 ; i < check.length ; i++){
-            if(!dataToSend[check[i]]){
-                alert(messages[i]);
-                break;
-            }
-        }
-        
-        const Subinfo = [$('.MatCode'), $('.MatDes'), $('.MatType'), $('.OrderCount'), $('.OrderUnit'), $('.StockUnit'), $('.Date'), $('.SlocaCode'), $('.SlocaDes')];
-        Subinfo.forEach(input => input.val(''));
-        
-        const UnitMoney = [$('.OrdPrice')];
-        UnitMoney.forEach(input => input.val('0'))
-        
-        $.ajax({
-            url: 'exp.jsp',
-            type: 'POST',
-            data: JSON.stringify(dataToSend),
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            async: false,
-            success: function(data) {
-            	var Del = "Delete";
-                var newRow = "<tr class='dTitle'>";
-                var rowNum = $(".WirteForm tr").length;
-                newRow += "<td class='datasize'>" + rowNum + "</td>";
-                newRow += "<td class='datasize'><input type='button' name='deleteBTN' value='" + Del + "'></td>";
-                
-                var order = ["OrderNum", "OIN", "MatCode", "MatDes", "MatType", "OrderCount", "OrderUnit", "Oriprice", "PriUnit", "OrdPrice", "MonUnit", "Date", "SlocaCode", "plantCode"];
-                $.each(order, function(index, key){
-                    if (key === "OIN") {
-                        newRow += "<td class='datasize'>" + ("0000" + itemNum).slice(-4) + "</td>";
-                    } else {
-                        newRow += "<td class='datasize'>" + data[key] + "</td>";
-                    }
-                });
-
-                newRow += "</tr>";
-                $(".WirteForm").append(newRow);
-                $('.OIN').val(("0000" + (currentOIN + 1)).slice(-4));
-                maxRowNum = rowNum;
-            }
         });
-    });
-
-
-    $(".WirteForm").on('click', "input[name='deleteBTN']", function(){
-        var row = $(this).closest('tr');
-        var orderNum = row.find('td:eq(2)').text();
-        var OIN = row.find('td:eq(3)').text();
-        console.log("PO번호: " + orderNum);
-        console.log("Item번호: " + OIN);
-        deletedItems.push({OrderNum: orderNum, OIN: OIN});
-        console.log(deletedItems);
-        console.log("Deleted item: OrderNum - " + orderNum + ", OIN - " + OIN);
-        row.remove();
-        rowNum--;
-        console.log(rowNum);
-
-        $(".WirteForm tr").each(function(index){
-            if(index != 0) {
-                $(this).find('td:first').text(index);
-            }
-        });
-        
-        $.ajax({
-            url: 'edit.jsp',
-            type: 'POST',
-            data: {'data': JSON.stringify(deletedItems)},
-            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
-            dataType: 'json',
-            async: false,
-            success: function(data){
-                if (data.result) {
-                    console.log('삭제 성공');
-                } else {
-                    console.log('삭제 실패: ' + data.message);
+    	console.log(dataToSend);
+    	var pass = true;
+    	$.each(dataToSend,function(key, value){
+    		if(value == null || value === ''){
+    			pass = false;
+    			return false;
+    		}
+    	})
+    	if(!pass){
+    		alert('모든 항목을 입력해주세요.');
+    	}else{
+    		$.ajax({
+                url: '${contextPath}/Material_Order/AjaxSet/Quicksave.jsp',
+                type: 'POST',
+                data: JSON.stringify(dataToSend),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                async: false,
+                success: function(data) {
+                	var RegistedData = data.DataList;
+                	if(data.status === 'Success'){
+                		if(Plus === 0){
+                			$('.InfoTable-Body').empty();
+                			rowNum = $('.InfoTable-Body tr').length; 
+                			var row = '<tr>' +
+							'<td>' + (rowNum + 1).toString().padStart(2,'0') + '</td>' + 
+							'<td><button class="DeleteBtn">Delete</button></td>' +
+							'<td>' + RegistedData.OrderNum + '</td>' + 
+							'<td>' + RegistedData.OIN + '</td>' + 
+							'<td>' + RegistedData.MatCode + '</td>' + 
+							'<td>' + RegistedData.MatDes + '</td>' + 
+							'<td>' + RegistedData.MatType + '</td>' + 
+							'<td>' + RegistedData.OrderCount + '</td>' + 
+							'<td>' + RegistedData.OrderUnit + '</td>' + 
+							'<td>' + RegistedData.Oriprice + '</td>' + 
+							'<td>' + RegistedData.PriUnit + '</td>' + 
+							'<td>' + RegistedData.OrdPrice + '</td>' + 
+							'<td>' + RegistedData.MonUnit + '</td>' +
+							'<td>' + RegistedData.DeliHopeDate + '</td>' +
+							'<td>' + RegistedData.SlocaCode + '</td>' +
+							'<td>' + RegistedData.PlantCode + '</td>' +
+							'</tr>';
+	                		$('.InfoTable-Body').append(row);
+                    		$('.OIN').val((rowNum + 2).toString().padStart(4,'0'));
+                		}else{
+                			rowNum = $('.InfoTable-Body tr').length;
+                			var row = '<tr>' +
+							'<td>' + (rowNum + 1).toString().padStart(2,'0') + '</td>' + 
+							'<td><button class="DeleteBtn">Delete</button></td>' +
+							'<td>' + RegistedData.OrderNum + '</td>' + 
+							'<td>' + RegistedData.OIN + '</td>' + 
+							'<td>' + RegistedData.MatCode + '</td>' + 
+							'<td>' + RegistedData.MatDes + '</td>' + 
+							'<td>' + RegistedData.MatType + '</td>' + 
+							'<td>' + RegistedData.OrderCount + '</td>' + 
+							'<td>' + RegistedData.OrderUnit + '</td>' + 
+							'<td>' + RegistedData.Oriprice + '</td>' + 
+							'<td>' + RegistedData.PriUnit + '</td>' + 
+							'<td>' + RegistedData.OrdPrice + '</td>' + 
+							'<td>' + RegistedData.MonUnit + '</td>' +
+							'<td>' + RegistedData.DeliHopeDate + '</td>' +
+							'<td>' + RegistedData.SlocaCode + '</td>' +
+							'<td>' + RegistedData.PlantCode + '</td>' +
+							'</tr>';
+	                		$('.InfoTable-Body').append(row);
+	                		rowNum++;
+                			$('.OIN').val((rowNum + 1).toString().padStart(4,'0'));
+                		}
+                		console.log($('.OIN').val());
+                	}else{
+                		alert('오류가 발생했습니다.');
+                	}
+                	
                 }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
-            }
-        });
-        console.log(deletedItems);
-    });
+            });
+    	}
+    	Plus++;
+    })
+    
+    $('.InfoTable-Body').on('click', '.DeleteBtn', function(e){
+	    e.preventDefault();
+	    var row = $(this).closest('tr');
+	    var OrderNum = row.find('td:eq(2)').text();
+	    var ItemNum = row.find('td:eq(3)').text();
+	    var MatCode = row.find('td:eq(4)').text();
+	    var KeyValue = OrderNum + '-' + ItemNum;
+	    
+	    var rowCount;
+	    $.ajax({
+			type: "POST",
+			url: "${contextPath}/Material_Order/AjaxSet/Quickdelete.jsp",
+			data: { key: KeyValue, mat : MatCode},
+			success: function(response) {
+				if(response.trim() === 'Success'){
+					row.remove();
+					rowCount = $('.InfoTable-Body tr').length;
+					console.log('rowCount : ' + rowCount);
+					$('.OIN').val((rowCount + 1).toString().padStart(4,'0'));
+				}
+			},
+			error: function(xhr, textStatus, errorThrown) {
+				console.log(xhr.statusText);
+			}
+		});
+	    
+	});
     
     $('.OrderCount').on('input', function(){
         var count = parseFloat($(this).val());
@@ -330,7 +341,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 	<!-- <form name="OrderRegistForm" id="OrderRegistForm" action="OrderRegist_Ok.jsp" method="POST" enctype="UTF-8"> -->
 	<div class="Mat-Order">
 		<div class="MatOrder-Header">
-			<div class="Header-Title">Mateiral Order Header</div>
+			<div class="Header-Title">원자재 발주 헤더</div>
 			<div class="InfoInput">
 				<label>Company : </label>
 				<input type="text" class="ComCode" name="ComCode" onclick="InfoSearch('ComSearch')" value="<%=userComCode %>" readonly>
@@ -375,7 +386,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 		</div>
 		
 		<div class="MatOrder-Body">
-			<div class="Body-Title">Mateiral Order Body</div>
+			<div class="Body-Title">자재 발주 상세</div>
 			<div class="Mat-Area">
 				<div class="InfoInput">
 					<label>Order No. : </label> 
@@ -428,16 +439,17 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 
 			<div class="BtnArea">
 				<button class="InsertBtn">Insert</button>
+				<button class="SavetBtn">Save</button>
 				<button class="ResetBtn">Reset</button>
 			</div>
 		
 			<div class=Info-Area>
-				<div class="Tail-Title">Ordered RegisteForm</div>
+				<div class="Tail-Title">발주서</div>
 				<table class="InfoTable">
 					<thead class="InfoTable-Header">
 						<tr>
-							<th>항번</th><th>삭제</th><th>PO번호</th><th>Item번호</th><th>Material</th><th>Material Description</th>
-							<th>Material유형</th><th>수량</th><th>구매단위</th><th>구입단가</th><th>가격단위</th><th>발주금액</th><th>거래통화</th>
+							<th>항번</th><th>삭제</th><th>PO번호</th><th>Item번호</th><th>원자재</th><th>원자재 설명</th>
+							<th>원자재 유형</th><th>수량</th><th>구매단위</th><th>구입단가</th><th>가격단위</th><th>발주금액</th><th>거래통화</th>
 							<th>납품희망일자</th><th>납품창고</th><th>Plant</th>
 						</tr>
 					</thead>
