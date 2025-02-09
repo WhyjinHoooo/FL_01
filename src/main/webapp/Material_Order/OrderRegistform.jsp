@@ -79,39 +79,6 @@ function InfoSearch(field){
     	break;
     }
 }
-
-// document.addEventListener("DOMContentLoaded", function() {
-//     var now_utc = Date.now();
-// 	    var timeOff = new Date().getTimezoneOffset() * 60000;
-// 	    var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
-// 	    var dateElement = document.getElementById("Date");
-	
-// 	    if (dateElement) {
-// 	        dateElement.setAttribute("min", today);
-// 	    } else {
-// 	        console.error("Element with id 'Date' not found.");
-// 	    }
-// 	});
-	
-// 	window.addEventListener('DOMContentLoaded',(event) => {
-// 		const ORDTYPE = document.querySelector('.ordType');
-// 		const matCode = document.querySelector('.MatCode');
-// 		const matDes = document.querySelector('.MatDes');
-// 		const matType = document.querySelector('.MatType');
-// 		const count = document.querySelector('.OrderCount');
-// 		const orUnit = document.querySelector('.OrderUnit');
-// 		const stUnit = document.querySelector('.StockUnit');
-// 		const date = document.querySelector('.Date');
-// 		const sCode = document.querySelector('.SlocaCode');
-// 		const sDes = document.querySelector('.SlocaDes');
-		
-// 		const resetInputs = (inputs) => {
-// 	        inputs.forEach(input => input.value = '');
-// 	    };
-		
-// 	    const Subinfo = [matCode, matDes, matType, count, orUnit, stUnit, date, sCode, sDes];
-// 	    ORDTYPE.addEventListener('change', () => resetInputs(Subinfo));
-// 	});
 $(document).ready(function(){
 	function DateSetting(){
 		var CurrentDate = new Date();
@@ -249,6 +216,7 @@ $(document).ready(function(){
 							'<td>' + RegistedData.DeliHopeDate + '</td>' +
 							'<td>' + RegistedData.SlocaCode + '</td>' +
 							'<td>' + RegistedData.PlantCode + '</td>' +
+							'<td hidden>' + RegistedData.OrderNum + '-' + RegistedData.OIN  + '</td>' +
 							'</tr>';
 	                		$('.InfoTable-Body').append(row);
                     		$('.OIN').val((rowNum + 2).toString().padStart(4,'0'));
@@ -271,6 +239,7 @@ $(document).ready(function(){
 							'<td>' + RegistedData.DeliHopeDate + '</td>' +
 							'<td>' + RegistedData.SlocaCode + '</td>' +
 							'<td>' + RegistedData.PlantCode + '</td>' +
+							'<td hidden>' + RegistedData.OrderNum + '-' +  RegistedData.OIN + '</td>' +
 							'</tr>';
 	                		$('.InfoTable-Body').append(row);
 	                		rowNum++;
@@ -284,6 +253,7 @@ $(document).ready(function(){
                 }
             });
     	}
+    	$('.Mat-Area input').not('.OIN').val('');
     	Plus++;
     })
     
@@ -306,6 +276,36 @@ $(document).ready(function(){
 					rowCount = $('.InfoTable-Body tr').length;
 					console.log('rowCount : ' + rowCount);
 					$('.OIN').val((rowCount + 1).toString().padStart(4,'0'));
+					if(rowCount === 0){
+						for (let i = 0; i < 20; i++) {
+					        const row = $('<tr></tr>');
+					        for (let j = 0; j < 16; j++) {
+					            row.append('<td></td>');
+					        }
+					        $('.InfoTable-Body').append(row);
+					    }
+					}else{
+						$('.InfoTable-Body tr').each(function(index, tr){
+							console.log('Index : ' + index);
+							var Element = $(this);
+							var ElementKeyValue = Element.find('td:eq(16)').text()
+							$.ajax({
+								type: "POST",
+								url: "${contextPath}/Material_Order/AjaxSet/Quickmanage.jsp",
+								data: { KeyValue: ElementKeyValue },
+								success: function(response) {
+									if(response.trim() === 'Success'){
+										Element.find('td:eq(0)').text((index+1).toString().padStart(2,'0'));
+										Element.find('td:eq(3)').text((index+1).toString().padStart(4,'0'));
+										Element.find('td:eq(16)').text(Element.find('td:eq(2)').text() + '-' + Element.find('td:eq(3)').text());
+									}
+								},
+								error: function(xhr, textStatus, errorThrown) {
+									console.log(xhr.statusText);
+								}
+							});
+						})
+					}
 				}
 			},
 			error: function(xhr, textStatus, errorThrown) {
@@ -325,9 +325,15 @@ $(document).ready(function(){
         } else{
             total = (count * unit).toFixed(2);
         }
-        console.log('발주수량 : ' + count + ', 구입단가 : ' + unit + ', 거래통화 : ' + money + ', 총액 : ' + total);
         $('input[name="OrdPrice"]').val(total);
     });
+    
+    $('.SavetBtn').click(function(){
+    	
+    })
+    $('.ResetBtn').click(function(){
+    	location.reload();
+    })
 });
 </script>
 <%
@@ -350,34 +356,34 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			
 			<div class="InfoInput">
 				<label>Plant : </label>
-				<input type="text" class="PlantCode Key-Com" name="PlantCode" onclick="InfoSearch('PlantSearch')" readonly>
-				<input type="text" class="PlantDes" name="PlantDes" readonly> 
+				<input type="text" class="PlantCode Key-Com Header" name="PlantCode" onclick="InfoSearch('PlantSearch')" readonly>
+				<input type="text" class="PlantDes Header" name="PlantDes" readonly> 
 				
 			</div>
 			
 			<div class="InfoInput">
 				<label>Vendor : </label>
-				<input type="text" class="VendorCode" name="VendorCode" onclick="InfoSearch('VendorSearch')" placeholder="선택" readonly>
-				<input type="text" class="VendorDes" name="VendorDes" readonly>
+				<input type="text" class="VendorCode Header" name="VendorCode" onclick="InfoSearch('VendorSearch')" placeholder="선택" readonly>
+				<input type="text" class="VendorDes Header" name="VendorDes" readonly>
 			</div>
 			
 			<div class="InfoInput">
 				<label>ORD type : </label>
-				<input type="text" class="ordType Key-Com" name="ordType" onclick="InfoSearch('OrdTypeSearch')" value=PURO readonly>
+				<input type="text" class="ordType Key-Com Header" name="ordType" onclick="InfoSearch('OrdTypeSearch')" value=PURO readonly>
 			</div>
 			
 			<div class="InfoInput">
 				<label>PO Number : </label>
-				<input type="text" class="OrderNum Key-Com" name="OrderNum">
+				<input type="text" class="OrderNum Key-Com Header" name="OrderNum">
 			</div>
 			
 			<div class="InfoInput">
 				<label>발주자 사번 : </label>
-				<input type="text" class="UserID" name="UserID" value="<%=UserIdNumber %>" readonly>
+				<input type="text" class="UserID Header" name="UserID" value="<%=UserIdNumber %>" readonly>
 			</div>
 			<div class="InfoInput">
 				<label>발주일자 : </label>
-				<input type="text" class="date" name="date" readonly>
+				<input type="text" class="date Header" name="date" readonly>
 			</div>	
 			
 			<div class="BtnArea">

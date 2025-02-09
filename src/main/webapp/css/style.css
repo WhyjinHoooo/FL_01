@@ -1139,6 +1139,7 @@ table.ComInfoTable {
 	
 	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(6) {
 	    padding: 8px 0px;
+	    font-size: 8px;
 	}
 	
 	.MatOrder-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(12) {

@@ -16,9 +16,16 @@ try {
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1, KeyCode);
 	
+	String SetUpSql01 = "SET @CNT = 0";
+	String SetUpSql02 = "UPDATE ordertable SET ordertable.ItemNo = @CNT:=@CNT+1;";
+	PreparedStatement SU_Pstmt01 = conn.prepareStatement(SetUpSql01);
+	PreparedStatement SU_Pstmt02 = conn.prepareStatement(SetUpSql02);
+	
 	int affectedRows = pstmt.executeUpdate();
     if (affectedRows > 0) {
         out.print("Success");
+        SU_Pstmt01.executeUpdate();
+        SU_Pstmt02.executeUpdate();
     } else {
         out.print("Fail");
     }
