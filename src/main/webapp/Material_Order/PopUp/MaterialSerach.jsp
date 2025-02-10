@@ -17,7 +17,7 @@
 			<table class="TotalTable">
 				<thead>
 			        <tr>
-			            <th>코드</th><th>종류</th><th>설명</th><th>구입단가</th>
+			            <th>코드</th><th>종류</th><th>설명</th><th>구입단가</th><th>창고</th>
 			        </tr>
 				</thead>
 				<tbody>
@@ -82,6 +82,7 @@
 			 			<td><%=rs.getString("purprice.MatType") %></td>
 			 			<td><%=rs.getString("purprice.MatDesc") %></td>
 			 			<td><%=price %></td>
+			 			<td><%=rs.getString("matmaster.DefaultWARE") %></td>
 					</tr>    
 			    <%    		
 				    	    	}while(rs.next());

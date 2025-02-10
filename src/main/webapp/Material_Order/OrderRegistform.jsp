@@ -74,7 +74,7 @@ function InfoSearch(field){
     	window.open("${contextPath}/Material_Order/PopUp/OrdTypeSerach.jsp", "PopUp03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     	break;
     case "MatSearch":
-    	popupWidth = 720;
+    	popupWidth = 1000;
     	window.open("${contextPath}/Material_Order/PopUp/MaterialSerach.jsp?ComCode=" + ComCode + "&Vendor=" + VenCode, "PopUp05", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     	break;
     }
@@ -91,12 +91,10 @@ $(document).ready(function(){
 		var UserId = $('.UserID').val();
 		$('.InfoTable-Body').empty();
 		for (let i = 0; i < 20; i++) {
-	        const row = $('<tr></tr>'); // 새로운 <tr> 생성
-	        // 16개의 <td> 요소 추가, 각각에 해당하는 텍스트 콘텐츠 입력
+	        const row = $('<tr></tr>');
 	        for (let j = 0; j < 16; j++) {
 	            row.append('<td></td>');
 	        }
-	        // 생성한 <tr>을 <tbody>에 추가
 	        $('.InfoTable-Body').append(row);
 	    }
 		$.ajax({
@@ -137,11 +135,11 @@ $(document).ready(function(){
 	InitialTable();
 	DateSetting();
 	CallORD();
+	BodyDisabled();
 	$('.ordType').change(function(){
 		$('.Mat-Area').find('input').val('');
 		CallORD();	
 	});
-	BodyDisabled();
 	$('.CreateBtn').click(function(){
 		var VendorCode = $('.VendorCode').val();
 		if(VendorCode === ''){
@@ -165,11 +163,12 @@ $(document).ready(function(){
 			}
 		});
 	});
-    
+    var HeaderInfoList = {};
     var dataToSend = {};
     var Plus = 0;
     var rowNum;
     $('.InsertBtn').click(function(){
+    	console.log('1. Plus : ' + Plus);
     	$(".Key-Com").each(function(){
             var name = $(this).attr("name");
             var value = $(this).val();
@@ -219,7 +218,8 @@ $(document).ready(function(){
 							'<td hidden>' + RegistedData.OrderNum + '-' + RegistedData.OIN  + '</td>' +
 							'</tr>';
 	                		$('.InfoTable-Body').append(row);
-                    		$('.OIN').val((rowNum + 2).toString().padStart(4,'0'));
+	                		rowNum++;
+                    		$('.OIN').val((rowNum + 1).toString().padStart(4,'0'));
                 		}else{
                 			rowNum = $('.InfoTable-Body tr').length;
                 			var row = '<tr>' +
@@ -249,7 +249,6 @@ $(document).ready(function(){
                 	}else{
                 		alert('오류가 발생했습니다.');
                 	}
-                	
                 }
             });
     	}
@@ -329,8 +328,39 @@ $(document).ready(function(){
     });
     
     $('.SavetBtn').click(function(){
-    	
+    	$(".Header").each(function(){
+            var name = $(this).attr("name");
+            var value = $(this).val();
+            HeaderInfoList[name] = value;
+        });
+    	console.log(HeaderInfoList);
+    	var pass = true;
+    	$.each(HeaderInfoList,function(key, value){
+    		if(value == null || value === ''){
+    			pass = false;
+    			return false;
+    		}
+    	})
+    	if(!pass){
+    		alert('모든 항목을 입력해주세요.');
+    	}else{
+    		$.ajax({
+                url: '${contextPath}/Material_Order/OrderRegist_Ok.jsp',
+                type: 'POST',
+                data: JSON.stringify(HeaderInfoList),
+                contentType: 'application/json; charset=utf-8',
+                success: function(response){
+                	console.log(response.trim());
+                	if(response.trim() === 'Success'){
+                		location.reload();
+                	} else{
+                		alert('등록과정 중 문제가 발생했습니다.')
+                	}
+                }
+            });
+    	}
     })
+    
     $('.ResetBtn').click(function(){
     	location.reload();
     })
@@ -344,7 +374,6 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 </head>
 <body>
 <jsp:include page="../HeaderTest.jsp"></jsp:include>
-	<!-- <form name="OrderRegistForm" id="OrderRegistForm" action="OrderRegist_Ok.jsp" method="POST" enctype="UTF-8"> -->
 	<div class="Mat-Order">
 		<div class="MatOrder-Header">
 			<div class="Header-Title">원자재 발주 헤더</div>

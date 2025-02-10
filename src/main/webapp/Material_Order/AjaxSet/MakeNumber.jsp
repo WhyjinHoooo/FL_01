@@ -16,15 +16,16 @@ try{
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
-	String sql = "SELECT * FROM poheader WHERE SUBSTRING(Mmpo, 1, 4) = ? AND OrderDate = ? ORDER BY Mmpo DESC";
+	//String sql = "SELECT * FROM poheader WHERE SUBSTRING(Mmpo, 1, 4) = ? AND OrderDate = ? ORDER BY Mmpo DESC";
+	String sql = "SELECT * FROM poheader WHERE Mmpo = ? ORDER BY Mmpo DESC";
 	pstmt = conn.prepareStatement(sql);
-	
 	
 	boolean OrdNumChk = false;
 	while(!OrdNumChk){
-		pstmt.setString(1, Type);
-		pstmt.setString(2, Today);
-		
+// 		pstmt.setString(1, Type);
+// 		pstmt.setString(2, Today);
+		pstmt.setString(1, first);		
+
 		rs = pstmt.executeQuery();
 		if(!rs.next()){
 			OrdNumChk = true;
@@ -38,6 +39,7 @@ try{
 	out.print(first.trim());
 } catch(SQLException e){
 	e.printStackTrace();
+	System.out.println("SQL Exception: " + e.getMessage());
 }
 %>
 
