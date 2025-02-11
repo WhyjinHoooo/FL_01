@@ -1,54 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../mydbcon.jsp" %>
+<%@ include file="../../mydbcon.jsp" %>
 <%@ page import ="org.json.simple.JSONArray" %>
 <%@ page import ="org.json.simple.JSONObject" %> 
 <%@page import="java.sql.SQLException"%>  
 
 <%
 try{
+	System.out.println("1");
 	String PlantCode = request.getParameter("plant");
 	String VendorCode = request.getParameter("vendor");
+	
 	String Complete = "yet";
-	System.out.println("전달받은 Plant코드 : " + PlantCode + " 전달받은 Vendor코드 : " + VendorCode);
+	String Check = "A";
+	PreparedStatement Head_pstmt = null;
+	ResultSet Head_rs = null;
 	
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
+	String Head_sql = "SELECT * FROM poheader WHERE PlantCode = ? AND VenCode = ? AND Complete = ?";
+	Head_pstmt = conn.prepareStatement(Head_sql);
 	
-	String sql = "SELECT Mmpo FROM poheader WHERE PlantCode = ? AND VenCode = ? AND Complete = ?";
-	pstmt = conn.prepareStatement(sql);
+	Head_pstmt.setString(1, PlantCode);
+	Head_pstmt.setString(2, VendorCode);
+	Head_pstmt.setString(3, Complete);
 	
-	pstmt.setString(1, PlantCode);
-	pstmt.setString(2, VendorCode);
-	pstmt.setString(3, Complete);
-	
-	rs = pstmt.executeQuery();
-	/* System.out.println("MMPO 값: " + rs.getString("Mmpo")); */
+	Head_rs = Head_pstmt.executeQuery();
 	JSONArray jsonArray = new JSONArray();
 	
-	while(rs.next()){
-		/* String mmpo = rs.getString("Mmpo"); */
-		System.out.println("MMPO 값: " + rs.getString("Mmpo"));
-		String Check = "A";
+	while(Head_rs.next()){
+		System.out.println("2");
 		PreparedStatement pstmt2 = null;
-		String sql2 = "SELECT pochild.keyValue, pochild.MMPO, pochild.ItemNo, " +
-	              "pochild.MatCode, pochild.MatDes, pochild.MatType, " + 
-	              "pochild.Quantity, pochild.PoUnit, pochild.PO_Rem, " + 
-	              "pochild.Money, pochild.Hdate, pochild.Storage, "+ 
-	              "pochild.PlantCode, pochild.Count " + 
-	              "FROM pochild " + 
-	              "WHERE MMPO = ? AND DeadLine = ?";
+		String sql2 = "SELECT * FROM pochild WHERE MMPO = ? AND DeadLine = ?";
 
         pstmt2 = conn.prepareStatement(sql2);
-        pstmt2.setString(1, rs.getString("Mmpo"));
+        pstmt2.setString(1, Head_rs.getString("Mmpo"));
         pstmt2.setString(2, Check);
 
         ResultSet rs2 = pstmt2.executeQuery();
         
         while(rs2.next()) {
             JSONObject jsonObject = new JSONObject();
-
-            jsonObject.put("Key", rs2.getString("keyValue"));
+            
+            jsonObject.put("KeyValue", rs2.getString("keyValue")); // PO번호
             jsonObject.put("MMPO", rs2.getString("MMPO")); // PO번호
             jsonObject.put("ItemNo", rs2.getInt("ItemNo")); // ITEM 번호
             jsonObject.put("MatCode", rs2.getString("MatCode")); // material Num
@@ -62,7 +54,8 @@ try{
             jsonObject.put("Hdate", rs2.getString("Hdate")); // 입고예정일자
             jsonObject.put("Storage", rs2.getString("Storage")); // 입고 창고
             jsonObject.put("PlantCode", rs2.getString("PlantCode")); // Plant코드
-
+            jsonObject.put("Vendor", Head_rs.getString("VenCode")); // Plant코드
+            jsonObject.put("VendorDes", Head_rs.getString("VenDes")); // Plant코드
             jsonArray.add(jsonObject);
         }
     }
@@ -70,7 +63,6 @@ try{
     response.setContentType("application/json");
     response.setCharacterEncoding("UTF-8");
     response.getWriter().write(jsonArray.toString());
-	
 } catch(SQLException e){
 	e.printStackTrace();
 }

@@ -12,148 +12,192 @@
 <link rel="stylesheet" href="../css/style.css?after">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
-<script type='text/javascript'>
-	var path = window.location.pathname;
-	var Address = path.split("/").pop();
-	window.addEventListener('unload', (event) => {
-		
-		var data = {
-			action : 'deleteOrderData',
-			page : Address
-				
-		}
-	    navigator.sendBeacon('../DeleteOrder', JSON.stringify(data));
-	});
-	function InfoSearch(field){
-		var popupWidth = 1000;
-	    var popupHeight = 600;
-	    
-	    // 현재 활성화된 모니터의 위치를 감지
-	    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
-	    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
-	    
-	    // 전체 화면의 크기를 감지
-	    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-	    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
-	    var xPos, yPos;
-	    
-	    if (width == 2560 && height == 1440) {
-	        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
-	        xPos = (2560 / 2) - (popupWidth / 2);
-	        yPos = (1440 / 2) - (popupHeight / 2);
-	    } else if (width == 1920 && height == 1080) {
-	        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
-	        xPos = (1920 / 2) - (popupWidth / 2);
-	        yPos = (1080 / 2) - (popupHeight / 2);
-	    } else {
-	        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
-	        var monitorWidth = 2560;
-	        var monitorHeight = 1440;
-	        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
-	        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
-	    }
-	    
-	    var ComCode = document.querySelector('.plantComCode').value;
-	    var VenCode = document.querySelector('.VendorCode').value;
-	    
-	    switch(field){
-	    case "PlantSearch":
-	    	window.open("${contextPath}/Material_Input/MIPlantSerach.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-	    	break;
-	    case "MoveTypeSearch":
-	    	window.open("${contextPath}/Material_Input/MoveTypeSerach.jsp", "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-	    	break;
-	    case "VendorSearch":
-	    	window.open("${contextPath}/Material_Input/FindVendor.jsp?ComCode=" + ComCode, "PopUp03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-	    	break;
-	    }
-	}	
-	window.addEventListener('DOMContentLoaded',(event) => {
-		const PlantCode = document.querySelector(".plantCode");
-		const VenCode = document.querySelector(".VendorCode");
-		const VenDes = document.querySelector(".VendorDes");
-		
-		const resetVendor = (inputs) => {
-			inputs.forEach(input => input.value = '');
-		};
-		const VENDOR = [VenCode,VenDes];
-		
-		PlantCode.addEventListener('change', () => resetVendor(VENDOR));
-	});
+<script>
+var path = window.location.pathname;
+var Address = path.split("/").pop();
+window.addEventListener('unload', (event) => {
 	
-	function checkCount(){
-		var remain = parseInt(document.MatInputRegistForm.NotInput.value, 10); // 미입고 수량
-		var input = parseInt(document.MatInputRegistForm.InputCount.value, 10); // 입고 수량
-		
-		if(input == 0 || (input > remain)){
-			alert('입고 수량을 수정해주세요');
-			return false;
-		}else{
-			return true;
-		} 
+	var data = {
+		action : 'deleteOrderData',
+		page : Address
+			
+	}
+    navigator.sendBeacon('../DeleteOrder', JSON.stringify(data));
+});
+function InfoSearch(field){
+	var popupWidth = 500;
+    var popupHeight = 600;
+    
+    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
+    
+	var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+    var xPos, yPos;
+	    
+    if (width == 2560 && height == 1440) {
+        xPos = (2560 / 2) - (popupWidth / 2);
+        yPos = (1440 / 2) - (popupHeight / 2);
+    } else if (width == 1920 && height == 1080) {
+        xPos = (1920 / 2) - (popupWidth / 2);
+        yPos = (1080 / 2) - (popupHeight / 2);
+    } else {
+        var monitorWidth = 2560;
+        var monitorHeight = 1440;
+        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+    }
+    
+    var ComCode = $('.ComCode').val();
+    var VenCode = $('.VendorCode').val();
+    
+    switch(field){
+    case "ComSearch":
+    	window.open("${contextPath}/Information/CompanySerach.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    case "PlantSearch":
+    	window.open("${contextPath}/Information/PlantSerach.jsp?ComCode=" + ComCode, "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    case "VendorSearch":
+    	window.open("${contextPath}/Material_Input/PopUp/FindVendor.jsp?ComCode=" + ComCode, "PopUp03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    case "MoveTypeSearch":
+    	popupWidth = 900;
+    	popupHeight = 600;
+    	window.open("${contextPath}/Material_Input/PopUp/MoveTypeSerach.jsp", "PopUp04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    
+    }
+}
+$(document).ready(function(){
+	function InitialTable(){
+		var UserId = $('.UserID').val();
+		console.log(UserId);
+		$('.OrderBody').empty();
+		$('.InfoBody').empty();
+		for (let i = 0; i < 20; i++) {
+	        const row = $('<tr></tr>');
+	        for (let j = 0; j < 17; j++) {
+	            row.append('<td></td>');
+	        }
+	        $('.OrderBody').append(row);
+	    }
+		for (let i = 0; i < 20; i++) {
+	        const row = $('<tr></tr>');
+	        for (let j = 0; j < 18; j++) {
+	            row.append('<td></td>');
+	        }
+	        $('.InfoBody').append(row);
+	    }
+		$.ajax({
+			url:'${contextPath}/Material_Input/AjaxSet/ForPlant.jsp',
+			type:'POST',
+			data:{id : UserId},
+			dataType: 'text',
+			success: function(data){
+				var dataList = data.trim().split('-');
+				$('.PlantCode').val(dataList[0]);
+				$('.PlantDes').val(dataList[1]);
+			}
+		})
+	}
+	function DateSetting(){
+		var CurrentDate = new Date();
+		var today = CurrentDate.getFullYear() + '-' + ('0' + (CurrentDate.getMonth() + 1)).slice(-2) + '-' + ('0' + CurrentDate.getDate()).slice(-2);
+		$('.date').val(today);
 		
 	}
-$(document).ready(function(){
-	function UpdateTable(){
-		var vendorcode = $('.VendorCode').val();/* $(this).val(); */
-		var vendorname = $('.VendorDes').val();
-		var plantcode = $('.plantCode').val();
-		var table = $('.WrittenForm');
-	
-	    // 테이블 초기화
-	     table.find('tr:gt(0)').remove();
-		
-		console.log('입력받은 Vendor코드 : ' + vendorcode + '입력받은 Plant코드 : ' + plantcode);
-		
+	function BodyDisabled(){
+		$('.Mat-Area').find('input').prop('disabled', true);
+	}
+	function BodyAbled(){
+		$('.Mat-Area').find('input').prop('disabled', false);
+	}
+	function MoveCode(){
+		var Movement_Code = $('.MovType').val();
 		$.ajax({
 			type : "POST",
-			url : "FindInfo.jsp",
-			data : {vendor : vendorcode, plant : plantcode},
-			dataType: "text",
+			url : "${contextPath}/Material_Input/AjaxSet/CheckMat.jsp",
+			data : {movcode : Movement_Code},
+			dataType : "json",
 			success: function(response){
-				console.log(response);
-				if (response.trim() !== '') {
-					var data = JSON.parse(response);
-					/* var table = $('.WrittenForm'); */
-					
-					table.find('tr:gt(0)').remove();
-					
-					for (var i = 0; i < data.length; i++) {
-						var row = '<tr>' +
-						'<td>' + (i + 1) + '</td>' + // 항번
-						'<td><button type="button" class="sendBtn">전송</button></td>' + //선택 버튼
-						'<td class="datasize">' + vendorcode + '</td>' + //벤더 코드
-						'<td class="datasize">' + vendorname + '</td>' + // 벤더 설명
-						'<td class="key datasize" hidden>' + data[i].Key + '</td>' + // 데이터의 key값
-						'<td class="MMPO datasize">' + data[i].MMPO + '</td>' + // PO번호
-						'<td class="ItemNo datasize">' + String(data[i].ItemNo).padStart(4, '0') + '</td>' + // Item번호
-						'<td class="MatCode datasize">' + data[i].MatCode + '</td>' + // 재료 코드
-						'<td class="MatDes datasize">' + data[i].MatDes + '</td>' + // 재료에 대한 설명
-						'<td class="MatType datasize">' + data[i].MatType + '</td>' + // 재료의 타입
-						'<td class="Quantity datasize">' + data[i].Quantity + '</td>' + // 발주 수량
-						'<td class="PoUnit datasize">' + data[i].PoUnit + '</td>' + // 구매 단위
-						'<td class="StoredInput datasize">' + data[i].Count + '</td>' + // 입고 수량
-						'<td class="NotStored datasize">' + data[i].PO_Rem + '</td>' + // 미입고수량
-						'<td class="TraCurr datasize">' + data[i].Money + '</td>' + //거래 통화
-						'<td>' + data[i].Hdate + '</td>' + // 입고예정일자
-						'<td class="Storage datasize">' + data[i].Storage + '</td>' + // 입고창고 코드
-						'<td class="PlantCode datasize">' + data[i].PlantCode + '</td>' + // 플랜트 코드
-						'</tr>';
-						table.append(row);
-					};
+				if(response.result === "fail") {
+					alert(response.message);
+					$('input.MovType').attr('placeholder','SELECT');
+					$('input.MovType_Des').val('');
+					$('input.PlusMinus').val('');
 				}
-			},
-			error: function() {
-		          alert("에러 발생");
-		    }
+			}
+		})
+	}
+	function UpdateTable(){
+		var VCode = $('.VendorCode').val();
+		var PCode = $('.PlantCode').val();
+		$.ajax({
+			url : '${contextPath}/Material_Input/AjaxSet/FindInfo.jsp',
+			type : 'POST',
+			data : {vendor : VCode, plant : PCode},
+			dataType: 'json',
+			success: function(data){
+				console.log(data[0].Vendor);
+				console.log(data.length);
+				$('.OrderBody').empty();
+				for(var i = 0 ; i < data.length ; i++){
+					var row = '<tr>' +
+					'<td>' + (i + 1).toString().padStart(2,'0') + '</td>' + 
+					'<td><button class="AddBtn">추가</button></td>' +
+					'<td>' + data[i].Vendor + '</td>' + 
+					'<td>' + data[i].VendorDes + '</td>' + 
+					'<td>' + data[i].MMPO + '</td>' + 
+					'<td>' + data[i].ItemNo.toString().padStart(4,'0') + '</td>' + 
+					'<td>' + data[i].MatCode + '</td>' + 
+					'<td>' + data[i].MatDes + '</td>' + 
+					'<td>' + data[i].MatType + '</td>' + 
+					'<td>' + data[i].Quantity + '</td>' + 
+					'<td>' + data[i].PoUnit + '</td>' + 
+					'<td>' + data[i].Count + '</td>' + 
+					'<td>' + data[i].PO_Rem + '</td>' + 
+					'<td>' + data[i].Money + '</td>' +
+					'<td>' + data[i].Hdate + '</td>' +
+					'<td>' + data[i].Storage + '</td>' +
+					'<td>' + data[i].PlantCode + '</td>' +
+					'<td hidden>' + data[i].KeyValue  + '</td>' +
+					'</tr>';
+            		$('.OrderBody').append(row);
+				}
+				
+			}
 		});
 	}
+	InitialTable();
+	DateSetting();
+	BodyDisabled();
+	var ChkList = {};
+	$('.BtnArea > button').click(function(){
+		$('.HeadInfo').each(function(){
+            var name = $(this).attr("name");
+            var value = $(this).val();
+            ChkList[name] = value;
+        });
+    	var pass = true;
+    	$.each(ChkList,function(key, value){
+    		if(value == null || value === ''){
+    			pass = false;
+    			return false;
+    		}
+    	})
+    	if(!pass){
+    		alert('모든 항목을 입력해주세요.');
+    	}else{
+    		BodyAbled();
+    		UpdateTable();
+    		$('.MovType').val('GR101');
+    		$('.MovType_Des').val('구매발주 Material 입고');
+    		MoveCode();
+    	}
+	})
 	
-	$('input.VendorCode, .plantCode').on('input',function(){
-		UpdateTable();
-	});
-	
-	$(document).on('click', '.sendBtn', function() {
+$(document).on('click', '.sendBtn', function() {
 		
 		var row = $(this).closest('tr');
 		var Key = row.find('.key').text();
@@ -233,26 +277,7 @@ $(document).ready(function(){
 		
 		//resetVendor(typing);
 		
-	}); //$(document).on('click', '.sendBtn', function(){...}의 끝
-			
-	$('input.MovType').on('input', function(){
-		var Movement_Code = $(this).val();
-		console.log('Movement_Code : ' + Movement_Code);
-		$.ajax({
-			type : "POST",
-			url : "CheckMat.jsp",
-			data : {movcode : Movement_Code},
-			dataType : "json",
-			success: function(response){
-				if(response.result === "fail") {
-					alert(response.message);
-					$('input.MovType').val('');
-					$('input.MovType_Des').val('');
-					$('input.PlusMinus').val('');
-				}
-			}
-		})
-	});
+	}); //$(document).on('click', '.sendBtn', function(){...}의 끝	
 	
 	$('input.SLocCode').on('input', function(){
 		var storageLoc = $(this).val();
@@ -467,299 +492,162 @@ $(document).ready(function(){
 });
 </script>
 <%
-	request.setCharacterEncoding("UTF-8");
-	LocalDateTime today = LocalDateTime.now();
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	String Today = today.format(formatter);
-	
-	String pCode = (String) session.getAttribute("pCode");
-	String pDes = (String) session.getAttribute("pDes");
-	String pComCode = (String) session.getAttribute("pComCode");
-	String vCode = (String) session.getAttribute("vCode");
-	String vDes = (String) session.getAttribute("vDes");
-	
-	String User_Id = /* (String) session.getAttribute("id") */"17011381";
+String UserId = (String)session.getAttribute("id");
+String userComCode = (String)session.getAttribute("depart");
+String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 %>
 <title>자재입고</title>
 </head>
 <body>
-	<jsp:include page="../HeaderTest.jsp"></jsp:include>
-		<form name="MatInputRegistForm" id="MatInputRegistForm" action="MatInput_OK.jsp" method="POST" onSubmit="return checkCount()" enctype="UTF-8">
-		<div class="content-wrapper">
-			<asdie class="side-menu-container" id="In_SideMenu">
-				<li>Plant</li>
-					<td class="input-info">
-					<%
-						if(pCode == null){
-					%>
-						<!-- <a href="javascript:PlantSearch()"></a> 전송 -->
-						<input type="text" class="plantCode" name="plantCode" onclick="InfoSearch('PlantSearch')" readonly>
-						<input type="text" class="plantDes" name="plantDes" readonly> 
-						<input type="text" name="plantComCode" class="plantComCode Dinfo" size="5" hidden><!-- hidden -->
-					</td>
-					<%
-						}else{
-					%>
-					<input type="text" class="plantCode" name="plantCode" onclick="InfoSearch('PlantSearch')" readonly value="<%=pCode%>">
-						<input type="text" class="plantDes" name="plantDes" readonly value="<%=pDes%>"> 
-						<input type="text" name="plantComCode" class="plantComCode Dinfo" size="5" value="<%=pComCode%>" hidden><!-- hidden -->
-					</td>
-					<%
-						}
-					%>
-				<br><br>
-					
-				<li>Vendor</li>
-					<%
-						if(vCode == null){
-					%>
-					<td class="input-info">
-<!-- 						<a href="javascript:VendorSearch()"></a> 전송 -->
-						<input type="text" class="VendorCode Dinfo" name="VendorCode" onclick="InfoSearch('VendorSearch')" readonly>
-						<input type="text" class="VendorDes" name="VendorDes" readonly> 
-					</td>
-					<%
-						}else{
-					%>
-					<td class="input-info">
-						<input type="text" class="VendorCode Dinfo" name="VendorCode" onclick="InfoSearch('VendorSearch')" readonly value="<%=vCode%>">
-						<input type="text" class="VendorDes" name="VendorDes" readonly  value="<%=vDes%>"> 
-					</td>
-					<script type="text/javascript">
-						$(document).ready(function(){
-						    var vCode = "<%=vCode%>"; // 세션에서 값을 가져옵니다.
-						    var vDes = "<%=vDes%>"; // 세션에서 값을 가져옵니다.
-								    // 입력 필드의 값을 설정합니다.
-						    $('.VendorCode').val(vCode);
-						    $('.VendorDes').val(vDes);
-								    // input 이벤트를 발생시킵니다.
-						    $('.VendorCode').trigger('input');
-						});
-					</script>
-					<%
-						}
-					%>	
-				<br><br>
-				<li>입고자 사번</li>
-					<td class="input-info">
-						<% 
-						if(User_Id != null){
-						%>
-						<input type="text" class="UserID Dinfo" name="UserID" value="<%=User_Id%>" readonly>
-						<%
-						} else{
-						%>
-						<input type="text" class="UserID Dinfo" name="UserID"  readonly>
-						<%
-						}
-						%>						
-					</td>
-				<br><br>				
-				<li>입고 일자</li>
-					<td class="input-info">
-						<input type="text" class="date Dinfo" name="date" value="<%=Today%>" readonly>								
-					</td>	
-			</asdie>
-			
-			<div class="content-wrapper1">
-				<section class="sub-content-container">
-					<div class="orderedDate">
-						<div class="table-container">
-							<table class="WrittenForm" id="WrittenForm">
-								<tr>
-									<th>항번</th><th>선택</th><th>Vendor</th><th>Vendor명</th><th>PO번호</th><th>Item번호</th><th>Material</th><th>Material Description</th><th>Material 유형</th><br>
-									<th>발주수량</th><th>구매단위</th><th>입고수량</th><th>미입고수량</th><th>거래통화</th><th>입고예정일자</th><th>입고창고</th><th>Plant</th>
-								</tr>
-							</table>
-						</div>
-					</div>
-				</section>
-			
-				<section class="main-content-container">
-					<div class="input-sub-info">
-						<div class="table-container">
-							<table class="table_1">
-								<tr>
-									<th class="info">Material 입고 번호 : </th>
-										<td class="input-info">
-											<input type="text" class="MatNum Dinfo" name="MatNum" readonly><!-- 中 -->
-											<input type="text" class="KeyValue Dinfo" name="KeyValue" hidden><!-- 中 -->
-										</td>
-										<td>
-											<input type="text" class="MatKeyData Pinfo" name="MatKeyData" hidden><!-- hidden -->
-										</td>
-									
-									<td class="spaceCell-s"></td> <!-- 폭 150px -->
-									
-									<th class="info">GR Item Number : </th>
-										<td class="input-info">
-											<input type="text" class="ItemNum Dinfo" name="ItemNum" reqdonly><!-- 中 -->
-										</td>
-									
-									<td class="spaceCell-b"></td> <!-- 폭 550px -->
-									
-									<th class="info">Movement Type: </th>
-										<td class="input-info" colsapn="2">
-											<!-- <a href="javascript:MoveTypeSearch()"><input type="text" class="MovType Dinfo" name="MovType" value="GR101" readonly></a> -->
-											<input type="text" class="MovType Dinfo" name="MovType" value="GR101" onclick="InfoSearch('MoveTypeSearch')" readonly>
-											<input type="text" class="MovType_Des" name="MovType_Des" size="40" value="구매발주 Material 입고" readonly>
-											<input type="text" class="PlusMinus Dinfo" name="PlusMinus" value="Plus" hidden><!-- hidden -->
-										</td>
-								</tr>
-							</table>
-
-							<table class="table_2">
-								<tr>
-									<th class="info">Purchase Order No : </th>
-										<td class="input-info">
-											<input type="text" class="PurOrdNo Dinfo" name="PurOrdNo" readonly>
-										</td>
-									
-									<td class="spaceCell-43"></td> <!-- 폭 43px -->
-									
-									<th class="info">Order Item Number : </th>
-										<td class="input-info">
-											<input type="text" class="OIN" name="OIN" readonly>
-										</td>
-								</tr>
-							</table>
-							
-							<table class="table_3">
-								<tr>
-									<th class="info">Material : </th>
-										<td class="input-info" colspan="2">
-											<input type="text" class="MatCode Dinfo" name="MatCode" readonly>
-											<input type="text" class="MatDes Dinfo" name="MatDes" readonly> 
-										</td>
-										
-									<td class="spaceCell-515"></td>
-									
-									<th class="info">Material 유형 : </th>
-										<td class="input-info">
-											<input type="text" class="MatType Dinfo" name="MatType" readonly>
-										</td>
-								</tr>
-							</table>
-							
-							<table class="table_4">
-								<tr>
-									<th class="info">Plant : </th>
-										<td class="input-info">
-											<input type="text" class="PlantCode Dinfo" name="PlantCode" readonly>
-										</td>
-										
-									<td class="spaceCell-230"></td>
-									
-									<th class="info">납품S.Location : </th>
-										<td class="input-info" colspan="2">
-											<input type="text" class="SLocCode Dinfo" name="SLocCode" readonly> <!-- ? -->
-											<input type="text" class="SLocDes" name="SLocDes" readonly>
-										</td>
-										
-									<td class="spaceCell-250"></td>
-									
-									<th class="info">창고 Rack: </th>
-										<td class="input-info">
-											<input type="text" class="WareRack" name="WareRack" readonly>
-										</td>	
-										
-									<td class="spaceCell-243"></td>
-									
-									<th class="info">Bin : </th>
-										<td class="input-info">
-											<input type="text" class="Bin Dinfo" name="Bin" readonly>
-										</td>	
-								</tr>
-							</table>
-							
-							<table class="table_5">
-								<tr>
-									<th class="info">발주 수량 : </th>
-										<td class="input-info">
-											<input type="text" class="OrderCount" name="OrderCount" readonly>
-										</td>
-									
-										<td class="spaceCell-10"></td>
-									
-									<th class="info">구매단위 : </th>
-										<td class="input-info" colspan="2">
-											<input type="text" class="BuyUnit" name="BuyUnit" readonly>
-											<input type="text" class="Money Dinfo" name="Money" hidden><!-- hidden -->
-										</td>
-										
-									<td class="spaceCell-250"></td>
-									
-									<th class="info">입고 수량: </th>
-										<td class="input-info">
-											<input type="text" class="InputCount Dinfo Pinfo" name="InputCount">
-										</td>
-											
-									<td class="spaceCell-250"></td>
-									
-									<th class="info">재고단위 : </th>
-										<td class="input-info">
-											<input type="text" class="GoodUnit Dinfo" name="GoodUnit" readonly>
-										</td>
-										
-									<td class="spaceCell-300"></td>
-									
-									<th class="info">미입고 수량 : </th>
-										<td class="input-info">
-											<input type="text" class="NotInput" name="NotInput" readonly>
-										</td>
-												
-								</tr>
-							</table>
-							
-							<table class="table_6">
-								<tr>
-									<th class="info">자제 Lot 번호 : </th>
-										<td class="input-info">
-											<input type="text" class="LotNum Dinfo" name="LotName"> <!-- ? -->
-										</td>
-										
-									<td class="spaceCell-250"></td>
-									
-									<th class="info">제조일자 : </th>
-										<td class="input-info">
-											<input type="date" class="MadeDate Dinfo" name="MadeDate">
-										</td>
-										
-									<td class="spaceCell-179"></td>
-									
-									<th class="info">유효기간 만료일자 : </th>
-										<td class="input-info">
-											<input type="date" class="Deadline Dinfo" name="Deadline">
-										</td>	
-								</tr>
-							</table>
-						</div>
-					</div>
-				</section>
-				
-				<section>
-					<div class="container">
-						<img name="Down" src="../img/Dvector.png" alt="">
-						<input class="input-btn" id="btn" type="submit" value="Insert">
-					</div>
-				</section>
-				
-				<section>
-					<div class="StoreReady">
-						<div class="table-container">
-							<table class="TemTable" id="TemTable">
-								<tr>
-									<th>항번</th><th>삭제</th><th>입고번호</th><th>Item번호</th><th>입고유형</th><th>Material</th><th>Material Description</th><br>
-									<th>창고</th><th>Bin</th><th>입고수량</th><th>재고단위</th><th>Lot번호</th><th>Plant</th><th>Vendor</th><th>제조일자</th><th>만료일자</th><br>
-									<th>PO번호</th><th>회사코드</th>
-								</tr>
-							</table>
-						</div>
-					</div>
-					
-				</section>
+<jsp:include page="../HeaderTest.jsp"></jsp:include>
+	<!-- <form name="MatInputRegistForm" id="MatInputRegistForm" action="MatInput_OK.jsp" method="POST" onSubmit="return checkCount()" enctype="UTF-8"> -->
+	<div class="Mat-Input">
+		<div class="MatInput-Header">
+			<div class="Title">타이틀</div>
+			<div class="InfoInput">
+				<label>Company Code : </label>
+				<input type="text" class="ComCode HeadInfo" name="ComCode" onclick="InfoSearch('ComSearch')" value="<%=userComCode %>" readonly>
+				<input type="text" class="Com_Name" name="Com_Name" hidden> 
 			</div>
-		</div> 	
-		</form>
+			<div class="InfoInput">
+				<label>Plant : </label>
+				<input type="text" class="PlantCode HeadInfo" name="PlantCode" onclick="InfoSearch('PlantSearch')" readonly>
+				<input type="text" class="PlantDes" name="PlantDes" readonly> 
+			</div>
+			
+			<div class="InfoInput">	
+				<label>Vendor : </label>
+				<input type="text" class="VendorCode HeadInfo" name="VendorCode" onclick="InfoSearch('VendorSearch')" readonly>
+				<input type="text" class="VendorDes" name="VendorDes" readonly> 
+			</div>
+			
+			<div class="InfoInput">
+				<label>입고자 사번 : </label>
+				<input type="text" class="UserID Dinfo" name="UserID" value="<%=UserIdNumber %>"  readonly>
+			</div>
+					
+			<div class="InfoInput">
+				<label>입고 일자 : </label>
+				<input type="text" class="date Dinfo" name="date" readonly>	
+			</div>
+			
+			<div class="BtnArea">
+				<button>Create</button>
+			</div>		
+		</div>
+		
+		<div class="MatInput-Body">
+			<div class="Order-Area">
+				<div class="Title">타이틀</div>
+				<table class="InfoTable">
+					<thead>
+						<tr>
+							<th>항번</th><th>선택</th><th>공급업체</th><th>공급업체 프로필</th><th>PO번호</th><th>Item번호</th><th>자재</th><th>자재 정보</th><th>자재 유형</th>
+							<th>발주수량</th><th>구매단위</th><th>입고수량</th><th>미입고수량</th><th>거래통화</th><th>입고예정일자</th><th>입고창고</th><th>Plant</th>
+						</tr>
+					</thead>
+					<tbody class="OrderBody">
+					</tbody>
+				</table>
+			</div>
+		
+			<div class="Mat-Area">
+				<div class="InfoInput">
+					<label>Material 입고 번호 : </label>
+					<input type="text" class="MatNum Dinfo" name="MatNum" readonly>
+					
+					<label>GR Item Number :</label>
+					<input type="text" class="ItemNum Dinfo" name="ItemNum" reqdonly>
+					
+					<label>Movement Type:</label>
+					<input type="text" class="MovType Dinfo" name="MovType" onclick="InfoSearch('MoveTypeSearch')" readonly>
+					<input type="text" class="MovType_Des" name="MovType_Des" readonly>
+					<input type="text" class="PlusMinus" hidden>
+				</div>
+						
+				<div class="InfoInput">
+					<label>Purchase Order No : </label>
+					<input type="text" class="PurOrdNo Dinfo" name="PurOrdNo" readonly>
+					<label>Order Item Number : </label>
+					<input type="text" class="OIN" name="OIN" readonly>
+				</div>
+					
+				<div class="InfoInput">
+					<label>Material : </label>
+					<input type="text" class="MatCode Dinfo" name="MatCode" readonly>
+					<input type="text" class="MatDes Dinfo" name="MatDes" readonly> 
+					
+					<label>Material 유형 : </label>
+					<input type="text" class="MatType Dinfo" name="MatType" readonly>
+				</div>
+				
+				<div class="InfoInput">
+					<label>Plant : </label>
+					<input type="text" class="PlantCode Dinfo" name="PlantCode" readonly>
+						
+					<label>납품S.Location : </label>
+					<input type="text" class="SLocCode Dinfo" name="SLocCode" readonly> 
+					<input type="text" class="SLocDes" name="SLocDes" readonly>
+					
+					<label>창고 Rack: </label>
+					<input type="text" class="WareRack" name="WareRack" readonly>
+						
+					<label>Bin : </label>
+					<input type="text" class="Bin Dinfo" name="Bin" readonly>	
+				</div>
+				
+				<div class="InfoInput">
+					<label>발주수량 : </label>
+					<input type="text" class="OrderCount" name="OrderCount" readonly>
+						
+					<label>구매단위 : </label>
+					<input type="text" class="BuyUnit" name="BuyUnit" readonly>
+						
+					<label>입고수량 : </label>
+					<input type="text" class="InputCount Dinfo Pinfo" name="InputCount">
+						
+					<label>재고단위 : </label>
+					<input type="text" class="GoodUnit Dinfo" name="GoodUnit" readonly>
+						
+					<label>미입고 수량 : </label>
+					<input type="text" class="NotInput" name="NotInput" readonly>
+				</div>
+				
+				<div class="InfoInput">
+					<label>자제 Lot 번호 : </label>
+					<input type="text" class="LotNum Dinfo" name="LotName"> 
+						
+					<label>제조일자 : </label>
+					<input type="date" class="MadeDate Dinfo" name="MadeDate">
+						
+					<label>유효기간 만료일자 : </label>
+					<input type="date" class="Deadline Dinfo" name="Deadline">
+				</div>
+			</div>
+			
+			<div class="BtnArea">
+				<button class="InsertBtn">Insert</button>
+				<button class="SaveBtn">Save</button>
+				<button class="ResetBtn">Reset</button>
+			</div>
+			
+			
+			<div class=Info-Area>
+				<div class="Title">타이틀</div>
+				<table class="InfoTable" id="InfoTable">
+					<thead>
+						<tr>
+							<th>항번</th><th>삭제</th><th>입고번호</th><th>Item번호</th><th>입고유형</th><th>자재</th><th>자재 정보</th>
+							<th>창고</th><th>Bin</th><th>입고수량</th><th>재고단위</th><th>Lot번호</th><th>사업장<!-- Plant --></th><th>공급업체<!-- Vendor --></th><th>제조일자</th><th>만료일자</th>
+							<th>PO번호</th><th>회사코드</th>
+						</tr>
+					</thead>
+					<tbody class="InfoBody">
+					</tbody>
+				</table>
+			</div>
+			
+		</div>
+	</div> 	
 </body>
 </html>

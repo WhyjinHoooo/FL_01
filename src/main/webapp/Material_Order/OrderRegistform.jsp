@@ -58,7 +58,7 @@ function InfoSearch(field){
     }
     
     var ComCode = $('.ComCode').val();
-    var VenCode = document.querySelector('.VendorCode').value;
+    var VenCode = $('.VendorCode').val();
     
     switch(field){
     case "ComSearch":
@@ -168,8 +168,7 @@ $(document).ready(function(){
     var Plus = 0;
     var rowNum;
     $('.InsertBtn').click(function(){
-    	console.log('1. Plus : ' + Plus);
-    	$(".Key-Com").each(function(){
+    	$('.Key-Com').each(function(){
             var name = $(this).attr("name");
             var value = $(this).val();
             dataToSend[name] = value;
@@ -327,7 +326,8 @@ $(document).ready(function(){
         $('input[name="OrdPrice"]').val(total);
     });
     
-    $('.SavetBtn').click(function(){
+    $('.SaveBtn').click(function(){
+    	console.log('클릭');
     	$(".Header").each(function(){
             var name = $(this).attr("name");
             var value = $(this).val();
@@ -376,7 +376,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 <jsp:include page="../HeaderTest.jsp"></jsp:include>
 	<div class="Mat-Order">
 		<div class="MatOrder-Header">
-			<div class="Header-Title">원자재 발주 헤더</div>
+			<div class="Header-Title">자재 발주 헤더</div>
 			<div class="InfoInput">
 				<label>Company : </label>
 				<input type="text" class="ComCode" name="ComCode" onclick="InfoSearch('ComSearch')" value="<%=userComCode %>" readonly>
@@ -474,7 +474,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 
 			<div class="BtnArea">
 				<button class="InsertBtn">Insert</button>
-				<button class="SavetBtn">Save</button>
+				<button class="SaveBtn">Save</button>
 				<button class="ResetBtn">Reset</button>
 			</div>
 		

@@ -1,9 +1,9 @@
 @charset "UTF-8";
 	.PopUp-board {
-	padding: 20px;
-	width: 80%;
-	max-height: 400px;
-	position: relative;
+		padding: 20px;
+		width: 80%;
+		max-height: 400px;
+		position: relative;
 	}
 	
 	.PopUp-board table {
@@ -18,33 +18,33 @@
 	 }
 	
 	.PopUp-board th {
-	background-color: #f2f2f2;
-	position: sticky;
-	top: 0;
-	z-index: 1;
+		background-color: #f2f2f2;
+		position: sticky;
+		top: 0;
+		z-index: 1;
 	}
 	
 	.PopUp-board td a {
-	text-decoration: none;
-	color: #007bff;
+		text-decoration: none;
+		color: #007bff;
 	}
 	
 	.PopUp-board td a:hover {
-	text-decoration: underline;
+		text-decoration: underline;
 	}
 	/* 영업계획 중 매출계획(년간) */
 	.Sales_PlanVer_board,
 	.Sales_TradeCom_board {
-    border: 1px solid rgb(111, 167, 235);
-    max-height: 80vh; /* 최대 높이 제한 */
-    width: 70vh;
-    overflow-y: auto; /* 세로 스크롤 생성 */
+	    border: 1px solid rgb(111, 167, 235);
+	    max-height: 80vh; /* 최대 높이 제한 */
+	    width: 70vh;
+	    overflow-y: auto; /* 세로 스크롤 생성 */
 	}
 	.PlanVerTable,
 	.TradeComTable {
-	border-collapse: collapse;
-	width: 100%;
-    table-layout: fixed;
+		border-collapse: collapse;
+		width: 100%;
+	    table-layout: fixed;
 	}
 	.PlanVerTable thead,
 	.TradeComTable thead {
@@ -72,12 +72,12 @@
 	}
 	/* 영업계획 중 매출계획(년간) */
 	.Total_board{
-    border: 1px solid rgb(111, 167, 235);
-    max-height: 80vh; /* 최대 높이 제한 */
-    width: 70vh;
-    overflow-y: scroll; /* 세로 스크롤 생성 */
-    table-layout: fixed;
-    border-collapse: collapse;
+	    border: 1px solid rgb(111, 167, 235);
+	    max-height: 80vh; /* 최대 높이 제한 */
+	    width: 70vh;
+	    overflow-y: scroll; /* 세로 스크롤 생성 */
+	    table-layout: fixed;
+	    border-collapse: collapse;
 	}
 	.MatOrderBoard{
 		border: 1px solid rgb(111, 167, 235);
@@ -87,33 +87,41 @@
 	    table-layout: fixed;
 	    border-collapse: collapse;
 	}
+	.ForMove{
+		border: 1px solid rgb(111, 167, 235);
+	    max-height: 80vh;
+	    width: 100%;
+	    overflow-y: scroll;
+	    table-layout: fixed;
+	    border-collapse: collapse;
+	}
 	.ExMaterial{
-	width: 155vh;
+		width: 155vh;
 	}
 	.TotalTable {
-	border-collapse: collapse;
-	width: 100%;
-    table-layout: fixed;
+		border-collapse: collapse;
+		width: 100%;
+	    table-layout: fixed;
 	}
 	
 	.Total_board.SpecialSize{
-    border: 1px solid rgb(111, 167, 235);
-    max-height: 80vh; /* 최대 높이 제한 */
-    width: 110vh;
-    overflow: scroll; /* 세로 스크롤 생성 */
-    table-layout: fixed;
+	    border: 1px solid rgb(111, 167, 235);
+	    max-height: 80vh; /* 최대 높이 제한 */
+	    width: 110vh;
+	    overflow: scroll; /* 세로 스크롤 생성 */
+	    table-layout: fixed;
 	}
 	.TotalTable.SpecialSize {
-	border-collapse: collapse;
-	width: 100%;
-    table-layout: fixed;
+		border-collapse: collapse;
+		width: 100%;
+	    table-layout: fixed;
 	}
 	
 /* 	.TotalTable thead{ */
     	
 /* 	} */
 	.TotalTable thead > tr > th{
-	background: #260FB1;
+		background: #260FB1;
     	color: white;
     	padding: 8px;
     	border: 1px solid white;

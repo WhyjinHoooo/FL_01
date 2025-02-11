@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<%@ include file="../mydbcon.jsp" %>
+<%@ include file="../../mydbcon.jsp" %>
 <link rel="stylesheet" href="../css/style.css?after">
 </head>
 
