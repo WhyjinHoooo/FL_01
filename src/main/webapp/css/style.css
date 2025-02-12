@@ -1172,6 +1172,9 @@ table.ComInfoTable {
 		height: 84%;
 		margin-top: 0.99%;
 	}
+	.Mat-Input input{
+		font-weight: bold;
+	}
 	.Mat-Input > .MatInput-Header > .Title,
 	.Mat-Input > .MatInput-Body > .Order-Area > .Title,
 	.Mat-Input > .MatInput-Body > .Info-Area > .Title{
@@ -1273,7 +1276,7 @@ table.ComInfoTable {
     .Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody {
         table-layout: fixed;
         display: block;
-        width: 100%;
+        width: 100.2%;
         height: 75.5%;
         max-height: 90%;
         overflow-y: auto;
@@ -1291,7 +1294,7 @@ table.ComInfoTable {
 	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty) {
 	    padding: 8px 0px;
 	    border: 1px solid #ddd;
-	    width: 108px;
+	    width: 107.1px;
 	    height: 10px;
 	    text-align: center;
 	    font-size: 8px;
@@ -1321,23 +1324,27 @@ table.ComInfoTable {
 	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(2) {
 		padding: 0;
 	}
-	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(3) {}
-	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(4) {}
+	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(3) {
+	    font-size: small;
+        width: 105px;
+	}
+	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(4) {
+	   	font-size: small;
+	}
 	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(5) {}
-	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(6) {}
-	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(7) {}
+	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(6) {
+	    font-size: small;
+	    width: 110px;
+	}
+	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(7) {
+		font-size: small;
+	}
 	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(8) {}
-	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(9) {}
-	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(10) {}
-	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(11) {}
-	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(12) {}
-	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(13) {}
-	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(14) {}
-	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(15) {}
-	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(16) {}
-	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(17) {}
 	
-
+	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(1),
+	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody td:not(:empty):nth-child(n+9):nth-child(-n+17) {
+		font-size: small;
+	}
 	
 	.Mat-Input > .MatInput-Body > .Order-Area > table.InfoTable tbody::-webkit-scrollbar {
 	    width: 5px;
@@ -1386,6 +1393,7 @@ table.ComInfoTable {
 	.Mat-Input > .MatInput-Body > .Mat-Area > .InfoInput:nth-child(2) > input:nth-child(2){
 		width: 10%;
 	}
+	.Mat-Input > .MatInput-Body > .Mat-Area > .InfoInput:nth-child(3) > input:nth-child(5),
 	.Mat-Input > .MatInput-Body > .Mat-Area > .InfoInput:nth-child(1) > input:nth-child(4),
 	.Mat-Input > .MatInput-Body > .Mat-Area > .InfoInput:nth-child(1) > input:nth-child(6),
 	.Mat-Input > .MatInput-Body > .Mat-Area > .InfoInput:nth-child(2) > input:nth-child(4),
@@ -1401,9 +1409,20 @@ table.ComInfoTable {
 	.Mat-Input > .MatInput-Body > .Mat-Area > .InfoInput:nth-child(3) > input:nth-child(3){
 		width: 35%;
 	}
+	
+	.Mat-Input > .MatInput-Body > .Mat-Area > .InfoInput:nth-child(3) > label:nth-child(4){
+		margin-left: 3%;
+	}
 	.Mat-Input > .MatInput-Body > .Mat-Area > .InfoInput:nth-child(4) > input:nth-child(4){
 		width: 5%;
 		margin-right: -3px;
+	}
+	.Mat-Input > .MatInput-Body > .Mat-Area > .InfoInput:nth-child(4) > label:nth-child(6){
+		margin-left: -0.4%;
+	}
+	.Mat-Input > .MatInput-Body > .Mat-Area > .InfoInput:nth-child(4) > label:nth-child(8),
+	.Mat-Input > .MatInput-Body > .Mat-Area > .InfoInput:nth-child(5) > label:nth-child(9){
+		margin-left: -2.5%;
 	}
 	.Mat-Input > .MatInput-Body > .Mat-Area > .InfoInput:nth-child(5) > label:nth-child(3) {
 		font-weight: 900;
@@ -1424,7 +1443,7 @@ table.ComInfoTable {
 		width: 5%;
 	}
 	.Mat-Input > .MatInput-Body > .Mat-Area > .InfoInput:nth-child(6) > input{
-		width: 5%;
+		width: 5.6%;
 	}
 	.Mat-Input > .MatInput-Body > .Mat-Area > .InfoInput:nth-child(6) > input:nth-child(2){
 		width: 16.4%;
@@ -1442,7 +1461,7 @@ table.ComInfoTable {
 		width: 12em;
 		text-align: right;
 		letter-spacing: 0.1em;
-		margin-left: 2.1%;
+		margin-left: 1.4%;
 	}
 	.Mat-Input > .MatInput-Body > .BtnArea {
         height: 5%;

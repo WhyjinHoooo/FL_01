@@ -58,7 +58,6 @@ public class DeleteOrder extends HttpServlet {
 			Context envContext = (Context) ctx.lookup("java:/comp/env");
 			dataFactory = (DataSource)envContext.lookup("jdbc/mysql");
 			conn = dataFactory.getConnection();
-			System.out.println("DB접속성공");
 			
 			if(page.equals("OrderRegistform")) {	
 				String sql = "Delete From project.ordertable";

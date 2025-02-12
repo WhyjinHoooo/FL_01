@@ -122,7 +122,6 @@ $(document).ready(function(){
 			dataType : "json",
 			success: function(response){
 				if(response.result === "fail") {
-					alert(response.message);
 					$('input.MovType').attr('placeholder','SELECT');
 					$('input.MovType_Des').val('');
 					$('input.PlusMinus').val('');
@@ -139,8 +138,6 @@ $(document).ready(function(){
 			data : {vendor : VCode, plant : PCode},
 			dataType: 'json',
 			success: function(data){
-				console.log(data[0].Vendor);
-				console.log(data.length);
 				$('.OrderBody').empty();
 				for(var i = 0 ; i < data.length ; i++){
 					var row = '<tr>' +
@@ -165,7 +162,6 @@ $(document).ready(function(){
 					'</tr>';
             		$('.OrderBody').append(row);
 				}
-				
 			}
 		});
 	}
@@ -196,123 +192,112 @@ $(document).ready(function(){
     		MoveCode();
     	}
 	})
-	
-$(document).on('click', '.sendBtn', function() {
-		
-		var row = $(this).closest('tr');
-		var Key = row.find('.key').text();
-		var MMPO = row.find('.MMPO').text();
-		var ItemNo = row.find('.ItemNo').text();
-		var MatCode = row.find('.MatCode').text();
-		var MatDes = row.find('.MatDes').text();
-		var MatType = row.find('.MatType').text();
-		var Quantity = row.find('.Quantity').text();
-		var PoUnit = row.find('.PoUnit').text();
-		var NotStored = row.find('.NotStored').text();
-		var Storage = row.find('.Storage').text();
-		var PlantCode = row.find('.PlantCode').text();
-		var TraCurr = row.find('.TraCurr').text();
-		var KeyValue = row.find('.key').text();
-		
-		const TableName = document.getElementById('TemTable');
-		const RowCount = TableName.rows.length - 1;
-		
-		$('.MatKeyData').val(Key);
-		if(RowCount == 0){
-			$('.ItemNum').val('0001'); // GR Item Number
-			console.log("임시저장된 데이터 없는 경우");
-		} else {
-			$('.ItemNum').val(("0000" + (RowCount + 1)).slice(-4));
-			console.log("임시저장된 데이터 있는 경우");
-		}
-		
-		//$('.ItemNum').val('0001'); // GR Item Number
-		$('.PurOrdNo').val(MMPO); // Purchase Order No
-		$('.OIN').val(ItemNo); // Order Item Number
-		$('.MatCode').val(MatCode); // Material
-		$('.MatDes').val(MatDes); // Material Description
-		$('.MatType').val(MatType); // Material 유형
-		$('.OrderCount').val(Quantity); // 발주 수량
-		$('.BuyUnit').val(PoUnit); // 구매단위
-		//$('.InputCount').val('0'); //V 	입고 수량
-		//$('.InputCount').val(StoreCount);  	입고 수량
-		$('.GoodUnit').val(PoUnit); //	재고단위
-		$('.NotInput').val(NotStored); // 미입고 수량
-		$('.PlantCode').val(PlantCode); // Plant		
-		$('.SLocCode').val(Storage).trigger('input'); //납품S.Location
-		$('.SLocDes').val(''); //납품S.Location Description
-		$('.WareRack').val(''); //창고 Rack
-		$('.Bin').val(''); // Bin
-		$('.Money').val(TraCurr);
-		$('.KeyValue').val(KeyValue);
-	
-		var date = new Date();
-		var year = date.getFullYear();
-		var month = ('0' + (date.getMonth() + 1)).slice(-2);
-		var day = ('0' + date.getDate()).slice(-2);
-		var formattedDate = year + month + day;
-		$('.MatNum').val('MGR' + formattedDate + 'S00001').trigger('change');
-		
-
-		/* row.hide(); */ 
-		//row.remove();  // 행 삭제
-
-	    // 항번 재정렬
-	    $('.WrittenForm tr').each(function(index) {
-	        $(this).find('td:first').text(index);
-	    });	
-		
-		const MovType = document.querySelector(".MovType");
-		const MovType_Des = document.querySelector(".MovType_Des");
-		const WareRack = document.querySelector(".WareRack");
-		const Bin = document.querySelector(".Bin");
-		const LotNum = document.querySelector(".LotNum");
-		const MadeDate = document.querySelector(".MadeDate");
-		const Deadline = document.querySelector(".Deadline");
-		
-		const resetVendor = (inputs) => {
-			inputs.forEach(input => input.value = '');
-		};
-		const typing = [MovType,MovType_Des,WareRack,Bin,LotNum,MadeDate,Deadline];
-		
-		//resetVendor(typing);
-		
-	}); //$(document).on('click', '.sendBtn', function(){...}의 끝	
-	
-	$('input.SLocCode').on('input', function(){
-		var storageLoc = $(this).val();
-		console.log('Storage Location Code : ' + storageLoc);
+	var Plus = 0;
+	var PoinfoLst = [];
+	var DataList = [];
+	$('.OrderBody').on('click','.AddBtn', function(e){
+		e.preventDefault();
+		var todayDate = $('.date').val();
+		var MoveType = $('.MovType').val();
 		$.ajax({
-			type : "POST",
-			url : "FindsLoc.jsp",
-			data : {sloccode : storageLoc},
-			success: function(response){
-				console.log(response);
-				if(response.SLocName) {
-					$('.SLocDes').val(response.SLocName);
+			type: 'POST',
+			url: '${contextPath}/Material_Input/AjaxSet/FindMatNum.jsp',
+			data:{DateVal : todayDate, MoveTypeVal : MoveType},
+			dataType: 'text',
+			success: function(data){
+				$('.MatNum').val(data.trim());
+				if(Plus === 0){
+					$('.ItemNum').val('0001');
+				}else{
+					$('.ItemNum').val(Plus.toString().padStart(4,'0'));
 				}
 			}
 		})
-	});
-	
-	$('.MatNum').on('change', function(){
-		var matinputNumber = $(this).val();
-		/* $('.ItemNum').val('0001'); */
-		var ginum = $('.ItemNum').val();
-		console.log('2023-12-08 Material 입고 번호 : ' + matinputNumber + ', 2023-12-08 GR Item Number : ' + ginum);
-		$.ajax({
-			type : "POST",
-			url : "FindMatNum.jsp",
-			data : {MatNum : matinputNumber, GItemNumber : ginum},
-			success: function(response){
-				console.log(response);
-				var values = response.trim().split(",");
-				$('input[name="MatNum"]').val(values[0]); // Material 입고 번호
-				$('.ItemNum').val(values[1]); // GR Item Number
-			}
+		var row = $(this).closest('tr');
+		var DataList = [
+			row.find('td:eq(4)').text(),
+		    row.find('td:eq(5)').text(),
+		    row.find('td:eq(6)').text(),
+		    row.find('td:eq(7)').text(),
+		    row.find('td:eq(8)').text(),
+		    row.find('td:eq(16)').text(),
+		    row.find('td:eq(15)').text(),
+		    row.find('td:eq(9)').text(),
+		    row.find('td:eq(10)').text(),
+		    row.find('td:eq(12)').text(),
+		    row.find('td:eq(13)').text(),
+		]
+		
+		$('.PoInfo').each(function(){
+			var Name = $(this).attr('name');
+			PoinfoLst.push(Name);
 		})
-	});
+	console.log(PoinfoLst);
+		console.log('DataList : ', DataList);
+		for(var i = 0 ; i < PoinfoLst.length ; i++){
+			if(i === 9){
+				$('.' + PoinfoLst[i] + '').val(DataList[i-1]);
+			}else if(i === 10){
+				$('.' + PoinfoLst[i] + '').val(DataList[i-1]);
+			}else if(i === 11){
+				$('.' + PoinfoLst[i] + '').val(DataList[i-1]);
+			}else{
+				$('.' + PoinfoLst[i] + '').val(DataList[i]);
+				if(i === 6){
+					$('.' + PoinfoLst[i] + '').trigger('change');
+				}
+			}
+		}
+		$('.WareRack').val('Null');
+		$('.Bin').val('Null');
+	})
+	$('.SLocCode').change(function(){
+			var storageLoc = $(this).val();
+			$.ajax({
+				type : "POST",
+				url : "${contextPath}/Material_Input/AjaxSet/FindsLoc.jsp",
+				data : {sloccode : storageLoc},
+				dataType: 'text',
+				success: function(data){
+					$('.SLocDes').val(data.trim());
+				}
+			})
+		});
 	
+	var InputInfoList = {};
+	$('.InsertBtn').click(function(){
+		$('.InputInfo').each(function(){
+            var name = $(this).attr("name");
+            var value = $(this).val();
+            InputInfoList[name] = value;
+        });
+    	var pass = true;
+    	$.each(InputInfoList,function(key, value){
+    		if(value == null || value === ''){
+    			pass = false;
+    			return false;
+    		}
+    	})
+    	if($('.NotInput').val() - InputInfoList.InputCount < 0){
+    		alert('입고수량을 다시 입력해주세요.');
+    	}
+    	if(!pass){
+    		alert('모든 항목을 입력해주세요.');
+    	}else{
+    		$.ajax({
+                url: '${contextPath}/Material_Input/AjaxSet/QuickSave.jsp',
+                type: 'POST',
+                data: JSON.stringify(InputInfoList),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                async: false,
+                success: function(){
+                	
+                }
+			})
+    	}
+    	
+	})
 	var RowNum = 1;
 	var itemNum = 0; // Item 번호를 위한 변수 
 	
@@ -322,116 +307,6 @@ $(document).on('click', '.sendBtn', function() {
 	
 	var Add = 0;
 	var Minus = 0;
-	
-	$(".container").on('click', "img[name=Down]",function(){
-		
-		var EnterCount = $('.InputCount').val();
-		var YetCount = $('.NotInput').val();
-		var CMovType = $('.MovType').val();
-		var CLotNum = $('.LotNum').val();
-		var CMadeDate = $('.MadeDate').val();
-		var CDeadline = $('.Deadline').val();
-		
-		
-		if(!EnterCount || !CMovType || !CLotNum || !CMadeDate || !CDeadline){
-			alert('항목을 모두 입력해주세요.');
-			return false;
-		} else if(YetCount - EnterCount < 0){
-			alert('입고 수량을 수정해주세요.');
-			return false;
-		}
-		
-		
-		if(Minus > 0){
-			var editNum = Add - Minus + 1;
-			console.log("수정된 번호 : " + editNum);
-		}
-		Add++;
-		console.log("이미지 클릭 횟수 : " + Add);
-		console.log(itemNum);
-		itemNum++;
-		var CurOIN = parseInt($('.ItemNum').val(), 10);
-		console.log(CurOIN);
-		
-		console.log("itemNum : " + itemNum + ", CurOIN : " + CurOIN);
-		if(itemNum !== CurOIN){
-			itemNum = editNum;
-			CurOIN = editNum;
-			console.log("변경된 itemNum : " + itemNum + ", 변경된 CurOIN : " + CurOIN);
-		};
-		
-		var DataList = {};
-		$('.Dinfo').each(function(){
-			var name = $(this).attr("name");
-			var value = $(this).val();
-			DataList[name] = value;
-		});
-		console.log("DataList : ", DataList);
-		
-		var CountList = {};
-		$('.Pinfo').each(function(){
-			var name = $(this).attr("name");
-			var value = $(this).val();
-			CountList[name] = value;	
-		});
-		console.log("CountList : ", CountList);
-		
-		var CombineList = {
-			dList : DataList,
-			CList : CountList
-		};
-		
-		const reset = [/*  $('.MovType_Des'), $('.MovType'), */ $('.InputCount'), $('.MadeDate'), $('.Deadline'), $('.LotNum')];
-		reset.forEach(input => input.val(''));
-		
-		$.ajax({
-			url: 'SaveDraft.jsp',
-			type: 'POST',
-			data: JSON.stringify(CombineList),
-			contentType: 'application/json; charset=utf-8',
-			dataType: 'json',
-			async: false,
-			success: function(data){
-				var DelBtn = "삭제";
-				var NewRow = "<tr class='dTitle'>";
-				var A_RowNum = $('.TemTable tr').length;
-				console.log('잉잉잉잉 : ' + A_RowNum);
-				
-				NewRow += "<td>" + A_RowNum + "</td>";
-				NewRow += "<td><input type='Button' name='DeleteBtn' value='" + DelBtn + "'></td>";
-				
-				var List = ["MatNum", "ItemNum", "MovType", "MatCode", "MatDes", "SLocCode",   
-					 "Bin", "InputCount", "GoodUnit","LotName","PlantCode", "VendorCode", "MadeDate", "Deadline", "PurOrdNo","plantComCode", "KeyValue"];
-				
-				var InputCountValue = data["InputCount"];
-				$('.NotInput').val($('.NotInput').val() - InputCountValue); /* <?> */
-				
-				$.each(List, function(index, key){
-					if(key === "ItemNum"){
-						NewRow += "<td>" + ("0000" + itemNum).slice(-4) + "</td>";
-					} else if(key === "Bin"){
-						data[key] = "NULL";
-				        NewRow += "<td class='datasize'>" + data[key] + "</td>"; 
-					}else if(key === "KeyValue"){
-						NewRow += "<td class='datasize' hidden>" + data[key] + "</td>";
-					}else{
-						NewRow += "<td class='datasize'>" + data[key] + "</td>";
-					}
-				});
-				NewRow += "</tr>";
-				$(".TemTable").append(NewRow);
-				console.log("입력한 ItemNumber : " + $('.ItemNum').val());
-				$('.ItemNum').val(("0000" + (CurOIN + 1)).slice(-4));
-				console.log("다음 ItemNumber : " + ("0000" + (CurOIN + 1)).slice(-4));
-				$('.NotInput').val();
-				MaxRowNum = A_RowNum;
-				
-				UpdateTable();
-			}
-			
-		});
-		
-	}); // 화살표이미지 끝
 	$(".TemTable").on('click',"input[name='DeleteBtn']", function(){
 		console.log(RowNum);
 		Minus++;
@@ -506,7 +381,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			<div class="Title">타이틀</div>
 			<div class="InfoInput">
 				<label>Company Code : </label>
-				<input type="text" class="ComCode HeadInfo" name="ComCode" onclick="InfoSearch('ComSearch')" value="<%=userComCode %>" readonly>
+				<input type="text" class="ComCode HeadInfo InputInfo" name="ComCode" onclick="InfoSearch('ComSearch')" value="<%=userComCode %>" readonly>
 				<input type="text" class="Com_Name" name="Com_Name" hidden> 
 			</div>
 			<div class="InfoInput">
@@ -517,18 +392,18 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			
 			<div class="InfoInput">	
 				<label>Vendor : </label>
-				<input type="text" class="VendorCode HeadInfo" name="VendorCode" onclick="InfoSearch('VendorSearch')" readonly>
+				<input type="text" class="VendorCode HeadInfo InputInfo" name="VendorCode" onclick="InfoSearch('VendorSearch')" readonly>
 				<input type="text" class="VendorDes" name="VendorDes" readonly> 
 			</div>
 			
 			<div class="InfoInput">
 				<label>입고자 사번 : </label>
-				<input type="text" class="UserID Dinfo" name="UserID" value="<%=UserIdNumber %>"  readonly>
+				<input type="text" class="UserID" name="UserID" value="<%=UserIdNumber %>"  readonly>
 			</div>
 					
 			<div class="InfoInput">
 				<label>입고 일자 : </label>
-				<input type="text" class="date Dinfo" name="date" readonly>	
+				<input type="text" class="date" name="date" readonly>	
 			</div>
 			
 			<div class="BtnArea">
@@ -554,74 +429,76 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			<div class="Mat-Area">
 				<div class="InfoInput">
 					<label>Material 입고 번호 : </label>
-					<input type="text" class="MatNum Dinfo" name="MatNum" readonly>
+					<input type="text" class="MatNum InputInfo" name="MatNum" readonly>
 					
 					<label>GR Item Number :</label>
-					<input type="text" class="ItemNum Dinfo" name="ItemNum" reqdonly>
+					<input type="text" class="ItemNum InputInfo" name="ItemNum" reqdonly>
 					
 					<label>Movement Type:</label>
-					<input type="text" class="MovType Dinfo" name="MovType" onclick="InfoSearch('MoveTypeSearch')" readonly>
+					<input type="text" class="MovType InputInfo" name="MovType" onclick="InfoSearch('MoveTypeSearch')" readonly>
 					<input type="text" class="MovType_Des" name="MovType_Des" readonly>
-					<input type="text" class="PlusMinus" hidden>
+					<input type="text" class="PlusMinus InputInfo" name="PlusMinus" value="Plus" hidden>
 				</div>
 						
 				<div class="InfoInput">
 					<label>Purchase Order No : </label>
-					<input type="text" class="PurOrdNo Dinfo" name="PurOrdNo" readonly>
+					<input type="text" class="PurOrdNo PoInfo InputInfo" name="PurOrdNo" readonly>
 					<label>Order Item Number : </label>
-					<input type="text" class="OIN" name="OIN" readonly>
+					<input type="text" class="OIN PoInfo" name="OIN" readonly>
 				</div>
 					
 				<div class="InfoInput">
 					<label>Material : </label>
-					<input type="text" class="MatCode Dinfo" name="MatCode" readonly>
-					<input type="text" class="MatDes Dinfo" name="MatDes" readonly> 
+					<input type="text" class="MatCode PoInfo InputInfo" name="MatCode" readonly>
+					<input type="text" class="MatDes PoInfo InputInfo" name="MatDes" readonly> 
 					
 					<label>Material 유형 : </label>
-					<input type="text" class="MatType Dinfo" name="MatType" readonly>
+					<input type="text" class="MatType PoInfo InputInfo" name="MatType" readonly>
 				</div>
 				
 				<div class="InfoInput">
 					<label>Plant : </label>
-					<input type="text" class="PlantCode Dinfo" name="PlantCode" readonly>
+					<input type="text" class="MatPlant PoInfo InputInfo" name="MatPlant" readonly>
 						
 					<label>납품S.Location : </label>
-					<input type="text" class="SLocCode Dinfo" name="SLocCode" readonly> 
+					<input type="text" class="SLocCode PoInfo InputInfo" name="SLocCode" readonly> 
 					<input type="text" class="SLocDes" name="SLocDes" readonly>
 					
 					<label>창고 Rack: </label>
 					<input type="text" class="WareRack" name="WareRack" readonly>
 						
 					<label>Bin : </label>
-					<input type="text" class="Bin Dinfo" name="Bin" readonly>	
+					<input type="text" class="Bin InputInfo" name="Bin" readonly>	
 				</div>
 				
 				<div class="InfoInput">
 					<label>발주수량 : </label>
-					<input type="text" class="OrderCount" name="OrderCount" readonly>
+					<input type="text" class="OrderCount PoInfo" name="OrderCount" readonly>
 						
 					<label>구매단위 : </label>
-					<input type="text" class="BuyUnit" name="BuyUnit" readonly>
+					<input type="text" class="BuyUnit PoInfo InputInfo" name="BuyUnit" readonly>
 						
 					<label>입고수량 : </label>
-					<input type="text" class="InputCount Dinfo Pinfo" name="InputCount">
+					<input type="text" class="InputCount InputInfo" name="InputCount">
 						
 					<label>재고단위 : </label>
-					<input type="text" class="GoodUnit Dinfo" name="GoodUnit" readonly>
+					<input type="text" class="GoodUnit PoInfo InputInfo" name="GoodUnit" readonly>
 						
 					<label>미입고 수량 : </label>
-					<input type="text" class="NotInput" name="NotInput" readonly>
+					<input type="text" class="NotInput PoInfo" name="NotInput" readonly>
+					
+					<input type="text" class="DealCurrency PoInfo InputInfo" name="DealCurrency" hidden>
 				</div>
 				
 				<div class="InfoInput">
 					<label>자제 Lot 번호 : </label>
-					<input type="text" class="LotNum Dinfo" name="LotName"> 
+					<input type="text" class="LotNum InputInfo" name="LotName"> 
 						
 					<label>제조일자 : </label>
-					<input type="date" class="MadeDate Dinfo" name="MadeDate">
+					<input type="date" class="MadeDate InputInfo" name="MadeDate">
 						
-					<label>유효기간 만료일자 : </label>
-					<input type="date" class="Deadline Dinfo" name="Deadline">
+					<label>만료일자 : </label>
+					<input type="date" class="Deadline InputInfo" name="Deadline">
 				</div>
 			</div>
 			

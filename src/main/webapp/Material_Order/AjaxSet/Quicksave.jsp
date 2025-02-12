@@ -16,8 +16,6 @@
 	}
 	try{
 	JSONObject dataToSend = new JSONObject(jsonString.toString());
-	System.out.println("123");
-    System.out.println(dataToSend.getString("PriUnit"));
 
     String sql = "INSERT INTO ordertable VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; 
     PreparedStatement pstmt = conn.prepareStatement(sql);

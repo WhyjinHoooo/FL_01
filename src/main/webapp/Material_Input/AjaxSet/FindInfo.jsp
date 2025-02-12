@@ -7,7 +7,6 @@
 
 <%
 try{
-	System.out.println("1");
 	String PlantCode = request.getParameter("plant");
 	String VendorCode = request.getParameter("vendor");
 	
@@ -27,7 +26,6 @@ try{
 	JSONArray jsonArray = new JSONArray();
 	
 	while(Head_rs.next()){
-		System.out.println("2");
 		PreparedStatement pstmt2 = null;
 		String sql2 = "SELECT * FROM pochild WHERE MMPO = ? AND DeadLine = ?";
 
