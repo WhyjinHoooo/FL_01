@@ -1573,7 +1573,7 @@ table.ComInfoTable {
     .Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody {
         table-layout: fixed;
         display: block;
-        width: 100.2%;
+        width: 100.1%;
         height: 76%;
         max-height: 90%;
         overflow-y: auto;
@@ -1590,7 +1590,7 @@ table.ComInfoTable {
 	}
 	
 	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty) {
-	    padding: 8px 5.5px;
+	    padding: 8px 0px;
 	    border: 1px solid #ddd;
 	    width: 120px;
 	    height: 10px;
@@ -1598,6 +1598,45 @@ table.ComInfoTable {
 	    font-size: 10px;
 	    font-weight: bold;
 	}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(1) {font-size: 9px;width: 118px;}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) {padding: 0;width: 103px;}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(3) {font-size: 8px;width: 102px;}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(4) {font-size: 9px;width: 122px;}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(5) {font-size: 9px;width: 116px;}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(6) {font-size: 9px;width: 113px;}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(7) {font-size: 7px;width: 105px;}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(8) {font-size: 9px;width: 113px;}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(9) {font-size: 9px;width: 120px;}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(10) {font-size: 9px;width: 119px;}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(11) {font-size: 9px;width: 120px;}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(12) {font-size: 9px;width: 118px;}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(13) {font-size: 9px;width: 117px;}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(14) {font-size: 9px;width: 111px;}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(15) {font-size: 9px;width: 114px;}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(16) {font-size: 9px;width: 118px;}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(17) {font-size: 9px;width: 103px;}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(18) {font-size: 9px;}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) > button {
+	    background: darkgray;
+	    color: white;
+	    width: 99px;
+	    height: 45px;
+	    font-weight: bold;
+	    border-radius: 10px;
+	    border: darkgray;
+	}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) > button:hover {
+		background:  #7A7A7A;
+		color: #fff;
+		border: 1px solid  #7A7A7A;
+	}
+	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) > button:click {
+		background: #5A5A5A;
+		color: #fff;
+		border: 1px solid #5A5A5A;
+	}
+	
+	
 	.Mat-Input > .MatInput-Body > .Info-Area > table.InfoTable tbody::-webkit-scrollbar {
 	    width: 5px;
 	}

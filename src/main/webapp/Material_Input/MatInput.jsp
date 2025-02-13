@@ -195,6 +195,7 @@ $(document).ready(function(){
 	var Plus = 0;
 	var PoinfoLst = [];
 	var DataList = [];
+	var OINumber = 0;
 	$('.OrderBody').on('click','.AddBtn', function(e){
 		e.preventDefault();
 		var todayDate = $('.date').val();
@@ -208,8 +209,6 @@ $(document).ready(function(){
 				$('.MatNum').val(data.trim());
 				if(Plus === 0){
 					$('.ItemNum').val('0001');
-				}else{
-					$('.ItemNum').val(Plus.toString().padStart(4,'0'));
 				}
 			}
 		})
@@ -232,8 +231,8 @@ $(document).ready(function(){
 			var Name = $(this).attr('name');
 			PoinfoLst.push(Name);
 		})
-	console.log(PoinfoLst);
 		console.log('DataList : ', DataList);
+		console.log('PoinfoLst : ', PoinfoLst);
 		for(var i = 0 ; i < PoinfoLst.length ; i++){
 			if(i === 9){
 				$('.' + PoinfoLst[i] + '').val(DataList[i-1]);
@@ -250,6 +249,8 @@ $(document).ready(function(){
 		}
 		$('.WareRack').val('Null');
 		$('.Bin').val('Null');
+		PoinfoLst = [];
+		DataList = [];
 	})
 	$('.SLocCode').change(function(){
 			var storageLoc = $(this).val();
@@ -265,6 +266,7 @@ $(document).ready(function(){
 		});
 	
 	var InputInfoList = {};
+	var RowNum = 0;
 	$('.InsertBtn').click(function(){
 		$('.InputInfo').each(function(){
             var name = $(this).attr("name");
@@ -280,6 +282,7 @@ $(document).ready(function(){
     	})
     	if($('.NotInput').val() - InputInfoList.InputCount < 0){
     		alert('입고수량을 다시 입력해주세요.');
+    		return false;
     	}
     	if(!pass){
     		alert('모든 항목을 입력해주세요.');
@@ -291,78 +294,125 @@ $(document).ready(function(){
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
                 async: false,
-                success: function(){
+                success: function(data){
+                	if(data.status === 'Success'){
+                		var QuickSavedData = data.DataList;
+                		console.log(QuickSavedData);
+                		if(Plus === 0){
+                			$('.InfoBody').empty();
+                			RowNum = $('.InfoBody tr').length;
+                			var row = '<tr>' +
+							'<td>' + (RowNum + 1).toString().padStart(2,'0') + '</td>' + 
+							'<td><button class="DeleteBtn">Delete</button></td>' +
+							'<td>' + QuickSavedData.MatNum + '</td>' + 
+							'<td>' + QuickSavedData.ItemNum + '</td>' + 
+							'<td>' + QuickSavedData.MovType + '</td>' + 
+							'<td>' + QuickSavedData.MatCode + '</td>' + 
+							'<td>' + QuickSavedData.MatDes + '</td>' + 
+							'<td>' + QuickSavedData.SLocCode + '</td>' + 
+							'<td>' + QuickSavedData.Bin + '</td>' + 
+							'<td>' + QuickSavedData.InputCount + '</td>' + 
+							'<td>' + QuickSavedData.GoodUnit + '</td>' + 
+							'<td>' + QuickSavedData.LotName + '</td>' + 
+							'<td>' + QuickSavedData.MatPlant + '</td>' +
+							'<td>' + QuickSavedData.VendorCode + '</td>' +
+							'<td>' + QuickSavedData.MadeDate + '</td>' +
+							'<td>' + QuickSavedData.Deadline + '</td>' +
+							'<td>' + QuickSavedData.PurOrdNo + '</td>' +
+							'<td>' + QuickSavedData.ComCode + '</td>' +
+							'<td hidden>' + QuickSavedData.MatNum + '-' + QuickSavedData.ItemNum + '</td>' +
+							'</tr>';
+	                		$('.InfoBody').append(row);
+	                		RowNum++;
+                		}else{
+                			RowNum = $('.InfoBody tr').length;
+                			var row = '<tr>' +
+							'<td>' + (RowNum + 1).toString().padStart(2,'0') + '</td>' + 
+							'<td><button class="DeleteBtn">Delete</button></td>' +
+							'<td>' + QuickSavedData.MatNum + '</td>' + 
+							'<td>' + QuickSavedData.ItemNum + '</td>' + 
+							'<td>' + QuickSavedData.MovType + '</td>' + 
+							'<td>' + QuickSavedData.MatCode + '</td>' + 
+							'<td>' + QuickSavedData.MatDes + '</td>' + 
+							'<td>' + QuickSavedData.SLocCode + '</td>' + 
+							'<td>' + QuickSavedData.Bin + '</td>' + 
+							'<td>' + QuickSavedData.InputCount + '</td>' + 
+							'<td>' + QuickSavedData.GoodUnit + '</td>' + 
+							'<td>' + QuickSavedData.LotName + '</td>' + 
+							'<td>' + QuickSavedData.MatPlant + '</td>' +
+							'<td>' + QuickSavedData.VendorCode + '</td>' +
+							'<td>' + QuickSavedData.MadeDate + '</td>' +
+							'<td>' + QuickSavedData.Deadline + '</td>' +
+							'<td>' + QuickSavedData.PurOrdNo + '</td>' +
+							'<td>' + QuickSavedData.ComCode + '</td>' +
+							'<td hidden>' + QuickSavedData.MatNum + '-' + QuickSavedData.ItemNum + '</td>' +
+							'</tr>';
+	                		$('.InfoBody').append(row);
+	                		RowNum++;
+                		}
+                		$('.ItemNum').val((RowNum + 1).toString().padStart(4,'0'));
+                		
+                	}else{
+                		alert('오류');
+                	}
                 	
                 }
 			})
     	}
-    	
+    	$('.Mat-Area input').not('.MatNum, .ItemNum, .MovType, .MovType_Des, .PlusMinus').val('');
+    	UpdateTable();
+    	Plus++;
 	})
-	var RowNum = 1;
-	var itemNum = 0; // Item 번호를 위한 변수 
-	
-	var deletedItems = []; // 삭제됭 항번의 Number
-	var MaxRowNum = 0; 
-	var DelItemNum = null;
-	
-	var Add = 0;
-	var Minus = 0;
-	$(".TemTable").on('click',"input[name='DeleteBtn']", function(){
-		console.log(RowNum);
-		Minus++;
-		console.log("삭제한 횟수 : " + Minus);
+
+	$(".InfoBody").on('click',".DeleteBtn", function(){
 		var Row = $(this).closest('tr'); // 클릭된 번특이 속한 행 선택 
-		var DelMatNum = Row.find('td:eq(2)').text(); // MGR20240409S00001
-		DelItemNum = Row.find('td:eq(3)').text(); // 0001
-		var DelLotNum = Row.find('td:eq(11)').text(); // 1(Lot번호)
-		
-		var DelMatCode = Row.find('td:eq(5)').text(); // 010201-00003
-		var DelPoCode = Row.find('td:eq(16)').text(); // PURO20240404S00001
-		var DelCount = Row.find('td:eq(9)').text();// 1(입고수량)
-		var KeyValue = Row.find('td:eq(18)').text();// 1(입고수량)
-		deletedItems.push({MatNum: DelMatNum, ItemNum: DelItemNum, LotName: DelLotNum, MatCode: DelMatCode, PoNum: DelPoCode, Count: DelCount, KeyValue : KeyValue});
-		console.log(deletedItems);
-		Row.remove();
-		RowNum--;
-		
-		$.ajax({
-			url: 'DeleteMatInput.jsp',
-			type: 'POST',
-			data: {'List': JSON.stringify(deletedItems)},
-			contentType: 'application/x-www-form-urlencoded; charset=utf-8',
-			dataType: 'json',
-			async: false,
-			success: function(List){
-                // 서버에서 응답이 온 후의 처리
-                if (List.result) {
-                    console.log('삭제 성공');
-                } else {
-                    console.log('삭제 실패: ' + List.message);
-                }
-                UpdateTable();
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
-            }
+		var ElementKeyValue = Row.find('td:eq(18)').text();
+		var RowLength = 0;
+		 $.ajax({
+			type: "POST",
+			url: "${contextPath}/Material_Input/AjaxSet/DeleteMatInput.jsp",
+			data: { DMatNum: ElementKeyValue},
+			success: function(response) {
+				if(response.trim() === 'Success'){
+					Row.remove();
+					RowLength = $('.InfoTable-Body tr').length;
+					$('.ItemNum').val((RowLength + 1).toString().padStart(4,'0'));
+					if(RowLength === 0){
+						for (let i = 0; i < 20; i++) {
+					        const row = $('<tr></tr>');
+					        for (let j = 0; j < 18; j++) {
+					            row.append('<td></td>');
+					        }
+					        $('.InfoBody').append(row);
+					    }
+					}else{
+						$('.InfoBody tr').each(function(index, tr){
+							var Element = $(this);
+							ElementKeyValue = Element.find('td:eq(18)').text();
+							$.ajax({
+								type: "POST",
+								url: "${contextPath}/Material_Input/AjaxSet/Quickmanage.jsp",
+								data: { KeyValue: ElementKeyValue },
+								success: function(response) {
+									if(response.trim() === 'Success'){
+										Element.find('td:eq(0)').text((index+1).toString().padStart(2,'0'));
+										Element.find('td:eq(3)').text((index+1).toString().padStart(4,'0'));
+										Element.find('td:eq(16)').text(Element.find('td:eq(2)').text() + '-' + Element.find('td:eq(3)').text());
+									}
+								},
+								error: function(xhr, textStatus, errorThrown) {
+									console.log(xhr.statusText);
+								}
+							});
+						})
+					}
+				}
+			},
+			error: function(xhr, textStatus, errorThrown) {
+				console.log(xhr.statusText);
+			}
 		});
-		
-		// 항번 다시 정렬
-        $(".TemTable tr").each(function(index){
-            if(index != 0) { // 테이블 헤더를 제외하고 순번을 부여
-                $(this).find('td:eq(0)').text(index);
-                $(this).find('td:eq(3)').text(("0000" + index).slice(-4));
-            }
-        });
-		
-		var CancelValue = parseInt(DelCount);
-		var PastValue = parseInt($('.NotInput').val());
-		var NowValue = CancelValue + PastValue;
-		console.log("NowValue : " + NowValue);
-        $('.NotInput').val(NowValue);
-        
-		var EditItemNum = ("0000" + (Add - Minus + 1)).slice(-4);
-		console.log("수정한 ItemNumber : " + EditItemNum);
-		$(".ItemNum").val(EditItemNum);
+		UpdateTable();
 	});
 });
 </script>

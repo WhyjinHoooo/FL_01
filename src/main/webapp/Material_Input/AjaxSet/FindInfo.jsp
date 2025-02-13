@@ -24,7 +24,7 @@ try{
 	
 	Head_rs = Head_pstmt.executeQuery();
 	JSONArray jsonArray = new JSONArray();
-	
+	int InputedQuantity = 0;
 	while(Head_rs.next()){
 		PreparedStatement pstmt2 = null;
 		String sql2 = "SELECT * FROM pochild WHERE MMPO = ? AND DeadLine = ?";
@@ -37,7 +37,6 @@ try{
         
         while(rs2.next()) {
             JSONObject jsonObject = new JSONObject();
-            
             jsonObject.put("KeyValue", rs2.getString("keyValue")); // PO번호
             jsonObject.put("MMPO", rs2.getString("MMPO")); // PO번호
             jsonObject.put("ItemNo", rs2.getInt("ItemNo")); // ITEM 번호
@@ -46,8 +45,18 @@ try{
             jsonObject.put("MatType", rs2.getString("MatType")); // Material Type
             jsonObject.put("Quantity", rs2.getInt("Quantity")); // 발주 수량
             jsonObject.put("PoUnit", rs2.getString("PoUnit")); // 구매단위
-            jsonObject.put("Count", rs2.getString("Count"));//입고 수량 없음
-            jsonObject.put("PO_Rem", rs2.getInt("PO_Rem")); // 미입고 수량
+            
+            String SemiChkSql = "SELECT *FROM temtable WHERE PurOrdNo = ? AND MatCode = ?";
+            PreparedStatement SemiPstmt = conn.prepareStatement(SemiChkSql);
+            SemiPstmt.setString(1, rs2.getString("MMPO"));
+            SemiPstmt.setString(2, rs2.getString("MatCode"));
+            ResultSet SemiRs = SemiPstmt.executeQuery();
+            while(SemiRs.next()){
+            	InputedQuantity += SemiRs.getInt("Count");
+            }
+            jsonObject.put("Count", rs2.getInt("Count") + InputedQuantity);//입고 수량 없음
+            jsonObject.put("PO_Rem", rs2.getInt("PO_Rem") - InputedQuantity); // 미입고 수량
+            
             jsonObject.put("Money", rs2.getString("Money")); // 거래통화
             jsonObject.put("Hdate", rs2.getString("Hdate")); // 입고예정일자
             jsonObject.put("Storage", rs2.getString("Storage")); // 입고 창고
@@ -57,7 +66,6 @@ try{
             jsonArray.add(jsonObject);
         }
     }
-	
     response.setContentType("application/json");
     response.setCharacterEncoding("UTF-8");
     response.getWriter().write(jsonArray.toString());
