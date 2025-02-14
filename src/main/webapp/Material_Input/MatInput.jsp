@@ -72,7 +72,6 @@ function InfoSearch(field){
 $(document).ready(function(){
 	function InitialTable(){
 		var UserId = $('.UserID').val();
-		console.log(UserId);
 		$('.OrderBody').empty();
 		$('.InfoBody').empty();
 		for (let i = 0; i < 20; i++) {
@@ -175,6 +174,7 @@ $(document).ready(function(){
             var value = $(this).val();
             ChkList[name] = value;
         });
+		console.log(ChkList);
     	var pass = true;
     	$.each(ChkList,function(key, value){
     		if(value == null || value === ''){
@@ -231,8 +231,7 @@ $(document).ready(function(){
 			var Name = $(this).attr('name');
 			PoinfoLst.push(Name);
 		})
-		console.log('DataList : ', DataList);
-		console.log('PoinfoLst : ', PoinfoLst);
+		
 		for(var i = 0 ; i < PoinfoLst.length ; i++){
 			if(i === 9){
 				$('.' + PoinfoLst[i] + '').val(DataList[i-1]);
@@ -264,7 +263,13 @@ $(document).ready(function(){
 				}
 			})
 		});
-	
+	$('.MadeDate').change(function(){
+		var StartDate = new Date($(this).val());
+		var EndDate = new Date(StartDate);
+		EndDate.setFullYear(EndDate.getFullYear()+1);
+		var DeadLine = EndDate.getFullYear() + '-' + ('0' + (EndDate.getMonth() + 1)).slice(-2) + '-' + ('0' + EndDate.getDate()).slice(-2);
+		$('.Deadline').val(DeadLine);
+	})
 	var InputInfoList = {};
 	var RowNum = 0;
 	$('.InsertBtn').click(function(){
@@ -297,7 +302,6 @@ $(document).ready(function(){
                 success: function(data){
                 	if(data.status === 'Success'){
                 		var QuickSavedData = data.DataList;
-                		console.log(QuickSavedData);
                 		if(Plus === 0){
                 			$('.InfoBody').empty();
                 			RowNum = $('.InfoBody tr').length;
@@ -375,7 +379,7 @@ $(document).ready(function(){
 			success: function(response) {
 				if(response.trim() === 'Success'){
 					Row.remove();
-					RowLength = $('.InfoTable-Body tr').length;
+					RowLength = $('.InfoBody tr').length;
 					$('.ItemNum').val((RowLength + 1).toString().padStart(4,'0'));
 					if(RowLength === 0){
 						for (let i = 0; i < 20; i++) {
@@ -385,6 +389,7 @@ $(document).ready(function(){
 					        }
 					        $('.InfoBody').append(row);
 					    }
+						Plus = 0;
 					}else{
 						$('.InfoBody tr').each(function(index, tr){
 							var Element = $(this);
@@ -397,7 +402,7 @@ $(document).ready(function(){
 									if(response.trim() === 'Success'){
 										Element.find('td:eq(0)').text((index+1).toString().padStart(2,'0'));
 										Element.find('td:eq(3)').text((index+1).toString().padStart(4,'0'));
-										Element.find('td:eq(16)').text(Element.find('td:eq(2)').text() + '-' + Element.find('td:eq(3)').text());
+										Element.find('td:eq(18)').text(Element.find('td:eq(2)').text() + '-' + Element.find('td:eq(3)').text());
 									}
 								},
 								error: function(xhr, textStatus, errorThrown) {
@@ -407,13 +412,40 @@ $(document).ready(function(){
 						})
 					}
 				}
+				UpdateTable();
 			},
 			error: function(xhr, textStatus, errorThrown) {
 				console.log(xhr.statusText);
 			}
 		});
-		UpdateTable();
 	});
+	var HeaderInfoList = {}; 
+	$('.SaveBtn').click(function(){
+    	$(".Header").each(function(){
+            var name = $(this).attr("name");
+            var value = $(this).val();
+            HeaderInfoList[name] = value;
+        });
+    	console.log(HeaderInfoList);
+    	$.ajax({
+			url: '${contextPath}/Material_Input/MatInput_OK.jsp',
+			type: 'POST',
+			data: JSON.stringify(HeaderInfoList),
+			contentType: 'application/json; charset=utf-8',
+			success: function(response){
+				console.log(response.trim());
+				if(response.trim() === 'Success'){
+					location.reload();
+				} else{
+					alert('등록과정 중 문제가 발생했습니다.')
+				}
+            }
+		});    	
+    })
+    
+    $('.ResetBtn').click(function(){
+    	location.reload();
+    })
 });
 </script>
 <%
@@ -431,29 +463,29 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			<div class="Title">타이틀</div>
 			<div class="InfoInput">
 				<label>Company Code : </label>
-				<input type="text" class="ComCode HeadInfo InputInfo" name="ComCode" onclick="InfoSearch('ComSearch')" value="<%=userComCode %>" readonly>
+				<input type="text" class="ComCode HeadInfo InputInfo Header" name="ComCode" onclick="InfoSearch('ComSearch')" value="<%=userComCode %>" readonly>
 				<input type="text" class="Com_Name" name="Com_Name" hidden> 
 			</div>
 			<div class="InfoInput">
 				<label>Plant : </label>
-				<input type="text" class="PlantCode HeadInfo" name="PlantCode" onclick="InfoSearch('PlantSearch')" readonly>
+				<input type="text" class="PlantCode HeadInfo Header" name="PlantCode" onclick="InfoSearch('PlantSearch')" readonly>
 				<input type="text" class="PlantDes" name="PlantDes" readonly> 
 			</div>
 			
 			<div class="InfoInput">	
 				<label>Vendor : </label>
-				<input type="text" class="VendorCode HeadInfo InputInfo" name="VendorCode" onclick="InfoSearch('VendorSearch')" readonly>
+				<input type="text" class="VendorCode HeadInfo InputInfo Header" name="VendorCode" onclick="InfoSearch('VendorSearch')" readonly>
 				<input type="text" class="VendorDes" name="VendorDes" readonly> 
 			</div>
 			
 			<div class="InfoInput">
 				<label>입고자 사번 : </label>
-				<input type="text" class="UserID" name="UserID" value="<%=UserIdNumber %>"  readonly>
+				<input type="text" class="UserID Header" name="UserID" value="<%=UserIdNumber %>"  readonly>
 			</div>
 					
 			<div class="InfoInput">
 				<label>입고 일자 : </label>
-				<input type="text" class="date" name="date" readonly>	
+				<input type="text" class="date Header" name="date" readonly>	
 			</div>
 			
 			<div class="BtnArea">
@@ -479,7 +511,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			<div class="Mat-Area">
 				<div class="InfoInput">
 					<label>Material 입고 번호 : </label>
-					<input type="text" class="MatNum InputInfo" name="MatNum" readonly>
+					<input type="text" class="MatNum InputInfo Header" name="MatNum" readonly>
 					
 					<label>GR Item Number :</label>
 					<input type="text" class="ItemNum InputInfo" name="ItemNum" reqdonly>

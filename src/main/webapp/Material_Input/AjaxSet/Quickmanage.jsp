@@ -8,7 +8,7 @@
 <%
 try {
 	String EleKeyValue = request.getParameter("KeyValue");
-	System.out.println(EleKeyValue);
+	System.out.println("전달받은 EleKeyValue : " + EleKeyValue);
 
 	String sql = "SELECT * FROM temtable WHERE KeyValue = ?";
 	PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -23,7 +23,7 @@ try {
 		if(!SavedItemNumber.equals(EleKeyValue.substring(18))){
 			NewKeyValue = EleKeyValue.substring(0, 17) + "-" + SavedItemNumber;
 			
-			String UpSql = "UPDATE ordertable SET KeyValue = ? WHERE KeyValue = ?";
+			String UpSql = "UPDATE temtable SET KeyValue = ? WHERE KeyValue = ?";
 			PreparedStatement UpPstmt = conn.prepareStatement(UpSql);
 			UpPstmt.setString(1, NewKeyValue);
 			UpPstmt.setString(2, EleKeyValue);
