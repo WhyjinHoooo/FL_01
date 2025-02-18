@@ -87,6 +87,30 @@
 			DCI_Pstmt.setString(22, HeaderInfoList.getString("UserID"));
 			DCI_Pstmt.executeUpdate();
 			
+			String POC_Sacn_Sql = "SELECT * FROM pochild WHERE MMPO = ? AND MatCode = ?";
+			PreparedStatement POC_Sacn_Pstmt = conn.prepareStatement(POC_Sacn_Sql);
+			POC_Sacn_Pstmt.setString(1, SeaRs.getString("PurOrdNo"));
+			POC_Sacn_Pstmt.setString(2, SeaRs.getString("MatCode"));
+			ResultSet POC_Scan_Rs = POC_Sacn_Pstmt.executeQuery();
+			if(POC_Scan_Rs.next()){
+				int Count = POC_Scan_Rs.getInt("Count") + SeaRs.getInt("Count");
+				int PO_Rem = POC_Scan_Rs.getInt("PO_Rem") - SeaRs.getInt("Count");
+				
+				String POC_Up_Sql = "UPDATE pochild SET Count = ?, PO_Rem = ? WHERE MMPO = ? AND MatCode = ?";
+				PreparedStatement POC_Up_Pstmt = conn.prepareStatement(POC_Up_Sql);
+				POC_Up_Pstmt.setInt(1, Count);
+				POC_Up_Pstmt.setInt(2, PO_Rem);
+				POC_Up_Pstmt.setString(3, SeaRs.getString("PurOrdNo"));
+				POC_Up_Pstmt.setString(4, SeaRs.getString("MatCode"));
+				POC_Up_Pstmt.executeUpdate();
+				if(PO_Rem == 0){
+					String POH_Up_Sql = "UPDATE poheader SET Complete = ? WHERE Mmpo = ?";
+					PreparedStatement POH_Up_Pstmt = conn.prepareStatement(POH_Up_Sql);
+					POH_Up_Pstmt.setString(1, "Complete");
+					POH_Up_Pstmt.setString(2, SeaRs.getString("PurOrdNo"));
+					POH_Up_Pstmt.executeUpdate();
+				}
+			}
 		}
 	}
 	

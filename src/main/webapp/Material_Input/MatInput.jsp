@@ -195,7 +195,6 @@ $(document).ready(function(){
 	var Plus = 0;
 	var PoinfoLst = [];
 	var DataList = [];
-	var OINumber = 0;
 	$('.OrderBody').on('click','.AddBtn', function(e){
 		e.preventDefault();
 		var todayDate = $('.date').val();
@@ -291,6 +290,7 @@ $(document).ready(function(){
     	}
     	if(!pass){
     		alert('모든 항목을 입력해주세요.');
+    		
     	}else{
     		$.ajax({
                 url: '${contextPath}/Material_Input/AjaxSet/QuickSave.jsp',
@@ -355,7 +355,7 @@ $(document).ready(function(){
 	                		RowNum++;
                 		}
                 		$('.ItemNum').val((RowNum + 1).toString().padStart(4,'0'));
-                		
+                    	Plus++;
                 	}else{
                 		alert('오류');
                 	}
@@ -365,7 +365,6 @@ $(document).ready(function(){
     	}
     	$('.Mat-Area input').not('.MatNum, .ItemNum, .MovType, .MovType_Des, .PlusMinus').val('');
     	UpdateTable();
-    	Plus++;
 	})
 
 	$(".InfoBody").on('click',".DeleteBtn", function(){
@@ -457,10 +456,9 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 </head>
 <body>
 <jsp:include page="../HeaderTest.jsp"></jsp:include>
-	<!-- <form name="MatInputRegistForm" id="MatInputRegistForm" action="MatInput_OK.jsp" method="POST" onSubmit="return checkCount()" enctype="UTF-8"> -->
 	<div class="Mat-Input">
 		<div class="MatInput-Header">
-			<div class="Title">타이틀</div>
+			<div class="Title">자재 입고 헤더</div>
 			<div class="InfoInput">
 				<label>Company Code : </label>
 				<input type="text" class="ComCode HeadInfo InputInfo Header" name="ComCode" onclick="InfoSearch('ComSearch')" value="<%=userComCode %>" readonly>
@@ -495,7 +493,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 		
 		<div class="MatInput-Body">
 			<div class="Order-Area">
-				<div class="Title">타이틀</div>
+				<div class="Title">자재 발주 상태</div>
 				<table class="InfoTable">
 					<thead>
 						<tr>
@@ -592,7 +590,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			
 			
 			<div class=Info-Area>
-				<div class="Title">타이틀</div>
+				<div class="Title">자재 입고 상태</div>
 				<table class="InfoTable" id="InfoTable">
 					<thead>
 						<tr>

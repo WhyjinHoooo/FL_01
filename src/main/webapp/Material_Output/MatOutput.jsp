@@ -350,211 +350,126 @@ $(document).ready(function(){
 %>
 </head>
 <body>
-	<jsp:include page="../HeaderTest.jsp"></jsp:include>
-		<div name="OPResgistform" id="OPResgistform">
-			<div class="Content-Wrapper-OutAside">
-				<aside class="side-menu-container" id="Out_SideMenu">
-					<li>Plant</li>
-						<td class="input-info">
-							<input type="text" class="plantCode KeyInfo" name="plantCode" onclick="InfoSearch('PlantSearch')" placeholder="SELECT" readonly>
-							<input type="text" class="plantDes" name="plantDes" readonly>
-							<input type="text" class="plantComCode KeyInfo" name="plantComCode" hidden>
-						</td>
-						
-					<br><br>						
-						
-					<li>출고창고</li>
-						<td class="input-info">
-							<input type="text" class="StorageCode KeyInfo" name="StorageCode" onclick="InfoSearch('StorageSearch')" placeholder="SELECT" readonly>
-							<input type="text" class="StorageDes" name="StorageDes" readonly>
-							<input type="text" class="StorageComCode" name="StorageComCode" hidden>
-						</td>
-								
-					<br><br>
-					
-
-					
-					<li>Movement Type : </li>
-						<td class="input-info">
-							<input type="text" class="movCode KeyInfo" name="movCode" onclick="InfoSearch('MovSearch')" placeholder="SELECT" readonly>
-							<input type="text" class="movDes" name="movDes" readonly>
-							<input type="text" class="PlusMinus" name="PlusMinus" hidden>
-						</td>
-					
-					<br><br>	
-					
-					<li>Mat. 출고 문서번호</li>
-						<td class="input-info">
-							<input type="text" class="Doc_Num KeyInfo" name="Doc_Num" readonly>
-						</td>
-					
-					<br><br>
-											
-					<li>출고일자 : </li>
-						<td class="input-info">
-							<input type="text" class="Out_date KeyInfo" name="Out_date" readonly value="<%=Today%>">
-						</td>
-					
-					<br><br>
-						
-					<li> 출고 담당자 사번</li>
-						<td class="input-info">
-							<%
-							if(User_Id != null){
-							%>
-							<input type="text" class="User_Id" name="User_Id" readonly value="<%=User_Id%>">
-							<%
-							} else{
-							%>
-							<input type="text" class="User_Id" name="User_Id" readonly>
-							<%
-							}
-							%>
-						</td>	
-				</aside>
-	<div class="Content-Wrapper-OutMain">
-		<section>
-			<div class="output-sub-info"> <!-- output-sub-info START -->
-				<div class="table-container">
-					<table class="sub-table-01">
-						<tr>
-							<th class="info">GI Item No : </th> 
-								<td class="input-info">
-									<input type="text" class="GINo KeyInfo" name="GINo" readonly> 
-								</td>
-						</tr>
-					</table>
-					
-					<table class="sub-table-02">
-						<tr><th class="info">Material : </th>
-							<td class="input-info" colspan="2">
-								<input type="text" class="MatCode KeyInfo" name="MatCode" onclick="InfoSearch('MatSearch')" readonly>
-								<input type="text" class="MatDes KeyInfo" name="MatDes" readonly><!--  전송 -->
-								<input type="text" class="MatType KeyInfo" name="MatType" hidden>
-								<input type="text" class="MatDocCode KeyInfo" name="MatDocCode" hidden> <!-- //? -->
-							</td>
-						</tr>
-					</table>
-					
-					<table class="sub-table-03">
-						<tr>
-							<th class="info">자재 Lot 번호 : </th>
-								<td class="input-info">
-									<input type="text" class="MatLotNo KeyInfo" name="MatLotNo" onclick="InfoSearch('LotSearch')" readonly>
-								</td>
-								
-								<td class="spaceCell-80"></td>
-								
-							<th class="info">제조일자 : </th>
-								<td class="input-info"> 
-									<input type="text" class="MakeDate KeyInfo" name="MakeDate" readonly> 
-								</td> 
-								
-								<td class="spaceCell-80"></td>
-								
-							<th class="info">유효기간 만료일자 : </th>
-								<td class="input-info">
-									<input type="text" class="DeadDete KeyInfo" name="DeadDete" readonly>
-								</td>		
-						</tr>
-					</table>
-					
-					<table class="sub-table-04">
-						<tr>
-							<th class="info">창고 Rack : </th>
-								<td class="input-info"> 
-									<input type="text" class="Rack" name="Rack" readonly>
-								</td>
-								
-								<td class="spaceCell-ss"></td>
-								
-							<th class="info">Bin : </th>
-								<td class="input-info"> 
-									<input type="text" class="Bin" name="Bin" readonly> 
-								</td>		
-						</tr>
-					</table>
-					
-					<table class="sub-table-05">
-						<tr>
-							<th class="info">출고 수량 : </th>
-								<td class="input-info"> 
-									<input type="text" class="OutCount KeyInfo" name="OutCount">
-								</td>
-								
-								<td class="spaceCell-40"></td>
-								
-							<th class="info">단위 : </th>
-								<td class="input-info"> 
-									<input type="text" class="OrderUnit KeyInfo" name="OrderUnit"readonly> 
-								</td> 
-								
-								<td class="spaceCell-250"></td>
-								
-							<th class="info">출고 전 창고재고 : </th>
-								<td class="input-info">
-									<input type="text" class="BeforeCount" name="BeforeCount" readonly>
-								</td>	 
-								
-								<td class="spaceCell-40"></td>
-						</tr>
-					</table>
-					
-					<table class="sub-table-06">
-						<tr>
-							<th class="info GI">사용 부서 : </th>
-								<td class="input-info GI">
-									<input type="text" class="UseDepart KeyInfo" name="UseDepart" onclick="InfoSearch('DepartSearch')" readonly>
-								</td>
-							<th class="info IR">입고 창고 : </th>
-								<td class="input-info IR">
-									<input type="text" class="InputStorage KeyInfo" name="InputStorage" onclick="InfoSearch('InputSearch')" readonly>
-									<input type="text" class="TransPlantCode" name="TransPlantCode" hidden>
-									<input type="text" class="TransComCode" name="TransComCode" hidden>
-								</td>
-							
-							<td class="spaceCell-23"></td>
-							
-							<th class="info">부서명 : </th>
-								<td class="input-info"> 
-									<input type="text" class="DepartName" name="DepartName" readonly> 
-								</td> 	
-						</tr>
-					</table>
-					
-					<table class="sub-table-07">
-						<tr>
-							<th class="info">생산 Lot번호 : </th>
-								<td class="input-info">
-									<input type="text" class="LotNumber KeyInfo" name="LotNumber">
-								</td>
-						</tr>
-					</table>
-				</div>
-			</div><!-- output-sub-info END -->
-		</section>
-		
-		<section>
-			<div class="inputArea">
-				<img name="Down" src="../img/Dvector.png" alt="">
-				<input class="input-btn" id="btn" type="submit" value="Insert">
-			</div>
-		</section>
-		
-		<section>				
-			<div class="expiredData">
-				<table class="WrittenForm">
-					<thead class="WrittenForm_Head">
-						<th>항번</th><th>삭제</th><th>문서번호</th><th>품목번호</th><th>자재</th><th>자재 설명</th><th>자재 유형</th><th>출고 구분</th><th>수량</th><br>
-						<th>단위</th><th>사용 부서</th><th>생산 Lot 번호</th><th>출고 일자</th><th>자재 Lot 번호</th><th>출고 창고</th><th>공장(Plant)</th><th>입고 창고</th>
-					</thead>
-					<tbody class="WrittenForm_Body">
-					</tbody>
-				</table>
-			</div>
-		</section>				
-</div>				
-			</div> <!-- Content-Wrapper-OutAside END -->	
+<jsp:include page="../HeaderTest.jsp"></jsp:include>
+<div class="Mat-OutPut">
+	<div class="MatOutPut-Header">
+		<div class="Title"">타이틀</div>
+		<div class="InfoInput">
+			<label>Company Code : </label>
+			<input type="text" class="ComCode HeadInfo InputInfo Header" name="ComCode" onclick="InfoSearch('ComSearch')" readonly>
+			<input type="text" class="Com_Name" name="Com_Name" hidden> 
 		</div>
+		<div class="InfoInput">
+			<label>Plant : </label>
+			<input type="text" class="plantCode KeyInfo" name="plantCode" onclick="InfoSearch('PlantSearch')" readonly>
+			<input type="text" class="plantDes" name="plantDes" readonly>
+		</div>
+		<div class="InfoInput">
+			<label>출고창고 : </label>
+			<input type="text" class="StorageCode KeyInfo" name="StorageCode" onclick="InfoSearch('StorageSearch')" placeholder="SELECT" readonly>
+			<input type="text" class="StorageDes" name="StorageDes" readonly>
+			<input type="text" class="StorageComCode" name="StorageComCode" hidden>
+		</div>
+		<div class="InfoInput">
+			<label>Movement Type : </label>
+			<input type="text" class="movCode KeyInfo" name="movCode" onclick="InfoSearch('MovSearch')" placeholder="SELECT" readonly>
+			<input type="text" class="movDes" name="movDes" readonly>
+			<input type="text" class="PlusMinus" name="PlusMinus" hidden>
+		</div>
+		<div class="InfoInput">
+			<label>Mat. 출고 문서번호 : </label>
+			<input type="text" class="Doc_Num KeyInfo" name="Doc_Num" readonly>
+		</div>
+		<div class="InfoInput">
+			<label>출고일자 : </label>
+			<input type="text" class="Out_date KeyInfo" name="Out_date" readonly value="<%=Today%>">
+		</div>
+		<div class="InfoInput">
+			<label>출고 담당자 사번 : </label>
+			<input type="text" class="User_Id" name="User_Id" readonly value="<%=User_Id%>">
+		</div>
+		
+		<div class="BtnArea">
+				<button>Create</button>
+		</div>	
+	</div>	
+	<div class="MatOutPut-Body">
+		<div class="Title">타이틀</div>
+		<div class="Mat-Area"> <!-- output-sub-info START -->
+			<div class="InfoInput">
+				<label>GI Item No : </label>
+				<input type="text" class="GINo KeyInfo" name="GINo" readonly> 
+			</div>
+			<div class="InfoInput">
+				<label>Material : </label>
+				<input type="text" class="MatCode KeyInfo" name="MatCode" onclick="InfoSearch('MatSearch')" readonly>
+				<input type="text" class="MatDes KeyInfo" name="MatDes" readonly><!--  전송 -->
+				<input type="text" class="MatType KeyInfo" name="MatType" hidden>
+				<input type="text" class="MatDocCode KeyInfo" name="MatDocCode" hidden> <!-- //? -->
+			</div>
+			<div class="InfoInput">
+				<label>자재 Lot 번호 : </label>
+				<input type="text" class="MatLotNo KeyInfo" name="MatLotNo" onclick="InfoSearch('LotSearch')" readonly>
+				
+				<label>제조일자 : </label>
+				<input type="text" class="MakeDate KeyInfo" name="MakeDate" readonly> 
+				
+				<label>만료일자 : </label>
+				<input type="text" class="DeadDete KeyInfo" name="DeadDete" readonly>
+			</div>
+			<div class="InfoInput">
+				<label>창고 Rack : </label>
+				<input type="text" class="Rack" name="Rack" readonly>
+				
+				<label>Bin : </label>
+				<input type="text" class="Bin" name="Bin" readonly> 
+			</div>
+			<div class="InfoInput">
+				<label>출고 수량 : </label>
+				<input type="text" class="OutCount KeyInfo" name="OutCount">
+				
+				<label>단위 : </label>
+				<input type="text" class="OrderUnit KeyInfo" name="OrderUnit"readonly>
+				
+				<label>출고 전 창고재고 : </label>
+				<input type="text" class="BeforeCount" name="BeforeCount" readonly>
+			</div>
+			<div class="InfoInput">
+				<label>사용 부서 : </label>
+				<input type="text" class="UseDepart KeyInfo" name="UseDepart" onclick="InfoSearch('DepartSearch')" readonly>
+				
+				<label>입고 창고  : </label>
+				<input type="text" class="InputStorage KeyInfo" name="InputStorage" onclick="InfoSearch('InputSearch')" readonly>
+				<input type="text" class="TransPlantCode" name="TransPlantCode" hidden>
+				<input type="text" class="TransComCode" name="TransComCode" hidden>
+				
+				<label>부서명 : </label>
+				<input type="text" class="DepartName" name="DepartName" readonly>
+			</div>
+			<div class="InfoInput">
+				<label>생산 Lot번호 : </label>
+				<input type="text" class="LotNumber KeyInfo" name="LotNumber">
+			</div>	
+		</div>
+	</div>
+		
+	<div class="BtnArea">
+		<button class="InsertBtn">Insert</button>
+		<button class="SaveBtn">Save</button>
+		<button class="ResetBtn">Reset</button>
+	</div>
+				
+	<div class=Info-Area>
+		<div class="Title">타이틀</div>
+		<table class="InfoTable" id="InfoTable">
+			<thead>
+				<th>항번</th><th>삭제</th><th>문서번호</th><th>품목번호</th><th>자재</th><th>자재 설명</th><th>자재 유형</th><th>출고 구분</th><th>수량</th><br>
+				<th>단위</th><th>사용 부서</th><th>생산 Lot 번호</th><th>출고 일자</th><th>자재 Lot 번호</th><th>출고 창고</th><th>공장(Plant)</th><th>입고 창고</th>
+			</thead>
+			<tbody class="InfoBody">
+			</tbody>
+		</table>
+	</div>	
+</div>
 </body>
 </html>
