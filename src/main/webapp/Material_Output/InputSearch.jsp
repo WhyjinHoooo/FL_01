@@ -32,10 +32,16 @@
 			        
 			%>
 			<tr>			    
-				<td><a href="javascript:void(0)" onClick="var StorId = '<%=rs.getString("STORAGR_ID")%>'; var StorDes = '<%=rs.getString("STORAGR_NAME")%>'; var StorPlantCd = '<%=rs.getString("PLANT")%>'; window.opener.document.querySelector('.TransPlantCode').value=StorPlantCd ; window.opener.document.querySelector('.InputStorage').value=StorId; window.opener.document.querySelector('.TransComCode').value='<%=rs.getString("COMCODE")%>'; window.opener.document.querySelector('.InputStorage').dispatchEvent(new Event('change')); window.opener.console.log('선택한 입고 창고 ' + StorId); window.close();"><%=rs.getString("STORAGR_ID") %></a></td>
+				<td>
+					<a href="javascript:void(0)" onClick="
+					var StorId = '<%=rs.getString("STORAGR_ID")%>';
+					window.opener.document.querySelector('.InputStorage').value=StorId;
+					window.opener.document.querySelector('.InputStorage').dispatchEvent(new Event('change'));
+					window.close();">
+					<%=rs.getString("STORAGR_ID") %>
+					</a>
+				</td>
 			    <td><%=rs.getString("STORAGR_NAME") %></td>
-			    <td hidden><%=rs.getString("PLANT") %></td>
-			    <td hidden><%=rs.getString("COMCODE") %></td>
 			</tr>
 
 			<%  

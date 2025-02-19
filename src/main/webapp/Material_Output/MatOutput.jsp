@@ -16,7 +16,7 @@
 function InfoSearch(field){
 	event.preventDefault();
 	
-	var popupWidth = 1000;
+	var popupWidth = 500;
     var popupHeight = 600;
     
    	var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
@@ -26,10 +26,9 @@ function InfoSearch(field){
     var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
     var xPos, yPos;
     
-    var comcode = $('.plantComCode').val();
-    var plantcode = $('.plantCode').val();
+    var ComCode = $('.ComCode').val();
+    var plantcode = $('.PlantCode').val();
     var storagecode = $('.StorageCode').val();
-    var OutStorageCode = $('.StorageCode').val();
     
     if (width == 2560 && height == 1440) {
         xPos = (2560 / 2) - (popupWidth / 2);
@@ -44,44 +43,37 @@ function InfoSearch(field){
         yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
     }
     switch(field){
+    case "ComSearch":
+    	window.open("${contextPath}/Information/CompanySerach.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
     case "PlantSearch":
-    	popupWidth = 550;
-    	popupHeight = 635;
-    	window.open("${contextPath}/Material/PlantSerach.jsp", "POPUP01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	window.open("${contextPath}/Information/PlantSerach.jsp?ComCode=" + ComCode, "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     break;
 	case "StorageSearch":
-		popupWidth = 550;
-		popupHeight = 635;
-		window.open("${contextPath}/Material_Output/StorageSerach.jsp?comcode=" + comcode, "POPUP02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+		window.open("${contextPath}/Material_Output/PopUp/StorageSerach.jsp?comcode=" + ComCode, "POPUP03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	break;
 	case "MovSearch":
-		popupWidth = 1075;
+		popupWidth = 1050;
 		popupHeight = 750;
-		window.open("${contextPath}/Material_Output/MovSerach.jsp", "POPUP03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+		window.open("${contextPath}/Material_Output/PopUp/MovSerach.jsp", "POPUP04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	break;
 	case "MatSearch":
-		popupWidth = 910;
-		popupHeight = 600;
-		window.open("${contextPath}/Material_Output/MatSearch.jsp?plantcode=" + plantcode + "&storagecode=" + storagecode, "POPUP04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+		popupWidth = 1050;
+		popupHeight = 750;
+		window.open("${contextPath}/Material_Output/PopUp/MatSearch.jsp?plantcode=" + plantcode + "&storagecode=" + storagecode, "POPUP04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	break;
 	case "LotSearch":
-		popupWidth = 550;
-		popupHeight = 610;
 		window.open("${contextPath}/Material_Output/LotSearch.jsp?storagecode=" + storagecode, "POPUP05", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	break;
 	case "DepartSearch":
-		popupWidth = 550;
-		popupHeight = 610;
 		window.open("${contextPath}/Material_Output/DepartSearch.jsp", "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	break;
 	case "InputSearch":
-		popupWidth = 550;
-		popupHeight = 610;
-		window.open("${contextPath}/Material_Output/InputSearch.jsp?outStorage=" + OutStorageCode, "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+		window.open("${contextPath}/Material_Output/InputSearch.jsp?outStorage=" + storagecode, "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	break;
 	}
 }
-window.addEventListener('DOMContentLoaded',(event) => {
+/* window.addEventListener('DOMContentLoaded',(event) => {
 	const plantCode = document.querySelector('.plantCode');
 	const storageCode = document.querySelector('.StorageCode');
 	const storageDes = document.querySelector('.StorageDes');
@@ -124,11 +116,12 @@ window.addEventListener('DOMContentLoaded',(event) => {
 	plantCode.addEventListener('change', () => resetInputs(plantchange, LotNumber));
 	storageCode.addEventListener('change', () => resetInputs(storagechange, LotNumber));
 	movCode.addEventListener('change', () => resetInputs(movchange, LotNumber));
-});
+}); */
 
 $(document).ready(function(){
 	function InitialTable(){
-		$('.WrittenForm_Body').empty();
+		var UserId = $('.UserID').val();
+		$('.InfoBody').empty();
 		for (let i = 0; i < 50; i++) {
             const row = $('<tr></tr>'); // 새로운 <tr> 생성
             // 34개의 빈 <td> 요소 추가 (3개의 헤더 항목 이후 31일치 데이터)
@@ -136,10 +129,26 @@ $(document).ready(function(){
                 row.append('<td></td>');
             }
             // 생성한 <tr>을 <tbody>에 추가
-            $('.WrittenForm_Body').append(row);
+            $('.InfoBody').append(row);
         }
+		$.ajax({
+			url:'${contextPath}/Material_Output/AjaxSet/ForPlant.jsp',
+			type:'POST',
+			data:{id : UserId},
+			dataType: 'text',
+			success: function(data){
+				var dataList = data.trim().split('-');
+				$('.PlantCode').val(dataList[0]);
+				$('.PlantDes').val(dataList[1]);
+			}
+		})
+		$('.InputStorage').prop('disabled', true);
 	}
-	
+	function DateSetting(){
+		var CurrentDate = new Date();
+		var today = CurrentDate.getFullYear() + '-' + ('0' + (CurrentDate.getMonth() + 1)).slice(-2) + '-' + ('0' + CurrentDate.getDate()).slice(-2);
+		$('.Out_date').val(today);
+	}
 	function checkInputs() {
 		if ($('.UseDepart').val().length > 0 || $('.InputStorage').val().length > 0) {  // 사용 부서나 입고 창고에 한 글자라도 작성되어 있으면
 			$('.LotNumber').prop('disabled', true);  // 'LotNumber' 클래스를 가진 input 필드 사용 불가능
@@ -157,26 +166,22 @@ $(document).ready(function(){
 	// 페이지 로드 시 초기 상태 체크
 	checkInputs();
 	InitialTable();
+	DateSetting();
 	
-	$('.IR').hide();
     $('.movCode').change(function() {
-    	console.log("movCode field has changed"); // 확인 메시지 추가
         var Code = $(this).val();
-        if (Code.startsWith('IR')) {
-            $('.IR').show(); // 'IR'로 시작할 때만 테이블 보이기
-            $('.GI').hide();
+        if (Code.substring(0,2) === 'IR') {
+        	$('.InputStorage').prop('disabled', false);
         } else {
-            $('.IR').hide(); // 'IR'로 시작하지 않을 때는 테이블 숨기기
-            $('.GI').show();
+        	$('.InputStorage').prop('disabled', true);
         }
         
         var date = $('.Out_date').val();
         $.ajax({
             type : "POST",
-            url : "MakeDocNumber.jsp",
+            url : "${contextPath}/Material_Output/AjaxSet/MakeDocNumber.jsp",
             data : {movCode : Code, Outdate : date},
             success : function(response){
-           		console.log(response);
            		$('input[name="Doc_Num"]').val($.trim(response));
            		$('input[name="GINo"]').val("0001").change();
                 // 여기에 성공한 경우 수행할 작업을 추가합니다.
@@ -341,12 +346,9 @@ $(document).ready(function(){
 </script>
 
 <%
-	request.setCharacterEncoding("UTF-8");
-	String User_Id = /* (String) session.getAttribute("id") */"17011381";
-	LocalDateTime today = LocalDateTime.now();
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	String Today = today.format(formatter);
-
+String UserId = (String)session.getAttribute("id");
+String userComCode = (String)session.getAttribute("depart");
+String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 %>
 </head>
 <body>
@@ -356,19 +358,18 @@ $(document).ready(function(){
 		<div class="Title"">타이틀</div>
 		<div class="InfoInput">
 			<label>Company Code : </label>
-			<input type="text" class="ComCode HeadInfo InputInfo Header" name="ComCode" onclick="InfoSearch('ComSearch')" readonly>
+			<input type="text" class="ComCode HeadInfo InputInfo Header" name="ComCode" onclick="InfoSearch('ComSearch')" value="<%=userComCode %>" readonly>
 			<input type="text" class="Com_Name" name="Com_Name" hidden> 
 		</div>
 		<div class="InfoInput">
 			<label>Plant : </label>
-			<input type="text" class="plantCode KeyInfo" name="plantCode" onclick="InfoSearch('PlantSearch')" readonly>
-			<input type="text" class="plantDes" name="plantDes" readonly>
+			<input type="text" class="PlantCode KeyInfo" name="PlantCode" onclick="InfoSearch('PlantSearch')" readonly>
+			<input type="text" class="PlantDes" name="PlantDes" readonly>
 		</div>
 		<div class="InfoInput">
 			<label>출고창고 : </label>
 			<input type="text" class="StorageCode KeyInfo" name="StorageCode" onclick="InfoSearch('StorageSearch')" placeholder="SELECT" readonly>
 			<input type="text" class="StorageDes" name="StorageDes" readonly>
-			<input type="text" class="StorageComCode" name="StorageComCode" hidden>
 		</div>
 		<div class="InfoInput">
 			<label>Movement Type : </label>
@@ -382,11 +383,11 @@ $(document).ready(function(){
 		</div>
 		<div class="InfoInput">
 			<label>출고일자 : </label>
-			<input type="text" class="Out_date KeyInfo" name="Out_date" readonly value="<%=Today%>">
+			<input type="text" class="Out_date KeyInfo" name="Out_date" readonly>
 		</div>
 		<div class="InfoInput">
 			<label>출고 담당자 사번 : </label>
-			<input type="text" class="User_Id" name="User_Id" readonly value="<%=User_Id%>">
+			<input type="text" class="UserID" name="UserID" readonly value="<%=UserIdNumber%>">
 		</div>
 		
 		<div class="BtnArea">
@@ -395,7 +396,7 @@ $(document).ready(function(){
 	</div>	
 	<div class="MatOutPut-Body">
 		<div class="Title">타이틀</div>
-		<div class="Mat-Area"> <!-- output-sub-info START -->
+		<div class="Mat-Area">
 			<div class="InfoInput">
 				<label>GI Item No : </label>
 				<input type="text" class="GINo KeyInfo" name="GINo" readonly> 
@@ -438,38 +439,36 @@ $(document).ready(function(){
 				<label>사용 부서 : </label>
 				<input type="text" class="UseDepart KeyInfo" name="UseDepart" onclick="InfoSearch('DepartSearch')" readonly>
 				
-				<label>입고 창고  : </label>
-				<input type="text" class="InputStorage KeyInfo" name="InputStorage" onclick="InfoSearch('InputSearch')" readonly>
-				<input type="text" class="TransPlantCode" name="TransPlantCode" hidden>
-				<input type="text" class="TransComCode" name="TransComCode" hidden>
-				
 				<label>부서명 : </label>
 				<input type="text" class="DepartName" name="DepartName" readonly>
+				
+				<label>입고 창고  : </label>
+				<input type="text" class="InputStorage" name="InputStorage" onclick="InfoSearch('InputSearch')" readonly>
 			</div>
 			<div class="InfoInput">
 				<label>생산 Lot번호 : </label>
 				<input type="text" class="LotNumber KeyInfo" name="LotNumber">
 			</div>	
 		</div>
-	</div>
 		
-	<div class="BtnArea">
-		<button class="InsertBtn">Insert</button>
-		<button class="SaveBtn">Save</button>
-		<button class="ResetBtn">Reset</button>
-	</div>
+		<div class="BtnArea">
+			<button class="InsertBtn">Insert</button>
+			<button class="SaveBtn">Save</button>
+			<button class="ResetBtn">Reset</button>
+		</div>
 				
-	<div class=Info-Area>
-		<div class="Title">타이틀</div>
-		<table class="InfoTable" id="InfoTable">
-			<thead>
-				<th>항번</th><th>삭제</th><th>문서번호</th><th>품목번호</th><th>자재</th><th>자재 설명</th><th>자재 유형</th><th>출고 구분</th><th>수량</th><br>
-				<th>단위</th><th>사용 부서</th><th>생산 Lot 번호</th><th>출고 일자</th><th>자재 Lot 번호</th><th>출고 창고</th><th>공장(Plant)</th><th>입고 창고</th>
-			</thead>
-			<tbody class="InfoBody">
-			</tbody>
-		</table>
-	</div>	
+		<div class=Info-Area>
+			<div class="Title">타이틀</div>
+			<table class="InfoTable" id="InfoTable">
+				<thead>
+					<th>항번</th><th>삭제</th><th>문서번호</th><th>품목번호</th><th>자재</th><th>자재 설명</th><th>자재 유형</th><th>출고 구분</th><th>수량</th><br>
+					<th>단위</th><th>사용 부서</th><th>생산 Lot 번호</th><th>출고 일자</th><th>자재 Lot 번호</th><th>출고 창고</th><th>공장(Plant)</th><th>입고 창고</th>
+				</thead>
+				<tbody class="InfoBody">
+				</tbody>
+			</table>
+		</div>	
+	</div>
 </div>
 </body>
 </html>
