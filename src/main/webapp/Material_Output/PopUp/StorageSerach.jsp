@@ -43,7 +43,6 @@
 				do{  
 			%>
 			<tr>
-			    <td><%=rs.getString("STORAGR_ID") %></td>
 			    <td>
 			    	<a href="javascript:void(0)" onClick=
 			    	"var StorageCode = '<%=rs.getString("STORAGR_ID")%>';
@@ -51,8 +50,9 @@
 			    	 window.opener.document.querySelector('.StorageCode').value=StorageCode;
 			    	 window.opener.document.querySelector('.StorageDes').value=StorageName;
 			    	 window.opener.document.querySelector('.StorageCode').dispatchEvent(new Event('change'));
-			    	 window.close();"><%=rs.getString("STORAGR_NAME") %></a>
+			    	 window.close();"><%=rs.getString("STORAGR_ID") %></a>
 				</td>
+				<td><%=rs.getString("STORAGR_NAME") %></td>
 			</tr>
 			<%  
 					}while(rs.next());

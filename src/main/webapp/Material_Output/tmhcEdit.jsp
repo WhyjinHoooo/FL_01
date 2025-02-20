@@ -34,18 +34,6 @@
 	LocalDateTime now = LocalDateTime.now();
 	String YYMM = now.format(DateTimeFormatter.ofPattern("yyyy-MM"));
 	
-// 	System.out.println("YYMM : " + YYMM);
-// 	System.out.println("전달받은 수량 : " + Count);
-// 	System.out.println("자재코드 : " + Material);
-// 	System.out.println("MoveCode : " + movType);
-// 	System.out.println("출고 Plant 코드 : " + OutPlant);
-// 	System.out.println("출고 Plant의 Company 코드 : " + ComCode);
-// 	System.out.println("출고 창고 코드 : " + Storage);
-// 	System.out.println("------------------------------------");
-// 	System.out.println("입고 Plant 코드 : " + PlantCode);
-// 	System.out.println("입고할 창고의 Company 코드 : " + InputComCode);
-// 	System.out.println("입고할 창고 코드 : " + InputStorage);
-	
 	String sql01 = "SELECT * FROM totalMaterial_head WHERE Material = ? AND Com_Code = ? AND YYMM = ?"; 
 	String sql02 = "SELECT * FROM totalmaterial_child WHERE StorLoc = ? AND Material = ? AND Com_Code = ? AND YYMM = ? AND Plant = ?"; // 출고 또는 이체출고 시, 출고할 창고
 	String sql03 = "SELECT * FROM totalmaterial_child WHERE StorLoc = ? AND Material = ? AND Com_Code = ? AND YYMM = ? AND Plant = ?"; // 이체출고 시, 입고할 창고

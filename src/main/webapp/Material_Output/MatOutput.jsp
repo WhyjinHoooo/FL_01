@@ -58,66 +58,20 @@ function InfoSearch(field){
 		window.open("${contextPath}/Material_Output/PopUp/MovSerach.jsp", "POPUP04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	break;
 	case "MatSearch":
-		popupWidth = 1050;
-		popupHeight = 750;
+		popupWidth = 1670;
+		popupHeight = 500;
+		xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
 		window.open("${contextPath}/Material_Output/PopUp/MatSearch.jsp?plantcode=" + plantcode + "&storagecode=" + storagecode, "POPUP04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	break;
-	case "LotSearch":
-		window.open("${contextPath}/Material_Output/LotSearch.jsp?storagecode=" + storagecode, "POPUP05", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-	break;
 	case "DepartSearch":
-		window.open("${contextPath}/Material_Output/DepartSearch.jsp", "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+		window.open("${contextPath}/Material_Output/PopUp/DepartSearch.jsp", "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	break;
 	case "InputSearch":
-		window.open("${contextPath}/Material_Output/InputSearch.jsp?outStorage=" + storagecode, "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+		window.open("${contextPath}/Material_Output/PopUp/InputSearch.jsp?outStorage=" + storagecode, "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	break;
 	}
 }
-/* window.addEventListener('DOMContentLoaded',(event) => {
-	const plantCode = document.querySelector('.plantCode');
-	const storageCode = document.querySelector('.StorageCode');
-	const storageDes = document.querySelector('.StorageDes');
-	const storageComCode = document.querySelector('.StorageComCode');
-    const movCode = document.querySelector('.movCode');
-    const movDes = document.querySelector('.movDes');
-	const PlusMinus = document.querySelector('.PlusMinus');
-	const GINo = document.querySelector('.GINo');
-	const Doc = document.querySelector('.Doc_Num');
-	const MatCode = document.querySelector('.MatCode');
-	const MatDes = document.querySelector('.MatDes');
-	const MatLotNo = document.querySelector('.MatLotNo');
-	const Make = document.querySelector('.MakeDate');
-	const Dead = document.querySelector('.DeadDete');
-	const OutCount = document.querySelector('.OutCount');
-	const Orderunit = document.querySelector('.OrderUnit');
-	const Before = document.querySelector('.BeforeCount');
-	const DeptCode = document.querySelector('.UseDepart');
-	const DeptName= document.querySelector('.DepartName');
-	const InStor = document.querySelector('.InputStorage');
-	const LotNumber = document.querySelector('.LotNumber');
-    
-	const resetInputs = (inputs, enableInput) => {
-        inputs.forEach(input => input.value = '');
-        if (enableInput) {
-            enableInput.disabled = false;
-        }
-        if (DeptCode) {
-            DeptCode.disabled = false;
-        }
-        if (InStor) {
-            InStor.disabled = false;
-        }
-    };
-
-	const plantchange = [storageCode, storageDes, storageComCode, movCode, movDes, PlusMinus, GINo, Doc, MatCode, MatDes, MatLotNo, Make, Dead, OutCount, Orderunit, Before, DeptCode, DeptName, InStor, LotNumber];
-	const storagechange = [movCode, movDes, PlusMinus, GINo, Doc, MatCode, MatDes, MatLotNo, Make, Dead, OutCount, Orderunit, Before, DeptCode, DeptName, InStor, LotNumber];
-	const movchange = [MatCode, MatDes, MatLotNo, Make, Dead, OutCount, Orderunit, Before, DeptCode, DeptName, InStor, LotNumber];
-	
-	plantCode.addEventListener('change', () => resetInputs(plantchange, LotNumber));
-	storageCode.addEventListener('change', () => resetInputs(storagechange, LotNumber));
-	movCode.addEventListener('change', () => resetInputs(movchange, LotNumber));
-}); */
-
 $(document).ready(function(){
 	function InitialTable(){
 		var UserId = $('.UserID').val();
@@ -150,24 +104,50 @@ $(document).ready(function(){
 		$('.Out_date').val(today);
 	}
 	function checkInputs() {
-		if ($('.UseDepart').val().length > 0 || $('.InputStorage').val().length > 0) {  // 사용 부서나 입고 창고에 한 글자라도 작성되어 있으면
-			$('.LotNumber').prop('disabled', true);  // 'LotNumber' 클래스를 가진 input 필드 사용 불가능
-		} else if ($('.LotNumber').val().length > 0) {  // 'LotNumber' 클래스를 가진 input 필드에 한 글자라도 작성되어 있으면
-			$('.UseDepart, .InputStorage').prop('disabled', true);  // 사용 부서와 입고 창고 입력 불가능
+		if ($('.UseDepart').val().length > 0 || $('.InputStorage').val().length > 0) {
+			$('.LotNumber').prop('disabled', true); 
+		} else if ($('.LotNumber').val().length > 0) {
+			$('.UseDepart, .InputStorage, .DepartName').prop('disabled', true);
 		} else {  // 작성되어 있는 글자가 없으면
-			$('.LotNumber, .UseDepart, .InputStorage').prop('disabled', false);  // 모든 필드 입력 가능
+			$('.LotNumber, .UseDepart, .InputStorage, .DepartName').prop('disabled', false);
 		}
 	}
-
-	$('.LotNumber, .UseDepart, .InputStorage').on('change', function() {
+	function BodyDisabled(){
+		$('.Mat-Area').find('input').prop('disabled', true);
+	}
+	function BodyAbled(){
+		var MovType = $('.movCode').val();
+		if(MovType.substring(0,2) === 'IR'){
+			$('.Mat-Area').find('input').prop('disabled', false);
+		}else{
+			$('.Mat-Area').find('input').prop('disabled', false).filter('.InputStorage').prop('disabled', true);
+		}
+	}
+	$('.DepartReset').click(function(){
+		$('.UseDepart').val('');
+		$('.DepartName').val('');
+		
+		$('.LotNumber').prop('disabled', false);
+	})
+	$('.UseDepart, .InputStorage').on('change', function() {
 		checkInputs();
 	});
-	
-	// 페이지 로드 시 초기 상태 체크
+	$('.LotNumber').on('input',function(){
+		checkInputs();
+	})
+	$('.OutCount').on('input',function(){
+		var ExportValue = Number($(this).val());
+		var Inventory = Number($('.BeforeCount').val());
+		if(ExportValue > Inventory){
+			alert('출고수량('+ ExportValue +')을 다시 입력해주세요.');
+			$(this).val('');
+			return false;
+		}
+	})
 	checkInputs();
 	InitialTable();
 	DateSetting();
-	
+	BodyDisabled();
     $('.movCode').change(function() {
         var Code = $(this).val();
         if (Code.substring(0,2) === 'IR') {
@@ -188,48 +168,49 @@ $(document).ready(function(){
             }
         })
     });
-	 
-	$(document).on('click', "img[name='Down']", function(){
-		var InfoArray = [];
-	
-		var DocCode = $('.Doc_Num').val(); // Mat. 출고 문서번호 !
-		var SeqNum = $('.GINo').val(); // 아이템 번호 !
-		
-		var outCount = $('.OutCount').val(); // 출고 수량 3
-		
-		var materialCode = $('.MatCode').val();// 출고 자재코드 010101-00001
-		var MatDes = $('.MatDes').val(); // 출고 자재에 대한 설명 !
-		var MatType = $('.MatType').val(); // 자재 종류 !
-		var MatCountUnit = $('.OrderUnit').val(); // 자재 단위 !
-		
-		var outStorage = $('.StorageCode').val();// 출고창고
-		var inputStorage = $('.InputStorage').val(); // IR일 때, 입고 창고
-		var giIr = $('.movCode').val();
-		var ComCode = $('.plantComCode').val();
-		var OutPlant = $('.plantCode').val();
-		var plantCode = $('.TransPlantCode').val();
-		var InputComCode = $('.TransComCode').val();
-		
-		var UseDepart = $('.UseDepart').val(); // 사용 부서 !
-		var ProLotNum = $('.LotNumber').val(); // 생산 Lot번호 !
-		var MatLotNum = $('.MatLotNo').val();// 자재 Lot 번호 !
-		InfoArray = [outCount, materialCode, outStorage, giIr, inputStorage, ComCode, plantCode, OutPlant, InputComCode];
-		
-		var currentGIN = parseInt($('.GINo').val(), 10);
-		var type = $('.movCode').val().substring(0, 2);
-		var DataToSend = {};
-		$(".KeyInfo").each(function(){
+    var AbledList = {};
+	$('.MatOutPut-Header > .BtnArea > button').click(function(){
+		$('.Abled').each(function(){
 			var name = $(this).attr("name");
-			var value = $(this).val();
-			DataToSend[name] = value;
-		});
-		const DataArry = [$('.MatCode'),$('.MatDes'),$('.MatType'),$('.MatLotNo'),$('.MakeDate'),$('.DeadDete'),$('.OutCount'),$('.OrderUnit'),$('.UseDepart'),$('.BeforeCount'),$('.DepartName'),$('.InputStorage'),$('.LotNumber')];
-		DataArry.forEach(input => input.val(''));
+            var value = $(this).val();
+			AbledList[name] = value;
+		})
+		var pass = true;
+		$.each(AbledList,function(key, value){
+    		if(value == null || value === ''){
+    			pass = false;
+    			return false;
+    		}
+    	})
+    	if(!pass){
+    		alert('모든 항목을 입력해주세요.');
+    	}else{
+    		BodyAbled();
+    	}
 		
-		$('.UseDepart').prop('disabled', false);
-		$('.InputStorage').prop('disabled', false);
-		$('.LotNumber').prop('disabled', false);
-		$.ajax({
+	})
+	$('.ResetBtn').click(function(){
+		location.reload();
+	})
+	var InfoArray = {};
+	$('.InsertBtn').click(function(){
+		$('.KeyInfo').each(function(){
+            var name = $(this).attr("name");
+            var value = $(this).val();
+            InfoArray[name] = value;
+        });
+    	var pass = true;
+    	$.each(InfoArray,function(key, value){
+    		if (key === 'InputStorage' || key === 'LotNumber') {
+    	        return true;
+    	    }
+    	    if (value == null || value === '') {
+    	        pass = false;
+    	        return false;
+    	    }
+    	})
+		console.log(InfoArray);
+/* 		$.ajax({
 			url : 'tmhcEdit.jsp',
 			type : 'POST',
 			data :  JSON.stringify(InfoArray),
@@ -295,7 +276,7 @@ $(document).ready(function(){
 		    error: function(jqXHR, textStatus, errorThrown){
 		        alert('오류 발생: ' + textStatus + ', ' + errorThrown);
 		    }
-		});
+		}); */
 	});
 	var DeleteEle = [];
 	$(document).on("click", ".deleteBTN", function() {
@@ -358,7 +339,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 		<div class="Title"">타이틀</div>
 		<div class="InfoInput">
 			<label>Company Code : </label>
-			<input type="text" class="ComCode HeadInfo InputInfo Header" name="ComCode" onclick="InfoSearch('ComSearch')" value="<%=userComCode %>" readonly>
+			<input type="text" class="ComCode KeyInfo" name="ComCode" onclick="InfoSearch('ComSearch')" value="<%=userComCode %>" readonly>
 			<input type="text" class="Com_Name" name="Com_Name" hidden> 
 		</div>
 		<div class="InfoInput">
@@ -368,14 +349,14 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 		</div>
 		<div class="InfoInput">
 			<label>출고창고 : </label>
-			<input type="text" class="StorageCode KeyInfo" name="StorageCode" onclick="InfoSearch('StorageSearch')" placeholder="SELECT" readonly>
+			<input type="text" class="StorageCode Abled KeyInfo" name="StorageCode" onclick="InfoSearch('StorageSearch')" placeholder="SELECT" readonly>
 			<input type="text" class="StorageDes" name="StorageDes" readonly>
 		</div>
 		<div class="InfoInput">
 			<label>Movement Type : </label>
-			<input type="text" class="movCode KeyInfo" name="movCode" onclick="InfoSearch('MovSearch')" placeholder="SELECT" readonly>
+			<input type="text" class="movCode Abled KeyInfo" name="movCode" onclick="InfoSearch('MovSearch')" placeholder="SELECT" readonly>
 			<input type="text" class="movDes" name="movDes" readonly>
-			<input type="text" class="PlusMinus" name="PlusMinus" hidden>
+			<input type="text" class="PlusMinus KeyInfo" name="PlusMinus" hidden>
 		</div>
 		<div class="InfoInput">
 			<label>Mat. 출고 문서번호 : </label>
@@ -387,11 +368,11 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 		</div>
 		<div class="InfoInput">
 			<label>출고 담당자 사번 : </label>
-			<input type="text" class="UserID" name="UserID" readonly value="<%=UserIdNumber%>">
+			<input type="text" class="UserID KeyInfo" name="UserID" readonly value="<%=UserIdNumber%>">
 		</div>
 		
 		<div class="BtnArea">
-				<button>Create</button>
+			<button>Create</button>
 		</div>	
 	</div>	
 	<div class="MatOutPut-Body">
@@ -401,16 +382,16 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 				<label>GI Item No : </label>
 				<input type="text" class="GINo KeyInfo" name="GINo" readonly> 
 			</div>
+			
 			<div class="InfoInput">
 				<label>Material : </label>
 				<input type="text" class="MatCode KeyInfo" name="MatCode" onclick="InfoSearch('MatSearch')" readonly>
 				<input type="text" class="MatDes KeyInfo" name="MatDes" readonly><!--  전송 -->
-				<input type="text" class="MatType KeyInfo" name="MatType" hidden>
-				<input type="text" class="MatDocCode KeyInfo" name="MatDocCode" hidden> <!-- //? -->
 			</div>
+			
 			<div class="InfoInput">
 				<label>자재 Lot 번호 : </label>
-				<input type="text" class="MatLotNo KeyInfo" name="MatLotNo" onclick="InfoSearch('LotSearch')" readonly>
+				<input type="text" class="MatLotNo KeyInfo" name="MatLotNo" readonly>
 				
 				<label>제조일자 : </label>
 				<input type="text" class="MakeDate KeyInfo" name="MakeDate" readonly> 
@@ -418,6 +399,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 				<label>만료일자 : </label>
 				<input type="text" class="DeadDete KeyInfo" name="DeadDete" readonly>
 			</div>
+			
 			<div class="InfoInput">
 				<label>창고 Rack : </label>
 				<input type="text" class="Rack" name="Rack" readonly>
@@ -425,9 +407,10 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 				<label>Bin : </label>
 				<input type="text" class="Bin" name="Bin" readonly> 
 			</div>
+			
 			<div class="InfoInput">
 				<label>출고 수량 : </label>
-				<input type="text" class="OutCount KeyInfo" name="OutCount">
+				<input type="number" class="OutCount KeyInfo" name="OutCount">
 				
 				<label>단위 : </label>
 				<input type="text" class="OrderUnit KeyInfo" name="OrderUnit"readonly>
@@ -435,16 +418,19 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 				<label>출고 전 창고재고 : </label>
 				<input type="text" class="BeforeCount" name="BeforeCount" readonly>
 			</div>
+			
 			<div class="InfoInput">
 				<label>사용 부서 : </label>
 				<input type="text" class="UseDepart KeyInfo" name="UseDepart" onclick="InfoSearch('DepartSearch')" readonly>
+				<button class="DepartReset">Clear</button>
 				
 				<label>부서명 : </label>
 				<input type="text" class="DepartName" name="DepartName" readonly>
 				
 				<label>입고 창고  : </label>
-				<input type="text" class="InputStorage" name="InputStorage" onclick="InfoSearch('InputSearch')" readonly>
+				<input type="text" class="InputStorage KeyInfo" name="InputStorage" onclick="InfoSearch('InputSearch')" readonly>
 			</div>
+			
 			<div class="InfoInput">
 				<label>생산 Lot번호 : </label>
 				<input type="text" class="LotNumber KeyInfo" name="LotNumber">

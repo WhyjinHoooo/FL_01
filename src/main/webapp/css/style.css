@@ -1663,6 +1663,7 @@ table.ComInfoTable {
     }
     .Mat-OutPut input{
 	font-weight: bold;
+	font-size: medium;
 	}
 	.Mat-OutPut input::placeholder{
 	text-align: center;
@@ -1687,7 +1688,17 @@ table.ComInfoTable {
 	border-radius: 10px;
 	font-size: 25px;
 	padding: 5px;
-    }    
+    }
+    .MatOutPut-Header > .BtnArea > button:hover {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.MatOutPut-Header > .BtnArea > button:active {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
     .Mat-OutPut > .MatOutPut-Body {
     margin-left: 2%;
     width: 70%;
@@ -1727,17 +1738,44 @@ table.ComInfoTable {
 	letter-spacing: 0em;
     }
     .Mat-OutPut > .MatOutPut-Body > .Mat-Area > .InfoInput:nth-child(2) > input:nth-child(3) {
-	width: 40%;
+	width: 44.5%;
     }
     .Mat-OutPut > .MatOutPut-Body > .Mat-Area > .InfoInput:nth-child(3) > label:nth-child(3),
     .Mat-OutPut > .MatOutPut-Body > .Mat-Area > .InfoInput:nth-child(3) > label:nth-child(5),
     .Mat-OutPut > .MatOutPut-Body > .Mat-Area > .InfoInput:nth-child(4) > label:nth-child(3),
     .Mat-OutPut > .MatOutPut-Body > .Mat-Area > .InfoInput:nth-child(5) > label:nth-child(3),
-    .Mat-OutPut > .MatOutPut-Body > .Mat-Area > .InfoInput:nth-child(5) > label:nth-child(5),
-    .Mat-OutPut > .MatOutPut-Body > .Mat-Area > .InfoInput:nth-child(6) > label:nth-child(3),
-    .Mat-OutPut > .MatOutPut-Body > .Mat-Area > .InfoInput:nth-child(6) > label:nth-child(5) {
+    .Mat-OutPut > .MatOutPut-Body > .Mat-Area > .InfoInput:nth-child(5) > label:nth-child(5) {
 	margin-left: -5.6%;
-    }    
+    }
+    .Mat-OutPut > .MatOutPut-Body > .Mat-Area > .InfoInput:nth-child(6) > button.DepartReset {
+	    width: 3%;
+	    height: 27px;
+	    background: #B0C4DE;
+	    color: white;
+	    font-weight: bold;
+	    border: 1px solid #B0C4DE;
+		padding: 5px;
+		border-radius: 4px;
+		position: relative;
+	  	z-index: 1;
+	  	pointer-events: auto;
+	}
+	.Mat-OutPut > .MatOutPut-Body > .Mat-Area > .InfoInput:nth-child(6) > button.DepartReset:hover{
+		background: #4682B4;
+		color: #fff;
+		border: 1px solid #4682B4;
+	}
+	.Mat-OutPut > .MatOutPut-Body > .Mat-Area > .InfoInput:nth-child(6) > button.DepartReset:active {
+		background: #4682B4;
+		color: black;
+		border: 1px solid #4682B4;
+	}
+    .Mat-OutPut > .MatOutPut-Body > .Mat-Area > .InfoInput:nth-child(6) > label:nth-child(4){
+    margin-left: -9%;
+    }
+    .Mat-OutPut > .MatOutPut-Body > .Mat-Area > .InfoInput:nth-child(6) > label:nth-child(6){
+    margin-left: -5.6%;
+    }
 	.Mat-OutPut > .MatOutPut-Body > .BtnArea {
 	height: 5%;
 	margin-top: 0.5%;

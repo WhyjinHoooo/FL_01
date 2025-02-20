@@ -17,7 +17,7 @@
 		<table class="TotalTable">
 			<thead>
 			    <tr>
-            		<th>MMPO번호</th><th>Mterial Code</th><th>입고량</th><th>잔량</th><th>Material Description</th>
+            		<th>입고문서</th><th>자재코드</th><th>자재이름</th><th>입고량</th><th>Lot번호</th><th>제조일자</th><th>만료일자</th><th>단위</th>
         		</tr>
         	</thead>
         	<tbody>
@@ -34,7 +34,7 @@
 			} else{
 		        PreparedStatement pstmt = null;
 		        ResultSet rs = null;
-		        String sql = "SELECT * FROM storehead WHERE PlantCode = ? AND Storage = ?";
+		        String sql = "SELECT * FROM storechild WHERE Plant = ? AND StoLoca = ?";
 		        
 		        pstmt = conn.prepareStatement(sql);
 		        pstmt.setString(1, PlantCode);
@@ -45,29 +45,35 @@
 			if(!rs.next()){
 			%>
 		        <tr>
-		            <td colspan="5"><a href="javascript:void(0)" onClick="window.close();">해당하는 재료가 없습니다.</a></td>
+		            <td colspan="8"><a href="javascript:void(0)" onClick="window.close();">해당하는 재료가 없습니다.</a></td>
 		        </tr>
 			<%
 			} else{
 		    	do{
 		    %>
 				<tr>
+					
 					<td>
 						<a href="javascript:void(0)" onclick="
-					    window.opener.document.querySelector('.MatCode').value='<%=rs.getString("MatCode")%>';
-					    window.opener.document.querySelector('.MatDes').value='<%=rs.getString("MatDes")%>';
-					    window.opener.document.querySelector('.MatType').value='<%=rs.getString("MatType")%>';
-					    window.opener.document.querySelector('.MatDocCode').value='<%=rs.getString("MMPO")%>';
+					    window.opener.document.querySelector('.MatCode').value='<%=rs.getString("Material")%>';
+					    window.opener.document.querySelector('.MatDes').value='<%=rs.getString("MaterialDescription")%>';
+					    window.opener.document.querySelector('.BeforeCount').value='<%=rs.getString("Quantity")%>';
+					    window.opener.document.querySelector('.MatLotNo').value='<%=rs.getString("VendProdLotNum")%>';
+					    window.opener.document.querySelector('.MakeDate').value='<%=rs.getString("ManifacDate")%>';
+					    window.opener.document.querySelector('.DeadDete').value='<%=rs.getString("ValidToDate")%>';
+					    window.opener.document.querySelector('.OrderUnit').value='<%=rs.getString("InvUnit")%>';
 					    window.opener.document.querySelector('.MatCode').dispatchEvent(new Event('change'));
 					    window.close();">
-						<%=rs.getString("MMPO") %>
+						<%=rs.getString("MatDocNum") %>
 						</a>
 					</td>
-					<td><%=rs.getString("MatCode") %></td>
-					<td hidden><%=rs.getString("MatType") %></td>
-					<td><%=rs.getString("Count") %></td>
-					<td><%=rs.getString("PO_Rem") %></td>
-					<td><%=rs.getString("MatDes")%></td>
+					<td><%=rs.getString("Material") %></td>
+					<td><%=rs.getString("MaterialDescription") %></td>
+					<td><%=rs.getString("Quantity") %></td>
+					<td><%=rs.getString("VendProdLotNum") %></td>
+					<td><%=rs.getString("ManifacDate") %></td>
+					<td><%=rs.getString("ValidToDate") %></td>
+					<td><%=rs.getString("InvUnit") %></td>
 				</tr>    
 		    <%    		
 			    	    }while(rs.next());

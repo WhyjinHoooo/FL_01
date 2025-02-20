@@ -4,19 +4,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<%@ include file="../mydbcon.jsp" %>
-<link rel="stylesheet" href="../css/style.css?after">
+<%@ include file="../../mydbcon.jsp" %>
+<link rel="stylesheet" href="../../css/PopUp.css?after">
 </head>
 
 <body>
 <h1>검색</h1>
 <hr>
-	<center>
-		<div class="ComSearch-board">
-			<table>
+<center>
+	<div class="Total_board">
+		<table class="TotalTable">
+			<thead>
 			    <tr>
 			        <th>창고코드</th><th>창고설명</th>
 			    </tr>
+			</thead>
+			<tbody>
 			<%
 			    try{
 			    String outStorage = request.getParameter("outStorage");
@@ -50,8 +53,9 @@
 			        e.printStackTrace();
 			    }
 			%>
-			</table>	
-		</div>	
-	</center>
+			</tbody>
+		</table>	
+	</div>	
+</center>
 </body>
 </html>

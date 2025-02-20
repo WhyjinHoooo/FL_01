@@ -54,17 +54,18 @@
 		SeaPstmt.setString(1, HeaderInfoList.getString("MatNum"));
 		ResultSet SeaRs = SeaPstmt.executeQuery();
 		while(SeaRs.next()){
-			String SCI_Sql = "INSERT INTO storechild VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			String SCI_Sql = "INSERT INTO storechild VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement DCI_Pstmt = conn.prepareStatement(SCI_Sql);
 			DCI_Pstmt.setString(1, SeaRs.getString("KeyValue"));
 			DCI_Pstmt.setString(2, HeaderInfoList.getString("date"));
 			DCI_Pstmt.setString(3, SeaRs.getString("DocNum"));
 			DCI_Pstmt.setString(4, SeaRs.getString("ItemNum"));
 			DCI_Pstmt.setString(5, SeaRs.getString("MatCode"));
-			DCI_Pstmt.setString(6, SeaRs.getString("MatType"));
-			DCI_Pstmt.setString(7, SeaRs.getString("MovCode"));
-			DCI_Pstmt.setString(8, SeaRs.getString("Count"));
-			DCI_Pstmt.setString(9, SeaRs.getString("Unit"));
+			DCI_Pstmt.setString(6, SeaRs.getString("MatDes"));
+			DCI_Pstmt.setString(7, SeaRs.getString("MatType"));
+			DCI_Pstmt.setString(8, SeaRs.getString("MovCode"));
+			DCI_Pstmt.setString(9, SeaRs.getString("Count"));
+			DCI_Pstmt.setString(10, SeaRs.getString("Unit"));
 			
 			Pricepstmt = conn.prepareStatement(PriceSql);
 			Pricepstmt.setString(1, SeaRs.getString("MatCode"));
@@ -72,19 +73,20 @@
 			if(PriceRs.next()){
 				UnitPrice = PriceRs.getInt("PurPrices") / Double.parseDouble(PriceRs.getString("PriceBaseQty")) ;
 			}
-			DCI_Pstmt.setDouble(10, UnitPrice * Integer.parseInt(SeaRs.getString("Count")));
-			DCI_Pstmt.setString(11, SeaRs.getString("Money"));
-			DCI_Pstmt.setDouble(12, UnitPrice * Integer.parseInt(SeaRs.getString("Count")));
-			DCI_Pstmt.setString(13, SeaRs.getString("Money"));
-			DCI_Pstmt.setString(14, SeaRs.getString("VenCode"));
-			DCI_Pstmt.setString(15, SeaRs.getString("PurOrdNo"));
-			DCI_Pstmt.setString(16, SeaRs.getString("LotName"));
-			DCI_Pstmt.setString(17, SeaRs.getString("MadeDate"));
-			DCI_Pstmt.setString(18, SeaRs.getString("DeadDate"));
-			DCI_Pstmt.setString(19, SeaRs.getString("SLocCode"));
-			DCI_Pstmt.setString(20, "Null");
-			DCI_Pstmt.setString(21, SeaRs.getString("PlantCode"));
-			DCI_Pstmt.setString(22, HeaderInfoList.getString("UserID"));
+			DCI_Pstmt.setDouble(11, UnitPrice * Integer.parseInt(SeaRs.getString("Count")));
+			DCI_Pstmt.setString(12, SeaRs.getString("Money"));
+			DCI_Pstmt.setDouble(13, UnitPrice * Integer.parseInt(SeaRs.getString("Count")));
+			DCI_Pstmt.setString(14, SeaRs.getString("Money"));
+			DCI_Pstmt.setString(15, SeaRs.getString("VenCode"));
+			DCI_Pstmt.setString(16, SeaRs.getString("PurOrdNo"));
+			DCI_Pstmt.setString(17, SeaRs.getString("LotName"));
+			DCI_Pstmt.setString(18, SeaRs.getString("MadeDate"));
+			DCI_Pstmt.setString(19, SeaRs.getString("DeadDate"));
+			DCI_Pstmt.setString(20, SeaRs.getString("SLocCode"));
+			DCI_Pstmt.setString(21, "Null");
+			DCI_Pstmt.setString(22, SeaRs.getString("PlantCode"));
+			System.out.println(HeaderInfoList.getString("UserID"));
+			DCI_Pstmt.setString(23, HeaderInfoList.getString("UserID"));
 			DCI_Pstmt.executeUpdate();
 			
 			String POC_Sacn_Sql = "SELECT * FROM pochild WHERE MMPO = ? AND MatCode = ?";

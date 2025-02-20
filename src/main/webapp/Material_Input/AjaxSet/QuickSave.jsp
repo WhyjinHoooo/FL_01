@@ -32,7 +32,7 @@
 		QuickPstmt.setString(13, dataToSend.getString("LotName"));
 		QuickPstmt.setString(14, dataToSend.getString("BuyUnit"));
 		QuickPstmt.setString(15, dataToSend.getString("MadeDate"));
-		QuickPstmt.setString(16, dataToSend.getString("MadeDate"));
+		QuickPstmt.setString(16, dataToSend.getString("Deadline"));
 		QuickPstmt.setString(17, dataToSend.getString("PlusMinus"));
 		QuickPstmt.setString(18, dataToSend.getString("DealCurrency"));
 		QuickPstmt.setString(19, dataToSend.getString("ComCode"));
