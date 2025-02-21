@@ -25,7 +25,7 @@
 	int Quantity = 0;
 	double TotalPrice = 0.0;
 	
-	String Tem_Sql = "SELECT DISTINCT PurOrdNo, SLocCode, COUNT(*) as OrderQuantity FROM temtable WHERE DocNum = ? GROUP BY PurOrdNo";
+	String Tem_Sql = "SELECT DISTINCT PurOrdNo, SLocCode, COUNT(*) as OrderQuantity FROM input_temtable WHERE DocNum = ? GROUP BY PurOrdNo";
 	PreparedStatement Tem_Pstmt = conn.prepareStatement(Tem_Sql);
 	Tem_Pstmt.setString(1, HeaderInfoList.getString("MatNum"));
 	ResultSet Tem_Rs = Tem_Pstmt.executeQuery();
@@ -49,7 +49,7 @@
 		SHI_Pstmt.setString(10, HeaderInfoList.getString("UserID"));
 		SHI_Pstmt.executeUpdate();
 		
-		String SeaSql = "SELECT * FROM temtable WHERE DocNum = ?";
+		String SeaSql = "SELECT * FROM input_temtable WHERE DocNum = ?";
 		PreparedStatement SeaPstmt = conn.prepareStatement(SeaSql);
 		SeaPstmt.setString(1, HeaderInfoList.getString("MatNum"));
 		ResultSet SeaRs = SeaPstmt.executeQuery();
@@ -118,7 +118,7 @@
 	
 	PriceRs.beforeFirst();
 	int AddQuantity = 0; 
-	String Scan_Sql = "SELECT * FROM temtable WHERE DocNum = ?";
+	String Scan_Sql = "SELECT * FROM input_temtable WHERE DocNum = ?";
 	PreparedStatement Scan_Pstmt = conn.prepareStatement(Scan_Sql);
 	Scan_Pstmt.setString(1, HeaderInfoList.getString("MatNum"));
 	ResultSet Scan_Rs = Scan_Pstmt.executeQuery();
@@ -127,6 +127,7 @@
 		String DateCode = HeaderInfoList.getString("date").substring(0,7);
 		String PlantCode = HeaderInfoList.getString("PlantCode");
 		String MatCode = Scan_Rs.getString("MatCode");
+		String MatDes = Scan_Rs.getString("MatDes");
 		String StgCode = Scan_Rs.getString("SLocCode");
 		
 		String OTH_Scan_Sql = "SELECT * FROM totalmaterial_head WHERE YYMM = ? AND Com_Code = ? AND Material = ?";
@@ -136,15 +137,16 @@
 		OTH_Scan_Pstmt.setString(3, MatCode);
 		ResultSet OTH_Scan_Rs = OTH_Scan_Pstmt.executeQuery();
 		if(!OTH_Scan_Rs.next()){
-			String OTH_Insert_Sql = "INSERT INTO totalmaterial_head VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			String OTH_Insert_Sql = "INSERT INTO totalmaterial_head VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement OTH_Insert_Pstmt = conn.prepareStatement(OTH_Insert_Sql);
 			OTH_Insert_Pstmt.setString(1, DateCode);
 			OTH_Insert_Pstmt.setString(2, ComCode);
 			OTH_Insert_Pstmt.setString(3, MatCode);
-			OTH_Insert_Pstmt.setString(4, "Null");
+			OTH_Insert_Pstmt.setString(4, MatDes);
 			OTH_Insert_Pstmt.setString(5, "Null");
-			OTH_Insert_Pstmt.setString(6, "0");
+			OTH_Insert_Pstmt.setString(6, "Null");
 			OTH_Insert_Pstmt.setString(7, "0");
+			OTH_Insert_Pstmt.setString(8, "0");
 			
 			Pricepstmt = conn.prepareStatement(PriceSql);
 			
@@ -153,37 +155,38 @@
 			if(PriceRs.next()){
 				UnitPrice = PriceRs.getInt("PurPrices") / Double.parseDouble(PriceRs.getString("PriceBaseQty")) ;
 			}
-			OTH_Insert_Pstmt.setString(8, Scan_Rs.getString("Count"));
-			OTH_Insert_Pstmt.setDouble(9, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")));
-			OTH_Insert_Pstmt.setString(10, "0");
+			OTH_Insert_Pstmt.setString(9, Scan_Rs.getString("Count"));
+			OTH_Insert_Pstmt.setDouble(10, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")));
 			OTH_Insert_Pstmt.setString(11, "0");
 			OTH_Insert_Pstmt.setString(12, "0");
 			OTH_Insert_Pstmt.setString(13, "0");
-			OTH_Insert_Pstmt.setString(14, Scan_Rs.getString("Count"));
-			OTH_Insert_Pstmt.setDouble(15, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")));
-			OTH_Insert_Pstmt.setDouble(16, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")) % Integer.parseInt(Scan_Rs.getString("Count")));
+			OTH_Insert_Pstmt.setString(14, "0");
+			OTH_Insert_Pstmt.setString(15, Scan_Rs.getString("Count"));
+			OTH_Insert_Pstmt.setDouble(16, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")));
 			OTH_Insert_Pstmt.setDouble(17, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")) % Integer.parseInt(Scan_Rs.getString("Count")));
+			OTH_Insert_Pstmt.setDouble(18, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")) % Integer.parseInt(Scan_Rs.getString("Count")));
 			OTH_Insert_Pstmt.executeUpdate();
 			
-			String OTC_Insert_Sql = "INSERT INTO totalmaterial_child VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			String OTC_Insert_Sql = "INSERT INTO totalmaterial_child VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement OTC_Insert_Pstmt = conn.prepareStatement(OTC_Insert_Sql);
 			OTC_Insert_Pstmt.setString(1, DateCode);
 			OTC_Insert_Pstmt.setString(2, ComCode);
 			OTC_Insert_Pstmt.setString(3, MatCode);
-			OTC_Insert_Pstmt.setString(4, PlantCode);
-			OTC_Insert_Pstmt.setString(5, StgCode);
-			OTC_Insert_Pstmt.setString(6, "0");
+			OTC_Insert_Pstmt.setString(4, MatDes);
+			OTC_Insert_Pstmt.setString(5, PlantCode);
+			OTC_Insert_Pstmt.setString(6, StgCode);
 			OTC_Insert_Pstmt.setString(7, "0");
-			OTC_Insert_Pstmt.setString(8, Scan_Rs.getString("Count"));
-			OTC_Insert_Pstmt.setDouble(9, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")));
-			OTC_Insert_Pstmt.setString(10, "0");
+			OTC_Insert_Pstmt.setString(8, "0");
+			OTC_Insert_Pstmt.setString(9, Scan_Rs.getString("Count"));
+			OTC_Insert_Pstmt.setDouble(10, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")));
 			OTC_Insert_Pstmt.setString(11, "0");
 			OTC_Insert_Pstmt.setString(12, "0");
 			OTC_Insert_Pstmt.setString(13, "0");
-			OTC_Insert_Pstmt.setString(14, Scan_Rs.getString("Count"));
-			OTC_Insert_Pstmt.setDouble(15, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")));
-			OTC_Insert_Pstmt.setDouble(16, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")) % Integer.parseInt(Scan_Rs.getString("Count")));
+			OTC_Insert_Pstmt.setString(14, "0");
+			OTC_Insert_Pstmt.setString(15, Scan_Rs.getString("Count"));
+			OTC_Insert_Pstmt.setDouble(16, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")));
 			OTC_Insert_Pstmt.setDouble(17, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")) % Integer.parseInt(Scan_Rs.getString("Count")));
+			OTC_Insert_Pstmt.setDouble(18, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")) % Integer.parseInt(Scan_Rs.getString("Count")));
 			OTC_Insert_Pstmt.executeUpdate();
 		}else{
 			String OTC_Scan_Sql = "SELECT * FROM totalmaterial_child WHERE YYMM = ? AND Com_Code = ? AND Material = ? AND Plant = ? AND StorLoc = ?";

@@ -46,7 +46,7 @@ try{
             jsonObject.put("Quantity", rs2.getInt("Quantity")); // 발주 수량
             jsonObject.put("PoUnit", rs2.getString("PoUnit")); // 구매단위
             
-            String SemiChkSql = "SELECT *FROM temtable WHERE PurOrdNo = ? AND MatCode = ?";
+            String SemiChkSql = "SELECT *FROM input_temtable WHERE PurOrdNo = ? AND MatCode = ?";
             PreparedStatement SemiPstmt = conn.prepareStatement(SemiChkSql);
             SemiPstmt.setString(1, rs2.getString("MMPO"));
             SemiPstmt.setString(2, rs2.getString("MatCode"));

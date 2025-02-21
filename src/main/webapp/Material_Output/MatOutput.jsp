@@ -29,6 +29,7 @@ function InfoSearch(field){
     var ComCode = $('.ComCode').val();
     var plantcode = $('.PlantCode').val();
     var storagecode = $('.StorageCode').val();
+    var MatCode = $('.MatCode').val();
     
     if (width == 2560 && height == 1440) {
         xPos = (2560 / 2) - (popupWidth / 2);
@@ -58,17 +59,24 @@ function InfoSearch(field){
 		window.open("${contextPath}/Material_Output/PopUp/MovSerach.jsp", "POPUP04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	break;
 	case "MatSearch":
-		popupWidth = 1670;
+		popupWidth = 850;
 		popupHeight = 500;
 		xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
         yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
-		window.open("${contextPath}/Material_Output/PopUp/MatSearch.jsp?plantcode=" + plantcode + "&storagecode=" + storagecode, "POPUP04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+		window.open("${contextPath}/Material_Output/PopUp/MatSearch.jsp?plantcode=" + plantcode + "&storagecode=" + storagecode, "POPUP05", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+	break;
+	case "LotSearch":
+		popupWidth = 950;
+		popupHeight = 500;
+		xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+		window.open("${contextPath}/Material_Output/PopUp/LotSearch.jsp?MCode=" + MatCode + "&SCode=" + storagecode + "&PCode=" + plantcode, "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	break;
 	case "DepartSearch":
-		window.open("${contextPath}/Material_Output/PopUp/DepartSearch.jsp", "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+		window.open("${contextPath}/Material_Output/PopUp/DepartSearch.jsp", "POPUP07", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	break;
 	case "InputSearch":
-		window.open("${contextPath}/Material_Output/PopUp/InputSearch.jsp?outStorage=" + storagecode, "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+		window.open("${contextPath}/Material_Output/PopUp/InputSearch.jsp?outStorage=" + storagecode, "POPUP08", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
 	break;
 	}
 }
@@ -79,7 +87,7 @@ $(document).ready(function(){
 		for (let i = 0; i < 50; i++) {
             const row = $('<tr></tr>'); // 새로운 <tr> 생성
             // 34개의 빈 <td> 요소 추가 (3개의 헤더 항목 이후 31일치 데이터)
-            for (let j = 0; j < 17; j++) {
+            for (let j = 0; j < 16; j++) {
                 row.append('<td></td>');
             }
             // 생성한 <tr>을 <tbody>에 추가
@@ -113,21 +121,33 @@ $(document).ready(function(){
 		}
 	}
 	function BodyDisabled(){
-		$('.Mat-Area').find('input').prop('disabled', true);
+		$('.Mat-Area').find('input, button').prop('disabled', true);
+		$('.Mat-Area').find('button').prop('disabled', true);
+		$('.Mat-Area').find('button').css('pointer-events', 'none');
+		
 	}
 	function BodyAbled(){
 		var MovType = $('.movCode').val();
 		if(MovType.substring(0,2) === 'IR'){
 			$('.Mat-Area').find('input').prop('disabled', false);
+			$('.Mat-Area').find('button').prop('disabled', false);
+			$('.Mat-Area').find('button').css('pointer-events', 'none');
 		}else{
 			$('.Mat-Area').find('input').prop('disabled', false).filter('.InputStorage').prop('disabled', true);
+			$('.Mat-Area').find('button').prop('disabled', false);
+			$('.Mat-Area').find('button').css('pointer-events', 'auto');
+			
 		}
 	}
-	$('.DepartReset').click(function(){
-		$('.UseDepart').val('');
-		$('.DepartName').val('');
+	$('.DepartReset, .LotReset').click(function(){
+		if($(this).hasClass('DepartReset')){
+			$('.UseDepart, .DepartName').val('');
+			$('.LotNumber').prop('disabled', false);
+		} else{
+			$('.UseDepart, .DepartName, .LotNumber').val('');
+			$('.LotNumber, .UseDepart, .DepartName').prop('disabled', false);
+		}
 		
-		$('.LotNumber').prop('disabled', false);
 	})
 	$('.UseDepart, .InputStorage').on('change', function() {
 		checkInputs();
@@ -139,7 +159,7 @@ $(document).ready(function(){
 		var ExportValue = Number($(this).val());
 		var Inventory = Number($('.BeforeCount').val());
 		if(ExportValue > Inventory){
-			alert('출고수량('+ ExportValue +')을 다시 입력해주세요.');
+			alert('출고수량을 다시 입력해주세요.');
 			$(this).val('');
 			return false;
 		}
@@ -193,6 +213,7 @@ $(document).ready(function(){
 		location.reload();
 	})
 	var InfoArray = {};
+	var Plus = 0;
 	$('.InsertBtn').click(function(){
 		$('.KeyInfo').each(function(){
             var name = $(this).attr("name");
@@ -201,7 +222,7 @@ $(document).ready(function(){
         });
     	var pass = true;
     	$.each(InfoArray,function(key, value){
-    		if (key === 'InputStorage' || key === 'LotNumber') {
+    		if (key === 'InputStorage' || key === 'LotNumber' || key === 'UseDepart' || key === 'DepartName') {
     	        return true;
     	    }
     	    if (value == null || value === '') {
@@ -210,74 +231,51 @@ $(document).ready(function(){
     	    }
     	})
 		console.log(InfoArray);
-/* 		$.ajax({
-			url : 'tmhcEdit.jsp',
-			type : 'POST',
-			data :  JSON.stringify(InfoArray),
-			success : function(response){
-				console.log(response.status);
-				console.log(response.DataList);
-		        if(response.status == "success"){
-		        	if($('.WrittenForm_Body > tr').length === 50){
-		        		$('.WrittenForm_Body').empty();
-			        	for(var i = 0 ; i < response.DataList.length ; i++){
-			        		var row = '<tr>' +
-							'<td>' + currentGIN + '</td>' + // 0
-							'<td><button class="deleteBTN" id="deleteBTN">삭제</button></td>' + 
-							'<td>' + DocCode + '</td>' + 
-							'<td>' + String(currentGIN).padStart(4, "0") + '</td>' + 
-							'<td>' + response.DataList[i].MatCode + '</td>' + 
-							'<td>' + MatDes + '</td>' + 
-							'<td>' + MatType + '</td>' + 
-							'<td>' + response.DataList[i].movType + '</td>' +
-							'<td>' + response.DataList[i].Count + '</td>' + 
-							'<td>' + MatCountUnit + '</td>' + 
-							'<td>' + UseDepart + '</td>' + 
-							'<td>' + ProLotNum + '</td>' + 
-							'<td>' + "출고 일자" + '</td>' + 
-							'<td>' + MatLotNum + '</td>' + 
-							'<td>' + response.DataList[i].Storage + '</td>' + 
-							'<td>' + response.DataList[i].OutPlant + '</td>' +
-							'<td>' + "입고 창고" + '</td>' +
-							'<td hidden>' + response.DataList[i].ComCode + '</td>' +
+    	if(!pass){
+    		alert('모든 항목을 입력해주세요.');
+    	}else{
+	    	$.ajax({
+				url : '${contextPath}/Material_Output/AjaxSet/QuickSave.jsp',
+				type : 'POST',
+				data :  JSON.stringify(InfoArray),
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				async: false,
+				success : function(data){
+					if(data.status === 'Success'){
+                		var QuickSavedData = data.DataList;
+                		if(Plus === 0){
+                			$('.InfoBody').empty();
+                			RowNum = $('.InfoBody tr').length;
+                			var row = '<tr>' +
+							'<td>' + (RowNum + 1).toString().padStart(2,'0') + '</td>' + 
+							'<td><button class="DeleteBtn">Delete</button></td>' +
+							'<td>' + QuickSavedData.Doc_Num + '</td>' + 
+							'<td>' + QuickSavedData.GINo + '</td>' + 
+							'<td>' + QuickSavedData.MatCode + '</td>' + 
+							'<td>' + QuickSavedData.MatDes + '</td>' + 
+							'<td>' + QuickSavedData.movCode + '</td>' + 
+							'<td>' + QuickSavedData.OutCount + '</td>' + 
+							'<td>' + QuickSavedData.OrderUnit + '</td>' + 
+							'<td>' + QuickSavedData.UseDepart + '</td>' + 
+							'<td>' + QuickSavedData.LotNumber + '</td>' + 
+							'<td>' + QuickSavedData.Out_date + '</td>' + 
+							'<td>' + QuickSavedData.MatLotNo + '</td>' +
+							'<td>' + QuickSavedData.StorageCode + '</td>' +
+							'<td>' + QuickSavedData.PlantCode + '</td>' +
+							'<td>' + QuickSavedData.InputStorage + '</td>' +
 							'</tr>';
-						$('.WrittenForm_Body').append(row);
-			        	}
-		        		$('.GINo').val('0002');
-		        	} else {
-		        		for(var i = 0 ; i < response.DataList.length ; i++){
-			        		var row = '<tr>' +
-							'<td>' + currentGIN + '</td>' + // 0
-							'<td><button class="deleteBTN" name="deleteBTN">삭제</button></td>' + 
-							'<td>' + DocCode + '</td>' + 
-							'<td>' + String(currentGIN).padStart(4, "0") + '</td>' + 
-							'<td>' + response.DataList[i].MatCode + '</td>' + 
-							'<td>' + MatDes + '</td>' + 
-							'<td>' + MatType + '</td>' + 
-							'<td>' + response.DataList[i].movType + '</td>' +
-							'<td>' + response.DataList[i].Count + '</td>' + 
-							'<td>' + MatCountUnit + '</td>' + 
-							'<td>' + UseDepart + '</td>' + 
-							'<td>' + ProLotNum + '</td>' + 
-							'<td>' + "출고 일자" + '</td>' + 
-							'<td>' + MatLotNum + '</td>' + 
-							'<td>' + response.DataList[i].Storage + '</td>' + 
-							'<td>' + response.DataList[i].OutPlant + '</td>' +
-							'<td>' + "입고 창고" + '</td>' +
-							'<td hidden>' + response.DataList[i].ComCode + '</td>' +
-							'</tr>';
-						$('.WrittenForm_Body').append(row);
-			        	}
-		        		$('.GINo').val(String($('.WrittenForm_Body > tr').length + 1).padStart(4, "0"));
-		        	}
-		        	
-		        } 
-		    },
-		    error: function(jqXHR, textStatus, errorThrown){
-		        alert('오류 발생: ' + textStatus + ', ' + errorThrown);
+	                		$('.InfoBody').append(row);
+	                		RowNum++;
+                	}
+			    }
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert('오류 발생: ' + textStatus + ', ' + errorThrown);
 		    }
-		}); */
-	});
+	    });
+    }
+});
 	var DeleteEle = [];
 	$(document).on("click", ".deleteBTN", function() {
 		event.preventDefault();
@@ -386,12 +384,12 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			<div class="InfoInput">
 				<label>Material : </label>
 				<input type="text" class="MatCode KeyInfo" name="MatCode" onclick="InfoSearch('MatSearch')" readonly>
-				<input type="text" class="MatDes KeyInfo" name="MatDes" readonly><!--  전송 -->
+				<input type="text" class="MatDes KeyInfo" name="MatDes" readonly>
 			</div>
 			
 			<div class="InfoInput">
 				<label>자재 Lot 번호 : </label>
-				<input type="text" class="MatLotNo KeyInfo" name="MatLotNo" readonly>
+				<input type="text" class="MatLotNo KeyInfo" onclick="InfoSearch('LotSearch')" name="MatLotNo" readonly>
 				
 				<label>제조일자 : </label>
 				<input type="text" class="MakeDate KeyInfo" name="MakeDate" readonly> 
@@ -434,6 +432,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			<div class="InfoInput">
 				<label>생산 Lot번호 : </label>
 				<input type="text" class="LotNumber KeyInfo" name="LotNumber">
+				<button class="LotReset">Clear</button>
 			</div>	
 		</div>
 		
@@ -447,7 +446,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			<div class="Title">타이틀</div>
 			<table class="InfoTable" id="InfoTable">
 				<thead>
-					<th>항번</th><th>삭제</th><th>문서번호</th><th>품목번호</th><th>자재</th><th>자재 설명</th><th>자재 유형</th><th>출고 구분</th><th>수량</th><br>
+					<th>항번</th><th>삭제</th><th>문서번호</th><th>품목번호</th><th>자재</th><th>자재 설명</th><th>출고 구분</th><th>수량</th>
 					<th>단위</th><th>사용 부서</th><th>생산 Lot 번호</th><th>출고 일자</th><th>자재 Lot 번호</th><th>출고 창고</th><th>공장(Plant)</th><th>입고 창고</th>
 				</thead>
 				<tbody class="InfoBody">

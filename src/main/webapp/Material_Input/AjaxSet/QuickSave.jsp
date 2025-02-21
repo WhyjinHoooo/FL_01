@@ -15,7 +15,7 @@
 	}
 	try{
 		JSONObject dataToSend = new JSONObject(jsonString.toString());
-		String QucikSQL = "INSERT INTO temtable VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String QucikSQL = "INSERT INTO input_temtable VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement QuickPstmt = conn.prepareStatement(QucikSQL);
 		QuickPstmt.setString(1, dataToSend.getString("MatNum"));
 		QuickPstmt.setString(2, dataToSend.getString("ItemNum"));
