@@ -15,7 +15,7 @@
 	}
 	try{
 		JSONObject dataToSend = new JSONObject(jsonString.toString());
-		System.out.println(dataToSend);
+		//System.out.println(dataToSend);
 		String QucikSQL = "INSERT INTO output_temtable VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement QuickPstmt = conn.prepareStatement(QucikSQL);
 		QuickPstmt.setString(1, dataToSend.getString("Doc_Num"));

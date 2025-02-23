@@ -10,7 +10,7 @@ try {
 	String EleKeyValue = request.getParameter("KeyValue");
 	System.out.println("전달받은 EleKeyValue : " + EleKeyValue);
 
-	String sql = "SELECT * FROM input_temtable WHERE KeyValue = ?";
+	String sql = "SELECT * FROM output_temtable WHERE KeyValue = ?";
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1, EleKeyValue);
 	
@@ -19,11 +19,11 @@ try {
 	String SavedItemNumber = null;
 	String NewKeyValue = null;
 	if(rs.next()){
-		SavedItemNumber = rs.getString("ItemNum");
+		SavedItemNumber = rs.getString("GINo");
 		if(!SavedItemNumber.equals(EleKeyValue.substring(18))){
 			NewKeyValue = EleKeyValue.substring(0, 17) + "-" + SavedItemNumber;
 			
-			String UpSql = "UPDATE input_temtable SET KeyValue = ? WHERE KeyValue = ?";
+			String UpSql = "UPDATE output_temtable SET KeyValue = ? WHERE KeyValue = ?";
 			PreparedStatement UpPstmt = conn.prepareStatement(UpSql);
 			UpPstmt.setString(1, NewKeyValue);
 			UpPstmt.setString(2, EleKeyValue);

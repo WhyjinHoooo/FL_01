@@ -11,12 +11,12 @@
     try {
     	String DocCode = request.getParameter("DMatNum");
     	
-    	String DelSql = "DELETE FROM temtable WHERE KeyValue = ?";
+    	String DelSql = "DELETE FROM input_temtable WHERE KeyValue = ?";
     	PreparedStatement DelPstmt = conn.prepareStatement(DelSql);
     	DelPstmt.setString(1, DocCode);
     	
     	String SetUpSql01 = "SET @CNT = 0";
-    	String SetUpSql02 = "UPDATE temtable SET temtable.ItemNum = @CNT:=@CNT+1;";
+    	String SetUpSql02 = "UPDATE input_temtable SET input_temtable.ItemNum = @CNT:=@CNT+1;";
     	PreparedStatement SU_Pstmt01 = conn.prepareStatement(SetUpSql01);
     	PreparedStatement SU_Pstmt02 = conn.prepareStatement(SetUpSql02);
     	
