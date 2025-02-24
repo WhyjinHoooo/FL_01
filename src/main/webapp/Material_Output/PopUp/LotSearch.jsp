@@ -28,7 +28,6 @@
 		        String MatCode = request.getParameter("MCode");
 		        String PlantCode = request.getParameter("PCode");
 		        String SToCode = request.getParameter("SCode");
-		        System.out.println(MatCode + ", " + PlantCode + ", " + SToCode);
 		    if(MatCode == null || MatCode.isEmpty()){
 			%>
 				<tr>
@@ -42,7 +41,8 @@
 		        			 "FROM storechild WHERE " +
 		        			 "Material = ? AND " + 
 		        			 "Plant = ? AND " +
-		        			 "StoLoca = ?";
+		        			 "StoLoca = ? AND " +
+		        			 "SUBSTRING(MovType, 1, 2) = 'GR'";
 		        
 		        pstmt = conn.prepareStatement(sql);
 		        pstmt.setString(1, MatCode);

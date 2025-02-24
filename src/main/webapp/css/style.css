@@ -1678,6 +1678,9 @@ table.ComInfoTable {
     .MatOutPut-Header > .InfoInput:nth-child(5) > input:nth-child(3) {
 	font-size: xx-small;
     }
+    .MatOutPut-Header > .InfoInput:nth-child(6) > input:nth-child(2) {
+	font-size: small;
+    }
     .MatOutPut-Header > .BtnArea > button {
 	width: 24%;
 	height: 5%;

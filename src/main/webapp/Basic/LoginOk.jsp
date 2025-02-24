@@ -28,7 +28,7 @@
 	
 	while(keys.hasNext()){
 		String key = keys.next();
-		System.out.println(key + " :? " + saveListData.get(key));
+		System.out.println(key + " : " + saveListData.get(key));
 		switch(key){
 		case "UserPw":
 			UserPW = saveListData.getString(key);

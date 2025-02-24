@@ -78,7 +78,25 @@ public class DeleteOrder extends HttpServlet {
 	            }
 			} else if(page.equals("MatInput")) {
 				
-				String sql = "Delete From project.temtable";
+				String sql = "Delete From project.input_temtable";
+				pstmt = conn.prepareStatement(sql);
+				
+				int rowsAffected = pstmt.executeUpdate(); // 삭제된 행의 수를 반환
+				
+				if (rowsAffected > 0) {
+	                System.out.println("입고 페이지의 모든 주문 데이터가 삭제되었습니다."); // 서버 콘솔에 메시지 출력
+	                response.setContentType("text/html");
+	                response.setCharacterEncoding("UTF-8");
+	                response.getWriter().write("입고 페이지의 모든 주문 데이터가 삭제되었습니다.");
+	            } else {
+	                System.out.println("입고 페이지에서 삭제할 데이터가 없습니다."); // 서버 콘솔에 메시지 출력
+	                response.setContentType("text/html");
+	                response.setCharacterEncoding("UTF-8");
+	                response.getWriter().write("입고 페이지에서 삭제할 데이터가 없습니다.");
+	            }
+			} else if(page.equals("MatOutput")) {
+				
+				String sql = "Delete From project.output_temtable";
 				pstmt = conn.prepareStatement(sql);
 				
 				int rowsAffected = pstmt.executeUpdate(); // 삭제된 행의 수를 반환

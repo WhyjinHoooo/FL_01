@@ -93,10 +93,72 @@
 		TxC_Pstmt.setString(22, InfoRs.getString("PlantCode"));
 		TxC_Pstmt.setString(23, dataToSend.getString("UserID"));
 		TxC_Pstmt.executeUpdate();
+		
+		if(dataToSend.getString("movCode").substring(0, 2).equals("GI")){
+			switch(InfoRs.getString("PlusMinus")){
+			case "Plus":
+				String OTH_Scan_Sql = "SELECT * FROM totalmaterial_head WHERE YYMM = ? AND Com_Code = ? AND Material = ?";
+				PreparedStatement OTH_Scan_Pstmt = conn.prepareStatement(OTH_Scan_Sql);
+				OTH_Scan_Pstmt.setString(1, dataToSend.getString("Out_date").substring(0,7));
+				OTH_Scan_Pstmt.setString(2, dataToSend.getString("ComCode"));
+				OTH_Scan_Pstmt.setString(3, InfoRs.getString("MatCode"));
+				ResultSet OTH_Scan_Rs = OTH_Scan_Pstmt.executeQuery();
+				if(OTH_Scan_Rs.next()){
+					int Material_Out = OTH_Scan_Rs.getInt("Material_Out") + InfoRs.getInt("OutCount");
+					double Material_Amt = OTH_Scan_Rs.getDouble("Material_Amt") + UnitPrice * Integer.parseInt(InfoRs.getString("OutCount"));
+					
+					int Transfer_InOut = OTH_Scan_Rs.getInt("Transfer_InOut");
+					double Transfer_Amt = OTH_Scan_Rs.getDouble("Transfer_Amt");
+					
+					int Inventory_Qty = OTH_Scan_Rs.getInt("Inventory_Qty") - Material_Out;
+					double Inventory_Amt = OTH_Scan_Rs.getDouble("Inventory_Amt") - Material_Amt;
+					
+					String OTH_Up_Sql = "UPDATE totalmaterial_head SET "
+		                    + "Material_Out = ?, Material_Amt = ?, "
+		                    + "Transfer_InOut = ?, Transfer_Amt = ?, "
+		                    + "Inventory_Qty = ?, Inventory_Amt = ?, Inventory_UnitPrice = ?  "
+		                    + "WHERE YYMM = ? AND Com_Code = ? AND Material = ?";
+					
+					String OTC_Up_Sql = "UPDATE totalmaterial_child SET "
+		                    + "Material_Out = ?, Material_Amt = ?, "
+		                    + "Transfer_InOut = ?, Transfer_Amt = ?, "
+		                    + "Inventory_Qty = ?, Inventory_Amt = ?, Inventory_UnitPrice = ? "
+		                    + "WHERE YYMM = ? AND Com_Code = ? AND Material = ? AND Plant = ? AND StorLoc = ?";
+					
+					PreparedStatement OTH_Up_Pstmt = conn.prepareStatement(OTH_Up_Sql);
+					OTH_Up_Pstmt.setInt(1, Material_Out);
+					OTH_Up_Pstmt.setDouble(2, Material_Amt);
+					OTH_Up_Pstmt.setInt(3, Transfer_InOut);
+					OTH_Up_Pstmt.setDouble(4, Transfer_Amt);
+					OTH_Up_Pstmt.setInt(5, Inventory_Qty);
+					OTH_Up_Pstmt.setDouble(6, Inventory_Amt);
+					OTH_Up_Pstmt.setDouble(7, Inventory_Amt / Inventory_Qty);
+					OTH_Up_Pstmt.setString(8, dataToSend.getString("Out_date").substring(0,7));
+					OTH_Up_Pstmt.setString(9, dataToSend.getString("ComCode"));
+					OTH_Up_Pstmt.setString(10, InfoRs.getString("MatCode"));
+					OTH_Up_Pstmt.executeUpdate();
+					
+					PreparedStatement OTC_Up_Pstmt = conn.prepareStatement(OTC_Up_Sql);
+					OTC_Up_Pstmt.setInt(1, Material_Out);
+					OTC_Up_Pstmt.setDouble(2, Material_Amt);
+					OTC_Up_Pstmt.setInt(3, Transfer_InOut);
+					OTC_Up_Pstmt.setDouble(4, Transfer_Amt);
+					OTC_Up_Pstmt.setInt(5, Inventory_Qty);
+					OTC_Up_Pstmt.setDouble(6, Inventory_Amt);
+					OTC_Up_Pstmt.setDouble(7, Inventory_Amt / Inventory_Qty);
+					OTC_Up_Pstmt.setString(8, dataToSend.getString("Out_date").substring(0,7));
+					OTC_Up_Pstmt.setString(9, dataToSend.getString("ComCode"));
+					OTC_Up_Pstmt.setString(10, InfoRs.getString("MatCode"));
+					OTC_Up_Pstmt.setString(11, InfoRs.getString("PlantCode"));
+					OTC_Up_Pstmt.setString(12, InfoRs.getString("StorageCode"));
+					OTC_Up_Pstmt.executeUpdate();
+					break;
+				}
+			}
+		}
 	}
 	
-	
-	
+	out.println("Success");
 	}catch(Exception e){
 		e.printStackTrace();
 	}

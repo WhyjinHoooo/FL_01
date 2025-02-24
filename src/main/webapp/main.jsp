@@ -310,7 +310,7 @@
         	            },
             	        title: {
             	        	display: true,
-            	        	text: '수평 바 차트',
+            	        	text: /* '수평 바 차트' */'Chart 1',
             	        	position: 'bottom'
             	        }
         	        }
@@ -344,7 +344,7 @@
         	            },
         	            title: {
             	        	display: true,
-            	        	text: '바 차트',
+            	        	text: /* '수평 바 차트' */'Chart 2',
             	        	position: 'bottom'
             	        }
         	        }
@@ -380,7 +380,7 @@
         	            },
         	            title: {
             	        	display: true,
-            	        	text: '파이차트',
+            	        	text: /* '수평 바 차트' */'Chart 3',
             	        	position: 'bottom',
             	        }
         	        }
@@ -431,7 +431,7 @@
         	            },
         	            title: {
             	        	display: true,
-            	        	text: 'mixed chart',
+            	        	text: /* '수평 바 차트' */'Chart 5',
             	        	position: 'bottom',
             	        	font:{
             	        		size: 16

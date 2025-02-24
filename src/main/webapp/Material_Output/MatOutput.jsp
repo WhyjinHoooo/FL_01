@@ -13,13 +13,23 @@
 <title>자재출고</title>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <script>
-function InfoSearch(field){
-	event.preventDefault();
+var path = window.location.pathname;
+var Address = path.split("/").pop();
+window.addEventListener('unload', (event) => {
 	
-	var popupWidth = 500;
+	var data = {
+		action : 'deleteOrderData',
+		page : Address
+			
+	}
+    navigator.sendBeacon('../DeleteOrder', JSON.stringify(data));
+});
+function InfoSearch(field){
+    event.preventDefault();
+    var popupWidth = 500;
     var popupHeight = 600;
     
-   	var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
     var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
     
     var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
@@ -31,66 +41,68 @@ function InfoSearch(field){
     var storagecode = $('.StorageCode').val();
     var MatCode = $('.MatCode').val();
     
-    if (width == 2560 && height == 1440) {
-        xPos = (2560 / 2) - (popupWidth / 2);
-        yPos = (1440 / 2) - (popupHeight / 2);
-    } else if (width == 1920 && height == 1080) {
-        xPos = (1920 / 2) - (popupWidth / 2);
-        yPos = (1080 / 2) - (popupHeight / 2);
-    } else {
-        var monitorWidth = 2560;
-        var monitorHeight = 1440;
-        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
-        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+    function CalcPosition() {
+        if (width == 2560 && height == 1440) {
+            xPos = (2560 / 2) - (popupWidth / 2);
+            yPos = (1440 / 2) - (popupHeight / 2);
+        } else if (width == 1920 && height == 1080) {
+            xPos = (1920 / 2) - (popupWidth / 2);
+            yPos = (1080 / 2) - (popupHeight / 2);
+        } else {
+            var monitorWidth = 2560;
+            var monitorHeight = 1440;
+            xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+            yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+        }
     }
+    
+    CalcPosition();
+    
     switch(field){
     case "ComSearch":
-    	window.open("${contextPath}/Information/CompanySerach.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-    	break;
+        window.open("${contextPath}/Information/CompanySerach.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+        break;
     case "PlantSearch":
-    	window.open("${contextPath}/Information/PlantSerach.jsp?ComCode=" + ComCode, "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+        window.open("${contextPath}/Information/PlantSerach.jsp?ComCode=" + ComCode, "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     break;
-	case "StorageSearch":
-		window.open("${contextPath}/Material_Output/PopUp/StorageSerach.jsp?comcode=" + ComCode, "POPUP03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-	break;
-	case "MovSearch":
-		popupWidth = 1050;
-		popupHeight = 750;
-		window.open("${contextPath}/Material_Output/PopUp/MovSerach.jsp", "POPUP04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-	break;
-	case "MatSearch":
-		popupWidth = 850;
-		popupHeight = 500;
-		xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
-        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
-		window.open("${contextPath}/Material_Output/PopUp/MatSearch.jsp?plantcode=" + plantcode + "&storagecode=" + storagecode, "POPUP05", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-	break;
-	case "LotSearch":
-		popupWidth = 950;
-		popupHeight = 500;
-		xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
-        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
-		window.open("${contextPath}/Material_Output/PopUp/LotSearch.jsp?MCode=" + MatCode + "&SCode=" + storagecode + "&PCode=" + plantcode, "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-	break;
-	case "DepartSearch":
-		window.open("${contextPath}/Material_Output/PopUp/DepartSearch.jsp", "POPUP07", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-	break;
-	case "InputSearch":
-		window.open("${contextPath}/Material_Output/PopUp/InputSearch.jsp?outStorage=" + storagecode, "POPUP08", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-	break;
-	}
+    case "StorageSearch":
+        window.open("${contextPath}/Material_Output/PopUp/StorageSerach.jsp?comcode=" + ComCode, "POPUP03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    break;
+    case "MovSearch":
+        popupWidth = 1050;
+        popupHeight = 750;
+        CalcPosition();
+        window.open("${contextPath}/Material_Output/PopUp/MovSerach.jsp", "POPUP04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    break;
+    case "MatSearch":
+        popupWidth = 850;
+        popupHeight = 500;
+        CalcPosition();
+        window.open("${contextPath}/Material_Output/PopUp/MatSearch.jsp?plantcode=" + plantcode + "&storagecode=" + storagecode, "POPUP05", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    break;
+    case "LotSearch":
+        popupWidth = 950;
+        popupHeight = 500;
+        CalcPosition();
+        window.open("${contextPath}/Material_Output/PopUp/LotSearch.jsp?MCode=" + MatCode + "&SCode=" + storagecode + "&PCode=" + plantcode, "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    break;
+    case "DepartSearch":
+        window.open("${contextPath}/Material_Output/PopUp/DepartSearch.jsp", "POPUP07", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    break;
+    case "InputSearch":
+        window.open("${contextPath}/Material_Output/PopUp/InputSearch.jsp?outStorage=" + storagecode, "POPUP08", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    break;
+    }
 }
 $(document).ready(function(){
 	function InitialTable(){
 		var UserId = $('.UserID').val();
 		$('.InfoBody').empty();
 		for (let i = 0; i < 50; i++) {
-            const row = $('<tr></tr>'); // 새로운 <tr> 생성
-            // 34개의 빈 <td> 요소 추가 (3개의 헤더 항목 이후 31일치 데이터)
+            const row = $('<tr></tr>');
             for (let j = 0; j < 16; j++) {
                 row.append('<td></td>');
             }
-            // 생성한 <tr>을 <tbody>에 추가
             $('.InfoBody').append(row);
         }
 		$.ajax({
@@ -182,6 +194,7 @@ $(document).ready(function(){
             url : "${contextPath}/Material_Output/AjaxSet/MakeDocNumber.jsp",
             data : {movCode : Code, Outdate : date},
             success : function(response){
+            	$('.Mat-Area input').val('');
            		$('input[name="Doc_Num"]').val($.trim(response));
            		$('input[name="GINo"]').val("0001").change();
                 // 여기에 성공한 경우 수행할 작업을 추가합니다.
@@ -209,9 +222,7 @@ $(document).ready(function(){
     	}
 		
 	})
-	$('.ResetBtn').click(function(){
-		location.reload();
-	})
+
 	var InfoArray = {};
 	var Plus = 0;
 	var RowNum = 0;
@@ -306,6 +317,8 @@ $(document).ready(function(){
 		    	}
 	    	});
     	}
+    	$('.Mat-Area input').not('.GINo, .MatCode, .MatDes, .MatLotNo, .MakeDate, .DeadDete, .OrderUnit, .BeforeCount').val('');
+    	$('.LotNumber').prop('disabled', false);
     	Plus++;
 	});
 	
@@ -375,13 +388,16 @@ $(document).ready(function(){
 			data: JSON.stringify(HeaderInfoList),
 			contentType: 'application/json; charset=utf-8',
 			success: function(response){
-				
-            }
+				location.reload();
+            },
+            error: function(xhr, textStatus, errorThrown) {
+				console.log(xhr.statusText);
+			}
 		});
 	})
-	$('.input-btn').click(function() {
+	$('.ResetBtn').click(function(){
 		location.reload();
-	});
+	})
 });
 </script>
 
@@ -395,7 +411,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 <jsp:include page="../HeaderTest.jsp"></jsp:include>
 <div class="Mat-OutPut">
 	<div class="MatOutPut-Header">
-		<div class="Title"">타이틀</div>
+		<div class="Title"">자제 출고 헤더</div>
 		<div class="InfoInput">
 			<label>Company Code : </label>
 			<input type="text" class="ComCode KeyInfo Header" name="ComCode" onclick="InfoSearch('ComSearch')" value="<%=userComCode %>" readonly>
@@ -435,7 +451,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 		</div>	
 	</div>	
 	<div class="MatOutPut-Body">
-		<div class="Title">타이틀</div>
+		<div class="Title">자체 출고 입력</div>
 		<div class="Mat-Area">
 			<div class="InfoInput">
 				<label>GI Item No : </label>
@@ -504,7 +520,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 		</div>
 				
 		<div class=Info-Area>
-			<div class="Title">타이틀</div>
+			<div class="Title">자제 출고 상태</div>
 			<table class="InfoTable" id="InfoTable">
 				<thead>
 					<th>항번</th><th>삭제</th><th>문서번호</th><th>품목번호</th><th>자재</th><th>자재 설명</th><th>출고 구분</th><th>수량</th>
