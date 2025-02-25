@@ -151,7 +151,6 @@ $(document).ready(function() {
 				data: { Company_Code: ComValue },
 				dataType: 'text',
 				success: function(response) {
-					console.log("FindMainTax Response: ", response.trim());
 					if (response !== 'error' && response !== null && response.trim() !== '') {
 						$('input[name="main-TA-Code"]').val($.trim(response));
 						$('#main-tax-area-code-row button').prop('disabled', true);
@@ -364,7 +363,7 @@ $(document).ready(function() {
 			</div>
 		</div>
 	</center>
-	<footer>
+	<footer class="BasicInfo">
 		<img id="logo" name="Logo" src="${contextPath}/img/White_Logo.png" alt="">
 	</footer>	
 </body>

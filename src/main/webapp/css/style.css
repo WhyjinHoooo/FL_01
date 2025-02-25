@@ -4,16 +4,29 @@ body,html{
   	margin: 0;
   	padding: 0;
 }
-footer {
+footer.BasicInfo {
     background: #002060;
     height: 254px;
-    margin-top: 9.95%;
+/*     margin-top: 16.2%; */
     border-top: 1px solid rgb(111, 167, 235);
+    position : relative;
+  	transform : translateY(-100%);
 }
-footer > img#logo {
+footer.BasicInfo > img#logo {
     width: 250px;
     padding: 10px 0px 0px 10px;
 }
+
+/* footer { */
+/*     background: #002060; */
+/*     height: 254px; */
+/*     margin-top: 9.95%; */
+/*     border-top: 1px solid rgb(111, 167, 235); */
+/* } */
+/* footer > img#logo { */
+/*     width: 250px; */
+/*     padding: 10px 0px 0px 10px; */
+/* } */
 br{
 	display:none !important;
 }
@@ -354,6 +367,27 @@ table.ComInfoTable {
 
 /* 여기에 다 정리한다 */
 @media only screen and (min-width: 1536px) {
+	button.Info-input-btn {
+	    width: 10%;
+	    height: 50px;
+	    background: darkgray;
+	    color: white;
+	    font-weight: bold;
+	    border: 1px solid darkgray;
+	    padding: 5px;
+	    border-radius: 10px;
+	    margin-left: 70%;
+	}
+	button.Info-input-btn:hover{
+		background:  #7A7A7A;
+		color: #fff;
+		border: 1px solid  #7A7A7A;
+	}
+	button.Info-input-btn:active {
+		background: #5A5A5A;
+		color: #fff;
+		border: 1px solid #5A5A5A;
+	}
 	.sub-info .AddrCode,
 	.emp-sub-info .AddrCode,
 	.plant-sub-info .AddrCode,
