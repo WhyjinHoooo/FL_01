@@ -68,25 +68,22 @@ $(document).ready(function(){
 			}
 		})
 	})	
-});
-window.addEventListener('DOMContentLoaded',(event) => {	
-	const domainList = document.querySelector('#UserDoM');
-	const domainListInput = document.querySelector('#UserDom_txt');
-		if(domainList.value === "text"){
-			domainListInput.readOnly = false;
-		} else{
-			domainList.value = domainListInput.value;
-			domainListInput.readOnly = true;
+	
+	$('.Domain').change(function(){
+		if($(this).val().length > 0){
+			$('.Domain_txt').val($(this).val()).prop('readonly', true);
+		}else{
+			$('.Domain_txt').val('').prop('readonly', false);
 		}
-	domainList.addEventListener('change', (event) => {
-		if(event.target.value === "text"){
-			domainListInput.value = "";
-			domainListInput.readOnly = false;
-		} else{
-			domainListInput.value = event.target.value;
-			domainListInput.readOnly = true;
+	})
+	$('.Domain_txt'). on('input',function(){
+		console.log($(this).val().length);
+		if($(this).val().length > 0 && $('.Domain').val().length === 0){
+			$('.Domain').prop('disabled', true);
+		}else{
+			$('.Domain').prop('disabled', false);
 		}
-	});
+	})
 });
 function execDaumPostcode() {
     new daum.Postcode({
@@ -219,9 +216,9 @@ function emptyCheck(){
           	<div class="domain">
 	          	<div class="Cate">E-Mail</div>
 	          		<input type="text" class="Email UserInfo" name="UserEm" placeholder="Email">@
-		          	<input type="text" class="Domain_txt UserInfo" name="UserDom_txt" id="UserDom_txt"  placeholder="Domain" readonly>
+		          	<input type="text" class="Domain_txt UserInfo" name="UserDom_txt" id="UserDom_txt"  placeholder="Domain">
 		          	<select class="Domain" name="UserDoM" id="UserDoM">
-		          		<option value="text">Select</option>
+		          		<option value="">Select</option>
 		          		<option value="naver.com">naver.com</option>
 						<option value="gmail.com">gmail.com</option>
 						<option value="hanmail.net">hanmail.net</option>

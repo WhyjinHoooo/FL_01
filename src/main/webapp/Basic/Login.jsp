@@ -76,7 +76,6 @@ $(document).ready(function(){
 				dataType: 'json',
 				async: false,
 				success: function(data){
-					console.log(data.status);
 					if(data.status === 'Success'){
 						location.href = '${contextPath}/main.jsp';
 					}else{

@@ -306,8 +306,8 @@ $(document).ready(function(){
 				</div>
 			</div>
 	</center>
-	<footer>
-		<img id="logo" name="Logo" src="${contextPath}/img/White_Logo.png" alt="">
-	</footer>
+<!-- 	<footer class="BasicInfo"> -->
+<%-- 		<img id="logo" name="Logo" src="${contextPath}/img/White_Logo.png" alt=""> --%>
+<!-- 	</footer> -->
 </body>
 </html>
