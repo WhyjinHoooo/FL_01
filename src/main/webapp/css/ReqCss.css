@@ -290,6 +290,14 @@
 	color: #fff;
 	border: 1px solid #0068ff;
 	}
+	.Ord-Body > .Info-Area > table.InfoTable tbody{
+	table-layout: fixed;
+	display: block;
+	width: 100.1%;
+	height: 93.2%;
+	max-height: 97%;
+	overflow-y: auto;
+    }
 	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(1) {width: 126px;}
 	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(2) {width: 125px;}
 	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(3) {width: 133px;}
@@ -336,20 +344,20 @@
 		color: #fff;
 		border: 1px solid #5A5A5A;
 	}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(3){width: 131px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(4){width: 124px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(3){width: 129px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(4){width: 125px;}
 	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(5){width: 125px;}
 	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(6){width: 126px;}
 	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(7){width: 128px;}
 	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(8){width: 126px;}
 	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(9){width: 125px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(10){width: 124px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(10){width: 126px;}
 	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(11){width: 130px;}
 	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(12){width: 135px;}
 	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(13){width: 125px;}
 	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(14){width: 124px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(15){width: 130px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(16){width: 121px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(15){width: 128px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(16){width: 117px;}
 	.Ord-Area > .MatInput{
 	display: flex;
 	flex-direction: row;
@@ -415,7 +423,6 @@
 	}
 	.Ord-Area > div:nth-of-type(3) > input:nth-child(4) {
     text-align: left;
-    width: initial;
 	}
 	.Ord-Area > div:nth-of-type(6) > input:nth-child(5),
 	.Ord-Area > div:nth-of-type(6) > input:nth-child(7) {
@@ -426,17 +433,21 @@
 	padding: 0px 0px 0px 7px;
 	}
 	.Ord-Area > div:nth-of-type(7) > input:nth-child(2){
-	width: initial;
+	width: 200px;
 	}
 	.Ord-Area > div:nth-of-type(8) > input:nth-child(2){
-	width: 37.4%;
+	width: 41.7%;
 	}
-	.MatInput input{
+	.Ord-Area input:not(.EditOk){
+	background: darkgray;
+	}
+	.Ord-Area > .MatInput input{
     margin-left: 10px;
 	text-align: center;
+	width: 200px;
     }
-    .MatInput .Entry_EndDate{
-    width: 170px;
+    .Ord-Area > .MatInput .Entry_EndDate{
+    width: 200px;
     margin-left: 10px;
 	text-align: center;
     }

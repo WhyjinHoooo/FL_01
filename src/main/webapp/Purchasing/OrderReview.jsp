@@ -56,14 +56,34 @@ function InfoSearch(field){
     case "EntryDeli":
     	window.open("${contextPath}/Purchasing/PopUp/FindMatPlace.jsp?MatCode=" + MatCode, "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
         break;
+    case "EntrySLocation":
+    	window.open("${contextPath}/Purchasing/PopUp/FindSLoc.jsp", "POPUP07", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
+    case "EntryVendor":
+    	window.open("${contextPath}/Purchasing/PopUp/FindVendor.jsp", "POPUP08", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	break;
 	}
 }
+function checkOnlyOne(element) {
+    const checkboxes = $('.Entry_Ag');
+    checkboxes.each(function () {
+        this.checked = false;
+    });
+    element.checked = true;
+
+    if (element.value === 'Neg') {
+        $('.Entry_Reject').attr('readonly', false).prop('disabled', false);
+    } else {
+        $('.Entry_Reject').attr('readonly', true).prop('disabled', true);
+    }
+}
+
 $(document).ready(function(){
 	function EntryDisabled(){
 		$('.Ord-Area').find('input').prop('disabled', true);
 	}
 	function EntryAbled(){
-		$('.Ord-Area').find('input').prop('disabled', false);
+		$('.Ord-Area').find('input').not('.Entry_Reject').prop('disabled', false);
 	}
 	function InitialTable(UserId){
 		$('.InfoTable-Body').empty();
@@ -183,6 +203,43 @@ $(document).ready(function(){
 	    	});
 		}
 	})
+	
+	$('.InfoTable-Body').on('click','.EditBtn', function(){
+		event.preventDefault();
+		var Row = $(this).closest('tr');
+		var MatCode = Row.find('td:eq(2)').text();
+		var MatDes = Row.find('td:eq(3)').text();
+		var Quantity = Row.find('td:eq(5)').text();
+		var Unit = Row.find('td:eq(6)').text();
+		var DeliDate = Row.find('td:eq(12)').text();
+		var DeliPlace = Row.find('td:eq(13)').text();
+		var UnitPrice = Row.find('td:eq(7)').text();
+		var Cash = Row.find('td:eq(9)').text();
+		
+		var Today = $('.OrderDate').val();
+		$.ajax({
+			url: '${contextPath}/Purchasing/AjaxSet/MakeDocNumber.jsp',
+			data : {Date : Today},
+			success : function(response){
+				$('.Entry_DocNum').val(response);
+				$('.Entry_Doc_State').val('NMP');
+				$('.Entry_MatCode').val(MatCode);
+				$('.Entry_MatDes').val(MatDes);
+				$('.Entry_Count').val(Quantity);
+				$('.Entry_Unit').val(Unit);
+				$('.Entry_EndDate').val(DeliDate);
+				$('.Entry_Place').val(DeliPlace);
+				$('.Entry_UnitPrice').val(UnitPrice);
+				$('.Entry_Cur').val(Cash);
+			}
+		})
+	})
+	$('.EditSaveBtn').click(function(){
+		
+	})
+	$('.TotalSaveBtn').click(function(){
+		
+	})
 })
 </script>
 </head>
@@ -276,32 +333,32 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 				</div>
 				<div class="MatInput">
 					<label>구매 요청 수량 :  </label>
-					<input type="text" class="Entry_Count EntryItem" id="Entry_Count" name="Entry_Count" placeholder="INPUT">
+					<input type="text" class="Entry_Count EntryItem EditOk" id="Entry_Count" name="Entry_Count" placeholder="INPUT">
 					<label>재고관리 단위 :  </label>
 					<input type="text" class="Entry_Unit EntryItem" id="Entry_Unit" name="Entry_Unit" readonly>
 				</div>
 				<div class="MatInput">
 					<label>납품요청일자 :  </label>
-					<input type="date" class="Entry_EndDate EntryItem" id="Entry_EndDate" name="Entry_EndDate">
+					<input type="date" class="Entry_EndDate EntryItem EditOk" id="Entry_EndDate" name="Entry_EndDate">
 					<label>납품장소 :  </label>
-					<input type="text" class="Entry_Place EntryItem" id="Entry_Place" name="Entry_Place" placeholder="SELECT" readonly>
+					<input type="text" class="Entry_Place EntryItem EditOk" id="Entry_Place" name="Entry_Place" placeholder="SELECT" onclick="InfoSearch('EntrySLocation')" readonly>
 				</div>
 				<div class="MatInput">
 					<label>Vendor:  </label>
-					<input type="text" class="Entry_VCode EntryItem" id="Entry_VCode" name="Entry_VCode" placeholder="SELECT" readonly>
+					<input type="text" class="Entry_VCode EntryItem EditOk" id="Entry_VCode" name="Entry_VCode" placeholder="SELECT" onclick="InfoSearch('EntryVendor')" readonly>
 					<label>발주 여부 :  </label>
-					<span>발주준비</span><input type="radio" class="Entry_Pos EntryItem" id="Entry_Pos" name="Entry_Pos">
-					<span>반려</span><input type="radio" class="Entry_Neg EntryItem" id="Entry_Neg" name="Entry_Neg">
+					<span>발주준비</span><input type="radio" class="Entry_Ag EntryItem"  value="Pos" onclick="checkOnlyOne(this)" checked>
+					<span>반려</span><input type="radio" class="Entry_Ag EntryItem" value="Neg" onclick="checkOnlyOne(this)">
 				</div>
 				<div class="MatInput">
 					<label>구매단가 :  </label>
-					<input type="text" class="Entry_UnitPrice EntryItem" id="Entry_UnitPrice" name="Entry_UnitPrice">
+					<input type="text" class="Entry_UnitPrice EntryItem" id="Entry_UnitPrice" name="Entry_UnitPrice" readonly>
 					<label>거래통화 :  </label>
 					<input type="text" class="Entry_Cur EntryItem" id="Entry_Cur" name="Entry_Cur"  readonly>
 				</div>
 				<div class="MatInput">
 					<label>반려 이유 :  </label>
-					<input type="text" class="Entry_Reject EntryItem" id="Entry_Reject" name="Entry_Reject" placeholder="※ 반려할 경우, 이유를 간단히 적어주시기 바랍니다.">
+					<input type="text" class="Entry_Reject EntryItem EditOk" id="Entry_Reject" name="Entry_Reject" placeholder="※ 반려할 경우, 이유를 간단히 적어주시기 바랍니다." readonly>
 				</div>
 			</div>
 		</div>
