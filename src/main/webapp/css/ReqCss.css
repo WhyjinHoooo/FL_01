@@ -208,9 +208,19 @@
     width: 30%
 	}
 	.Req-Area > div:nth-of-type(7) > input:nth-child(2){
-	width: 55.5%
+	width: 57.5%
 	}
-	
+	.Req-Area > .MatInput input{
+    margin-left: 10px;
+	text-align: center;
+	width: 200px;
+    }
+    .Req-Area > .MatInput .Entry_EndDate{
+    width: 200px;
+    margin-left: 10px;
+	text-align: center;
+    }
+    
 	.Ord-Centralize {
     display: flex;
     flex-direction: row;
@@ -451,4 +461,251 @@
     margin-left: 10px;
 	text-align: center;
     }
+    
+    /* ------------------ */
+    
+    .MatOrd-Centralize {
+    display: flex;
+    flex-direction: row;
+    height: 85vh;
+    margin-top: 3%;
+	}
+	.MatOrd-Header {
+    border: 1px solid black;
+    width: 25%;
+	}
+	.MatOrd-Body {
+    border: 1px solid black;
+    margin-left: 2%;
+    width: 73%;
+	}
+	.MatOrd-Body > .Info-Area {
+    border: 1px solid black;
+    height: 45%;
+	}
+	.MatOrd-Body > .Btn-Area {
+    height: 5%;
+	margin: 1% 0% 1% 0%;
+	}
+	.MatOrd-Body > .Req-Area {
+    border: 1px solid black;
+    height: 45.3%;
+    margin-top: 0.5%;
+	}
+	.MatOrd-Title {
+	background: #260FB1;
+	color: white;
+	text-align: center;
+	font-size: x-large;
+	padding: 5px;
+    }
+	.MatOrd-Header > .InfoInput {
+	display: flex;
+	flex-direction: row;
+	margin: 20px 0px 0px 50px;
+	width: 100%;
+    }
+	.MatOrd-Header > div:nth-of-type(7) > input {
+    text-align: left;
+    width: 40px;
+	}
+	.MatOrd-Header > div:nth-of-type(7) > span {
+	padding: 0px 0px 0px 26px;
+	font-size: large;
+	font-weight: bold;
+    }
+	.MatOrd-Header > div > input::placeholder{
+    text-align: center;
+	}
+	
+    .MatOrd-Header > .InfoInput label{
+   	font-weight: 900;
+    display: inline-block;
+	width: 10em;
+	text-align: right;
+	letter-spacing: 0.1em;
+    }
+    .MatOrd-Header > button {
+	width: 24%;
+	height: 5%;
+	text-align: center;
+	background-color: #002060;
+	color: white;
+	border: 1px solid #1F4E79;
+	margin: 25% 0px 0px 35%;
+	border-radius: 10px;
+	font-size: 25px;
+	}
+	.MatOrd-Header > button:hover {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.MatOrd-Header > button:active {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody{
+	table-layout: fixed;
+	display: block;
+	width: 100.1%;
+	height: 93.2%;
+	max-height: 97%;
+	overflow-y: auto;
+    }
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(1) {width: 126px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(2) {width: 125px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(3) {width: 133px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(4) {width: 136px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(5) {width: 128px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(6) {width: 126px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(7) {width: 124px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(8) {width: 127px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(9) {width: 124px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(10) {width: 125px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(11) {width: 130px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(12) { width: 130px; }
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(13) {width: 129px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(14) {width: 127px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(15) {width: 123px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(16) {width: 126px;}
+
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty) {
+	    padding: 8px 0px;
+	    border: 1px solid #ddd;
+	    height: 10px;
+	    text-align: center;
+	    font-size: 9px;
+	    font-weight: bold;
+	}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(1){width: 126px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2){width: 115px;padding: 0;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) > button {
+	    background: darkgray;
+	    color: white;
+	    width: 113px;
+	    height: 50px;
+	    font-weight: bold;
+	    border-radius: 10px;
+	    border: darkgray;
+	}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) > button:hover {
+		background:  #7A7A7A;
+		color: #fff;
+		border: 1px solid  #7A7A7A;
+	}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) > button:click {
+		background: #5A5A5A;
+		color: #fff;
+		border: 1px solid #5A5A5A;
+	}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(3){width: 129px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(4){width: 125px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(5){width: 125px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(6){width: 126px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(7){width: 128px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(8){width: 126px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(9){width: 125px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(10){width: 126px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(11){width: 130px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(12){width: 135px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(13){width: 125px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(14){width: 124px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(15){width: 128px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(16){width: 117px;}
+	.Ord-Area > .MatInput{
+	display: flex;
+	flex-direction: row;
+	margin: 30px 0px 0px 25%;
+	}
+	.MatOrd-Body > .Btn-Area > button.EditSaveBtn {
+    background: darkgreen;
+    margin-left: 75%;
+   	width: 10%;
+    height: 50px;
+    color: white;
+    font-weight: bold;
+    border: 1px solid darkgreen;
+	padding: 5px;
+	border-radius: 5px;
+	}
+	.MatOrd-Body > .Btn-Area > button.EditSaveBtn:hover {
+	background: #32CD32;
+	color: #fff;
+	border: 1px solid #32CD32;
+	}
+	.MatOrd-Body > .Btn-Area > button.EditSaveBtn:active {
+	background: #32CD32;
+	color: black;
+	border: 1px solid #32CD32;
+	}
+	.MatOrd-Body > .Btn-Area button.TotalSaveBtn {
+    background: darkred;
+    width: 10%;
+    height: 50px;
+    color: white;
+    font-weight: bold;
+	margin-left: 3%;
+	border: 1px solid darkred;
+	padding: 5px;
+	border-radius: 5px;
+	}
+	.MatOrd-Body > .Btn-Area button.TotalSaveBtn:hover {
+	background: #FA8072;
+	color: #fff;
+	border: 1px solid #FA8072;
+	}
+	.MatOrd-Body > .Btn-Area button.TotalSaveBtn:active {
+	background: #FA8072;
+	color: black;
+	border: 1px solid #FA8072;
+	}
+	
+	.MatOrd-Area > .MatInput label{
+   	font-weight: 900;
+    display: inline-block;
+	width: 10em;
+	text-align: right;
+	letter-spacing: 0.1em;
+    }
+    .MatOrd-Area > div:nth-of-type(3) > input:nth-child(4),
+	.MatOrd-Area > div:nth-of-type(6) > input:nth-child(4) {
+    text-align: left;
+    width: 30%
+	}
+	.MatOrd-Area > div:nth-of-type(7) > input:nth-child(2){
+	width: 55.5%
+	}
+	.MatOrd-Area > div:nth-of-type(3) > input:nth-child(4) {
+    text-align: left;
+	}
+	.MatOrd-Area > div:nth-of-type(6) > input:nth-child(5),
+	.MatOrd-Area > div:nth-of-type(6) > input:nth-child(7) {
+    text-align: left;
+    width: 35px;
+	}
+	.MatOrd-Area  > div:nth-of-type(6) > span:nth-child(4){
+	padding: 0px 0px 0px 7px;
+	}
+	.MatOrd-Area > div:nth-of-type(7) > input:nth-child(2){
+	width: 200px;
+	}
+	.MatOrd-Area > div:nth-of-type(8) > input:nth-child(2){
+	width: 41.7%;
+	}
+	.MatOrd-Area input:not(.EditOk){
+	background: darkgray;
+	}
+	.MatOrd-Area > .MatInput input{
+    margin-left: 10px;
+	text-align: center;
+	width: 200px;
+    }
+    .MatOrd-Area > .MatInput .Entry_EndDate{
+    width: 200px;
+    margin-left: 10px;
+	text-align: center;
+    }
+    
 }

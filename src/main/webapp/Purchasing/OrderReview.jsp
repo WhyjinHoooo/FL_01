@@ -48,7 +48,7 @@ function InfoSearch(field){
     	window.open("${contextPath}/Purchasing/PopUp/FindClient.jsp?Category=Search", "POPUP03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
         break;
     case "Company":
-    	window.open("${contextPath}/Purchasing/PopUp/FindCom.jsp?", "POPUP04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	window.open("${contextPath}/Purchasing/PopUp/FindCom.jsp", "POPUP04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     	break;
     case "EntryClient":
     	window.open("${contextPath}/Purchasing/PopUp/FindClient.jsp?Category=Entry", "POPUP05", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
@@ -134,6 +134,7 @@ $(document).ready(function(){
 	DateSetting();
 	var OptionList = {};
 	$('.SearBtn').click(function(){
+		
 		$('.SearOption').each(function(){
 			var name = $(this).attr('name');
 			var Value = $(this).val();
@@ -202,6 +203,7 @@ $(document).ready(function(){
 		    	}
 	    	});
 		}
+		$('.Ord-Area input').not('.Entry_Ag').val('');
 	})
 	
 	$('.InfoTable-Body').on('click','.EditBtn', function(){
@@ -209,36 +211,146 @@ $(document).ready(function(){
 		var Row = $(this).closest('tr');
 		var MatCode = Row.find('td:eq(2)').text();
 		var MatDes = Row.find('td:eq(3)').text();
+		var MatType = Row.find('td:eq(4)').text();
 		var Quantity = Row.find('td:eq(5)').text();
-		var Unit = Row.find('td:eq(6)').text();
+		var Unit = Row.find('td:eq(6)').text().trim();
 		var DeliDate = Row.find('td:eq(12)').text();
 		var DeliPlace = Row.find('td:eq(13)').text();
 		var UnitPrice = Row.find('td:eq(7)').text();
 		var Cash = Row.find('td:eq(9)').text();
+		var OreReqNumber = Row.find('td:eq(15)').text();
 		
 		var Today = $('.OrderDate').val();
 		$.ajax({
 			url: '${contextPath}/Purchasing/AjaxSet/MakeDocNumber.jsp',
 			data : {Date : Today},
 			success : function(response){
-				$('.Entry_DocNum').val(response);
+				$('.Entry_DocNum').val(response.trim());
 				$('.Entry_Doc_State').val('NMP');
 				$('.Entry_MatCode').val(MatCode);
-				$('.Entry_MatDes').val(MatDes);
+				$('.Entry_MatDes').val(MatDes + '(' + MatType + ')');
 				$('.Entry_Count').val(Quantity);
 				$('.Entry_Unit').val(Unit);
 				$('.Entry_EndDate').val(DeliDate);
 				$('.Entry_Place').val(DeliPlace);
 				$('.Entry_UnitPrice').val(UnitPrice);
 				$('.Entry_Cur').val(Cash);
+				$('.OreReqNumber').val(OreReqNumber);
 			}
 		})
+		Row.remove();
 	})
+	var ESaveList = {};
 	$('.EditSaveBtn').click(function(){
-		
+		$('.EntryItem').each(function(){
+			var Name = $(this).attr('name');
+			var Value = $(this).val();
+			if($(this).prop('ckecked')){
+				ESaveList[Name] = Value;
+			}else{
+				ESaveList[Name] = Value;
+			}
+		})
+		console.log(ESaveList);
+		var pass = true;
+		$.each(ESaveList,function(key, value){
+			if(key === 'Entry_Reject'){
+				return true;
+			}
+			if (value == null || value === '') {
+    	        pass = false;
+    	        return false;
+    	    }
+		})
+		if(!pass){
+			alert('모든 항목을 입력해주세요.');	
+		}else{
+			$.ajax({
+				url : '${contextPath}/Purchasing/AjaxSet/OrdRwSave.jsp?From=ESave',
+				type: 'POST',
+				data :  JSON.stringify(ESaveList),
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				async: false,
+				success : function(data){
+					if(data.status === 'Success'){
+						var OrdDocCode = $('.OreReqNumber').val();
+						var ReqDocCode = ESaveList.Entry_DocNum;
+						$.ajax({
+							url : '${contextPath}/Purchasing/AjaxSet/OrdRwEdit.jsp',
+							type: 'POST',
+							data :  {OrdCode : OrdDocCode, ReqCode : ReqDocCode},
+							dataType: 'text',
+							success : function(data){
+								
+							}
+						})
+					}
+				}
+			})
+		}
 	})
+	var TotalList = {};
 	$('.TotalSaveBtn').click(function(){
-		
+// 		const checkedCount = $('input[type="checkbox"]:checked').length;
+// 		console.log(checkedCount);
+		var Pass = true;
+		$('.InfoTable-Body input[type="checkbox"]:checked').each(function() {
+			var Row = $(this).closest('tr');
+			var Key = Row.find('td:eq(15)').text();
+			 const rowData = [
+				 Row.find('td:eq(2)').text(),
+				 Row.find('td:eq(3)').text(),
+				 Row.find('td:eq(4)').text(),
+				 Row.find('td:eq(5)').text(),
+				 Row.find('td:eq(6)').text().trim(),
+				 Row.find('td:eq(7)').text(),
+				 Row.find('td:eq(9)').text(),
+				 Row.find('td:eq(10)').text(),
+				 Row.find('td:eq(11)').text(),
+				 Row.find('td:eq(12)').text(),
+				 Row.find('td:eq(13)').text(),
+				 $('.PurManager').val(),
+				 $('.PlantCode').val(),
+				 $('.ComCode').val(),
+				 Row.find('td:eq(15)').text()
+			    ];
+			 for(var i = 0 ; i < rowData.length ; i++){
+				 if(rowData[i] == null || rowData[i] === ''){
+					 Pass = false;
+					 return false;
+				 }
+			 }
+			 TotalList[Key] = rowData;
+			 Row.remove();
+		 })
+		if(!Pass){
+			alert('항목을 다시 선택해주세요.');
+		}else{
+			$.ajax({
+				url : '${contextPath}/Purchasing/AjaxSet/OrdRwSave.jsp?From=TSave',
+				type: 'POST',
+				data :  JSON.stringify(TotalList),
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				async: false,
+				success : function(data){
+					if(data.status === 'Success'){
+						/* var OrdDocCode = $('.OreReqNumber').val();
+						var ReqDocCode = ESaveList.Entry_DocNum;
+						$.ajax({
+							url : '${contextPath}/Purchasing/AjaxSet/OrdRwEdit.jsp',
+							type: 'POST',
+							data :  {OrdCode : OrdDocCode, ReqCode : ReqDocCode},
+							dataType: 'text',
+							success : function(data){
+								
+							}
+						}) */
+					}
+				}
+			})
+		}
 	})
 })
 </script>
@@ -256,12 +368,12 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 				<div class="Ord-Title">SEARCH FIELD</div>
 				<div class="InfoInput">
 					<label>Company : </label> 
-					<input type="text" class="ComCode SearOption" name="ComCode" value="<%=userComCode %>" onclick="InfoSearch('Company')" readonly>
+					<input type="text" class="ComCode SearOption EntryItem" name="ComCode" value="<%=userComCode %>" onclick="InfoSearch('Company')" readonly>
 				</div>
 				
 				<div class="InfoInput">
 					<label>Plant :  </label>
-					<input type="text" class="PlantCode SearOption" name="PlantCode" onclick="InfoSearch('Plant')" readonly>
+					<input type="text" class="PlantCode SearOption EntryItem" name="PlantCode" onclick="InfoSearch('Plant')" readonly>
 				</div>
 				
 				<div class="InfoInput">
@@ -275,24 +387,24 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 						<option value="SELECT">SELECT</option>
 						<option value="A 구매요청">A 구매요청</option>
 						<option value="B 발주준비">B 발주준비</option>
-						<option value="C 방주완료">C 방주완료</option>
+						<option value="C 발주완료">C 방주완료</option>
 						<option value="D 반려">D 반려</option>
 					</select>
 				</div>
 				
 				<div class="InfoInput">
 					<label>구매담당자 :  </label>
-					<input type="text" class="PurManager" value="<%=UserIdNumber %>" onclick="InfoSearch('Client')" readonly>
+					<input type="text" class="PurManager EntryItem" name="PurManager" value="<%=UserIdNumber %>" onclick="InfoSearch('Client')" readonly>
 				</div>
 				
 				<div class="InfoInput">
 					<label>ORD TYPE :  </label>
-					<input type="text" class="DocCode" value="PREO" readonly>
+					<input type="text" class="DocCode" value="PXRO" readonly>
 				</div>
 				
 				<div class="InfoInput">
 					<label>발주계획일자 :  </label>
-					<input type="text" class="OrderDate" name="OrderDate" readonly>
+					<input type="text" class="OrderDate EntryItem" name="OrderDate" readonly>
 				</div>
 				
 				<button class="SearBtn">검색</button>	
@@ -320,10 +432,11 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			<div class="Ord-Area">
 				<div class="Req-Title">구매 요청 검토/저장</div>
 				<div class="MatInput">
-					<label>구매요청번호 :  </label>
+					<label>발주계획번호 :  </label>
 					<input type="text" class="Entry_DocNum EntryItem" id="Entry_DocNum" name="Entry_DocNum" readonly>
 					<label>구매요청구분 :  </label>
-					<input type="text" class="Entry_Doc_State EntryItem" id="Entry_Doc_State" name="Entry_DocNum" readonly>
+					<input type="text" class="Entry_Doc_State EntryItem" id="Entry_Doc_State" name="Entry_Type" readonly>
+					<input type="text" class="OreReqNumber" id="OreReqNumber" name="OreReqNumber" hidden>
 				</div>
 				<div class="MatInput">
 					<label>Material :  </label>
@@ -347,8 +460,8 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 					<label>Vendor:  </label>
 					<input type="text" class="Entry_VCode EntryItem EditOk" id="Entry_VCode" name="Entry_VCode" placeholder="SELECT" onclick="InfoSearch('EntryVendor')" readonly>
 					<label>발주 여부 :  </label>
-					<span>발주준비</span><input type="radio" class="Entry_Ag EntryItem"  value="Pos" onclick="checkOnlyOne(this)" checked>
-					<span>반려</span><input type="radio" class="Entry_Ag EntryItem" value="Neg" onclick="checkOnlyOne(this)">
+					<span>발주준비</span><input type="radio" class="Entry_Ag EntryItem"  name="Entry_Ag" value="Pos" onclick="checkOnlyOne(this)" checked>
+					<span>반려</span><input type="radio" class="Entry_Ag EntryItem" name="Entry_Ag" value="Neg" onclick="checkOnlyOne(this)">
 				</div>
 				<div class="MatInput">
 					<label>구매단가 :  </label>

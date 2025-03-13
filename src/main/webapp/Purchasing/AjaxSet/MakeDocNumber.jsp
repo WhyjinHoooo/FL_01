@@ -8,7 +8,7 @@
 <%
 try{
 	String Date = request.getParameter("Date").replace("-", "");
-	String first = "PREO" + Date + "S00001";
+	String first = "PXRO" + Date + "S00001";
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	/* PREO20250310S00001 */
