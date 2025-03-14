@@ -67,10 +67,10 @@
 			pstmt.setString(16, "0");
 			pstmt.setString(17, dataToSend.getString("Entry_Type"));
 			pstmt.setString(18, dataToSend.getString("PurManager"));
-			pstmt.setString(19, dataToSend.getString("PlantCode"));
+			pstmt.setString(19, dataToSend.getString("PlantCode").substring(0,5));
 			pstmt.setString(20, dataToSend.getString("ComCode"));
 			pstmt.setString(21, dataToSend.getString("OrderDate"));
-			pstmt.setString(22, dataToSend.getString("PurManager").substring(0,5));
+			pstmt.setString(22, dataToSend.getString("PurManager"));
 			pstmt.setString(23, dataToSend.getString("Entry_DocNum"));
 			pstmt.executeUpdate();
 		}else{

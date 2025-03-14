@@ -11,7 +11,6 @@
     width: 25%;
 	}
 	.Req-Body {
-    border: 1px solid black;
     margin-left: 2%;
     width: 73%;
 	}
@@ -20,12 +19,15 @@
     height: 45%;
 	}
 	.Req-Body > .Btn-Area {
-    height: 5%;
-    margin-top: 2%;
-	}
+        height: 5%;
+        margin-top: 1%;
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: row;
+    }
 	.Req-Body > .Req-Area {
     border: 1px solid black;
-    height: 45.3%;
+    height: 47.3%;
     margin-top: 0.5%;
 	}
 	.Req-Title {
@@ -142,31 +144,33 @@
     box-shadow: inset 0px 0px 5px white;
   	}
   	.Btn-Area button.NewEntryBtn {
-    margin: 15px 0px 0px 10px;
-    width: 6%;
-    background: darkred;
+    width: 10%;
+    background: DarkBlue;
     color: white;
     font-weight: bold;
-    border: 1px solid darkred;
-	padding: 5px;
+    border: 1px solid DarkBlue;
+    padding: 5px;
+    border-radius: 5px;
 	}
 	.Btn-Area button.SaveBtn {
     background: darkgreen;
-    margin-left: 75%;
-    width: 6%;
+    margin-left: 1%;
+    width: 10%;
     color: white;
     font-weight: bold;
     border: 1px solid darkgreen;
-	padding: 5px;
+    padding: 5px;
+    border-radius: 5px;
 	}
 	.Btn-Area button.EditBtn {
     background: darkred;
-    width: 6%;
+    width: 10%;
     color: white;
     font-weight: bold;
-	margin-left: 3%;
-	border: 1px solid darkred;
-	padding: 5px;
+    margin-left: 1%;
+    border: 1px solid darkred;
+    padding: 5px;
+    border-radius: 5px;
 	}
 	.Btn-Area > button.SaveBtn:hover {
 	background: #32CD32;
@@ -178,13 +182,21 @@
 	color: black;
 	border: 1px solid #32CD32;
 	}
-	.Btn-Area > button.NewEntryBtn:hover,
+	.Btn-Area > button.NewEntryBtn:hover{
+	background: #B0E0E6;
+	color: #fff;
+	border: 1px solid #B0E0E6;
+	}
 	.Btn-Area > button.EditBtn:hover {
 	background: #FA8072;
 	color: #fff;
 	border: 1px solid #FA8072;
 	}
-	.Btn-Area > button.NewEntryBtn:active,
+	.Btn-Area > button.NewEntryBtn:active{
+	background: #B0E0E6;
+	color: black;
+	border: 1px solid #B0E0E6;
+	}
 	.Btn-Area > button.EditBtn:active {
 	background: #FA8072;
 	color: black;
@@ -475,7 +487,6 @@
     width: 25%;
 	}
 	.MatOrd-Body {
-    border: 1px solid black;
     margin-left: 2%;
     width: 73%;
 	}
@@ -486,6 +497,8 @@
 	.MatOrd-Body > .Btn-Area {
     height: 5%;
 	margin: 1% 0% 1% 0%;
+	display: flex;
+    justify-content: flex-end;
 	}
 	.MatOrd-Body > .Req-Area {
     border: 1px solid black;
@@ -505,11 +518,11 @@
 	margin: 20px 0px 0px 50px;
 	width: 100%;
     }
-	.MatOrd-Header > div:nth-of-type(7) > input {
+	.MatOrd-Header > div:nth-of-type(6) > input {
     text-align: left;
     width: 40px;
 	}
-	.MatOrd-Header > div:nth-of-type(7) > span {
+	.MatOrd-Header > div:nth-of-type(6) > span {
 	padding: 0px 0px 0px 26px;
 	font-size: large;
 	font-weight: bold;
@@ -549,27 +562,24 @@
 	.MatOrd-Body > .Info-Area > table.InfoTable tbody{
 	table-layout: fixed;
 	display: block;
-	width: 100.1%;
+	width: 100.3%;
 	height: 93.2%;
 	max-height: 97%;
 	overflow-y: auto;
     }
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(1) {width: 126px;}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(2) {width: 125px;}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(3) {width: 133px;}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(4) {width: 136px;}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(5) {width: 128px;}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(6) {width: 126px;}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(7) {width: 124px;}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(8) {width: 127px;}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(9) {width: 124px;}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(10) {width: 125px;}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(11) {width: 130px;}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(12) { width: 130px; }
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(13) {width: 129px;}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(14) {width: 127px;}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(15) {width: 123px;}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(16) {width: 126px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(1) {width: 130px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(2) {width: 131px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(3) {width: 130px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(4) {width: 131px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(5) {width: 132px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(6) {width: 130px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(7) {width: 130px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(8) {width: 132px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(9) {width: 130px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(10) {width: 130px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(11) {width: 132px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(12) {width: 130px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(13) {width: 130px;}
 
 	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty) {
 	    padding: 8px 0px;
@@ -619,9 +629,8 @@
 	flex-direction: row;
 	margin: 30px 0px 0px 25%;
 	}
-	.MatOrd-Body > .Btn-Area > button.EditSaveBtn {
+	.MatOrd-Body > .Btn-Area > button.SaveBtn {
     background: darkgreen;
-    margin-left: 75%;
    	width: 10%;
     height: 50px;
     color: white;
@@ -630,82 +639,157 @@
 	padding: 5px;
 	border-radius: 5px;
 	}
-	.MatOrd-Body > .Btn-Area > button.EditSaveBtn:hover {
+	.MatOrd-Body > .Btn-Area > button.SaveBtn:hover {
 	background: #32CD32;
 	color: #fff;
 	border: 1px solid #32CD32;
 	}
-	.MatOrd-Body > .Btn-Area > button.EditSaveBtn:active {
+	.MatOrd-Body > .Btn-Area > button.SaveBtn:active {
 	background: #32CD32;
 	color: black;
 	border: 1px solid #32CD32;
 	}
-	.MatOrd-Body > .Btn-Area button.TotalSaveBtn {
+	.MatOrd-Body > .Btn-Area button.CancelBtn {
     background: darkred;
     width: 10%;
     height: 50px;
     color: white;
     font-weight: bold;
-	margin-left: 3%;
+	margin-left: 1%;
 	border: 1px solid darkred;
 	padding: 5px;
 	border-radius: 5px;
 	}
-	.MatOrd-Body > .Btn-Area button.TotalSaveBtn:hover {
+	.MatOrd-Body > .Btn-Area button.CancelBtn:hover {
 	background: #FA8072;
 	color: #fff;
 	border: 1px solid #FA8072;
 	}
-	.MatOrd-Body > .Btn-Area button.TotalSaveBtn:active {
+	.MatOrd-Body > .Btn-Area button.CancelBtn:active {
 	background: #FA8072;
 	color: black;
 	border: 1px solid #FA8072;
 	}
-	
-	.MatOrd-Area > .MatInput label{
+	.MatOrd-Body > .Btn-Area button.ChgBtn {
+	background: DarkBlue;
+	width: 10%;
+	height: 50px;
+	margin-left: 1%;
+	color: white;
+	font-weight: bold;
+	border: 1px solid DarkBlue;
+	padding: 5px;
+	border-radius: 5px;
+	}
+	.MatOrd-Body > .Btn-Area button.ChgBtn:hover {
+	background: #B0E0E6;
+	color: #fff;
+	border: 1px solid #B0E0E6;
+	}
+	.MatOrd-Body > .Btn-Area button.ChgBtn:active {
+	background: #B0E0E6;
+	color: black;
+	border: 1px solid #B0E0E6;
+	}
+	.MatOrd-Area {
+    height: 46.5%;
+	}
+    .MatOrd-Area > .MatOrd-Area-Header {
+    border: 1px solid rgb(0 0 0 / 50%);
+    width: 99.7%;
+    margin: 2px 0px 2px 2px;
+    height: 95px;
+	}
+	.MatOrd-Area > .MatOrd-Area-Header > .MatInput label{
    	font-weight: 900;
     display: inline-block;
 	width: 10em;
 	text-align: right;
 	letter-spacing: 0.1em;
     }
-    .MatOrd-Area > div:nth-of-type(3) > input:nth-child(4),
-	.MatOrd-Area > div:nth-of-type(6) > input:nth-child(4) {
-    text-align: left;
-    width: 30%
-	}
-	.MatOrd-Area > div:nth-of-type(7) > input:nth-child(2){
-	width: 55.5%
-	}
-	.MatOrd-Area > div:nth-of-type(3) > input:nth-child(4) {
-    text-align: left;
-	}
-	.MatOrd-Area > div:nth-of-type(6) > input:nth-child(5),
-	.MatOrd-Area > div:nth-of-type(6) > input:nth-child(7) {
-    text-align: left;
-    width: 35px;
-	}
-	.MatOrd-Area  > div:nth-of-type(6) > span:nth-child(4){
-	padding: 0px 0px 0px 7px;
-	}
-	.MatOrd-Area > div:nth-of-type(7) > input:nth-child(2){
-	width: 200px;
-	}
-	.MatOrd-Area > div:nth-of-type(8) > input:nth-child(2){
-	width: 41.7%;
-	}
-	.MatOrd-Area input:not(.EditOk){
-	background: darkgray;
-	}
-	.MatOrd-Area > .MatInput input{
+    .MatOrd-Area > .MatOrd-Area-Header > div:nth-child(1){
+	margin: 0.5% 0px 0.5% 15%
+    }
+    .MatOrd-Area > .MatOrd-Area-Header > div:nth-child(2){
+	margin: 0px 0px 0px 15%
+    }
+	.MatOrd-Area > .MatOrd-Area-Header > .MatInput input{
     margin-left: 10px;
 	text-align: center;
 	width: 200px;
+	height: 25px;
     }
-    .MatOrd-Area > .MatInput .Entry_EndDate{
-    width: 200px;
-    margin-left: 10px;
+    .MatOrd-Area > .MatOrd-Area-Header > div:nth-child(2) > input:nth-child(4){
+	width: 600px;
+	height: 25px;
+    }
+    .MatOrd-Area > div:nth-child(3){
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    height: 71.5%;
+    }
+    .MatOrd-Area > div:nth-child(3) > table.POTable {
+	border-collapse: collapse;
+	width: 100%;
+	height: 92.1%;
+	table-layout: fixed;
+    overflow: scroll;
+    }
+    .MatOrd-Area > div:nth-child(3) > table.POTable thead{
+    display: table;
+    width: 100%;
+    }
+   .MatOrd-Area > div:nth-child(3) > table.POTable thead > tr > th {
+	background-color: rgb(111, 167, 235);
+	position: sticky;
+	top: 0;
+	color: white;
 	text-align: center;
+	z-index: 10;
+	padding: 8px;
+	border: 1px solid white;
+	width: 120px;
+	font-size: 11px;
     }
-    
+    .MatOrd-Area > div:nth-child(3) > table.POTable tbody {
+        table-layout: fixed;
+        display: block;
+        width: 100.3%;
+        height: 93.2%;
+        max-height: 97%;
+        overflow-y: auto;
+    }
+    .MatOrd-Area > div:nth-child(3) > table.POTable tbody td{
+	padding: 8px 5.5px;
+	border: 1px solid #ddd;
+	height: 10px;
+	text-align: center;
+	font-size: 10px;
+	font-weight: bold;
+    }
+    .MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(1) {width: 130px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(2) {width: 130px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(3) {width: 130px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(4) {width: 132px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(5) {width: 132px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(6) {width: 132px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(7) {width: 130px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(8) {width: 132px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(9) {width: 130px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(10) {width: 130px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(11) {width: 132px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(12) {width: 130px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(13) {width: 130px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(14) {width: 130px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody::-webkit-scrollbar {
+    width: 5px;
+  	}
+  	.MatOrd-Area > div:nth-child(3) > table.POTable tbody::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+  	}
+  	.MatOrd-Area > div:nth-child(3) > table.POTable tbody::-webkit-scrollbar-track {
+    background-color: white;
+    border-radius: 1px;
+    box-shadow: inset 0px 0px 5px white;
+  	}
 }

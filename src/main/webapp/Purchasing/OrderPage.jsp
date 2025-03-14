@@ -78,14 +78,21 @@ $(document).ready(function(){
 	}
 	function InitialTable(UserId){
 		$('.InfoTable-Body').empty();
+		$('.POTable-Body').empty();
 		var UserId = UserId;
-		console.log(UserId);
 		for (let i = 0; i < 20; i++) {
             const row = $('<tr></tr>');
             for (let j = 0; j < 13; j++) {
                 row.append('<td></td>');
             }
             $('.InfoTable-Body').append(row);
+        }
+		for (let i = 0; i < 20; i++) {
+            const row = $('<tr></tr>');
+            for (let j = 0; j < 14; j++) {
+                row.append('<td></td>');
+            }
+            $('.POTable-Body').append(row);
         }
 		$.ajax({
 			url:'${contextPath}/Purchasing/AjaxSet/ForPlant.jsp',
@@ -103,7 +110,11 @@ $(document).ready(function(){
 	function DateSetting(){
 		var CurrentDate = new Date();
 		var today = CurrentDate.getFullYear() + '-' + ('0' + (CurrentDate.getMonth() + 1)).slice(-2) + '-' + ('0' + CurrentDate.getDate()).slice(-2);
-		$('.OrderDate').val(today);
+		$('.FromDate').val(today);
+		
+		var LastDateForm = new Date(CurrentDate.getFullYear(), CurrentDate.getMonth() + 1, 0);
+		var LastDate = LastDateForm.getFullYear() + '-' + ('0' + (LastDateForm.getMonth() + 1)).slice(-2) + '-' + ('0' + LastDateForm.getDate()).slice(-2);
+		$('.ToDate').val(LastDate);
 	}
 	function CreateEntryDocument(){
 		var DocTopic = $('.DocCode').val();
@@ -121,6 +132,49 @@ $(document).ready(function(){
 	}
 	var Userid = $('.PurManager').val();
 	InitialTable(Userid);
+	DateSetting();
+	
+	var KeyInfoList = {};
+	$('.SearBtn').click(function(){
+		$('.KeyInfo').each(function(){
+			var name = $(this).attr('name');
+			var Value = $(this).val();
+			if($(this).prop('ckecked')){
+				KeyInfoList[name] = Value;
+			}else{
+				KeyInfoList[name] = Value;
+			}
+		})
+		console.log(KeyInfoList);
+		var pass = true;
+		$.each(KeyInfoList,function(key, value){
+			if(key === 'State'){
+				return true;
+			}
+			if (value == null || value === '') {
+    	        pass = false;
+    	        return false;
+    	    }
+		})
+		if(!pass){
+			alert('모든 필수 항목을 모두 입력해주세요.');
+		}else{
+			$.ajax({
+				url : '${contextPath}/Purchasing/AjaxSet/LoadPOPlan.jsp',
+				type : 'POST',
+				data :  JSON.stringify(KeyInfoList),
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				async: false,
+				success : function(data){
+					
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					alert('오류 발생: ' + textStatus + ', ' + errorThrown);
+		    	}
+	    	});
+		}
+	})
 })
 </script>
 </head>
@@ -141,34 +195,36 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			</div>
 			
 			<div class="InfoInput">
-				<label>Plant :  </label>
-				<input type="text" class="PlantCode" name="PlantCode" onclick="InfoSearch('Plant')" placeholder="SELECT" readonly>
+				<label>❗Plant :  </label>
+				<input type="text" class="PlantCode KeyInfo" name="PlantCode" onclick="InfoSearch('Plant')" placeholder="SELECT" readonly>
 			</div>
 			
 			<div class="InfoInput">
-				<label>Vendor :  </label>
-				<input type="text" class="Entry_VCode" name="Entry_VCode" onclick="InfoSearch('Vendor')" placeholder="SELECT" readonly>
+				<label>❗Vendor :  </label>
+				<input type="text" class="Entry_VCode KeyInfo" name="Entry_VCode" onclick="InfoSearch('Vendor')" placeholder="SELECT" readonly>
 			</div>
 			
 			<div class="InfoInput">
-				<label>구매그룹 :  </label>
-				<select class="PurState" name="State">
+				<label>❗구매그룹 :  </label>
+				<select class="PurState KeyInfo" name="State">
 					<option value="SELECT">SELECT</option>
-					<option value="A 구매요청">A 구매요청</option>
-					<option value="B 발주준비">B 발주준비</option>
-					<option value="C 발주완료">C 방주완료</option>
-					<option value="D 반려">D 반려</option>
+					<option value="DO01">DO01: 내자 일반</option>
+					<option value="DO02">DO02: 내자 특수</option>
+					<option value="FO01">FO01: 외자 일반</option>
+					<option value="FO01">FO02: 외자 특수</option>
+					<option value="MO01">MO01: MRO 자재 (소모성 자재)</option>
+					<option value="PR01">PR01: 프로젝트 자재</option>
+					<option value="RM01">RM01: 원자재</option>
+					<option value="SP01">SP01: 스페셜 오더 (주문 제작)</option>
+					<option value="EQ01">EQ01: 설비 자재</option>
+					<option value="IT01">IT01: IT 관련 자재</option>
 				</select>
 			</div>
-			<div class="InfoInput">
-				<label>ORD TYPE :  </label>
-				<input type="text" class="DocCode" value="PXRO" readonly>
-			</div>
 			
 			<div class="InfoInput">
-				<label>동일품목 합산 :  </label>
-				<span>합산</span><input type="checkbox" class="UnitSum" name="UnitSum" value="Sum" onclick="checkOnlyOne(this)" readonly checked>
-				<span>건별</span><input type="checkbox" class="UnitSum" name="UnitSum" value="Solo" onclick="checkOnlyOne(this)" readonly>
+				<label>❗동일품목 합산 :  </label>
+				<span>합산</span><input type="checkbox" class="UnitSum KeyInfo" name="UnitSum" value="Sum" onclick="checkOnlyOne(this)" readonly checked>
+				<span>건별</span><input type="checkbox" class="UnitSum KeyInfo" name="UnitSum" value="Solo" onclick="checkOnlyOne(this)" readonly>
 			</div>
 			
 			<div class="InfoInput">
@@ -189,9 +245,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 				<label>구매담당자 :  </label>
 				<input type="text" class="PurManager" name="PurManager" value="<%=UserIdNumber %>" onclick="InfoSearch('Client')" readonly>
 			</div>
-			
-			
-			
+		
 			<button class="SearBtn">검색</button>	
 		</div>
 		<div class="MatOrd-Body">
@@ -206,7 +260,6 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 					</thead>
 					<tbody class="InfoTable-Body">
 					</tbody>
-				
 				</table>
 			</div>
 			<div class="Btn-Area">
@@ -216,12 +269,29 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			</div>
 			<div class="MatOrd-Area">
 				<div class="Req-Title">발주서 발행</div>
-				<div class="MatInput">
-					<label>발주계획번호 :  </label>
-					<input type="text" class="Entry_DocNum EntryItem" id="Entry_DocNum" name="Entry_DocNum" readonly>
-					<label>구매요청구분 :  </label>
-					<input type="text" class="Entry_Doc_State EntryItem" id="Entry_Doc_State" name="Entry_Type" readonly>
-					<input type="text" class="OreReqNumber" id="OreReqNumber" name="OreReqNumber" hidden>
+				<div class="MatOrd-Area-Header">
+					<div class="MatInput">
+						<label>발주번호 :  </label>
+						<input type="text" class="MatOrdDocNum" id="MatOrdDocNum" name="MatOrdDocNum" readonly>
+					</div>
+					<div class="MatInput">
+						<label>공급업체 :  </label>
+						<input type="text" class="MatOrdVendor" id="MatOrdVendor" name="MatOrdVendor" readonly>
+						<label>공급업체명 :  </label>
+						<input type="text" class="MatOrdVendorDes" id="MatOrdVendorDes" name="MatOrdVendorDes" readonly>
+					</div>
+				</div>
+				<div>
+					<table class="POTable">
+						<thead class="POTable-Header">
+							<tr>
+								<th>선택</th><th>발주번호</th><th>PO항번</th><th>Material</th><th>Material Description</th><th>재고유형</th>
+								<th>발주수량</th><th>단위</th><th>구매단가</th><th>구매금액</th><th>거래통화</th><th>공급업체</th><th>납품요청일자</th><th>납품창고</th>
+							</tr>
+						</thead>
+						<tbody class="POTable-Body">
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
