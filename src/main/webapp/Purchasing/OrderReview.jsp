@@ -50,17 +50,11 @@ function InfoSearch(field){
     case "Company":
     	window.open("${contextPath}/Purchasing/PopUp/FindCom.jsp", "POPUP04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     	break;
-    case "EntryClient":
-    	window.open("${contextPath}/Purchasing/PopUp/FindClient.jsp?Category=Entry", "POPUP05", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-        break;	
-    case "EntryDeli":
-    	window.open("${contextPath}/Purchasing/PopUp/FindMatPlace.jsp?MatCode=" + MatCode, "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
-        break;
     case "EntrySLocation":
-    	window.open("${contextPath}/Purchasing/PopUp/FindSLoc.jsp", "POPUP07", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	window.open("${contextPath}/Purchasing/PopUp/FindSLoc.jsp", "POPUP05", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     	break;
     case "EntryVendor":
-    	window.open("${contextPath}/Purchasing/PopUp/FindVendor.jsp", "POPUP08", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	window.open("${contextPath}/Purchasing/PopUp/FindVendor.jsp", "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     	break;
 	}
 }
@@ -119,7 +113,7 @@ $(document).ready(function(){
 		var DocDate = $('.BuyDate').val();
 		$('.Req-Area').find('input').prop('disabled', false);
 		$.ajax({
-			url:'${contextPath}/Purchasing/AjaxSet/ForEntryDoc.jsp',
+			url:'${contextPath}/Purchasing/AjaxSet/ForEntryDoc.jsp?From=Review',
 			type:'POST',
 			data:{Code : DocTopic, Date : DocDate},
 			dataType: 'text',
@@ -128,7 +122,7 @@ $(document).ready(function(){
 			}
 		})
 	}
-	var Userid = $('.PurManager').val();
+	var Userid = $('.Client').val();
 	InitialTable(Userid);
 	EntryDisabled();
 	DateSetting();
@@ -310,7 +304,7 @@ $(document).ready(function(){
 				 Row.find('td:eq(11)').text(),
 				 Row.find('td:eq(12)').text(),
 				 Row.find('td:eq(13)').text(),
-				 $('.PurManager').val(),
+				 $('.Client').val(),
 				 $('.PlantCode').val(),
 				 $('.ComCode').val(),
 				 Row.find('td:eq(15)').text()
@@ -336,17 +330,7 @@ $(document).ready(function(){
 				async: false,
 				success : function(data){
 					if(data.status === 'Success'){
-						/* var OrdDocCode = $('.OreReqNumber').val();
-						var ReqDocCode = ESaveList.Entry_DocNum;
-						$.ajax({
-							url : '${contextPath}/Purchasing/AjaxSet/OrdRwEdit.jsp',
-							type: 'POST',
-							data :  {OrdCode : OrdDocCode, ReqCode : ReqDocCode},
-							dataType: 'text',
-							success : function(data){
-								
-							}
-						}) */
+						location.reload();
 					}
 				}
 			})
@@ -394,7 +378,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 				
 				<div class="InfoInput">
 					<label>구매담당자 :  </label>
-					<input type="text" class="PurManager EntryItem" name="PurManager" value="<%=UserIdNumber %>" onclick="InfoSearch('Client')" readonly>
+					<input type="text" class="Client EntryItem" name="Client" value="<%=UserIdNumber %>" onclick="InfoSearch('Client')" readonly>
 				</div>
 				
 				<div class="InfoInput">

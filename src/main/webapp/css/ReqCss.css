@@ -589,41 +589,20 @@
 	    font-size: 9px;
 	    font-weight: bold;
 	}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(1){width: 126px;}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2){width: 115px;padding: 0;}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) > button {
-	    background: darkgray;
-	    color: white;
-	    width: 113px;
-	    height: 50px;
-	    font-weight: bold;
-	    border-radius: 10px;
-	    border: darkgray;
-	}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) > button:hover {
-		background:  #7A7A7A;
-		color: #fff;
-		border: 1px solid  #7A7A7A;
-	}
-	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) > button:click {
-		background: #5A5A5A;
-		color: #fff;
-		border: 1px solid #5A5A5A;
-	}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(3){width: 129px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(4){width: 125px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(5){width: 125px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(6){width: 126px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(7){width: 128px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(8){width: 126px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(9){width: 125px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(10){width: 126px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(11){width: 130px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(12){width: 135px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(13){width: 125px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(14){width: 124px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(15){width: 128px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(16){width: 117px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(1) {width: 141px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) {width: 142px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(3) {width: 144px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(4) {width: 140px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(5) {width: 142px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(6) {width: 141px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(7) {width: 141px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(8) {width: 143px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(9) {width: 142px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(10) {width: 140px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(11) {width: 142px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(12) {width: 141px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(13) {width: 141px;}
+
 	.Ord-Area > .MatInput{
 	display: flex;
 	flex-direction: row;
@@ -750,12 +729,12 @@
 	width: 120px;
 	font-size: 11px;
     }
-    .MatOrd-Area > div:nth-child(3) > table.POTable tbody {
+     .MatOrd-Area > div:nth-child(3) > table.POTable tbody {
         table-layout: fixed;
         display: block;
         width: 100.3%;
-        height: 93.2%;
-        max-height: 97%;
+        height: 120%;
+        max-height: 99%;
         overflow-y: auto;
     }
     .MatOrd-Area > div:nth-child(3) > table.POTable tbody td{
@@ -766,20 +745,70 @@
 	font-size: 10px;
 	font-weight: bold;
     }
-    .MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(1) {width: 130px;}
-	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(2) {width: 130px;}
-	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(3) {width: 130px;}
-	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(4) {width: 132px;}
-	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(5) {width: 132px;}
-	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(6) {width: 132px;}
-	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(7) {width: 130px;}
-	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(8) {width: 132px;}
-	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(9) {width: 130px;}
-	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(10) {width: 130px;}
-	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(11) {width: 132px;}
-	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(12) {width: 130px;}
-	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(13) {width: 130px;}
-	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(14) {width: 130px;}
+    .MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(1) {width: 121px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(2) {width: 120px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(3) {width: 120px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(4) {width: 121px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(5) {width: 123px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(6) {width: 120px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(7) {width: 120px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(8) {width: 120px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(9) {width: 120px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(10) {width: 120px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(11) {width: 122px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(12) {width: 120px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(13) {width: 120px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(14) {width: 120px;}
+	
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty) {
+	    padding: 8px 0px;
+	    border: 1px solid #ddd;
+	    height: 10px;
+	    text-align: center;
+	    font-size: 9px;
+	    font-weight: bold;
+	}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(1) {
+	    border: 1px solid #ddd;
+	    height: 10px;
+	    text-align: center;
+	    font-size: 9px;
+	    font-weight: bold;
+	    padding: 0px;
+	}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(1) {width: 131px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(2) {width: 131px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(3) {width: 132px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(4) {width: 132px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(5) {width: 134px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(6) {width: 130px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(7) {width: 131px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(8) {width: 132px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(9) {width: 132px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(10) {width: 131px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(11) {width: 132px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(12) {width: 131px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(13) {width: 131px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(14) {width: 129px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(1) > button {
+	    background: darkgray;
+	    color: white;
+	    width: 131px;
+	    height: 50px;
+	    font-weight: bold;
+	    border-radius: 10px;
+	    border: darkgray;
+	}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(1) > button:hover {
+		background:  #7A7A7A;
+		color: #fff;
+		border: 1px solid  #7A7A7A;
+	}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(1) > button:click {
+		background: #5A5A5A;
+		color: #fff;
+		border: 1px solid #5A5A5A;
+	}
 	.MatOrd-Area > div:nth-child(3) > table.POTable tbody::-webkit-scrollbar {
     width: 5px;
   	}
