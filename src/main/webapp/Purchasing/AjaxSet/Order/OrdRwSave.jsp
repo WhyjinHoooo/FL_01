@@ -10,7 +10,7 @@
 <%@page import="org.json.simple.JSONValue"%>
 <%@page import="org.json.JSONObject"%>
 <%@page import="java.io.BufferedReader"%>
-<%@ include file="../../mydbcon.jsp" %>
+<%@ include file="../../../mydbcon.jsp" %>
 <%
 
 	StringBuilder jsonString = new StringBuilder();
@@ -43,7 +43,7 @@
 			pstmt.setString(5, dataToSend.getString("Entry_Count"));
 			pstmt.setString(6, dataToSend.getString("Entry_Unit"));
 			pstmt.setString(7, dataToSend.getString("Entry_UnitPrice"));
-			double TotalPrice = dataToSend.getInt("Entry_Count") * dataToSend.getDouble("Entry_UnitPrice");
+			double TotalPrice = Double.parseDouble(String.format("%.2f", dataToSend.getInt("Entry_Count") * dataToSend.getDouble("Entry_UnitPrice")));
 			pstmt.setDouble(8, TotalPrice);
 			pstmt.setString(9, dataToSend.getString("Entry_Cur"));
 
@@ -63,7 +63,7 @@
 
 			pstmt.setString(13, SlocList[0]);
 			pstmt.setString(14, SlocList[1].replace(")", ""));
-			pstmt.setString(15, "");
+			pstmt.setString(15, null);
 			pstmt.setString(16, "0");
 			pstmt.setString(17, dataToSend.getString("Entry_Type"));
 			pstmt.setString(18, dataToSend.getString("Client"));
@@ -120,7 +120,7 @@
 				pstmt.setString(5, ArrayList.getString(3)); // 수량
 				pstmt.setString(6, ArrayList.getString(4)); // 단위
 				pstmt.setDouble(7, ArrayList.getDouble(5)); // 단위당단가
-				pstmt.setDouble(8, ArrayList.getInt(3) * ArrayList.getDouble(5)); // 구매금액
+				pstmt.setDouble(8, Double.parseDouble(String.format("%.2f", ArrayList.getInt(3)* ArrayList.getDouble(5)))); // 구매금액
 				pstmt.setString(9, ArrayList.getString(6)); // 거래통화
 				pstmt.setString(10, ArrayList.getString(7)); // 거래처
 				pstmt.setString(11, ArrayList.getString(8)); // 거래처명
@@ -128,7 +128,7 @@
 				String[] SlocList = ArrayList.getString(10).split("\\(");
 				pstmt.setString(13, SlocList[0]); // 납품창고 
 				pstmt.setString(14, SlocList[1].replace(")", "")); // 납품창고명
-				pstmt.setString(15, ""); // 발주번호
+				pstmt.setString(15, null); // 발주번호
 				pstmt.setString(16, "0"); // Item번호
 				pstmt.setString(17, "NMP"); // 구매요청유형
 				pstmt.setString(18, ArrayList.getString(11)); // 구매담당자
@@ -139,12 +139,11 @@
 				pstmt.setString(23, first); // 키
 				pstmt.executeUpdate();
 				
-				String SearSql = "UPDATE request_doc SET PlanNumPO = ?, PueOrdNum = ?, StatusPR = ? WHERE DocNumPR = ?";
+				String SearSql = "UPDATE request_doc SET PlanNumPO = ?, StatusPR = ? WHERE DocNumPR = ?";
 				PreparedStatement SearPstmt = conn.prepareStatement(SearSql);
 				SearPstmt.setString(1, first);
-				SearPstmt.setString(2, "000");
-				SearPstmt.setString(3, "B 발주준비");
-				SearPstmt.setString(4, ArrayList.getString(14));
+				SearPstmt.setString(2, "B 발주준비");
+				SearPstmt.setString(3, ArrayList.getString(14));
 				SearPstmt.executeUpdate();
 			}
 		}

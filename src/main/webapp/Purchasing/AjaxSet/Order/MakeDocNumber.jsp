@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../../mydbcon.jsp" %>
+<%@ include file="../../../mydbcon.jsp" %>
 <%@ page import ="org.json.simple.JSONArray" %>
 <%@ page import ="org.json.simple.JSONObject" %> 
 <%@page import="java.sql.SQLException"%>  
@@ -11,7 +11,7 @@ try{
 	String first = "PXRO" + Date + "S00001";
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
-	/* PREO20250310S00001 */
+	/* PXRO20250318S00003 */
 	String sql = "SELECT * FROM request_rvw WHERE PlanNumPO = ? ORDER BY PlanNumPO DESC";
 	pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1, first);
@@ -25,8 +25,8 @@ try{
 		if(!rs.next()){
 			DupCheck = true;
 		} else{
-			String recentData = rs.getString("MatDocNum");
-			String numberPart = recentData.substring(14);
+			String recentData = rs.getString("PlanNumPO");
+			String numberPart = recentData.substring(13);
 			int incrementedValue = Integer.parseInt(numberPart) + 1;
 			first = first.substring(0, 13) + String.format("%05d", incrementedValue);
 		}

@@ -2,7 +2,7 @@
 <%@page import="org.json.simple.parser.JSONParser"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../../mydbcon.jsp" %>
+<%@ include file="../../../mydbcon.jsp" %>
 <%@page import="org.json.simple.JSONValue"%>
 <%@ page import ="org.json.JSONObject" %> 
 <%@page import="java.io.BufferedReader"%>
@@ -22,11 +22,12 @@
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		JSONArray jsonArray = new JSONArray();
+		System.out.println(dataToSend);
 		switch(dataToSend.getString("UnitSum")){
 		case"Solo":
 			if(dataToSend.getString("MatCode") == ""){
 				System.out.println("1.1");
-				Sql = "SELECT * FROM request_rvw WHERE Plant = ? AND Vendor = ? AND RequestDate >= ? AND RequestDate <= ?";
+				Sql = "SELECT * FROM request_rvw WHERE Plant = ? AND Vendor = ? AND RequestDate >= ? AND RequestDate <= ? AND PueOrdNum IS NULL";
 				pstmt = conn.prepareStatement(Sql);
 				pstmt.setString(1, dataToSend.getString("PlantCode").substring(0,5));
 				pstmt.setString(2, dataToSend.getString("Entry_VCode").substring(0,8));
@@ -34,7 +35,7 @@
 				pstmt.setString(4, dataToSend.getString("ToDate"));
 			}else{
 				System.out.println("1.2");
-				Sql = "SELECT * FROM request_rvw WHERE Plant = ? AND Vendor = ? AND MatCode = ? AND RequestDate >= ? AND RequestDate <= ?";
+				Sql = "SELECT * FROM request_rvw WHERE Plant = ? AND Vendor = ? AND MatCode = ? AND RequestDate >= ? AND RequestDate <= ? AND PueOrdNum IS NULL";
 				pstmt = conn.prepareStatement(Sql);
 				pstmt.setString(1, dataToSend.getString("PlantCode").substring(0,5));
 				pstmt.setString(2, dataToSend.getString("Entry_VCode").substring(0,8));
@@ -66,7 +67,7 @@
 				Sql = "SELECT MatCode, MatDesc, MatType, SUM(PlanPOQty) as TotalCount, Unit, " +
 					      "PricePerUnit, TCur, Vendor, VenderDesc " +
 					      "FROM request_rvw " +
-					      "WHERE Plant = ? AND Vendor = ? AND RequestDate >= ? AND RequestDate <= ? GROUP BY MatCode";
+					      "WHERE Plant = ? AND Vendor = ? AND RequestDate >= ? AND RequestDate <= ? AND PueOrdNum IS NULL GROUP BY MatCode";
 				pstmt = conn.prepareStatement(Sql);
 				pstmt.setString(1, dataToSend.getString("PlantCode").substring(0,5));
 				pstmt.setString(2, dataToSend.getString("Entry_VCode").substring(0,8));
@@ -77,7 +78,7 @@
 				Sql = "SELECT MatCode, MatDesc, MatType, SUM(PlanPOQty) as TotalCount, Unit, " +
 					      "PricePerUnit, TCur, Vendor, VenderDesc " +
 					      "FROM request_rvw " +
-					      "WHERE Plant = ? AND Vendor = ? AND MatCode = ? AND RequestDate >= ? AND RequestDate <= ? GROUP BY MatCode";
+					      "WHERE Plant = ? AND Vendor = ? AND MatCode = ? AND RequestDate >= ? AND RequestDate <= ? AND PueOrdNum IS NULL GROUP BY MatCode";
 				pstmt = conn.prepareStatement(Sql);
 				pstmt.setString(1, dataToSend.getString("PlantCode").substring(0,5));
 				pstmt.setString(2, dataToSend.getString("Entry_VCode").substring(0,8));

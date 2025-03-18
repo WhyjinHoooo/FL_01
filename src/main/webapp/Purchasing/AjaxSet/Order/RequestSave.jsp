@@ -6,7 +6,7 @@
 <%@page import="java.time.LocalDateTime"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../../mydbcon.jsp" %>
+<%@ include file="../../../mydbcon.jsp" %>
 <%
 	String UserId = (String)session.getAttribute("id");
 	String userComCode = (String)session.getAttribute("depart");
@@ -49,6 +49,9 @@ try{
 	String Ent_StoCode = saveListData.getString("Entry_PCode");
 	String Ent_StoCoDes = saveListData.getString("Entry_PCodeDes");
 	String Ent_Ref = saveListData.getString("Entry_Ref");
+	if(Ent_Ref == "" || Ent_Ref.isEmpty()){
+		Ent_Ref = "N/A";
+	}
 	String Ent_ReqType = "NRP";
 	String Ent_PurPerson = saveListData.getString("Entry_Client");
 	String Ent_ReqPerson = saveListData.getString("Entry_Client");

@@ -95,7 +95,7 @@ $(document).ready(function(){
             $('.POTable-Body').append(row);
         }
 		$.ajax({
-			url:'${contextPath}/Purchasing/AjaxSet/ForPlant.jsp',
+			url:'${contextPath}/Purchasing/AjaxSet/Order/ForPlant.jsp',
 			type:'POST',
 			data:{id : UserId},
 			dataType: 'text',
@@ -147,7 +147,7 @@ $(document).ready(function(){
 			alert('모든 필수 항목을 모두 입력해주세요.');
 		}else{
 			$.ajax({
-				url : '${contextPath}/Purchasing/AjaxSet/LoadPOPlan.jsp',
+				url : '${contextPath}/Purchasing/AjaxSet/Order/LoadPOPlan.jsp',
 				type : 'POST',
 				data :  JSON.stringify(KeyInfoList),
 				contentType: 'application/json; charset=utf-8',
@@ -196,7 +196,7 @@ $(document).ready(function(){
 			switch(Key){
 			case 'N/A':
 				$.ajax({
-					url : '${contextPath}/Purchasing/AjaxSet/CreatePODoc.jsp?Case=NA',
+					url : '${contextPath}/Purchasing/AjaxSet/Order/CreatePODoc.jsp?Case=NA',
 					type : 'POST',
 					data :  {MatCode : Mat, VenCode : Ven},
 					dataType: 'json',
@@ -240,7 +240,7 @@ $(document).ready(function(){
 				$('.MatOrdVendor').val($('.Entry_VCode').val().substring(0,8));
 				$('.MatOrdVendorDes').val($('.Entry_VCode').val().substring(9,13));
 				$.ajax({
-					url : '${contextPath}/Purchasing/AjaxSet/CreatePODoc.jsp?Case=Nope',
+					url : '${contextPath}/Purchasing/AjaxSet/Order/CreatePODoc.jsp?Case=Nope',
 					type : 'POST',
 					data :  {MatCode : Mat, VenCode : Ven},
 					dataType: 'json',
@@ -348,7 +348,7 @@ $(document).ready(function(){
 		    tableData.push(rowData);
 		});
 		$.ajax({
-			url : '${contextPath}/Purchasing/AjaxSet/OrdPageSave.jsp',
+			url : '${contextPath}/Purchasing/AjaxSet/Order/OrdPageSave.jsp',
 			type: 'POST',
 			data :  JSON.stringify(tableData),
 			contentType: 'application/json; charset=utf-8',

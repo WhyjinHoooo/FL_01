@@ -1,5 +1,8 @@
 @charset "UTF-8";
 @media only screen and (min-width: 1537px) {
+	input.Fixed{
+	background: #D9D9D9;
+	}
 	.Req-Centralize {
     display: flex;
     flex-direction: row;
@@ -345,8 +348,8 @@
 	    font-size: 9px;
 	    font-weight: bold;
 	}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(1){width: 126px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2){width: 115px;padding: 0;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(1){width: 112px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2){width: 113px; padding: 0;}
 	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) > button {
 	    background: darkgray;
 	    color: white;
@@ -366,20 +369,20 @@
 		color: #fff;
 		border: 1px solid #5A5A5A;
 	}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(3){width: 129px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(4){width: 125px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(5){width: 125px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(6){width: 126px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(7){width: 128px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(8){width: 126px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(9){width: 125px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(10){width: 126px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(11){width: 130px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(12){width: 135px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(13){width: 125px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(14){width: 124px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(15){width: 128px;}
-	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(16){width: 117px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(3){width: 120px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(4){width: 124px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(5){width: 113px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(6){width: 113px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(7){width: 112px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(8){width: 114px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(9){width: 112px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(10){width: 113px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(11){width: 120px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(12){width: 118px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(13){width: 112px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(14){width: 114px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(15){width: 112px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(16){width: 113px;}
 	.Ord-Area > .MatInput{
 	display: flex;
 	flex-direction: row;
@@ -821,4 +824,197 @@
     border-radius: 1px;
     box-shadow: inset 0px 0px 5px white;
   	}
+  	/* ------------------ */
+    
+    .Pur-Centralize {
+    display: flex;
+    flex-direction: row;
+    height: 85vh;
+    margin-top: 3%;
+	}
+	.PriCreate-Header {
+    border: 1px solid black;
+    width: 25%;
+	}
+	.PriCreate-Body {
+    margin-left: 2%;
+    width: 73%;
+	}
+	.Pur-Title {
+	background: #260FB1;
+	color: white;
+	text-align: center;
+	font-size: x-large;
+	padding: 5px;
+	letter-spacing: 1.5em;
+    }
+	.PriCreate-Header > .InfoInput {
+	display: flex;
+	flex-direction: row;
+	margin: 20px 0px 0px 50px;
+	width: 100%;
+    }
+    .PriCreate-Header > .InfoInput label{
+   	font-weight: 900;
+    display: inline-block;
+	width: 10em;
+	text-align: right;
+	letter-spacing: 0.1em;
+    }
+    .PriCreate-Header > div > input::placeholder{
+    text-align: center;
+	}
+    .PriCreate-Header > button {
+	width: 24%;
+	height: 5%;
+	text-align: center;
+	background-color: #002060;
+	color: white;
+	border: 1px solid #1F4E79;
+	margin: 25% 0px 0px 35%;
+	border-radius: 10px;
+	font-size: 25px;
+	}
+	.PriCreate-Header > button:hover {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.PriCreate-Header > button:active {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.PriCreate-Body >.Info-Area{
+	border: 1px solid black;
+	height: 55%;
+	}
+	.PriCreate-Body >.Info-Area > table.InfoTable{
+	border-collapse: collapse;
+	width: 100%;
+	height: 92.1%;
+	table-layout: fixed;
+	overflow: scroll;
+    }
+    .PriCreate-Body >.Info-Area > table.InfoTable thead{
+    display: table;
+    width: 100%;
+    }
+   	.PriCreate-Body >.Info-Area > table.InfoTable tbody{
+	table-layout: fixed;
+	display: block;
+	width: 100.3%;
+	height: 115%;
+	max-height: 96%;
+	overflow-y: auto;
+    }
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td{
+	padding: 8px 5.5px;
+	border: 1px solid #ddd;
+	width: 131px;
+	height: 10px;
+	text-align: center;
+	font-size: 10px;
+	font-weight: bold;
+    }
+    .PriCreate-Body >.Info-Area > table.InfoTable thead > tr > th{
+	background-color: rgb(111, 167, 235);
+	position: sticky;
+	top: 0;
+	color: white;
+	text-align: center;
+	z-index: 10;
+	padding: 8px;
+	border: 1px solid white;
+	width: 120px;
+	font-size: 11px;
+    }
+    .PriCreate-Body >.Info-Area > table.InfoTable tbody::-webkit-scrollbar {
+    width: 5px;
+  	}
+  	.PriCreate-Body >.Info-Area > table.InfoTable tbody::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+  	}
+  	.PriCreate-Body >.Info-Area > table.InfoTable tbody::-webkit-scrollbar-track {
+    background-color: white;
+    border-radius: 1px;
+    box-shadow: inset 0px 0px 5px white;
+  	}
+  	.PriCreate-Body > .Btn-Area{
+	height: 5%;
+	margin: 0.1% 0% 0% 0%;
+	display: flex;
+    justify-content: flex-end;
+  	}
+	.PriCreate-Body > .Category {
+	width: 10%;
+	background: #FFF2CC;
+	padding: 10px 0px 10px 12px;
+	text-align: center;
+	border-radius: 10px 10px 0px 0px;
+	font-weight: bold;
+ 	letter-spacing: 1em;
+    }
+  	.PriCreate-Body > .PriCreate-Area {
+    border: 1px solid black;
+    width: 100%;
+    height: 35.5%;
+	}
+	.PriCreate-Body > .PriCreate-Area > .InfoInput label{
+   	font-weight: 900;
+    display: inline-block;
+	width: 10em;
+	text-align: right;
+	letter-spacing: 0.1em;
+    }
+    .PriCreate-Body > .PriCreate-Area > .InfoInput {
+	display: flex;
+	flex-direction: row;
+	margin: 1.5% 0px 0px 7%;
+    }
+    .PriCreate-Body > .PriCreate-Area > .InfoInput:nth-child(1) > input:nth-child(4) {
+	width: 50%;
+    }
+    .PriCreate-Body > .PriCreate-Area > .InfoInput:nth-child(6) > input {
+	width: 50px;
+    }
+    .PriCreate-Body > .PriCreate-Area > .InfoInput:nth-child(6) > input:nth-child(7) {
+	width: 11.5%;
+    }
+    .PriCreate-Body > .PriCreate-Area > .InfoInput:nth-child(6) > span:nth-child(2),
+    .PriCreate-Body > .PriCreate-Area > .InfoInput:nth-child(6) > span:nth-child(4) {
+	padding: 0px 0px 0px 15px;
+    }
+    .PriCreate-Body > .PriCreate-Area > .InfoInput:nth-child(6) > label:nth-child(6) {
+   	font-weight: 900;
+    display: inline-block;
+	width: 9em;
+	text-align: right;
+	letter-spacing: 0.1em;
+	}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(1) {width: 109px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(2) {width: 113px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(3) {width: 103px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(4) {width: 104px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(5) {width: 101px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(6) {width: 103px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(7) {width: 104px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(8) {width: 103px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(9) {width: 102px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(10) {width: 103px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(11) {width: 102px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(12) {width: 103px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(13) {width: 104px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(14) {width: 102px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(15) {width: 103px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(16) {width: 101px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td{
+	padding: 8px 5.5px;
+	border: 1px solid #ddd;
+	height: 10px;
+	text-align: center;
+	font-size: 10px;
+	font-weight: bold;
+    }
 }

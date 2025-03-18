@@ -2,7 +2,7 @@
 <%@page import="org.json.simple.parser.JSONParser"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../../mydbcon.jsp" %>
+<%@ include file="../../../mydbcon.jsp" %>
 <%@page import="org.json.simple.JSONValue"%>
 <%@ page import ="org.json.JSONObject" %> 
 <%@page import="java.io.BufferedReader"%>
@@ -55,8 +55,8 @@
 				PriPstmt.setString(1, rs.getString("MatCode"));
 				ResultSet PriRs = PriPstmt.executeQuery();
 				if(PriRs.next()){
-					jsonObject.put("UnitPrice", PriRs.getDouble("PurPrices") / PriRs.getDouble("PriceBaseQty")); // 구매단가
-					jsonObject.put("Price",  rs.getInt("QtyPR") * PriRs.getDouble("PurPrices") / PriRs.getDouble("PriceBaseQty")); // 구매금액
+					jsonObject.put("UnitPrice", String.format("%.2f", PriRs.getDouble("PurPrices") / PriRs.getDouble("PriceBaseQty"))); // 구매단가
+					jsonObject.put("Price",  String.format("%.2f", rs.getInt("QtyPR") * PriRs.getDouble("PurPrices") / PriRs.getDouble("PriceBaseQty"))); // 구매금액
 					jsonObject.put("PurCurr", PriRs.getString("PurCurr")); // 거래통화
 					jsonObject.put("VendCode", PriRs.getString("VendCode")); // 공급업체 코드
 					jsonObject.put("VendDes", PriRs.getString("VendDes")); // 공급업체 이름
@@ -67,8 +67,8 @@
 				PriPstmt.setString(1, rs.getString("MatCode"));
 				ResultSet PriRs = PriPstmt.executeQuery();
 				if(PriRs.next()){
-					jsonObject.put("UnitPrice", PriRs.getDouble("PurPrices") / PriRs.getDouble("PriceBaseQty")); // 구매단가
-					jsonObject.put("Price",  rs.getInt("QtyPR") * PriRs.getDouble("PurPrices") / PriRs.getDouble("PriceBaseQty")); // 구매금액
+					jsonObject.put("UnitPrice", String.format("%.2f", PriRs.getDouble("PurPrices") / PriRs.getDouble("PriceBaseQty"))); // 구매단가
+					jsonObject.put("Price",  String.format("%.2f", rs.getInt("QtyPR") * PriRs.getDouble("PurPrices") / PriRs.getDouble("PriceBaseQty"))); // 구매금액
 					jsonObject.put("PurCurr", PriRs.getString("PurCurr")); // 거래통화
 					jsonObject.put("VendCode", "Null"); // 공급업체 코드
 					jsonObject.put("VendDes", "Null"); // 공급업체 이름

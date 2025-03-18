@@ -91,7 +91,7 @@ $(document).ready(function(){
             $('.InfoTable-Body').append(row);
         }
 		$.ajax({
-			url:'${contextPath}/Purchasing/AjaxSet/ForPlant.jsp',
+			url:'${contextPath}/Purchasing/AjaxSet/Order/ForPlant.jsp',
 			type:'POST',
 			data:{id : UserId},
 			dataType: 'text',
@@ -113,7 +113,7 @@ $(document).ready(function(){
 		var DocDate = $('.BuyDate').val();
 		$('.Req-Area').find('input').prop('disabled', false);
 		$.ajax({
-			url:'${contextPath}/Purchasing/AjaxSet/ForEntryDoc.jsp?From=Review',
+			url:'${contextPath}/Purchasing/AjaxSet/Order/ForEntryDoc.jsp?From=Review',
 			type:'POST',
 			data:{Code : DocTopic, Date : DocDate},
 			dataType: 'text',
@@ -128,7 +128,6 @@ $(document).ready(function(){
 	DateSetting();
 	var OptionList = {};
 	$('.SearBtn').click(function(){
-		
 		$('.SearOption').each(function(){
 			var name = $(this).attr('name');
 			var Value = $(this).val();
@@ -157,7 +156,7 @@ $(document).ready(function(){
 			alert('모든 항목을 입력해주세요.');
 		}else{
 			$.ajax({
-				url : '${contextPath}/Purchasing/AjaxSet/ReqStateQue.jsp',
+				url : '${contextPath}/Purchasing/AjaxSet/Order/ReqStateQue.jsp',
 				type : 'POST',
 				data :  JSON.stringify(OptionList),
 				contentType: 'application/json; charset=utf-8',
@@ -216,7 +215,7 @@ $(document).ready(function(){
 		
 		var Today = $('.OrderDate').val();
 		$.ajax({
-			url: '${contextPath}/Purchasing/AjaxSet/MakeDocNumber.jsp',
+			url: '${contextPath}/Purchasing/AjaxSet/Order/MakeDocNumber.jsp',
 			data : {Date : Today},
 			success : function(response){
 				$('.Entry_DocNum').val(response.trim());
@@ -260,7 +259,7 @@ $(document).ready(function(){
 			alert('모든 항목을 입력해주세요.');	
 		}else{
 			$.ajax({
-				url : '${contextPath}/Purchasing/AjaxSet/OrdRwSave.jsp?From=ESave',
+				url : '${contextPath}/Purchasing/AjaxSet/Order/OrdRwSave.jsp?From=ESave',
 				type: 'POST',
 				data :  JSON.stringify(ESaveList),
 				contentType: 'application/json; charset=utf-8',
@@ -271,7 +270,7 @@ $(document).ready(function(){
 						var OrdDocCode = $('.OreReqNumber').val();
 						var ReqDocCode = ESaveList.Entry_DocNum;
 						$.ajax({
-							url : '${contextPath}/Purchasing/AjaxSet/OrdRwEdit.jsp',
+							url : '${contextPath}/Purchasing/AjaxSet/Order/OrdRwEdit.jsp',
 							type: 'POST',
 							data :  {OrdCode : OrdDocCode, ReqCode : ReqDocCode},
 							dataType: 'text',
@@ -322,7 +321,7 @@ $(document).ready(function(){
 			alert('항목을 다시 선택해주세요.');
 		}else{
 			$.ajax({
-				url : '${contextPath}/Purchasing/AjaxSet/OrdRwSave.jsp?From=TSave',
+				url : '${contextPath}/Purchasing/AjaxSet/Order/OrdRwSave.jsp?From=TSave',
 				type: 'POST',
 				data :  JSON.stringify(TotalList),
 				contentType: 'application/json; charset=utf-8',

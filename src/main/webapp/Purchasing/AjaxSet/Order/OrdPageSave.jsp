@@ -10,7 +10,7 @@
 <%@page import="org.json.simple.JSONValue"%>
 <%@page import="org.json.JSONObject"%>
 <%@page import="java.io.BufferedReader"%>
-<%@ include file="../../mydbcon.jsp" %>
+<%@ include file="../../../mydbcon.jsp" %>
 <%
 
 	StringBuilder jsonString = new StringBuilder();
@@ -46,14 +46,14 @@
 		    POpstmt.setString(9, DataList.getString(8));  // 구매금액
 		    POpstmt.setString(10, DataList.getString(9)); // 거래통화
 		    POpstmt.setString(11, DataList.getString(10).substring(0,8)); // 거래처
-		    POpstmt.setString(12, DataList.getString(10).substring(9,13)); // 거래처명 (데이터에 없음)
+		    POpstmt.setString(12, DataList.getString(10).substring(9,13)); // 거래처명
 		    POpstmt.setString(13, DataList.getString(11)); // 납품요청일자
 		    POpstmt.setString(14, DataList.getString(12).substring(0,5)); // 납품창고
-		    POpstmt.setString(15, DataList.getString(12).substring(6,14)); // 납품창고명 (데이터에 없음)
-		    POpstmt.setString(16, "Y"); // IQC여부 (요청에 따라 'Y'로 설정)
-		    POpstmt.setString(17, "0"); // 납품차수 (요청에 따라 '0'으로 설정)
-		    POpstmt.setString(18, "0"); // 납품총수량 (요청에 따라 '0'으로 설정)
-		    POpstmt.setString(19, DataList.getString(5)); // PO잔량 (발주수량과 동일)
+		    POpstmt.setString(15, DataList.getString(12).substring(6,14)); // 납품창고명
+		    POpstmt.setString(16, "Y"); // IQC여부
+		    POpstmt.setString(17, "0"); // 납품차수
+		    POpstmt.setString(18, "0"); // 납품총수량
+		    POpstmt.setString(19, DataList.getString(5)); // PO잔량
 		    POpstmt.setString(20, HeaderList.getString(3)); // 구매그룹
 		    POpstmt.setString(21, HeaderList.getString(4)); // 구매담당자
 		    POpstmt.setString(22, HeaderList.getString(1).split("\\(")[0]); // 공장
@@ -62,6 +62,19 @@
 		    POpstmt.setString(25, HeaderList.getString(4)); // 등록자
 		    POpstmt.setString(26, DataList.getString(0) + DataList.getString(1) + HeaderList.getString(1).split("\\(")[0]);
 		    POpstmt.executeUpdate();
+		    
+		    String ReqUp = "UPDATE request_doc SET PueOrdNum = ?, StatusPR = ? WHERE PlanNumPO = ?";
+		    PreparedStatement ReqPstmt = conn.prepareStatement(ReqUp);
+		    ReqPstmt.setString(1, DataList.getString(0));
+		    ReqPstmt.setString(2, "C 발주완료");
+		    ReqPstmt.setString(3, DataList.getString(13));
+		    ReqPstmt.executeUpdate();
+		    String RvwUp = "UPDATE request_rvw SET PueOrdNum = ?, POiTemNum = ? WHERE PlanNumPO = ?";
+		    PreparedStatement RvwPstmt = conn.prepareStatement(RvwUp);
+		    RvwPstmt.setString(1, DataList.getString(0));
+		    RvwPstmt.setString(2, DataList.getString(1));
+		    RvwPstmt.setString(3, DataList.getString(13));
+		    RvwPstmt.executeUpdate();
 		}
 
 		JSONObject Result = new JSONObject();

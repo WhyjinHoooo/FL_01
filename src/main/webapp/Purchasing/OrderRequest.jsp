@@ -78,7 +78,7 @@ $(document).ready(function(){
             $('.InfoTable-Body').append(row);
         }
 		$.ajax({
-			url:'${contextPath}/Purchasing/AjaxSet/ForPlant.jsp',
+			url:'${contextPath}/Purchasing/AjaxSet/Order/ForPlant.jsp',
 			type:'POST',
 			data:{id : UserId},
 			dataType: 'text',
@@ -112,7 +112,7 @@ $(document).ready(function(){
 		var DocDate = $('.BuyDate').val();
 		$('.Req-Area').find('input').prop('disabled', false);
 		$.ajax({
-			url:'${contextPath}/Purchasing/AjaxSet/ForEntryDoc.jsp',
+			url:'${contextPath}/Purchasing/AjaxSet/Order/ForEntryDoc.jsp?From=Req',
 			type:'POST',
 			data:{Code : DocTopic, Date : DocDate},
 			dataType: 'text',
@@ -138,7 +138,7 @@ $(document).ready(function(){
 		})
 		console.log(DataArray);
 		$.ajax({
-			url: '${contextPath}/Purchasing/AjaxSet/ImportFile.jsp',
+			url: '${contextPath}/Purchasing/AjaxSet/Order/ImportFile.jsp',
 			type: 'POST',
 			data: JSON.stringify(DataArray),
 			contentType: 'application/json; charset=utf-8',
@@ -208,7 +208,7 @@ $(document).ready(function(){
 		$.each(EntryDataArray, function(key, value){
 			if(value == null || value === ''){
 				if(key === 'Entry_Ref'){
-					pass = true;
+					return true;
 				}
 				pass = false;
 				return false;
@@ -219,7 +219,7 @@ $(document).ready(function(){
 			alert('모든 항목을 입력해주세요.');
 		} else{
 			$.ajax({
-				url:'${contextPath}/Purchasing/AjaxSet/RequestSave.jsp',
+				url:'${contextPath}/Purchasing/AjaxSet/Order/RequestSave.jsp',
 				type: 'POST',
 				data: JSON.stringify(EntryDataArray),
 				contentType: 'application/json; charset=utf-8',

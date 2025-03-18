@@ -4,7 +4,7 @@
 <%@page import="org.json.simple.parser.JSONParser"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../../mydbcon.jsp" %>
+<%@ include file="../../../mydbcon.jsp" %>
 <%@page import="org.json.simple.JSONValue"%>
 <%@ page import ="org.json.JSONObject" %> 
 <%@page import="java.sql.SQLException"%>  
