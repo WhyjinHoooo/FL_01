@@ -45,7 +45,7 @@ function InfoSearch(field){
     	window.open("${contextPath}/Purchasing/PopUp/FindMat.jsp?Category=Search", "POPUP02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     break;
     case "Vendor":
-    	window.open("${contextPath}/Purchasing/PopUp/FindVendor.jsp", "POPUP08", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	window.open("${contextPath}/Purchasing/PopUp/FindVendor.jsp?From=General", "POPUP08", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
         break;
     case "Company":
     	window.open("${contextPath}/Purchasing/PopUp/FindCom.jsp", "POPUP04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
@@ -237,8 +237,8 @@ $(document).ready(function(){
 			    });
 			break;
 			default:
-				$('.MatOrdVendor').val($('.Entry_VCode').val().substring(0,8));
-				$('.MatOrdVendorDes').val($('.Entry_VCode').val().substring(9,13));
+				$('.MatOrdVendor').val($('.VendorCode').val().substring(0,8));
+				$('.MatOrdVendorDes').val($('.VendorCode').val().substring(9,13));
 				$.ajax({
 					url : '${contextPath}/Purchasing/AjaxSet/Order/CreatePODoc.jsp?Case=Nope',
 					type : 'POST',
@@ -390,7 +390,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			
 			<div class="InfoInput">
 				<label>❗Vendor :  </label>
-				<input type="text" class="Entry_VCode KeyInfo POinfo" name="Entry_VCode" onclick="InfoSearch('Vendor')" placeholder="SELECT" readonly>
+				<input type="text" class="VendorCode KeyInfo POinfo" name="VendorCode" onclick="InfoSearch('Vendor')" placeholder="SELECT" readonly>
 			</div>
 			
 			<div class="InfoInput">

@@ -1,7 +1,7 @@
 <%@page import="java.sql.SQLException"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../../mydbcon.jsp" %>
+<%@ include file="../../../mydbcon.jsp" %>
 
 <%
 	String S_Nation = request.getParameter("SearchWord");
@@ -25,8 +25,8 @@
 		<td><a href="javascript:void(0)" 
 			onClick="
 			var MCode = '<%=rs.getString("code")%>';
-			window.opener.document.querySelector('.money-code').value = MCode;
-			window.opener.document.querySelector('.money-code').dispatchEvent(new Event('change'));
+			window.opener.document.querySelector('.Currency').value = MCode;
+			window.opener.document.querySelector('.Currency').dispatchEvent(new Event('change'));
 			window.close();
 			">
 			<%=rs.getString("code") %>

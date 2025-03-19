@@ -95,6 +95,20 @@
 	    table-layout: fixed;
 	    border-collapse: collapse;
 	}
+	.NewMaterialCurr{
+	max-height: 93vh;
+	}
+	.NewMaterialPrice{
+	width: 180vh;
+    height: 90vh;
+    max-height: 90vh;
+	}
+	.NewMaterialPriceTable{
+	height: 100%;
+	}
+	.MaterialTypePop{
+		width: 100vh;
+	}
 	.ExMaterial{
 		width: 155vh;
 	}

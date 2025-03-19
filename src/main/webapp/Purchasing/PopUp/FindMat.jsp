@@ -23,7 +23,6 @@
 			<%
 			try{
 				String Category = request.getParameter("Category");
-				System.out.println("1.Category : " + Category);
 			    String sql = "SELECT * FROM matmaster";
 			    PreparedStatement pstmt = null;
 			    ResultSet rs = null;
