@@ -17,7 +17,7 @@
 	try{
 	JSONObject dataToSend = new JSONObject(jsonString.toString());
 
-    String sql = "INSERT INTO ordertable VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; 
+    String sql = "INSERT INTO ordertable VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; 
     PreparedStatement pstmt = conn.prepareStatement(sql);
     pstmt.setString(1, dataToSend.getString("OrderNum"));
     pstmt.setString(2, dataToSend.getString("OIN"));
@@ -34,6 +34,7 @@
     pstmt.setString(13, dataToSend.getString("SlocaCode"));
     pstmt.setString(14, dataToSend.getString("PlantCode"));
     pstmt.setString(15, dataToSend.getString("OrderNum") + '-' + dataToSend.getString("OIN"));
+    pstmt.setString(16, dataToSend.getString("PurState"));
     
 	pstmt.executeUpdate();
     

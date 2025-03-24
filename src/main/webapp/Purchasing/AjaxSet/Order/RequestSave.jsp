@@ -21,6 +21,7 @@
 	}
 try{
 	JSONObject saveListData = new JSONObject(jsonString.toString());
+	System.out.println(saveListData);
 	LocalDateTime now = LocalDateTime.now();
 	String RegistedDate = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	

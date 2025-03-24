@@ -976,6 +976,10 @@
     .PriCreate-Body > .PriCreate-Area > .InfoInput:nth-child(1) > input:nth-child(4) {
 	width: 50%;
     }
+    .PriCreate-Body > .PriCreate-Area > .InfoInput:nth-child(5) > input:nth-child(4) {
+	margin-left: 13px;
+	width: 204px;
+    }
     .PriCreate-Body > .PriCreate-Area > .InfoInput:nth-child(6) > input {
 	width: 50px;
     }
@@ -993,8 +997,8 @@
 	text-align: right;
 	letter-spacing: 0.1em;
 	}
-	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(1) {width: 109px;}
-	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(2) {width: 113px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(1) {width: 113px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(2) {width: 121px;}
 	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(3) {width: 103px;}
 	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(4) {width: 104px;}
 	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(5) {width: 101px;}
@@ -1009,8 +1013,36 @@
 	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(14) {width: 102px;}
 	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(15) {width: 103px;}
 	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(16) {width: 101px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(17) {width: 103px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(18) {width: 101px;}
 	.PriCreate-Body >.Info-Area > table.InfoTable tbody td{
 	padding: 8px 5.5px;
+	border: 1px solid #ddd;
+	height: 10px;
+	text-align: center;
+	font-size: 10px;
+	font-weight: bold;
+    }
+    .PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(1) {width: 101px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) {width: 108px;font-size: 7.4px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(3) {width: 89px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(4) {width: 90px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(5) {width: 91px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(6) {width: 90px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(7) {width: 91px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(8) {width: 91px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(9) {width: 90px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(10) {width: 90px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(11) {width: 92px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(12) {width: 90px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(13) {width: 90px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(14) {width: 91px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(15) {width: 91px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(16) {width: 90px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(17) {width: 90px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(18) {width: 90px;}
+	.PriCreate-Body >.Info-Area > table.InfoTable tbody td:not(:empty){
+	padding: 8px 5px;
 	border: 1px solid #ddd;
 	height: 10px;
 	text-align: center;

@@ -127,10 +127,10 @@ $(document).ready(function(){
 		});
 	}
 	function BodyDisabled(){
-		$('.Mat-Area').find('input').prop('disabled', true);
+		$('.Mat-Area').find('input, select').prop('disabled', true);
 	}
 	function BodyAbled(){
-		$('.Mat-Area').find('input').prop('disabled', false);
+		$('.Mat-Area').find('input, select').prop('disabled', false);
 	}
 	InitialTable();
 	DateSetting();
@@ -177,6 +177,10 @@ $(document).ready(function(){
     	var pass = true;
     	$.each(dataToSend,function(key, value){
     		if(value == null || value === ''){
+    			pass = false;
+    			return false;
+    		}
+    		if(key === "PurState" && value === "SELECT"){
     			pass = false;
     			return false;
     		}
@@ -379,7 +383,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			<div class="Header-Title">자재 발주 헤더</div>
 			<div class="InfoInput">
 				<label>Company : </label>
-				<input type="text" class="ComCode" name="ComCode" onclick="InfoSearch('ComSearch')" value="<%=userComCode %>" readonly>
+				<input type="text" class="ComCode Header" name="ComCode" onclick="InfoSearch('ComSearch')" value="<%=userComCode %>" readonly>
 				<input type="text" class="Com_Name" name="Com_Name" readonly hidden>
 			</div>
 			
@@ -446,6 +450,21 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 							
 					<label>재고단위 : </label>
 					<input type="text" class="StockUnit" name="StockUnit" readonly>
+					
+					<label>구매그룹 :  </label>
+					<select class="PurState Key-Com" name="PurState">
+						<option value="SELECT">SELECT</option>
+						<option value="DO01">DO01: 내자 일반</option>
+						<option value="DO02">DO02: 내자 특수</option>
+						<option value="FO01">FO01: 외자 일반</option>
+						<option value="FO01">FO02: 외자 특수</option>
+						<option value="MO01">MO01: MRO 자재 (소모성 자재)</option>
+						<option value="PR01">PR01: 프로젝트 자재</option>
+						<option value="RM01">RM01: 원자재</option>
+						<option value="SP01">SP01: 스페셜 오더 (주문 제작)</option>
+						<option value="EQ01">EQ01: 설비 자재</option>
+						<option value="IT01">IT01: IT 관련 자재</option>
+					</select>
 				</div>
 				
 				<div class="InfoInput">

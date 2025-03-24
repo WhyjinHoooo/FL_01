@@ -131,7 +131,7 @@ $(document).ready(function(){
 						<tr class="Area">
 							<th class="IdTitle main-title">Login-ID : </th>
 								<td class="ComSec">
-									<input type="text" class="UserId User key" name="UserId" placeholder="입력"> <!-- 매번 입력하기 번거로워서 미리 입력함 -->
+									<input type="text" class="UserId User key" name="UserId" placeholder="입력" value="KimYun85"> <!-- 매번 입력하기 번거로워서 미리 입력함 -->
 								</td>
 						</tr>
 					</table>
@@ -139,7 +139,7 @@ $(document).ready(function(){
 						<tr class="Area">
 							<th class="PwTitle main-title">Password : </th>
 								<td class="ComSec">
-									<input type="password" class="UserPw User key" name="UserPw" placeholder="입력"> <!-- 매번 입력하기 번거로워서 미리 입력함 -->
+									<input type="password" class="UserPw User key" name="UserPw" placeholder="입력" value="Qw9#rT3$"> <!-- 매번 입력하기 번거로워서 미리 입력함 -->
 								</td>
 						</tr>
 					</table>

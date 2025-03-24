@@ -55,6 +55,7 @@
 				PriPstmt.setString(1, rs.getString("MatCode"));
 				ResultSet PriRs = PriPstmt.executeQuery();
 				if(PriRs.next()){
+					System.out.println("1.1");
 					jsonObject.put("UnitPrice", String.format("%.2f", PriRs.getDouble("PurPrices") / PriRs.getDouble("PriceBaseQty"))); // 구매단가
 					jsonObject.put("Price",  String.format("%.2f", rs.getInt("QtyPR") * PriRs.getDouble("PurPrices") / PriRs.getDouble("PriceBaseQty"))); // 구매금액
 					jsonObject.put("PurCurr", PriRs.getString("PurCurr")); // 거래통화
@@ -67,6 +68,7 @@
 				PriPstmt.setString(1, rs.getString("MatCode"));
 				ResultSet PriRs = PriPstmt.executeQuery();
 				if(PriRs.next()){
+					System.out.println("2.1");
 					jsonObject.put("UnitPrice", String.format("%.2f", PriRs.getDouble("PurPrices") / PriRs.getDouble("PriceBaseQty"))); // 구매단가
 					jsonObject.put("Price",  String.format("%.2f", rs.getInt("QtyPR") * PriRs.getDouble("PurPrices") / PriRs.getDouble("PriceBaseQty"))); // 구매금액
 					jsonObject.put("PurCurr", PriRs.getString("PurCurr")); // 거래통화

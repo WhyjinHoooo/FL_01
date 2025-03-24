@@ -42,7 +42,7 @@
     	System.out.println("Success");
     	sql = "SELECT * FROM request_doc WHERE ComCode = ? AND Plant = ? " + 
     		  "AND MatCode = ? AND RegistDate >= ? AND RegistDate <= ? " +
-    		  "AND PurPerson = ?";
+    		  "AND RegistPerson = ?";
     	pstmt = conn.prepareStatement(sql);
     	pstmt.setString(1, ComCode);
     	pstmt.setString(2, PlantCode);
@@ -76,7 +76,7 @@
     	System.out.println("Fail");
     	sql = "SELECT * FROM request_doc WHERE ComCode = ? AND Plant = ? " + 
       		  "AND RegistDate >= ? AND RegistDate <= ? " +
-      		  "AND PurPerson = ?";
+      		  "AND RegistPerson = ?";
       	pstmt = conn.prepareStatement(sql);
       	pstmt.setString(1, ComCode);
       	pstmt.setString(2, PlantCode);

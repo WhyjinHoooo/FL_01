@@ -28,13 +28,13 @@
 			        if(ComCode == null || ComCode.isEmpty()){
 				%>
 					<tr>
-					<td colspan="4"><a href="javascript:void(0)" onClick="window.close();">Plant를(을) 선택해주세요.</a></td>
+					<td colspan="5"><a href="javascript:void(0)" onClick="window.close();">Plant를(을) 선택해주세요.</a></td>
 					</tr>
 				<%
 			        } else if(Vendor == null || Vendor.isEmpty()){
 				%>
 					<tr>
-						<td colspan="4"><a href="javascript:void(0)" onClick="window.close();">Vendor를(을) 선택해주세요.</a></td>
+						<td colspan="5"><a href="javascript:void(0)" onClick="window.close();">Vendor를(을) 선택해주세요.</a></td>
 					</tr>
 				<%
 			        } else{
@@ -54,7 +54,7 @@
 			        if(!rs.next()){
 				%>
 			        <tr>
-			            <td colspan="4"><a href="javascript:void(0)" onClick="window.close();">Vendor에 등록된 재료가 없습니다.</a></td>
+			            <td colspan="5"><a href="javascript:void(0)" onClick="window.close();">Vendor에 등록된 재료가 없습니다.</a></td>
 			        </tr>
 				<%
 			        } else{

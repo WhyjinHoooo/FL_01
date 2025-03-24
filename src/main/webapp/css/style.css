@@ -961,6 +961,18 @@ table.ComInfoTable {
        width: 10%;
        text-align: left;
 	}
+	.MatOrder-Body > .Mat-Area > .InfoInput:nth-child(3) > label:nth-child(7) {
+		font-weight: 900;
+        display: inline-block;
+        width: 11.2em;
+        text-align: right;
+        letter-spacing: 0.1em;
+	}
+	.MatOrder-Body > .Mat-Area > .InfoInput:nth-child(3) > select:nth-child(8) {
+		margin: 0px 10px;
+		width: 10.5%;
+		text-align: center;
+	}
 	.MatOrder-Body > .Mat-Area > .InfoInput:nth-child(3) > input:nth-child(2n),
 	.MatOrder-Body > .Mat-Area > .InfoInput:nth-child(5) > input:nth-child(2n) {
 	    margin: 0px 10px;

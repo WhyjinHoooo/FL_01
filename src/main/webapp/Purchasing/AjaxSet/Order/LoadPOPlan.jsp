@@ -30,7 +30,7 @@
 				Sql = "SELECT * FROM request_rvw WHERE Plant = ? AND Vendor = ? AND RequestDate >= ? AND RequestDate <= ? AND PueOrdNum IS NULL";
 				pstmt = conn.prepareStatement(Sql);
 				pstmt.setString(1, dataToSend.getString("PlantCode").substring(0,5));
-				pstmt.setString(2, dataToSend.getString("Entry_VCode").substring(0,8));
+				pstmt.setString(2, dataToSend.getString("VendorCode").substring(0,8));
 				pstmt.setString(3, dataToSend.getString("FromDate"));
 				pstmt.setString(4, dataToSend.getString("ToDate"));
 			}else{
@@ -38,7 +38,7 @@
 				Sql = "SELECT * FROM request_rvw WHERE Plant = ? AND Vendor = ? AND MatCode = ? AND RequestDate >= ? AND RequestDate <= ? AND PueOrdNum IS NULL";
 				pstmt = conn.prepareStatement(Sql);
 				pstmt.setString(1, dataToSend.getString("PlantCode").substring(0,5));
-				pstmt.setString(2, dataToSend.getString("Entry_VCode").substring(0,8));
+				pstmt.setString(2, dataToSend.getString("VendorCode").substring(0,8));
 				pstmt.setString(3, dataToSend.getString("MatCode"));
 				pstmt.setString(4, dataToSend.getString("FromDate"));
 				pstmt.setString(5, dataToSend.getString("ToDate"));
@@ -70,7 +70,7 @@
 					      "WHERE Plant = ? AND Vendor = ? AND RequestDate >= ? AND RequestDate <= ? AND PueOrdNum IS NULL GROUP BY MatCode";
 				pstmt = conn.prepareStatement(Sql);
 				pstmt.setString(1, dataToSend.getString("PlantCode").substring(0,5));
-				pstmt.setString(2, dataToSend.getString("Entry_VCode").substring(0,8));
+				pstmt.setString(2, dataToSend.getString("VendorCode").substring(0,8));
 				pstmt.setString(3, dataToSend.getString("FromDate"));
 				pstmt.setString(4, dataToSend.getString("ToDate"));
 			}else{
@@ -81,7 +81,7 @@
 					      "WHERE Plant = ? AND Vendor = ? AND MatCode = ? AND RequestDate >= ? AND RequestDate <= ? AND PueOrdNum IS NULL GROUP BY MatCode";
 				pstmt = conn.prepareStatement(Sql);
 				pstmt.setString(1, dataToSend.getString("PlantCode").substring(0,5));
-				pstmt.setString(2, dataToSend.getString("Entry_VCode").substring(0,8));
+				pstmt.setString(2, dataToSend.getString("VendorCode").substring(0,8));
 				pstmt.setString(3, dataToSend.getString("MatCode"));
 				pstmt.setString(4, dataToSend.getString("FromDate"));
 				pstmt.setString(5, dataToSend.getString("ToDate"));

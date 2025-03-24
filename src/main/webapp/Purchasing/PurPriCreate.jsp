@@ -56,7 +56,7 @@ function InfoSearch(field){
     	popupWidth = 670;
     	popupHeight = 350;
     	position = PopupPosition(popupWidth, popupHeight);
-    	window.open("${contextPath}/Purchasing/PopUp/FIndNewMat.jsp", "POPUP04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
+    	window.open("${contextPath}/Purchasing/PopUp/FindNewMat.jsp", "POPUP04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
     break;
     case "Money":
     	popupWidth = 505;
@@ -80,7 +80,7 @@ $(document).ready(function(){
 		$('.InfoTable-Body').empty();
 		for (let i = 0; i < 20; i++) {
 			const row = $('<tr></tr>');
-			for (let j = 0; j < 16; j++) {
+			for (let j = 0; j < 18; j++) {
 				row.append('<td></td>');
 			}
 		$('.InfoTable-Body').append(row);
@@ -101,6 +101,9 @@ $(document).ready(function(){
 		var CurrentDate = new Date();
 		var today = CurrentDate.getFullYear() + '-' + ('0' + (CurrentDate.getMonth() + 1)).slice(-2) + '-' + ('0' + CurrentDate.getDate()).slice(-2);
 		$('.RegistedDate').val(today);
+		$('.NewMaterialFDate').val(today);
+		var OneYear = (CurrentDate.getFullYear() + 1) + '-' + ('0' + (CurrentDate.getMonth() + 1)).slice(-2) + '-' + ('0' + CurrentDate.getDate()).slice(-2);
+		$('.NewMaterialEDate').val(OneYear);
 	}
 	InitialTable(Manager);
 	DateSetting();
@@ -113,6 +116,73 @@ $(document).ready(function(){
 		var UnitCount = $('.PricePerCount').val();
 		var UnitPrice = (Price/UnitCount).toFixed(2);
 		$('.NewMaterialUnitPrice').val(UnitPrice);
+	})
+	var SearchList = {};
+	$('.SearBtn').click(function(){
+		$('.SearOp').each(function(){
+            var name = $(this).attr("name");
+            var value = $(this).val().trim();
+            SearchList[name] = value;
+        });
+		var pass = true;
+		$.each(SearchList,function(key, value){
+			if(key === 'PlantCode' || key === 'MatTypeCode' || key === 'VendorCode'){
+				return true;
+			}
+			if(value == null || value === ''){
+				pass = false;
+				return false;
+			}
+		})
+		console.log(SearchList);
+		if(!pass){
+			alert('모든 항목을 입력해주세요.');
+		}else{
+			$.ajax({
+				url : '${contextPath}/Purchasing/AjaxSet/Purchasing/LoadPrice.jsp',
+				type : 'POST',
+				data :  JSON.stringify(SearchList),
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				async: false,
+				success : function(data){
+					if(data.length > 0){
+						console.log(data);
+						console.log(data[0]);
+						console.log(data[0].ApprovPerson);
+						$('.InfoTable-Body').empty();
+						for(var i = 0 ; i < data.length ; i++){
+							var row = '<tr>' +
+							'<td>' + data[i].MatCode + '</td>' + 
+							'<td>' + data[i].MatDesc + '</td>' + 
+							'<td>' + data[i].VendCode + '</td>' + 
+							'<td>' + data[i].VendDes + '</td>' + 
+							'<td>' + data[i].Incoterms + '</td>' + 
+							'<td>' + data[i].PriceBaseQty + '</td>' + 
+							'<td>' + data[i].PurUnit + '</td>' + 
+							'<td>' + data[i].PurPrices + '</td>' + 
+							'<td>' + data[i].UnitPrice + '</td>' + 
+							'<td>' + data[i].PurCurr + '</td>' + 
+							'<td>' + data[i].ValidFrom + '</td>' +
+							'<td>' + data[i].ValidTo + '</td>' +
+							'<td>' + data[i].ApproveDate + '</td>' +
+							'<td>' + data[i].ApprovPerson + '</td>' +
+							'<td>' + data[i].RegisDate + '</td>' +
+							'<td>' + data[i].RegisPerson + '</td>' +
+							'<td>' + data[i].Plant + '</td>' +
+							'<td>' + data[i].ComCode + '</td>' +
+							'</tr>';
+							$('.InfoTable-Body').append(row);
+						}
+					}else{
+						alert('해당 조건의 데이터가 존재하지 않습니다.');
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					alert('오류 발생: ' + textStatus + ', ' + errorThrown);
+		    	}
+	    	})
+		}
 	})
 })
 </script>
@@ -130,22 +200,22 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			<div class="Pur-Title">구매단가 등록</div>
 			<div class="InfoInput">
 				<label>Company : </label> 
-				<input type="text" class="Fixed" name="" value="<%=userComCode %>" readonly>
+				<input type="text" class="ComCode Fixed SearOp" name="ComCode" value="<%=userComCode %>" readonly>
 			</div>
 			
 			<div class="InfoInput">
 				<label>Plant :  </label>
-				<input type="text" class="PlantCode" name="PlantCode" onclick="InfoSearch('Plant')" placeholder="SELECT" readonly>
+				<input type="text" class="PlantCode SearOp" name="PlantCode" onclick="InfoSearch('Plant')" placeholder="SELECT" readonly>
 			</div>
 			
 			<div class="InfoInput">
 				<label>Material Type:  </label>
-				<input type="text" class="MatTypeCode" name="MatTypeCode" onclick="InfoSearch('Mateiral')" placeholder="SELECT" readonly>
+				<input type="text" class="MatTypeCode SearOp" name="MatTypeCode" onclick="InfoSearch('Mateiral')" placeholder="SELECT" readonly>
 			</div>
 			
 			<div class="InfoInput">
 				<label>Vendor :  </label>
-				<input type="text" class="VendorCode" name="VendorCode" onclick="InfoSearch('Vendor')" placeholder="SELECT" readonly>
+				<input type="text" class="VendorCode SearOp" name="VendorCode" onclick="InfoSearch('Vendor')" placeholder="SELECT" readonly>
 			</div>
 			
 			<div class="InfoInput">
@@ -169,7 +239,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 				<table class="InfoTable">
 					<thead class="InfoTable-Header">
 						<tr>
-							<th>Material</th><th>Material Description</th><th>공급업체</th><th>공급업체명</th><th>단위</th>
+							<th>Material</th><th>Material Description</th><th>공급업체</th><th>공급업체명</th><th>거래조건</th><th>가격기준수량</th><th>단위</th>
 							<th>구매금액</th><th>단위당단가</th><th>거래통화</th><th>유효시작일자</th><th>유효만료일자</th><th>승인일자</th><th>최종결제자</th>
 							<th>등록일자</th><th>둥록자</th><th>공장</th><th>회사</th>
 						</tr>
@@ -220,7 +290,16 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 					<span>미사용</span>
 					<input type="radio" class="UseYN" name="UseYN" value="No" onclick="checkOnlyOne(this)">
 					<label>거래조건 :  </label>
-					<input type="text" class="DealCondition"  name="DealCondition" placeholder="SELECT" readonly>
+					<select class="DealCondition"  name="DealCondition">
+						<option value="FOB">FOB</option> 
+						<option value="CIF">CIF</option> 
+						<option value="EXW">EXW</option> 
+						<option value="FCA">FCA</option>
+						<option value="CPT">CPT</option>
+						<option value="CIP">CIP</option>
+						<option value="DAP">DAP</option>
+						<option value="DDP">DDP</option>
+					</select>
 				</div>
 			</div>
 		</div>

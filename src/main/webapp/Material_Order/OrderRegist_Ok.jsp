@@ -29,6 +29,7 @@
 	String ordDate = HeaderInfoList.getString("date");
 	String yet = "yet";
 	String id = HeaderInfoList.getString("UserID");
+	String ComCode = HeaderInfoList.getString("ComCode");
 	
 	String Count_Sql = "SELECT COUNT(Mmpo) AS MmpoCount FROM ordertable WHERE Mmpo = ?";
 	PreparedStatement Count_Pstmt = conn.prepareStatement(Count_Sql);
@@ -40,29 +41,28 @@
 		ItemCount = Count_Rs.getInt("MmpoCount");
 	};
 	
-	String Head_Sql = "INSERT INTO poheader VALUES(?,?,?,?,?,?,?,?,?,?,?)";
-	PreparedStatement Head_Pstmt = conn.prepareStatement(Head_Sql);
+// 	String Head_Sql = "INSERT INTO poheader VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+// 	PreparedStatement Head_Pstmt = conn.prepareStatement(Head_Sql);
 
 	String Delete_Sql = "DELETE FROM ordertable WHERE Mmpo = ?";
 	PreparedStatement Delete_Pstmt = conn.prepareStatement(Delete_Sql);
 	Delete_Pstmt.setString(1, mmpo);
 
-	String Child_Sql = "INSERT INTO pochild VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	PreparedStatement Child_Pstmt = conn.prepareStatement(Child_Sql);
-	String empty = "A";
+	String POsql = "INSERT INTO request_ord VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	PreparedStatement POpstmt = conn.prepareStatement(POsql);
 	
-	Head_Pstmt.setString(1,mmpo);
-	Head_Pstmt.setString(2,orderType);
-	Head_Pstmt.setString(3,plantCode);
-	Head_Pstmt.setString(4,plantDes);
-	Head_Pstmt.setString(5,vendorCode);
-	Head_Pstmt.setString(6,vendorDes);
-	Head_Pstmt.setString(7,yet);
-	Head_Pstmt.setInt(8,ItemCount);
-	Head_Pstmt.setString(9,date);
-	Head_Pstmt.setString(10,id);
-	Head_Pstmt.setString(11,yet);
-	Head_Pstmt.executeUpdate();
+// 	Head_Pstmt.setString(1,mmpo);
+// 	Head_Pstmt.setString(2,orderType);
+// 	Head_Pstmt.setString(3,plantCode);
+// 	Head_Pstmt.setString(4,plantDes);
+// 	Head_Pstmt.setString(5,vendorCode);
+// 	Head_Pstmt.setString(6,vendorDes);
+// 	Head_Pstmt.setString(7,yet);
+// 	Head_Pstmt.setInt(8,ItemCount);
+// 	Head_Pstmt.setString(9,date);
+// 	Head_Pstmt.setString(10,id);
+// 	Head_Pstmt.setString(11,yet);
+// 	Head_Pstmt.executeUpdate();
 	
 	String Info_Sql = "SELECT * FROM ordertable WHERE Mmpo = ?";
 	PreparedStatement Info_Pstmt = conn.prepareStatement(Info_Sql);
@@ -70,25 +70,54 @@
 	ResultSet Info_Rs = Info_Pstmt.executeQuery();
 	
 	while(Info_Rs.next()){
-		Child_Pstmt.setString(1, Info_Rs.getString("KeyValue"));
-		Child_Pstmt.setString(2, Info_Rs.getString("Mmpo"));
-		Child_Pstmt.setString(3, Info_Rs.getString("ItemNo"));
-		Child_Pstmt.setString(4, Info_Rs.getString("Material"));
-		Child_Pstmt.setString(5, Info_Rs.getString("MatDes"));
-		Child_Pstmt.setString(6, Info_Rs.getString("Type"));
-		Child_Pstmt.setString(7, Info_Rs.getString("Count"));
-		Child_Pstmt.setString(8, Info_Rs.getString("BuyUnit"));
-		Child_Pstmt.setString(9, Info_Rs.getString("OriPrice"));
-		Child_Pstmt.setString(10, Info_Rs.getString("PriUnit"));
-		Child_Pstmt.setString(11, Info_Rs.getString("Price"));
-		Child_Pstmt.setString(12, Info_Rs.getString("money"));
-		Child_Pstmt.setString(13, Info_Rs.getString("Hope"));
-		Child_Pstmt.setString(14, Info_Rs.getString("Warehouse"));
-		Child_Pstmt.setString(15, Info_Rs.getString("Plant"));
-		Child_Pstmt.setString(16, "0");
-		Child_Pstmt.setString(17, Info_Rs.getString("Count"));
-		Child_Pstmt.setString(18, empty);
-		Child_Pstmt.executeUpdate();
+		POpstmt.setString(1, Info_Rs.getString("Mmpo"));
+		POpstmt.setString(2, Info_Rs.getString("ItemNo"));
+		POpstmt.setString(3, Info_Rs.getString("Material"));
+		POpstmt.setString(4, Info_Rs.getString("MatDes"));
+		POpstmt.setString(5, Info_Rs.getString("Type"));
+		POpstmt.setString(6, Info_Rs.getString("Count"));
+		POpstmt.setString(7, Info_Rs.getString("BuyUnit"));
+		POpstmt.setString(8, Info_Rs.getString("OriPrice"));
+		POpstmt.setString(9, Info_Rs.getString("Price"));
+		POpstmt.setString(10, Info_Rs.getString("money"));
+		POpstmt.setString(11, Info_Rs.getString("vendorCode"));
+		POpstmt.setString(12, Info_Rs.getString("vendorDes"));
+		POpstmt.setString(13, Info_Rs.getString("Hope"));
+		POpstmt.setString(14, Info_Rs.getString("Warehouse"));
+		
+		String SLocSql = "SELECT * FROM storage WHERE STORAGR_ID = ?";
+		PreparedStatement SLocPstmt = conn.prepareStatement(SLocSql);
+		SLocPstmt.setString(1, Info_Rs.getString("Warehouse"));
+		ResultSet SLocRs = SLocPstmt.executeQuery();
+		if(SLocRs.next()){
+			POpstmt.setString(15, SLocRs.getString("STORAGR_NAME"));
+		}
+		
+		String IQCsql = "SELECT * FROM matmaster WHERE Material_code = ?";
+	    PreparedStatement IQCpstmt = conn.prepareStatement(IQCsql);
+	    IQCpstmt.setString(1, Info_Rs.getString("Material"));
+	    ResultSet IQCrs = IQCpstmt.executeQuery();
+	    if(IQCrs.next()){
+	    	int number = IQCrs.getInt("IQC");
+	    	switch(number){
+	    	case 1:
+	    		POpstmt.setString(16, "Y");
+	    		break;
+	    	default:
+	    		POpstmt.setString(16, "N");
+	    	}
+	    }
+		POpstmt.setString(17, "0");
+		POpstmt.setString(18, "0");
+		POpstmt.setString(19, Info_Rs.getString("Count"));
+		POpstmt.setString(20, Info_Rs.getString("PurState"));
+	    POpstmt.setString(21, id); // 구매담당자
+	    POpstmt.setString(22, plantCode); // 공장
+	    POpstmt.setString(23, ComCode); // 회사
+	    POpstmt.setString(24, ordDate); // 발주일자
+	    POpstmt.setString(25, id); // 등록자
+	    POpstmt.setString(26, Info_Rs.getString("Mmpo") + Info_Rs.getString("ItemNo") + plantCode);
+		POpstmt.executeUpdate();
 	}
 	int rowsAffected = Delete_Pstmt.executeUpdate();
 	System.out.println("rowsAffected : " + rowsAffected);

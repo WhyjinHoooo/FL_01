@@ -152,17 +152,16 @@ $(document).ready(function(){
 				}else{
 					console.log(data[0]);
 					$('.InfoTable-Body').empty();
-					var DataAarray = {}; // 빈 객체
+					var DataAarray = {};
 					for(var i = 0 ; i < data.length ; i++){
-						var EntryData = data[i] // JSONObject 연관배열
+						var EntryData = data[i];
 						if(!DataAarray[EntryData]){
 							DataAarray[EntryData] = [];
 						}
 						DataAarray[EntryData].push(i)
-						// JSONObject 연관배열을 키값으로 하고, 이에 해당하는 값은 i(ex: 0)이야
 					}
 					for(var key in DataAarray){
-						var KeyValue = DataAarray[key]; // DataAarray에 등록된 키값을 key라고 선언하고, DataAarray에서 key를 키값으로 하는 데이터의 값을 KeyValue에 저장
+						var KeyValue = DataAarray[key];
 						console.log('KeyValue : ' + KeyValue); // i값(예 0)
 						console.log('KeyValue.length : ' + KeyValue.length); //
 						for(var j = 0 ; j < KeyValue.length ; j++){
@@ -200,7 +199,7 @@ $(document).ready(function(){
 		event.preventDefault();
 		$('.EntryItem').each(function(){
 			var Name = $(this).attr('name');
-			var Value = $(this).val();
+			var Value = $(this).val().trim();
 			EntryDataArray[Name] = Value;
 			
 		})

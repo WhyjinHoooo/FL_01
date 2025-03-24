@@ -54,7 +54,7 @@ function InfoSearch(field){
     	window.open("${contextPath}/Purchasing/PopUp/FindSLoc.jsp", "POPUP05", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     	break;
     case "EntryVendor":
-    	window.open("${contextPath}/Purchasing/PopUp/FindVendor.jsp", "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	window.open("${contextPath}/Purchasing/PopUp/FindVendor.jsp?From=Check", "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
     	break;
 	}
 }
@@ -275,7 +275,7 @@ $(document).ready(function(){
 							data :  {OrdCode : OrdDocCode, ReqCode : ReqDocCode},
 							dataType: 'text',
 							success : function(data){
-								
+								$('.Ord-Area input').not('.Entry_Ag').val('');
 							}
 						})
 					}

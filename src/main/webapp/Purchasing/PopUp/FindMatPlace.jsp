@@ -23,6 +23,7 @@
 			<%
 			try{
 				String Ent_MatCode = request.getParameter("MatCode");
+				System.out.println(Ent_MatCode);
 				String DeliverPlace = null;
 			    String sql01 = "SELECT * FROM matmaster WHERE Material_code = ?";
 			    PreparedStatement pstmt01 = null;
@@ -32,7 +33,7 @@
 			    pstmt01.setString(1, Ent_MatCode);
 			    rs01 = pstmt01.executeQuery();
 			    
-		        if(rs01.next()){ // 데이터가 없을 경우
+		        if(rs01.next()){
 		        	DeliverPlace = rs01.getString("DefaultWARE");
 		        	System.out.println(DeliverPlace);
 		        	String sql02 = "SELECT * FROM storage WHERE STORAGR_ID = ?";

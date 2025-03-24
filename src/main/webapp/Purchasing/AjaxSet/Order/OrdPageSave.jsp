@@ -27,12 +27,28 @@
 		JSONArray dataToSend = new JSONArray(jsonString.toString());
 		System.out.println(dataToSend);
 		System.out.println(dataToSend.length());
+		String Iqc = null;
 		for (int i = 1; i < dataToSend.length(); i++) {
 		    JSONArray DataList = dataToSend.getJSONArray(i);
 		    JSONArray HeaderList = dataToSend.getJSONArray(0);
 
 		    String POsql = "INSERT INTO request_ord VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		    PreparedStatement POpstmt = conn.prepareStatement(POsql);
+		    
+		    String IQCsql = "SELECT * FROM matmaster WHERE Material_code = ?";
+		    PreparedStatement IQCpstmt = conn.prepareStatement(IQCsql);
+		    IQCpstmt.setString(1, DataList.getString(2));
+		    ResultSet IQCrs = IQCpstmt.executeQuery();
+		    if(IQCrs.next()){
+		    	int number = IQCrs.getInt("IQC");
+		    	switch(number){
+		    	case 1:
+		    		Iqc = "Y";
+		    		break;
+		    	default:
+		    		Iqc = "N";
+		    	}
+		    }
 
 		    // 데이터 매핑
 		    POpstmt.setString(1, DataList.getString(0));  // 발주번호
@@ -50,7 +66,7 @@
 		    POpstmt.setString(13, DataList.getString(11)); // 납품요청일자
 		    POpstmt.setString(14, DataList.getString(12).substring(0,5)); // 납품창고
 		    POpstmt.setString(15, DataList.getString(12).substring(6,14)); // 납품창고명
-		    POpstmt.setString(16, "Y"); // IQC여부
+		    POpstmt.setString(16, Iqc); // IQC여부
 		    POpstmt.setString(17, "0"); // 납품차수
 		    POpstmt.setString(18, "0"); // 납품총수량
 		    POpstmt.setString(19, DataList.getString(5)); // PO잔량
