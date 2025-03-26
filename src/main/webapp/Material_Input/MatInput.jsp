@@ -138,26 +138,27 @@ $(document).ready(function(){
 			dataType: 'json',
 			success: function(data){
 				$('.OrderBody').empty();
+				console.log(data);
 				for(var i = 0 ; i < data.length ; i++){
 					var row = '<tr>' +
 					'<td>' + (i + 1).toString().padStart(2,'0') + '</td>' + 
 					'<td><button class="AddBtn">추가</button></td>' +
 					'<td>' + data[i].Vendor + '</td>' + 
-					'<td>' + data[i].VendorDes + '</td>' + 
-					'<td>' + data[i].MMPO + '</td>' + 
+					'<td>' + data[i].VenderDesc + '</td>' + 
+					'<td>' + data[i].ActNumPO + '</td>' + 
 					'<td>' + data[i].ItemNo.toString().padStart(4,'0') + '</td>' + 
 					'<td>' + data[i].MatCode + '</td>' + 
-					'<td>' + data[i].MatDes + '</td>' + 
+					'<td>' + data[i].MatDesc + '</td>' + 
 					'<td>' + data[i].MatType + '</td>' + 
-					'<td>' + data[i].Quantity + '</td>' + 
-					'<td>' + data[i].PoUnit + '</td>' + 
-					'<td>' + data[i].Count + '</td>' + 
-					'<td>' + data[i].PO_Rem + '</td>' + 
-					'<td>' + data[i].Money + '</td>' +
-					'<td>' + data[i].Hdate + '</td>' +
-					'<td>' + data[i].Storage + '</td>' +
-					'<td>' + data[i].PlantCode + '</td>' +
-					'<td hidden>' + data[i].KeyValue  + '</td>' +
+					'<td>' + data[i].QtyPO + '</td>' + 
+					'<td>' + data[i].Unit + '</td>' + 
+					'<td>' + data[i].RecSumQty + '</td>' + 
+					'<td>' + data[i].RegidQty + '</td>' + 
+					'<td>' + data[i].TCur + '</td>' +
+					'<td>' + data[i].RequestDate + '</td>' +
+					'<td>' + data[i].StorLoca + '</td>' +
+					'<td>' + data[i].Plant + '</td>' +
+					'<td hidden>' + data[i].ActNumPO  + '</td>' +
 					'</tr>';
             		$('.OrderBody').append(row);
 				}
@@ -177,7 +178,9 @@ $(document).ready(function(){
 		console.log(ChkList);
     	var pass = true;
     	$.each(ChkList,function(key, value){
-    		if(value == null || value === ''){
+    		if(key === 'VendorCode'){
+    			pass = true;
+    		}else if(value == null || value === ''){
     			pass = false;
     			return false;
     		}
@@ -224,19 +227,19 @@ $(document).ready(function(){
 		    row.find('td:eq(10)').text(),
 		    row.find('td:eq(12)').text(),
 		    row.find('td:eq(13)').text(),
+		    row.find('td:eq(2)').text(),
 		]
-		
+		console.log(DataList);
 		$('.PoInfo').each(function(){
 			var Name = $(this).attr('name');
 			PoinfoLst.push(Name);
 		})
-		
 		for(var i = 0 ; i < PoinfoLst.length ; i++){
 			if(i === 9){
 				$('.' + PoinfoLst[i] + '').val(DataList[i-1]);
 			}else if(i === 10){
 				$('.' + PoinfoLst[i] + '').val(DataList[i-1]);
-			}else if(i === 11){
+			}else if(i === 11 || i === 12){
 				$('.' + PoinfoLst[i] + '').val(DataList[i-1]);
 			}else{
 				$('.' + PoinfoLst[i] + '').val(DataList[i]);
@@ -251,17 +254,11 @@ $(document).ready(function(){
 		DataList = [];
 	})
 	$('.SLocCode').change(function(){
-			var storageLoc = $(this).val();
-			$.ajax({
-				type : "POST",
-				url : "${contextPath}/Material_Input/AjaxSet/FindsLoc.jsp",
-				data : {sloccode : storageLoc},
-				dataType: 'text',
-				success: function(data){
-					$('.SLocDes').val(data.trim());
-				}
-			})
-		});
+		var Value = $(this).val();
+		$(this).val(Value.split('(')[0]);
+		$('.SLocDes').val(Value.split('(')[1].replace(')',''))
+		
+	});
 	$('.MadeDate').change(function(){
 		var StartDate = new Date($(this).val());
 		var EndDate = new Date(StartDate);
@@ -279,10 +276,10 @@ $(document).ready(function(){
         });
     	var pass = true;
     	$.each(InputInfoList,function(key, value){
-    		if(value == null || value === ''){
-    			pass = false;
-    			return false;
-    		}
+    		if (value == null || value === '') {
+				pass = false;
+				return false;
+    	    }
     	})
     	if($('.NotInput').val() - InputInfoList.InputCount < 0){
     		alert('입고수량을 다시 입력해주세요.');
@@ -319,7 +316,7 @@ $(document).ready(function(){
 							'<td>' + QuickSavedData.GoodUnit + '</td>' + 
 							'<td>' + QuickSavedData.LotName + '</td>' + 
 							'<td>' + QuickSavedData.MatPlant + '</td>' +
-							'<td>' + QuickSavedData.VendorCode + '</td>' +
+							'<td>' + QuickSavedData.HVendorCode + '</td>' +
 							'<td>' + QuickSavedData.MadeDate + '</td>' +
 							'<td>' + QuickSavedData.Deadline + '</td>' +
 							'<td>' + QuickSavedData.PurOrdNo + '</td>' +
@@ -344,7 +341,7 @@ $(document).ready(function(){
 							'<td>' + QuickSavedData.GoodUnit + '</td>' + 
 							'<td>' + QuickSavedData.LotName + '</td>' + 
 							'<td>' + QuickSavedData.MatPlant + '</td>' +
-							'<td>' + QuickSavedData.VendorCode + '</td>' +
+							'<td>' + QuickSavedData.HVendorCode + '</td>' +
 							'<td>' + QuickSavedData.MadeDate + '</td>' +
 							'<td>' + QuickSavedData.Deadline + '</td>' +
 							'<td>' + QuickSavedData.PurOrdNo + '</td>' +
@@ -472,7 +469,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			
 			<div class="InfoInput">	
 				<label>Vendor : </label>
-				<input type="text" class="VendorCode HeadInfo InputInfo Header" name="VendorCode" onclick="InfoSearch('VendorSearch')" readonly>
+				<input type="text" class="VendorCode HeadInfo Header" name="VendorCode" onclick="InfoSearch('VendorSearch')" readonly>
 				<input type="text" class="VendorDes" name="VendorDes" readonly> 
 			</div>
 			
@@ -568,6 +565,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 					<input type="text" class="NotInput PoInfo" name="NotInput" readonly>
 					
 					<input type="text" class="DealCurrency PoInfo InputInfo" name="DealCurrency" hidden>
+					<input type="text" class="HVendorCode PoInfo InputInfo" name="HVendorCode" hidden>
 				</div>
 				
 				<div class="InfoInput">

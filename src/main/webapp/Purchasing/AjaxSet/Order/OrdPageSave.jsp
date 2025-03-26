@@ -49,8 +49,6 @@
 		    		Iqc = "N";
 		    	}
 		    }
-
-		    // 데이터 매핑
 		    POpstmt.setString(1, DataList.getString(0));  // 발주번호
 		    POpstmt.setString(2, DataList.getString(1));  // PO항번
 		    POpstmt.setString(3, DataList.getString(2));  // Material

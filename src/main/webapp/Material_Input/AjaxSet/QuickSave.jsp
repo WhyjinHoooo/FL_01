@@ -25,7 +25,7 @@
 		QuickPstmt.setString(6, dataToSend.getString("MatCode"));
 		QuickPstmt.setString(7, dataToSend.getString("MatDes"));
 		QuickPstmt.setString(8, dataToSend.getString("MatPlant"));
-		QuickPstmt.setString(9, dataToSend.getString("VendorCode"));
+		QuickPstmt.setString(9, dataToSend.getString("HVendorCode"));
 		QuickPstmt.setString(10, dataToSend.getString("SLocCode"));
 		QuickPstmt.setString(11, dataToSend.getString("Bin"));
 		QuickPstmt.setString(12, dataToSend.getString("InputCount"));

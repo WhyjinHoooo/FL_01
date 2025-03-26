@@ -19,7 +19,7 @@
 			<tbody>
 		<%
 		try{
-		    String sql = "SELECT * FROM matmaster WHERE Type = 'RAWM'";
+		    String sql = "SELECT Material_code, Description, InvUnit, Standard FROM matmaster WHERE Type = 'RAWM' AND Material_code NOT IN (SELECT MatCode FROM purprice);";
 		    PreparedStatement pstmt = null;
 		    ResultSet rs = null;
 		    

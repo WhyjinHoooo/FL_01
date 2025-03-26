@@ -59,7 +59,7 @@
 				<%
 			        } else{
 			        	do{
-			        		Double price = (double) rs.getInt("purprice.PurPrices") / (double) rs.getInt("purprice.PriceBaseQty");
+			        		String price = String.format("%.2f", rs.getDouble("purprice.PurPrices") / rs.getDouble("purprice.PriceBaseQty"));
 			        		String unit = rs.getString("purprice.PurCurr") + "/" + rs.getString("purprice.PurUnit");
 			    %>
 					<tr>

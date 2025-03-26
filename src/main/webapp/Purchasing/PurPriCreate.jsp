@@ -64,6 +64,9 @@ function InfoSearch(field){
     	position = PopupPosition(popupWidth, popupHeight);
     	window.open("${contextPath}/Purchasing/PopUp/FindMoney.jsp", "POPUP05", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
     break;
+    case "New_Vendor":
+    	window.open("${contextPath}/Purchasing/PopUp/FindVendor.jsp?From=NewMat", "POPUP03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
+    break;
 	}
 }
 function checkOnlyOne(element) {
@@ -114,7 +117,13 @@ $(document).ready(function(){
 	$('.NewMaterialPrice').on('input',function(){
 		var Price = $(this).val();
 		var UnitCount = $('.PricePerCount').val();
-		var UnitPrice = (Price/UnitCount).toFixed(2);
+		var Currency = $('.Currency').val();
+		var UnitPrice = 0;
+		if(Currency === 'KRW'){
+			UnitPrice = (Price/UnitCount).toFixed(2);
+		}else{
+			UnitPrice = 'N/A';
+		}
 		$('.NewMaterialUnitPrice').val(UnitPrice);
 	})
 	var SearchList = {};
@@ -128,10 +137,11 @@ $(document).ready(function(){
 		$.each(SearchList,function(key, value){
 			if(key === 'PlantCode' || key === 'MatTypeCode' || key === 'VendorCode'){
 				return true;
-			}
-			if(value == null || value === ''){
-				pass = false;
-				return false;
+			}else{
+				if(value == null || value === ''){
+					pass = false;
+					return false;
+				}
 			}
 		})
 		console.log(SearchList);
@@ -147,9 +157,6 @@ $(document).ready(function(){
 				async: false,
 				success : function(data){
 					if(data.length > 0){
-						console.log(data);
-						console.log(data[0]);
-						console.log(data[0].ApprovPerson);
 						$('.InfoTable-Body').empty();
 						for(var i = 0 ; i < data.length ; i++){
 							var row = '<tr>' +
@@ -184,6 +191,47 @@ $(document).ready(function(){
 	    	})
 		}
 	})
+	var KeyInfoList = {};
+	$('.SaveBtn').click(function(){
+		$('.RegMat').each(function(){
+		    var name = $(this).attr('name');
+		    var value = $(this).val();
+		    if ($(this).is(':checkbox')) {
+		        if ($(this).prop('checked')) {
+		            KeyInfoList[name] = value;
+		        }
+		    } else {
+		        KeyInfoList[name] = value;
+		    }
+		});
+		console.log(KeyInfoList);
+		var pass = true;
+		$.each(KeyInfoList,function(key, value){
+			if (value == null || value === '') {
+    	        pass = false;
+    	        return false;
+    	    }
+		})
+		if(!pass){
+			alert('모든 필수 항목을 모두 입력해주세요.');
+		}else{
+			$.ajax({
+				url : '${contextPath}/Purchasing/AjaxSet/Purchasing/NewMatSave.jsp',
+				type : 'POST',
+				data :  JSON.stringify(KeyInfoList),
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				async: false,
+				success : function(data){
+					console.log(data.status);
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					alert('오류 발생: ' + textStatus + ', ' + errorThrown);
+		    	}
+	    	});
+		}
+	})
+	
 })
 </script>
 </head>
@@ -200,12 +248,12 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			<div class="Pur-Title">구매단가 등록</div>
 			<div class="InfoInput">
 				<label>Company : </label> 
-				<input type="text" class="ComCode Fixed SearOp" name="ComCode" value="<%=userComCode %>" readonly>
+				<input type="text" class="ComCode Fixed SearOp RegMat" name="ComCode" value="<%=userComCode %>" readonly>
 			</div>
 			
 			<div class="InfoInput">
 				<label>Plant :  </label>
-				<input type="text" class="PlantCode SearOp" name="PlantCode" onclick="InfoSearch('Plant')" placeholder="SELECT" readonly>
+				<input type="text" class="PlantCode SearOp RegMat" name="PlantCode" onclick="InfoSearch('Plant')" placeholder="SELECT" readonly>
 			</div>
 			
 			<div class="InfoInput">
@@ -220,12 +268,12 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			
 			<div class="InfoInput">
 				<label>등록일자 :  </label>
-				<input type="text" class="RegistedDate Fixed" name="RegistedDate" readonly>
+				<input type="text" class="RegistedDate Fixed RegMat" name="RegistedDate" readonly>
 			</div>
 			
 			<div class="InfoInput">
 				<label>등록담당자 :  </label>
-				<input type="text" class="RegistedId Fixed" name="RegistedId" value="<%=UserIdNumber %>" onclick="InfoSearch('Manager')" readonly>
+				<input type="text" class="RegistedId Fixed RegMat" name="RegistedId" value="<%=UserIdNumber %>" onclick="InfoSearch('Manager')" readonly>
 			</div>
 			<div class="InfoInput">
 				<label>등록부서 :  </label>
@@ -255,42 +303,44 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			<div class="PriCreate-Area">
 				<div class="InfoInput">
 					<label>Material :  </label>
-					<input type="text" class="NewMaterialCode" name="NewMaterialCode" onclick="InfoSearch('New_Mateiral')" placeholder="SELECT" readonly>
+					<input type="text" class="NewMaterialCode RegMat" name="NewMaterialCode" onclick="InfoSearch('New_Mateiral')" placeholder="SELECT" readonly>
 					<label>Description :  </label>
-					<input type="text" class="NewMaterialCodeDes Fixed" name="NewMaterialCodeDes" readonly>
+					<input type="text" class="NewMaterialCodeDes Fixed RegMat" name="NewMaterialCodeDes" readonly>
 				</div>
 				<div class="InfoInput">
 					<label>가격 기준 수량 :  </label>
-					<input type="number" class="PricePerCount" name="PricePerCount">
+					<input type="number" class="PricePerCount RegMat" name="PricePerCount">
 					<label>재고관리 단위 :  </label>
-					<input type="text" class="NewMaterialInvUnit Fixed" name="NewMaterialInvUnit" readonly>
+					<input type="text" class="NewMaterialInvUnit Fixed RegMat" name="NewMaterialInvUnit" readonly>
+					<label>공급업체 :  </label>
+					<input type="text" class="Entry_VCode RegMat" name="Entry_VCode" onclick="InfoSearch('New_Vendor')" placeholder="SELECT" readonly>
 				</div>
 				<div class="InfoInput">
 					<label>구매 금액 :  </label>
-					<input type="number" class="NewMaterialPrice" name="NewMaterialPrice">
+					<input type="number" class="NewMaterialPrice RegMat" name="NewMaterialPrice">
 					<label>거래 통화 :  </label>
-					<input type="text" class="Currency" name="Currency" onclick="InfoSearch('Money')" placeholder="SELECT" readonly>
+					<input type="text" class="Currency RegMat" name="Currency" onclick="InfoSearch('Money')" placeholder="SELECT" value="KRW" readonly>
 				</div>
 				<div class="InfoInput">
 					<label>포장 단위 :  </label>
-					<input type="text" class="NewMaterialWrapUnit Fixed" name="NewMaterialWrapUnit" readonly>
+					<input type="text" class="NewMaterialWrapUnit Fixed RegMat" name="NewMaterialWrapUnit" readonly>
 					<label>단위당 단가 :  </label>
-					<input type="text" class="NewMaterialUnitPrice Fixed" name="NewMaterialUnitPrice" readonly>
+					<input type="text" class="NewMaterialUnitPrice Fixed RegMat" name="NewMaterialUnitPrice" readonly>
 				</div>
 				<div class="InfoInput">
 					<label>적용 시작일자 :  </label>
-					<input type="date" class="NewMaterialFDate" name="NewMaterialFDate">
+					<input type="date" class="NewMaterialFDate RegMat" name="NewMaterialFDate">
 					<label>적용만료일자 :  </label>
-					<input type="date" class="NewMaterialEDate" name="NewMaterialEDate">
+					<input type="date" class="NewMaterialEDate RegMat" name="NewMaterialEDate">
 				</div>
 				<div class="InfoInput">
 					<label>사용 여부 :  </label>
 					<span>사용</span>
-					<input type="radio" class="UseYN" name="UseYN" value="Yes" onclick="checkOnlyOne(this)" checked>
+					<input type="radio" class="UseYN RegMat" name="UseYN" value="Yes" onclick="checkOnlyOne(this)" checked>
 					<span>미사용</span>
-					<input type="radio" class="UseYN" name="UseYN" value="No" onclick="checkOnlyOne(this)">
+					<input type="radio" class="UseYN RegMat" name="UseYN" value="No" onclick="checkOnlyOne(this)">
 					<label>거래조건 :  </label>
-					<select class="DealCondition"  name="DealCondition">
+					<select class="DealCondition RegMat"  name="DealCondition">
 						<option value="FOB">FOB</option> 
 						<option value="CIF">CIF</option> 
 						<option value="EXW">EXW</option> 

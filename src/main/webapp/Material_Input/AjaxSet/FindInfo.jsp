@@ -9,63 +9,57 @@
 try{
 	String PlantCode = request.getParameter("plant");
 	String VendorCode = request.getParameter("vendor");
-	
-	String Complete = "yet";
-	String Check = "A";
 	PreparedStatement Head_pstmt = null;
 	ResultSet Head_rs = null;
-	
-	String Head_sql = "SELECT * FROM poheader WHERE PlantCode = ? AND VenCode = ? AND Complete = ?";
-	Head_pstmt = conn.prepareStatement(Head_sql);
-	
-	Head_pstmt.setString(1, PlantCode);
-	Head_pstmt.setString(2, VendorCode);
-	Head_pstmt.setString(3, Complete);
+	String Head_sql = null;;
+	if(VendorCode == null || VendorCode.isEmpty()){
+		System.out.println("1");
+		Head_sql = "SELECT * FROM request_ord WHERE Plant = ? AND NOT RegidQty IN (0)";
+		Head_pstmt = conn.prepareStatement(Head_sql);
+		Head_pstmt.setString(1, PlantCode);
+	}else{
+		System.out.println("2");
+		Head_sql = "SELECT * FROM request_ord WHERE Plant = ? AND Vendor = ? AND NOT RegidQty IN (0)";
+		Head_pstmt = conn.prepareStatement(Head_sql);
+		Head_pstmt.setString(1, PlantCode);
+		Head_pstmt.setString(2, VendorCode);
+	}
 	
 	Head_rs = Head_pstmt.executeQuery();
 	JSONArray jsonArray = new JSONArray();
-	int InputedQuantity = 0;
-	while(Head_rs.next()){
-		PreparedStatement pstmt2 = null;
-		String sql2 = "SELECT * FROM pochild WHERE MMPO = ? AND DeadLine = ?";
-
-        pstmt2 = conn.prepareStatement(sql2);
-        pstmt2.setString(1, Head_rs.getString("Mmpo"));
-        pstmt2.setString(2, Check);
-
-        ResultSet rs2 = pstmt2.executeQuery();
-        
-        while(rs2.next()) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("KeyValue", rs2.getString("keyValue")); // PO번호
-            jsonObject.put("MMPO", rs2.getString("MMPO")); // PO번호
-            jsonObject.put("ItemNo", rs2.getInt("ItemNo")); // ITEM 번호
-            jsonObject.put("MatCode", rs2.getString("MatCode")); // material Num
-            jsonObject.put("MatDes", rs2.getString("MatDes")); // material Des
-            jsonObject.put("MatType", rs2.getString("MatType")); // Material Type
-            jsonObject.put("Quantity", rs2.getInt("Quantity")); // 발주 수량
-            jsonObject.put("PoUnit", rs2.getString("PoUnit")); // 구매단위
-            
-            String SemiChkSql = "SELECT *FROM input_temtable WHERE PurOrdNo = ? AND MatCode = ?";
-            PreparedStatement SemiPstmt = conn.prepareStatement(SemiChkSql);
-            SemiPstmt.setString(1, rs2.getString("MMPO"));
-            SemiPstmt.setString(2, rs2.getString("MatCode"));
-            ResultSet SemiRs = SemiPstmt.executeQuery();
-            while(SemiRs.next()){
-            	InputedQuantity += SemiRs.getInt("Count");
-            }
-            jsonObject.put("Count", rs2.getInt("Count") + InputedQuantity);//입고 수량 없음
-            jsonObject.put("PO_Rem", rs2.getInt("PO_Rem") - InputedQuantity); // 미입고 수량
-            
-            jsonObject.put("Money", rs2.getString("Money")); // 거래통화
-            jsonObject.put("Hdate", rs2.getString("Hdate")); // 입고예정일자
-            jsonObject.put("Storage", rs2.getString("Storage")); // 입고 창고
-            jsonObject.put("PlantCode", rs2.getString("PlantCode")); // Plant코드
-            jsonObject.put("Vendor", Head_rs.getString("VenCode")); // Plant코드
-            jsonObject.put("VendorDes", Head_rs.getString("VenDes")); // Plant코드
-            jsonArray.add(jsonObject);
-        }
-    }
+	while(Head_rs.next()) {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("Vendor", Head_rs.getString("Vendor"));
+		jsonObject.put("VenderDesc", Head_rs.getString("VenderDesc"));
+		jsonObject.put("ActNumPO", Head_rs.getString("ActNumPO"));
+		jsonObject.put("ItemNo", Head_rs.getString("ItemNo"));
+		jsonObject.put("MatCode", Head_rs.getString("MatCode"));
+		jsonObject.put("MatDesc", Head_rs.getString("MatDesc"));
+		jsonObject.put("MatType", Head_rs.getString("MatType"));
+		jsonObject.put("QtyPO", Head_rs.getString("QtyPO"));
+		jsonObject.put("Unit", Head_rs.getString("Unit"));
+		
+		String ChkSql = "SELECT * FROM input_temtable WHERE PurOrdNo = ?";
+		PreparedStatement ChkPstmt = conn.prepareStatement(ChkSql);
+		ChkPstmt.setString(1, Head_rs.getString("ActNumPO"));
+		ResultSet ChkRs = ChkPstmt.executeQuery();
+		if(ChkRs.next()){
+		    do {
+		        int count = ChkRs.getInt("Count");
+		        jsonObject.put("RecSumQty", Head_rs.getInt("RecSumQty") + count);
+		        jsonObject.put("RegidQty", Head_rs.getInt("RegidQty") - count);
+		    } while(ChkRs.next());
+		} else {
+		    jsonObject.put("RecSumQty", Head_rs.getInt("RecSumQty"));
+		    jsonObject.put("RegidQty", Head_rs.getInt("RegidQty"));
+		}
+		
+		jsonObject.put("TCur", Head_rs.getString("TCur"));
+		jsonObject.put("RequestDate", Head_rs.getString("RequestDate"));
+		jsonObject.put("StorLoca", Head_rs.getString("StorLoca") + "(" + Head_rs.getString("StorLocaDesc") +")");
+		jsonObject.put("Plant", Head_rs.getString("Plant"));
+		jsonArray.add(jsonObject);
+	}
     response.setContentType("application/json");
     response.setCharacterEncoding("UTF-8");
     response.getWriter().write(jsonArray.toString());

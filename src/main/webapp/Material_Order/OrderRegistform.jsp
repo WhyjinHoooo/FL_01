@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <%@ include file="../mydbcon.jsp" %>
 <link rel="stylesheet" href="../css/style.css?after">
-<title>자재발주</title>
+<title>긴급자재발주</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <script>
@@ -276,7 +276,6 @@ $(document).ready(function(){
 				if(response.trim() === 'Success'){
 					row.remove();
 					rowCount = $('.InfoTable-Body tr').length;
-					console.log('rowCount : ' + rowCount);
 					$('.OIN').val((rowCount + 1).toString().padStart(4,'0'));
 					if(rowCount === 0){
 						for (let i = 0; i < 20; i++) {
@@ -286,9 +285,9 @@ $(document).ready(function(){
 					        }
 					        $('.InfoTable-Body').append(row);
 					    }
+						Plus = 0;
 					}else{
 						$('.InfoTable-Body tr').each(function(index, tr){
-							console.log('Index : ' + index);
 							var Element = $(this);
 							var ElementKeyValue = Element.find('td:eq(16)').text()
 							$.ajax({
@@ -308,6 +307,7 @@ $(document).ready(function(){
 							});
 						})
 					}
+					
 				}
 			},
 			error: function(xhr, textStatus, errorThrown) {

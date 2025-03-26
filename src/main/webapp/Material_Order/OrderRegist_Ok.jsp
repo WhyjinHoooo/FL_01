@@ -40,9 +40,6 @@
 	if(Count_Rs.next()){
 		ItemCount = Count_Rs.getInt("MmpoCount");
 	};
-	
-// 	String Head_Sql = "INSERT INTO poheader VALUES(?,?,?,?,?,?,?,?,?,?,?)";
-// 	PreparedStatement Head_Pstmt = conn.prepareStatement(Head_Sql);
 
 	String Delete_Sql = "DELETE FROM ordertable WHERE Mmpo = ?";
 	PreparedStatement Delete_Pstmt = conn.prepareStatement(Delete_Sql);
@@ -50,19 +47,6 @@
 
 	String POsql = "INSERT INTO request_ord VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	PreparedStatement POpstmt = conn.prepareStatement(POsql);
-	
-// 	Head_Pstmt.setString(1,mmpo);
-// 	Head_Pstmt.setString(2,orderType);
-// 	Head_Pstmt.setString(3,plantCode);
-// 	Head_Pstmt.setString(4,plantDes);
-// 	Head_Pstmt.setString(5,vendorCode);
-// 	Head_Pstmt.setString(6,vendorDes);
-// 	Head_Pstmt.setString(7,yet);
-// 	Head_Pstmt.setInt(8,ItemCount);
-// 	Head_Pstmt.setString(9,date);
-// 	Head_Pstmt.setString(10,id);
-// 	Head_Pstmt.setString(11,yet);
-// 	Head_Pstmt.executeUpdate();
 	
 	String Info_Sql = "SELECT * FROM ordertable WHERE Mmpo = ?";
 	PreparedStatement Info_Pstmt = conn.prepareStatement(Info_Sql);
@@ -80,8 +64,8 @@
 		POpstmt.setString(8, Info_Rs.getString("OriPrice"));
 		POpstmt.setString(9, Info_Rs.getString("Price"));
 		POpstmt.setString(10, Info_Rs.getString("money"));
-		POpstmt.setString(11, Info_Rs.getString("vendorCode"));
-		POpstmt.setString(12, Info_Rs.getString("vendorDes"));
+		POpstmt.setString(11, vendorCode);
+		POpstmt.setString(12, vendorDes);
 		POpstmt.setString(13, Info_Rs.getString("Hope"));
 		POpstmt.setString(14, Info_Rs.getString("Warehouse"));
 		
