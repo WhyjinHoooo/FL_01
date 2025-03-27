@@ -1049,4 +1049,219 @@
 	font-size: 10px;
 	font-weight: bold;
     }
+    /* ----------------------- */
+    
+    .Price-Header {
+    border: 1px solid black;
+    width: 25%;
+	}
+	.Price-Body {
+    margin-left: 2%;
+    width: 73%;
+	}
+	.Price-Header > .InfoInput {
+	display: flex;
+	flex-direction: row;
+	margin: 20px 0px 0px 50px;
+	width: 100%;
+    }
+    .Price-Header > .InfoInput label{
+   	font-weight: 900;
+    display: inline-block;
+	width: 10em;
+	text-align: right;
+	letter-spacing: 0.1em;
+    }
+    .Price-Header > div > input::placeholder{
+    text-align: center;
+	}
+    .Price-Header > button {
+	width: 24%;
+	height: 5%;
+	text-align: center;
+	background-color: #002060;
+	color: white;
+	border: 1px solid #1F4E79;
+	margin: 25% 0px 0px 35%;
+	border-radius: 10px;
+	font-size: 25px;
+	}
+	.Price-Header > button:hover {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.Price-Header > button:active {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.Price-Body >.Info-Area{
+	border: 1px solid black;
+	height: 45%;
+	}
+	.Price-Body >.Info-Area > table.InfoTable{
+	border-collapse: collapse;
+	width: 100%;
+	height: 92.1%;
+	table-layout: fixed;
+	overflow: scroll;
+    }
+    .Price-Body >.Info-Area > table.InfoTable thead{
+    display: table;
+    width: 100%;
+    }
+   	.Price-Body >.Info-Area > table.InfoTable tbody{
+	table-layout: fixed;
+	display: block;
+	width: 100.3%;
+	height: 115%;
+	max-height: 93.9%;
+	overflow-y: auto;
+    }
+	.Price-Body >.Info-Area > table.InfoTable tbody td{
+	padding: 8px 5.5px;
+	border: 1px solid #ddd;
+	width: 131px;
+	height: 10px;
+	text-align: center;
+	font-size: 10px;
+	font-weight: bold;
+    }
+    .Price-Body >.Info-Area > table.InfoTable thead > tr > th{
+	background-color: rgb(111, 167, 235);
+	position: sticky;
+	top: 0;
+	color: white;
+	text-align: center;
+	z-index: 10;
+	padding: 8px;
+	border: 1px solid white;
+	width: 120px;
+	font-size: 11px;
+    }
+    .Price-Body >.Info-Area > table.InfoTable tbody::-webkit-scrollbar {
+    width: 5px;
+  	}
+  	.Price-Body >.Info-Area > table.InfoTable tbody::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+  	}
+  	.Price-Body >.Info-Area > table.InfoTable tbody::-webkit-scrollbar-track {
+    background-color: white;
+    border-radius: 1px;
+    box-shadow: inset 0px 0px 5px white;
+  	}
+  	.Price-Body > .Btn-Area{
+	height: 5%;
+	margin: 1% 0% 1% 0%;
+	display: flex;
+    justify-content: flex-end;
+  	}
+	.Price-Body > .Category {
+	width: 10%;
+	background: #FFF2CC;
+	padding: 10px 0px 10px 12px;
+	text-align: center;
+	border-radius: 10px 10px 0px 0px;
+	font-weight: bold;
+ 	letter-spacing: 1em;
+    }
+  	.Price-Body > .PriCreate-Area {
+    border: 1px solid black;
+    width: 100%;
+    height: 46%;
+	}
+	.Price-Body > .PriCreate-Area > .InfoInput label{
+   	font-weight: 900;
+    display: inline-block;
+	width: 11em;
+	text-align: right;
+	letter-spacing: 0.1em;
+    }
+    .Price-Body > .PriCreate-Area > .InfoInput {
+	display: flex;
+	flex-direction: row;
+	margin: 1.5% 0px 0px 7%;
+    }
+    .Price-Body > .PriCreate-Area > .InfoInput:nth-child(2) > input:nth-child(4),
+    .Price-Body > .PriCreate-Area > .InfoInput:nth-child(3) > input:nth-child(4) {
+	width: 50%;
+    }
+    .Price-Body > .PriCreate-Area > .InfoInput > span{
+    font-weight: bold;
+    }
+    .Price-Body > .PriCreate-Area > .InfoInput:nth-child(4) > span:nth-child(2),
+    .Price-Body > .PriCreate-Area > .InfoInput:nth-child(6) > span:nth-child(2){
+    margin-left: 14px;
+    }
+    .Price-Body > .PriCreate-Area > .InfoInput:nth-child(4) > input:nth-child(3),
+    .Price-Body > .PriCreate-Area > .InfoInput:nth-child(4) > input:nth-child(5),
+    .Price-Body > .PriCreate-Area > .InfoInput:nth-child(6) > input:nth-child(3),
+    .Price-Body > .PriCreate-Area > .InfoInput:nth-child(6) > input:nth-child(5){
+    width: 3%;
+    }
+    .Price-Body > .PriCreate-Area > .InfoInput:nth-child(4) > label:nth-child(6),
+    .Price-Body > .PriCreate-Area > .InfoInput:nth-child(6) > label:nth-child(6){
+	width: 10.6em;
+    }
+    .Price-Body > .PriCreate-Area > .InfoInput:nth-child(2) > input,
+    .Price-Body > .PriCreate-Area > .InfoInput:nth-child(3) > input,
+    .Price-Body > .PriCreate-Area > .InfoInput:nth-child(6) > input:nth-child(7){
+	background: #F2F2F2;
+	border: 1px solid;
+    }
+	.Price-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(1) {width: 113px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(2) {width: 121px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(3) {width: 103px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(4) {width: 104px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(5) {width: 101px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(6) {width: 103px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(7) {width: 104px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(8) {width: 103px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(9) {width: 102px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(10) {width: 103px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(11) {width: 102px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(12) {width: 103px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(13) {width: 104px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(14) {width: 102px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(15) {width: 103px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(16) {width: 101px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(17) {width: 103px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:empty:nth-child(18) {width: 101px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td{
+	padding: 8px 5.5px;
+	border: 1px solid #ddd;
+	height: 10px;
+	text-align: center;
+	font-size: 10px;
+	font-weight: bold;
+    }
+    .Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(1) {width: 101px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) {width: 108px;font-size: 7.4px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(3) {width: 89px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(4) {width: 90px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(5) {width: 91px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(6) {width: 90px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(7) {width: 91px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(8) {width: 91px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(9) {width: 90px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(10) {width: 90px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(11) {width: 92px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(12) {width: 90px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(13) {width: 90px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(14) {width: 91px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(15) {width: 91px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(16) {width: 90px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(17) {width: 90px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(18) {width: 90px;}
+	.Price-Body >.Info-Area > table.InfoTable tbody td:not(:empty){
+	padding: 8px 5px;
+	border: 1px solid #ddd;
+	height: 10px;
+	text-align: center;
+	font-size: 10px;
+	font-weight: bold;
+    }
+    
 }
