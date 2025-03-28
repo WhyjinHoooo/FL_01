@@ -223,7 +223,9 @@ $(document).ready(function(){
 				dataType: 'json',
 				async: false,
 				success : function(data){
-					console.log(data.status);
+					if(data.status === 'Success'){
+						location.reload();
+					}
 				},
 				error: function(jqXHR, textStatus, errorThrown){
 					alert('오류 발생: ' + textStatus + ', ' + errorThrown);
@@ -314,6 +316,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 					<input type="text" class="NewMaterialInvUnit Fixed RegMat" name="NewMaterialInvUnit" readonly>
 					<label>공급업체 :  </label>
 					<input type="text" class="Entry_VCode RegMat" name="Entry_VCode" onclick="InfoSearch('New_Vendor')" placeholder="SELECT" readonly>
+					<input type="text" class="IQC RegMat" name="IQC" hidden>
 				</div>
 				<div class="InfoInput">
 					<label>구매 금액 :  </label>

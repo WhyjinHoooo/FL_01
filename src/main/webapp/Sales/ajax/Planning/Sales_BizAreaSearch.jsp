@@ -1,10 +1,10 @@
 <%@page import="java.sql.SQLException"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../../mydbcon.jsp" %>
+<%@ include file="../../../mydbcon.jsp" %>
 
 <%
-	String S_Word = request.getParameter("Id"); // 사용자의 아이디
+	String S_Word = request.getParameter("Id"); 
 	String UserRight = null;
 	String UserCoCt = null;
 	String UserBizArea = null;

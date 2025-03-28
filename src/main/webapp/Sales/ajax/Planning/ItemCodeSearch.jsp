@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="org.json.*" %>
-<%@ include file="../../mydbcon.jsp" %>
+<%@ include file="../../../mydbcon.jsp" %>
 <%
     JSONArray jsonArray = new JSONArray();
 
@@ -10,7 +10,8 @@
     	String TradeCoCd = request.getParameter("DealCom");
     	String PlanVer = request.getParameter("PlanVer");
     	System.out.println(TradeCoCd);
-        String sql = "SELECT * FROM sales_trandingproduct WHERE TradingPartner = ? AND PlanVer = ?"; // SQL 쿼리
+    	System.out.println(PlanVer);
+        String sql = "SELECT * FROM sales_trandingproduct WHERE TradingPartner = ? AND PlanVer = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setString(1, TradeCoCd);
         pstmt.setString(2, PlanVer);

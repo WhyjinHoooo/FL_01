@@ -76,8 +76,27 @@ function checkOnlyOne(element) {
     });
     element.checked = true;
 }
+function DateSetting(Manager){
+	var CurrentDate = new Date();
+	var today = CurrentDate.getFullYear() + '-' + ('0' + (CurrentDate.getMonth() + 1)).slice(-2) + '-' + ('0' + CurrentDate.getDate()).slice(-2);
+	$('.RegistedDate').val(today);
+	
+	$.ajax({
+		url:'${contextPath}/Purchasing/AjaxSet/Purchasing/ForPlant.jsp',
+		type:'POST',
+		data:{id : Manager},
+		dataType: 'text',
+		success: function(data){
+			var dataList = data.trim().split(',');
+			$('.PlantCode').val(dataList[0]+'('+dataList[1]+')');
+			console.log(dataList[0]+'('+dataList[1]+')');
+			$('.RegistedCoct').val(dataList[2]+'('+dataList[3]+')');
+		}
+	})
+}
 $(document).ready(function(){
-
+	var USerId = $('.RegistedId').val();
+	DateSetting(USerId);
 })
 </script>
 </head>

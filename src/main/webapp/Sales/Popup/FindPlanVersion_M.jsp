@@ -25,7 +25,6 @@
 			   	String CoCd = request.getParameter("ComCode");
 			   	String Year = request.getParameter("Year").substring(2);
 			   	String CombiWord = "MP"+ Year;
-			   	System.out.println(CombiWord);
 			    String sql = "SELECT * FROM sales_planversion WHERE LEFT(PlanVer, 4) IN (?) AND ComCode = ? AND XO = ?";
 			    PreparedStatement pstmt = null;
 			    ResultSet rs = null;

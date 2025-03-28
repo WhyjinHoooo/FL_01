@@ -50,6 +50,30 @@
 		InsertPstmt.setString(20, dataToSend.getString("NewMaterialCode") + dataToSend.getString("Entry_VCode").split("\\(")[0] + dataToSend.getString("DealCondition") + dataToSend.getString("NewMaterialFDate") + dataToSend.getString("PlantCode").split("\\(")[0]);
 		InsertPstmt.executeUpdate();
 
+		String MatBasicSql = "INSERT INTO purchase_basicdata VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		PreparedStatement MatBasicPstmt = conn.prepareStatement(MatBasicSql);
+		MatBasicPstmt.setString(1, dataToSend.getString("NewMaterialCode"));
+		MatBasicPstmt.setString(2, dataToSend.getString("NewMaterialCodeDes"));
+		MatBasicPstmt.setString(3, dataToSend.getString("Entry_VCode").split("\\(")[0]);
+		MatBasicPstmt.setString(4, dataToSend.getString("Entry_VCode").split("\\(")[1].replace(")",""));
+		MatBasicPstmt.setString(5, dataToSend.getString("IQC"));
+		MatBasicPstmt.setString(6, null);
+		MatBasicPstmt.setString(7, dataToSend.getString("NewMaterialWrapUnit"));
+		MatBasicPstmt.setString(8, dataToSend.getString("PricePerCount"));
+		MatBasicPstmt.setString(9, dataToSend.getString("NewMaterialInvUnit"));
+		MatBasicPstmt.setString(10, null);
+		MatBasicPstmt.setString(11, dataToSend.getString("NewMaterialCode"));
+		MatBasicPstmt.setString(12, null);
+		MatBasicPstmt.setString(13, null);
+		MatBasicPstmt.setString(14, null);
+		MatBasicPstmt.setString(15, null);
+		MatBasicPstmt.setString(16, dataToSend.getString("PlantCode").split("\\(")[0]);
+		MatBasicPstmt.setString(17, dataToSend.getString("ComCode"));
+		MatBasicPstmt.setString(18, dataToSend.getString("RegistedDate"));
+		MatBasicPstmt.setString(19, dataToSend.getString("RegistedId"));
+		MatBasicPstmt.setString(20, dataToSend.getString("NewMaterialCode") + dataToSend.getString("Entry_VCode").split("\\(")[0]);
+		MatBasicPstmt.executeUpdate();
+		
 		JSONObject Result = new JSONObject();
 		Result.put("status", "Success");
 	    response.setContentType("application/json");

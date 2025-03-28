@@ -8,7 +8,7 @@
 <%@page import="java.sql.SQLException"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../../mydbcon.jsp" %>
+<%@ include file="../../../mydbcon.jsp" %>
 
 <%
 	StringBuilder jsonString = new StringBuilder();
@@ -18,8 +18,8 @@
 	String UserId = (String)session.getAttribute("id");
 	Double SalePrice = 0.0; //판매단가
 	int CounUnit = 0; // 수량 입력 단위
-	int month = 0;
-	String Formattedmonth = null;
+	int day = 0;
+	String FormattedDay = null;
 	Double FXRate = 0.0;
 	String LocCur = null;
 	LocalDateTime today = LocalDateTime.now();
@@ -36,27 +36,14 @@
     }
 	
 	JSONObject saveListData = new JSONObject(jsonString.toString());
-    
-	System.out.println(saveListData);
-	System.out.println(saveListData.length());
-	System.out.println(saveListData.keySet());
 	try{
 		String PlanVersion = null;
 	for(String key : saveListData.keySet()){
-		System.out.println("key : " + key);
 		JSONArray rowData = saveListData.getJSONArray(key);
-		System.out.println("rowData : " + rowData);
-		System.out.println("rowData 길이 : " + rowData.length());
 		PlanVersion = rowData.getString(1);
-		//System.out.println("rowData(0) : " + rowData.getString(0));
 		
 		String ProductInfo = rowData.getString(0);
 		String[] ProductInfoList = ProductInfo.split(",");
-		//System.out.println("ProductInfoList : " + ProductInfoList[3]);
-		for(String info : ProductInfoList){
-			System.out.println("info : " + info);
-			
-		}
 		
 		String SaveSql = "INSERT INTO sales_sddata ("
 			    + "PlanVer, PlanYear, PlanMonth, TradingPartner, MatCode, MatDesc, "
@@ -80,40 +67,38 @@
 			CounUnit = Integer.parseInt(rowData.getString(3)); // 수량 입력 단위
 			
 			for(int i = 8 ; i < rowData.length() ; i++){
-				if(!rowData.getString(i).equals("") || rowData.getString(i) != null){
-					month = i - 7;
-					if(month < 10){
-						Formattedmonth = String.format("%02d", month);
+				if(rowData.getString(i) != null && !rowData.getString(i).trim().isEmpty()){
+					day = i - 7;
+					if(day < 10){
+						FormattedDay = String.format("%02d", day);
 					} else{
-						Formattedmonth = Integer.toString(month);
+						FormattedDay = Integer.toString(day);
 					}					
 					String Info_Sql02 = "SELECT * " +
 						    "FROM project.sales_planexrate " +
 						    "WHERE PlanVer = ? " +
 						    "  AND TranCurr = ? " +
 						    "  AND LEFT(PlanVer, 2) IN (?) " +
-						    "  AND RIGHT(YearMonth, 2) IN (?) " +
+						    "  AND YearMonth = ? " +
 						    "ORDER BY TranCurr DESC, YearMonth ASC";
 					PreparedStatement Info_Pstmt02 = conn.prepareStatement(Info_Sql02);
 					Info_Pstmt02.setString(1, rowData.getString(1));
 					Info_Pstmt02.setString(2, ProductInfoList[3]);
 					Info_Pstmt02.setString(3, rowData.getString(1).substring(0,2));
-					Info_Pstmt02.setString(4, Formattedmonth);
+					Info_Pstmt02.setString(4, rowData.getString(4).replace("월",""));
 					ResultSet Info_Rs02 = Info_Pstmt02.executeQuery();
 					if(Info_Rs02.next()){
 						FXRate = Double.parseDouble(Info_Rs02.getString("ExRate")); // 환율
 						LocCur = Info_Rs02.getString("LocalCurr"); // 장부 통화
 						
 						Sava_Pstmt.setString(1, rowData.getString(1)); // 계획버전
-						Sava_Pstmt.setString(2, rowData.getString(4)); // 계획년도
-						Sava_Pstmt.setString(3, Formattedmonth); // 계획월
+						Sava_Pstmt.setString(2, rowData.getString(4).substring(0,5)); // 계획년도
+						Sava_Pstmt.setString(3, rowData.getString(4).substring(5,7)); // 계획월
 						Sava_Pstmt.setString(4, rowData.getString(2)); // 거래처
 						Sava_Pstmt.setString(5, ProductInfoList[0]); // 품번
 						Sava_Pstmt.setString(6, ProductInfoList[1]); // 품명 
 						
-						YearMonth yearMonth = YearMonth.of(Integer.parseInt(rowData.getString(4)), Integer.parseInt(Formattedmonth));
-						LocalDate LastDate = yearMonth.atEndOfMonth();
-						String ArriveDate = LastDate.toString();
+						String ArriveDate = rowData.getString(4).replace('.','-').replace('월','-')+"-" + FormattedDay;
 						
 						Sava_Pstmt.setString(7, ArriveDate); // 회망도착일자
 						
@@ -130,9 +115,9 @@
 						Sava_Pstmt.setString(17, rowData.getString(6)); // 회사
 						Sava_Pstmt.setString(18, UserId); // 입력자
 						Sava_Pstmt.setString(19, todayDate); // 입력일자
-						Sava_Pstmt.setString(20, "EMPTY"); // 최종수정자
-						Sava_Pstmt.setString(21, "0000-00-00"); // 최종수정일자
-						Sava_Pstmt.setString(22, rowData.getString(1)+rowData.getString(4)+Formattedmonth+rowData.getString(2)+ProductInfoList[0]+DateSplit+rowData.getString(5)+rowData.getString(6)); // Key값
+						Sava_Pstmt.setString(20, null); // 최종수정자
+						Sava_Pstmt.setString(21, null); // 최종수정일자
+						Sava_Pstmt.setString(22, rowData.getString(1)+rowData.getString(4).substring(0,5)+rowData.getString(4).substring(5,7)+rowData.getString(2)+ProductInfoList[0]+ArriveDate.replace("-","")+rowData.getString(5)+rowData.getString(6)); // Key값
 						Sava_Pstmt.executeUpdate();
 					}
 				}

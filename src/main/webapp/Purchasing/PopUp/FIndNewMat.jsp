@@ -19,7 +19,7 @@
 			<tbody>
 		<%
 		try{
-		    String sql = "SELECT Material_code, Description, InvUnit, Standard FROM matmaster WHERE Type = 'RAWM' AND Material_code NOT IN (SELECT MatCode FROM purprice);";
+		    String sql = "SELECT Material_code, Description, InvUnit, Standard, IQC FROM matmaster WHERE Type = 'RAWM' AND Material_code NOT IN (SELECT MatCode FROM purprice)";
 		    PreparedStatement pstmt = null;
 		    ResultSet rs = null;
 		    
@@ -35,11 +35,13 @@
 		        		var NMCoDes='<%=rs.getString("Description")%>';
 		        		var NMInvUnit='<%=rs.getString("InvUnit")%>';
 		        		var Standard='<%=rs.getString("Standard")%>';
+		        		var IQC='<%=rs.getString("IQC")%>';
 		        		var NWPackUnit=Standard.split('/')[1];
 		        		window.opener.document.querySelector('.NewMaterialCode').value=NMCode;
 		        		window.opener.document.querySelector('.NewMaterialCodeDes').value=NMCoDes;
 		        		window.opener.document.querySelector('.NewMaterialInvUnit').value=NMInvUnit;
 		        		window.opener.document.querySelector('.NewMaterialWrapUnit').value=NWPackUnit;
+		        		window.opener.document.querySelector('.IQC').value=IQC;
 		        		window.opener.document.querySelector('.NewMaterialCode').dispatchEvent(new Event('change'));
 		        		window.close();
 		        	">

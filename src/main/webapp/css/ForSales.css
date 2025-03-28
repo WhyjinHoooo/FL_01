@@ -201,7 +201,8 @@
   	}
 	/* ---------------- */
   	.SalesSubArea_Month {
-        margin: 1.4% 0.4%;
+        margin: 1.4% 1%;
+        width: 98%;
     }
 	.SalesPlanTable_Month {
 	    border-collapse: collapse;
@@ -210,7 +211,6 @@
 	    border: 1px solid rgb(111,167,235);
 	}
 	.SalesPlanTable_Head_Month {
-	    /* display: table; 테이블 형식으로 표시 */
 	    display: block; /* 테이블 형식으로 표시 */
 	    width: 100%;
 	    position: sticky; /* 스크롤 시 고정되도록 설정 */
@@ -232,7 +232,7 @@
 	}
 	.SalesPlanTable_Body_Month {
 	    display: block; /* 블록 요소로 설정하여 스크롤 가능하게 함 */
-	    width: 100%;
+	    width: 100.3%;
 	    height: 765px;
 	    max-height: 100%;
 	    overflow-y: auto; /* 세로 스크롤 가능 */
@@ -248,7 +248,7 @@
 	.SalesPlanTable_Body_Month > tr > td {
 	    padding: 8px;
 	    border: 1px solid #ddd;
-	    width: 125.1px; /* 수정한 부분: th와 동일한 너비로 설정 */
+	    width: 125px; /* 수정한 부분: th와 동일한 너비로 설정 */
 	    height: 10px;
 	    font-weight: bold;
 	}
