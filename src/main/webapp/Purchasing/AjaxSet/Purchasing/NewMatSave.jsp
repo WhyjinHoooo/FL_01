@@ -62,7 +62,7 @@
 		MatBasicPstmt.setString(8, dataToSend.getString("PricePerCount"));
 		MatBasicPstmt.setString(9, dataToSend.getString("NewMaterialInvUnit"));
 		MatBasicPstmt.setString(10, null);
-		MatBasicPstmt.setString(11, dataToSend.getString("NewMaterialCode"));
+		MatBasicPstmt.setString(11, dataToSend.getString("DealCondition"));
 		MatBasicPstmt.setString(12, null);
 		MatBasicPstmt.setString(13, null);
 		MatBasicPstmt.setString(14, null);

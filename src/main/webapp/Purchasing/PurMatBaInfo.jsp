@@ -94,9 +94,85 @@ function DateSetting(Manager){
 		}
 	})
 }
+function InitialTable(){
+	$('.InfoTable-Body').empty();
+	for (let i = 0; i < 20; i++) {
+		const row = $('<tr></tr>');
+		for (let j = 0; j < 19; j++) {
+			row.append('<td></td>');
+		}
+	$('.InfoTable-Body').append(row);
+	}
+}
 $(document).ready(function(){
 	var USerId = $('.RegistedId').val();
 	DateSetting(USerId);
+	InitialTable();
+	var SearchList = {};
+	$('.SearBtn').click(function(){
+		$('.SearOp').each(function(){
+            var name = $(this).attr("name");
+            var value = $(this).val().trim();
+            SearchList[name] = value;
+        });
+		var pass = true;
+		$.each(SearchList,function(key, value){
+			if(key === 'MatTypeCode' || key === 'VendorCode'){
+				return true;
+			}else{
+				if(value == null || value === ''){
+					pass = false;
+					return false;
+				}
+			}
+		})
+		if(!pass){
+			alert('모든 항목을 입력해주세요.');
+		}else{
+			$.ajax({
+				url : '${contextPath}/Purchasing/AjaxSet/Purchasing/LoadMat.jsp',
+				type : 'POST',
+				data :  JSON.stringify(SearchList),
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				async: false,
+				success : function(data){
+					if(data.length > 0){
+						$('.InfoTable-Body').empty();
+						for(var i = 0 ; i < data.length ; i++){
+							var row = '<tr>' +
+							'<td><button>클릭</button</td>' + 
+							'<td>' + data[i].MatNum + '</td>' + 
+							'<td>' + data[i].MatDesc + '</td>' + 
+							'<td>' + data[i].Vendor + '</td>' + 
+							'<td>' + data[i].VendorDesc + '</td>' + 
+							'<td>' + data[i].IQCYN + '</td>' + 
+							'<td>' + data[i].PurchPerson + '</td>' + 
+							'<td>' + data[i].PackingUInit + '</td>' + 
+							'<td>' + data[i].QtyPerPacking + '</td>' + 
+							'<td>' + data[i].Qtyunit + '</td>' + 
+							'<td>' + data[i].VenBarCode + '</td>' + 
+							'<td>' + data[i].IncoTerms + '</td>' +
+							'<td>' + data[i].PayTerms + '</td>' +
+							'<td>' + data[i].Ltinbound + '</td>' +
+							'<td>' + data[i].PeriUnit + '</td>' +
+							'<td>' + data[i].Plant + '</td>' +
+							'<td>' + data[i].ComCode + '</td>' +
+							'<td>' + data[i].RegistDate + '</td>' +
+							'<td>' + data[i].Registperson + '</td>' +
+							'</tr>';
+							$('.InfoTable-Body').append(row);
+						}
+					}else{
+						alert('해당 조건의 데이터가 존재하지 않습니다.');
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					alert('오류 발생: ' + textStatus + ', ' + errorThrown);
+		    	}
+	    	})
+		}
+	})
 })
 </script>
 </head>
@@ -113,22 +189,22 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			<div class="Pur-Title">검색 항목</div>
 			<div class="InfoInput">
 				<label>Company : </label> 
-				<input type="text" class="ComCode" name="ComCode" value="<%=userComCode %>" readonly>
+				<input type="text" class="ComCode SearOp" name="ComCode" value="<%=userComCode %>" readonly>
 			</div>
 			
 			<div class="InfoInput">
 				<label>Plant :  </label>
-				<input type="text" class="PlantCode" name="PlantCode" onclick="InfoSearch('Plant')" placeholder="SELECT" readonly>
+				<input type="text" class="PlantCode SearOp" name="PlantCode" onclick="InfoSearch('Plant')" placeholder="SELECT" readonly>
 			</div>
 			
 			<div class="InfoInput">
 				<label>Material Type:  </label>
-				<input type="text" class="MatTypeCode" name="MatTypeCode" onclick="InfoSearch('Mateiral')" placeholder="SELECT" readonly>
+				<input type="text" class="MatTypeCode SearOp" name="MatTypeCode" onclick="InfoSearch('Mateiral')" placeholder="SELECT" readonly>
 			</div>
 			
 			<div class="InfoInput">
 				<label>Vendor :  </label>
-				<input type="text" class="VendorCode" name="VendorCode" onclick="InfoSearch('Vendor')" placeholder="SELECT" readonly>
+				<input type="text" class="VendorCode SearOp" name="VendorCode" onclick="InfoSearch('Vendor')" placeholder="SELECT" readonly>
 			</div>
 			
 			<div class="InfoInput">
@@ -168,15 +244,15 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 				<div class="Pur-Title">자재 구매 기초 정보 등록/수정</div>
 				<div class="InfoInput">
 					<label>자재코드 :  </label>
-					<input type="text" class="" name="" readonly>
+					<input type="text" class="FixedMatCode" name="FixedMatCode" readonly>
 					<label>자재코드명 :  </label>
-					<input type="text" class="" name="" readonly>
+					<input type="text" class="FixedMatCodeDes" name=""FixedMatCodeDes"" readonly>
 				</div>
 				<div class="InfoInput">
 					<label>공급업체 :  </label>
-					<input type="text" class="" name="" readonly>
+					<input type="text" class="FixedVendor" name="FixedVendor" readonly>
 					<label>공급업체명 :  </label>
-					<input type="text" class="" name="" readonly>
+					<input type="text" class="FixedVendorDes" name="FixedVendorDes" readonly>
 				</div>
 				<div class="InfoInput">
 					<label>수입검사 여부 :  </label>
@@ -185,14 +261,14 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 					<span>무검사</span>
 					<input type="radio" class="CheckYN" name="CheckYN" value="N" onclick="checkOnlyOne(this)">
 					<label>구매담당자 :  </label>
-					<select class=""  name="">
+					<select class="EditBuyer"  name="EditBuyer">
 					</select>
 				</div>
 				<div class="InfoInput">
 					<label>포장단위 수량 :  </label>
-					<input type="text" class="" name="">
+					<input type="number" class="EditPackQuantity" name="EditPackQuantity">
 					<label>포장 단위 :  </label>
-					<input type="text" class="" name="" readonly>
+					<input type="text" class="EditPackUnit" name="EditPackUnit" readonly>
 				</div>
 				<div class="InfoInput">
 					<label>Vendor 바코드 :  </label>
@@ -201,23 +277,23 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 					<span>미사용</span>
 					<input type="radio" class="UseYN" name="UseYN" value="N" onclick="checkOnlyOne(this)">
 					<label>수량 단위 :  </label>
-					<input type="text" class="" name="" readonly>
+					<input type="text" class="EditQuantityUnit" name="EditQuantityUnit" readonly>
 				</div>
 				<div class="InfoInput">
 					<label>거래 조건 :  </label>
-					<input type="number" class="" name="">
+					<input type="text" class="EditDealCondi" name="EditDealCondi" readonly>
 					<label>대금 지급 조건 :  </label>
-					<input type="text" class="" name="" readonly>
+					<input type="text" class="EditPriTerm" name="EditPriTerm" readonly>
 				</div>
 				<div class="InfoInput">
 					<label>조달 기간 :  </label>
-					<input type="text" class="" name="" readonly>
+					<input type="text" class="EditPeriod" name="EditPeriod" readonly>
 					<label>기간 단위 :  </label>
-					<input type="text" class="" name="" readonly>
+					<input type="text" class="EditPeriodUnit" name="EditPeriodUnit" readonly>
 				</div>
 				<div class="InfoInput">
 					<label>Vendor  PartNum :  </label>
-					<input type="date" class="" name="">
+					<input type="text" class="VenPartNum" name="VenPartNum">
 				</div>
 				
 			</div>
