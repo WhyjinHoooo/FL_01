@@ -1,0 +1,55 @@
+@charset "UTF-8";
+@media only screen and (min-width: 1537px) {
+	.Hall {
+    display: flex;
+    flex-direction: row;
+    height: 85vh;
+    width: 100%;
+    margin-top: 1%;
+	}
+	.MainHall {
+    border: 1px solid black;
+    width: 25%;
+ }
+	.SubHall {
+    border: 1px solid black;
+    margin-left: 2%;
+    width: 100%;
+	}
+	.Title {
+	background: #260FB1;
+	color: white;
+	text-align: center;
+	font-size: x-large;
+	padding: 5px;
+	letter-spacing: 1.5em;
+    }
+    .MainHall > .Category > button {
+	width: 30%;
+	background: #FFF2CC;
+	color: #00BFFF;
+	margin: 3px 0px 0px 10px;
+	padding: 5px;
+	font-weight: bolder;
+	border: 0px;
+	border-radius: 5px;
+    }
+	.MainHall > .MainHallArray > .Main-Colume {
+	display: flex;
+	flex-direction: row;
+	margin: 20px 0px 0px 25px;
+	width: 100%;
+	} 
+	.MainHall > .MainHallArray > .Main-Colume label {
+	font-weight: 900;
+	display: inline-block;
+	width: 14em;
+	text-align: right;
+	letter-spacing: 0.1em;
+	}   
+    .MainHall > .MainHallArray > .Main-Colume input {
+        margin-left: 10px;
+        width: 200px;
+        text-align: center;
+    }
+}
