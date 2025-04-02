@@ -25,9 +25,9 @@
 	letter-spacing: 1.5em;
     }
     .MainHall > .Category > button {
-	width: 30%;
-	background: #FFF2CC;
-	color: #00BFFF;
+	width: 21.5%;
+	background: #F28C28;
+	color: #FFFFFF;
 	margin: 3px 0px 0px 10px;
 	padding: 5px;
 	font-weight: bolder;
@@ -48,8 +48,116 @@
 	letter-spacing: 0.1em;
 	}   
     .MainHall > .MainHallArray > .Main-Colume input {
-        margin-left: 10px;
-        width: 200px;
-        text-align: center;
+	margin-left: 10px;
+	width: 200px;
+	text-align: center;
     }
+    .MainHall > .BtnArea > button {
+	width: 24%;
+	height: 5%;
+	text-align: center;
+	background-color: #002060;
+	color: white;
+	border: 1px solid #1F4E79;
+	margin: 25% 0px 0px 35%;
+	border-radius: 10px;
+	font-size: 25px;
+	}
+	.MainHall > .BtnArea > button:hover {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.MainHall > .BtnArea > button:active {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.MainHallArray {
+    height: 40%;
+	}
+	.MainHallArray > div:nth-child(1) > input{
+	background: #F2F2F2 !important; 
+	}
+	.Hall >.SubHall > table.InfoTable{
+	border-collapse: collapse;
+	width: 100%;
+	height: 92.1%;
+	table-layout: fixed;
+	overflow: scroll;
+    }
+    .Hall >.SubHall > table.InfoTable thead{
+    display: table;
+    width: 100%;
+    }
+   	.Hall >.SubHall > table.InfoTable tbody{
+	table-layout: fixed;
+	display: block;
+	width: 100.3%;
+	height: 116%;
+	max-height: 101.8%;
+	overflow-y: auto;
+	}
+	.Hall >.SubHall > table.InfoTable tbody td{
+	padding: 8px 5.5px;
+	border: 1px solid #ddd;
+	width: 131px;
+	height: 10px;
+	text-align: center;
+	font-size: 10px;
+	font-weight: bold;
+    }
+	
+    .Hall > .SubHall > table.InfoTable thead > tr > th:not(:nth-last-child(-n+5)){
+	background-color: rgb(111, 167, 235);
+	position: sticky;
+	top: 0;
+	color: white;
+	text-align: center;
+	z-index: 10;
+	padding: 8px;
+	border: 1px solid white;
+	width: 80px;
+	font-size: 11px;
+    }
+    .Hall > .SubHall > table.InfoTable thead > tr > th:nth-last-child(-n+5){
+	background-color: rgb(111, 167, 235);
+	position: sticky;
+	top: 0;
+	color: white;
+	text-align: center;
+	z-index: 10;
+	padding: 0px;
+	border: 1px solid white;
+	width: 120px;
+	font-size: 11px;
+    }
+    .Hall >.SubHall > table.InfoTable thead > tr > th > div:nth-child(1){
+	text-align: center;
+	border: 1px solid;
+	padding: 8px;
+    }
+    .Hall >.SubHall > table.InfoTable thead > tr > th > div:nth-child(2){
+	display: flex; 
+	justify-content: center;
+    }
+    .Hall >.SubHall > table.InfoTable thead > tr > th > div:nth-child(2) > span{
+	flex: 1;
+    text-align: center;
+    border: 1px solid white;
+    box-sizing: border-box;
+    padding: 5px;
+    }
+    .Hall >.SubHall > table.InfoTable tbody::-webkit-scrollbar {
+    width: 5px;
+  	}
+  	.Hall >.SubHall > table.InfoTable tbody::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+  	}
+  	.Hall >.SubHall > table.InfoTable tbody::-webkit-scrollbar-track {
+    background-color: white;
+    border-radius: 1px;
+    box-shadow: inset 0px 0px 5px white;
+  	}
 }
