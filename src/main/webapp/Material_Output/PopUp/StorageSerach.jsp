@@ -11,59 +11,63 @@
 <body>
 <h1>검색</h1>
 <hr>
-	<center>
-		<div class="Total_board">
-			<table class="TotalTable">
-				<thead>
-				    <tr>
-				        <th>창고코드</th><th>창고설명</th>
-				    </tr>
-				</thead>
-				<tbody>
-			<%
-			try{
-			    String ComCode = request.getParameter("comcode");
-			    PreparedStatement pstmt = null;
-			    ResultSet rs = null;
-			    String sql = "SELECT * FROM storage WHERE COMCODE = ?";
-			    pstmt = conn.prepareStatement(sql);
-			    pstmt.setString(1, ComCode);
-			    rs = pstmt.executeQuery();
-			if(!rs.next()){
-			%>
-		        <tr>
-		            <td colspan="2">
-		            	<a href="javascript:void(0)" onClick="window.close();">
-		            	Company Code에 해당하는 값이 없습니다.
-		            	</a>
-		            </td>
-		        </tr>			
-			<% 
-			}else{
-				do{  
-			%>
-			<tr>
-			    <td>
-			    	<a href="javascript:void(0)" onClick=
-			    	"var StorageCode = '<%=rs.getString("STORAGR_ID")%>';
-			    	 var StorageName = '<%=rs.getString("STORAGR_NAME")%>';
-			    	 window.opener.document.querySelector('.StorageCode').value=StorageCode;
-			    	 window.opener.document.querySelector('.StorageDes').value=StorageName;
-			    	 window.opener.document.querySelector('.StorageCode').dispatchEvent(new Event('change'));
-			    	 window.close();"><%=rs.getString("STORAGR_ID") %></a>
-				</td>
-				<td><%=rs.getString("STORAGR_NAME") %></td>
-			</tr>
-			<%  
-					}while(rs.next());
-				}
-			}catch(SQLException e){
-			        e.printStackTrace();
+	<div class="Total_board ForMatOut">
+		<table class="TotalTable">
+			<thead>
+			    <tr>
+			        <th>창고코드</th><th>자재</th><th>자재이름</th><th>수량</th>
+			    </tr>
+			</thead>
+			<tbody>
+		<%
+		try{
+		    String ComCode = request.getParameter("OutCode").split(",")[0];
+		    String YYMMdate = request.getParameter("OutCode").split(",")[3].substring(0, 7);
+		    String PlantCode = request.getParameter("OutCode").split(",")[1];
+		    PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+		    String sql = "SELECT * FROM totalmaterial_child WHERE YYMM = ? AND Com_Code = ? AND Plant = ?";
+		    pstmt = conn.prepareStatement(sql);
+		    pstmt.setString(1, YYMMdate);
+		    pstmt.setString(2, ComCode);
+		    pstmt.setString(3, PlantCode);
+		    rs = pstmt.executeQuery();
+		if(!rs.next()){
+		%>
+	        <tr>
+	            <td colspan="4">
+	            	<a href="javascript:void(0)" onClick="window.close();">
+	            	해당 기업과 공장에 만족하는 창고가 없습니다.
+	            	</a>
+	            </td>
+	        </tr>			
+		<% 
+		}else{
+			do{  
+		%>
+		<tr>
+		    <td>
+		    	<a href="javascript:void(0)" onClick=
+		    	"var StorageCode = '<%=rs.getString("StorLoc")%>';
+		    	 window.opener.document.querySelector('.StorageCode').value=StorageCode;
+		    	 window.opener.document.querySelector('.StorageCode').dispatchEvent(new Event('change'));
+		    	 window.close();">
+		    	 <%=rs.getString("StorLoc") %>
+		    	 </a>
+			</td>
+			<td><%=rs.getString("Material") %></td>
+			<td><%=rs.getString("MaterialDes") %></td>
+			<td><%=rs.getString("Purchase_In") %></td>
+		</tr>
+		<%  
+				}while(rs.next());
 			}
-			%>
-				</tbody>
-			</table>	
-		</div>	
-	</center>
+		}catch(SQLException e){
+		        e.printStackTrace();
+		}
+		%>
+			</tbody>
+		</table>	
+	</div>
 </body>
 </html>

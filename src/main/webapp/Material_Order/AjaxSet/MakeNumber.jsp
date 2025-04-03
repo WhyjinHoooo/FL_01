@@ -7,30 +7,27 @@
 
 <%
 try{
-	String Type = request.getParameter("type"); // PURO
-	String Today = request.getParameter("date"); // 오늘 날짜 예:2024-03-21
-	String Date = request.getParameter("date").replace("-", ""); // 20240421
-	System.out.println("Type : " + Type + " Date : " + Date);
+	String Type = request.getParameter("Type");
+	String Today = request.getParameter("Date"); 
+	String Date = request.getParameter("Date").replace("-", ""); 
+	System.out.println("1. Type : " + Type + ", Date : " + Date);
 	String first = Type + Date + "S00001";
-	
+	System.out.println("1. first : " + first);
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
-	//String sql = "SELECT * FROM poheader WHERE SUBSTRING(Mmpo, 1, 4) = ? AND OrderDate = ? ORDER BY Mmpo DESC";
-	String sql = "SELECT * FROM poheader WHERE Mmpo = ? ORDER BY Mmpo DESC";
+	String sql = "SELECT * FROM request_ord WHERE ActNumPO = ? ORDER BY ActNumPO DESC";
 	pstmt = conn.prepareStatement(sql);
 	
 	boolean OrdNumChk = false;
 	while(!OrdNumChk){
-// 		pstmt.setString(1, Type);
-// 		pstmt.setString(2, Today);
 		pstmt.setString(1, first);		
 
 		rs = pstmt.executeQuery();
 		if(!rs.next()){
 			OrdNumChk = true;
 		}else{
-			String recentData = rs.getString("Mmpo");
+			String recentData = rs.getString("ActNumPO");
 			String numberPart = recentData.substring(13, 18);
 			int incrementedValue = Integer.parseInt(numberPart) + 1;
 			first = first.substring(0, 13) + String.format("%05d", incrementedValue);

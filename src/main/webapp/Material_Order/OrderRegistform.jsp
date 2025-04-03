@@ -112,13 +112,13 @@ $(document).ready(function(){
 		})
 	}
 	function CallORD() {
-		var type=$('.ordType').val();
+		var type = $('.ordType').val();
 		var date = $('.date').val();
 		console.log(type + ',' + date);
 		$.ajax({
-			type: "POST",
-			url: "${contextPath}/Material_Order/AjaxSet/MakeNumber.jsp",
-			data: { type: type, date: date },
+			type: 'POST',
+			url: '${contextPath}/Material_Order/AjaxSet/MakeNumber.jsp',
+			data: { Type: type, Date: date },
 			success: function(response) {
 				console.log(response.trim);
 	   			$('input[name="OrderNum"]').val($.trim(response));
@@ -186,7 +186,8 @@ $(document).ready(function(){
     		}
     	})
     	if(!pass){
-    		alert('모든 항목을 입력해주세요.');
+    		alert('1. 모든 항목을 입력해주세요.');
+    		return false;
     	}else{
     		$.ajax({
                 url: '${contextPath}/Material_Order/AjaxSet/Quicksave.jsp',
@@ -346,7 +347,7 @@ $(document).ready(function(){
     		}
     	})
     	if(!pass){
-    		alert('모든 항목을 입력해주세요.');
+    		alert('2. 모든 항목을 입력해주세요.');
     	}else{
     		$.ajax({
                 url: '${contextPath}/Material_Order/OrderRegist_Ok.jsp',

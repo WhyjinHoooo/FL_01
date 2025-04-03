@@ -79,6 +79,9 @@
 	    table-layout: fixed;
 	    border-collapse: collapse;
 	}
+	.ForMatOut{
+	width: 100%;
+	}
 	.MatOrderBoard{
 		border: 1px solid rgb(111, 167, 235);
 	    max-height: 80vh;

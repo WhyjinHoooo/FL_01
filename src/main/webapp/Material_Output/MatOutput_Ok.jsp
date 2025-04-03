@@ -127,11 +127,11 @@
 					
 					PreparedStatement OTH_Up_Pstmt = conn.prepareStatement(OTH_Up_Sql);
 					OTH_Up_Pstmt.setInt(1, Material_Out);
-					OTH_Up_Pstmt.setDouble(2, Material_Amt);
+					OTH_Up_Pstmt.setString(2, null);
 					OTH_Up_Pstmt.setInt(3, Transfer_InOut);
-					OTH_Up_Pstmt.setDouble(4, Transfer_Amt);
+					OTH_Up_Pstmt.setString(4, null);
 					OTH_Up_Pstmt.setInt(5, Inventory_Qty);
-					OTH_Up_Pstmt.setDouble(6, Inventory_Amt);
+					OTH_Up_Pstmt.setString(6, null);
 					OTH_Up_Pstmt.setDouble(7, Inventory_Amt / Inventory_Qty);
 					OTH_Up_Pstmt.setString(8, dataToSend.getString("Out_date").substring(0,7));
 					OTH_Up_Pstmt.setString(9, dataToSend.getString("ComCode"));
@@ -155,6 +155,41 @@
 					break;
 				}
 			}
+		}else{
+			String OTC_Scan_Sql = "SELECT * FROM totalmaterial_child WHERE YYMM = ? AND Com_Code = ? AND Material = ? AND Plant = ? AND StorLoc = ?";
+			String B_MatCode = InfoRs.getString("MatCode"); // B : Before
+			String B_StCode = InfoRs.getString("StorageCode");
+			String B_PlaCode = InfoRs.getString("PlantCode");
+			String B_Out_date = InfoRs.getString("Out_date").substring(0, 7);
+			String B_ComCode = InfoRs.getString("ComCode");
+			String A_StCode = InfoRs.getString("InputStorage"); // A : After
+			
+			Pricepstmt.setString(1, InfoRs.getString("MatCode"));
+			PriceRs = Pricepstmt.executeQuery();
+			if(PriceRs.next()){
+				UnitPrice = PriceRs.getDouble("PurPrices") ;
+			}
+			PreparedStatement OTC_Scan_Pstmt = conn.prepareStatement(OTC_Scan_Sql);
+			OTC_Scan_Pstmt.setString(1, B_Out_date);
+			OTC_Scan_Pstmt.setString(2, B_ComCode);
+			OTC_Scan_Pstmt.setString(3, B_MatCode);
+			OTC_Scan_Pstmt.setString(4, B_PlaCode);
+			OTC_Scan_Pstmt.setString(5, B_StCode);
+			ResultSet OTC_Scan_Rs = OTC_Scan_Pstmt.executeQuery();
+			if(OTC_Scan_Rs.next()){
+				int B_Purchase_In = OTC_Scan_Rs.getInt("Purchase_In");
+				double B_Purchase_Amt = OTC_Scan_Rs.getInt("Purchase_Amt");
+				
+				int B_Material_Out = OTC_Scan_Rs.getInt("Material_Out");
+				double B_Material_Amt = OTC_Scan_Rs.getInt("Material_Amt");
+
+				int B_Transfer_InOut = OTC_Scan_Rs.getInt("Transfer_InOut");
+				double B_Transfer_Amt = OTC_Scan_Rs.getInt("Transfer_InOut");
+				
+				B_Transfer_InOut -= InfoRs.getInt("OutCount");
+				B_Transfer_Amt -= InfoRs.getInt("OutCount") * UnitPrice;
+			}
+			
 		}
 	}
 	

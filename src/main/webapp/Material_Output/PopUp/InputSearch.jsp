@@ -16,19 +16,24 @@
 		<table class="TotalTable">
 			<thead>
 			    <tr>
-			        <th>창고코드</th><th>창고설명</th>
+			        <th>창고코드</th>
 			    </tr>
 			</thead>
 			<tbody>
 			<%
 			    try{
-			    String outStorage = request.getParameter("outStorage");
-			    String sql = "SELECT * FROM storage WHERE STORAGR_ID != ?";
+			    String outCode = request.getParameter("OutCode");
+			    System.out.println(outCode);
+			    String sql = "SELECT * FROM totalmaterial_child WHERE YYMM = ? AND Com_Code = ? AND Material = ? AND Plant = ? AND StorLoc != ?";
 			    PreparedStatement pstmt = null;
 			    ResultSet rs = null;
 			    
 			    pstmt = conn.prepareStatement(sql);
-			    pstmt.setString(1, outStorage);
+			    pstmt.setString(1, outCode.split(",")[3].substring(0, 7));
+			    pstmt.setString(2, outCode.split(",")[0]);
+			    pstmt.setString(3, outCode.split(",")[2]);
+			    pstmt.setString(4, outCode.split(",")[1]);
+			    pstmt.setString(5, outCode.split(",")[4]);
 			    rs = pstmt.executeQuery();
 			    
 			    while(rs.next()){
@@ -37,14 +42,13 @@
 			<tr>			    
 				<td>
 					<a href="javascript:void(0)" onClick="
-					var StorId = '<%=rs.getString("STORAGR_ID")%>';
+					var StorId = '<%=rs.getString("StorLoc")%>';
 					window.opener.document.querySelector('.InputStorage').value=StorId;
 					window.opener.document.querySelector('.InputStorage').dispatchEvent(new Event('change'));
 					window.close();">
-					<%=rs.getString("STORAGR_ID") %>
+					<%=rs.getString("StorLoc") %>
 					</a>
 				</td>
-			    <td><%=rs.getString("STORAGR_NAME") %></td>
 			</tr>
 
 			<%  

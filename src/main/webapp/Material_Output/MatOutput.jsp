@@ -24,11 +24,7 @@ window.addEventListener('unload', (event) => {
 	}
     navigator.sendBeacon('../DeleteOrder', JSON.stringify(data));
 });
-function InfoSearch(field){
-    event.preventDefault();
-    var popupWidth = 500;
-    var popupHeight = 600;
-    
+function PopupPosition(popupWidth, popupHeight) {
     var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
     var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
     
@@ -36,61 +32,71 @@ function InfoSearch(field){
     var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
     var xPos, yPos;
     
+    if (width == 2560 && height == 1440) {
+        xPos = (2560 / 2) - (popupWidth / 2);
+        yPos = (1440 / 2) - (popupHeight / 2);
+    } else if (width == 1920 && height == 1080) {
+        xPos = (1920 / 2) - (popupWidth / 2);
+        yPos = (1080 / 2) - (popupHeight / 2);
+    } else {
+        var monitorWidth = 2560;
+        var monitorHeight = 1440;
+        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+    }
+    
+    return { x: xPos, y: yPos };
+}
+function InfoSearch(field){
+    event.preventDefault();
+    var popupWidth = 500;
+    var popupHeight = 600;
+    
     var ComCode = $('.ComCode').val();
     var plantcode = $('.PlantCode').val();
     var storagecode = $('.StorageCode').val();
     var MatCode = $('.MatCode').val();
+    var DateCode = $('.Out_date').val();
+    var OutTotalCode = ComCode + ',' + plantcode + ',' + MatCode + ',' + DateCode + ',' + storagecode;
     
-    function CalcPosition() {
-        if (width == 2560 && height == 1440) {
-            xPos = (2560 / 2) - (popupWidth / 2);
-            yPos = (1440 / 2) - (popupHeight / 2);
-        } else if (width == 1920 && height == 1080) {
-            xPos = (1920 / 2) - (popupWidth / 2);
-            yPos = (1080 / 2) - (popupHeight / 2);
-        } else {
-            var monitorWidth = 2560;
-            var monitorHeight = 1440;
-            xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
-            yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
-        }
-    }
-    
-    CalcPosition();
+    var position = PopupPosition(popupWidth, popupHeight);
     
     switch(field){
     case "ComSearch":
-        window.open("${contextPath}/Information/CompanySerach.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+        window.open("${contextPath}/Information/CompanySerach.jsp", "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
         break;
     case "PlantSearch":
-        window.open("${contextPath}/Information/PlantSerach.jsp?ComCode=" + ComCode, "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+        window.open("${contextPath}/Information/PlantSerach.jsp?ComCode=" + ComCode, "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
     break;
     case "StorageSearch":
-        window.open("${contextPath}/Material_Output/PopUp/StorageSerach.jsp?comcode=" + ComCode, "POPUP03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+    	popupWidth = 900;
+        popupHeight = 750;
+    	position = PopupPosition(popupWidth, popupHeight);
+        window.open("${contextPath}/Material_Output/PopUp/StorageSerach.jsp?OutCode=" + OutTotalCode, "POPUP03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
     break;
     case "MovSearch":
         popupWidth = 1050;
         popupHeight = 750;
-        CalcPosition();
-        window.open("${contextPath}/Material_Output/PopUp/MovSerach.jsp", "POPUP04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+        position = PopupPosition(popupWidth, popupHeight);
+        window.open("${contextPath}/Material_Output/PopUp/MovSerach.jsp", "POPUP04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
     break;
     case "MatSearch":
         popupWidth = 850;
         popupHeight = 500;
-        CalcPosition();
-        window.open("${contextPath}/Material_Output/PopUp/MatSearch.jsp?plantcode=" + plantcode + "&storagecode=" + storagecode, "POPUP05", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+        position = PopupPosition(popupWidth, popupHeight);
+        window.open("${contextPath}/Material_Output/PopUp/MatSearch.jsp?plantcode=" + plantcode + "&storagecode=" + storagecode, "POPUP05", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
     break;
     case "LotSearch":
         popupWidth = 950;
         popupHeight = 500;
-        CalcPosition();
-        window.open("${contextPath}/Material_Output/PopUp/LotSearch.jsp?MCode=" + MatCode + "&SCode=" + storagecode + "&PCode=" + plantcode, "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+        position = PopupPosition(popupWidth, popupHeight);
+        window.open("${contextPath}/Material_Output/PopUp/LotSearch.jsp?MCode=" + MatCode + "&SCode=" + storagecode + "&PCode=" + plantcode, "POPUP06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
     break;
     case "DepartSearch":
-        window.open("${contextPath}/Material_Output/PopUp/DepartSearch.jsp", "POPUP07", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+        window.open("${contextPath}/Material_Output/PopUp/DepartSearch.jsp", "POPUP07", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
     break;
     case "InputSearch":
-        window.open("${contextPath}/Material_Output/PopUp/InputSearch.jsp?outStorage=" + storagecode, "POPUP08", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + xPos + ",top=" + yPos);
+        window.open("${contextPath}/Material_Output/PopUp/InputSearch.jsp?OutCode=" + OutTotalCode + "&", "POPUP08", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
     break;
     }
 }
@@ -198,6 +204,17 @@ $(document).ready(function(){
            		$('input[name="Doc_Num"]').val($.trim(response));
            		$('input[name="GINo"]').val("0001").change();
                 // 여기에 성공한 경우 수행할 작업을 추가합니다.
+            }
+        })
+    });
+    $('.StorageCode').change(function() {
+        var Code = $(this).val();
+        $.ajax({
+            type : "POST",
+            url : "${contextPath}/Material_Output/AjaxSet/ForStoDes.jsp",
+            data : {SLoCode : Code},
+            success : function(response){
+            	$('.StorageDes').val($.trim(response));
             }
         })
     });
