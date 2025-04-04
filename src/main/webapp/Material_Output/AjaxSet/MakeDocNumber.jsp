@@ -28,9 +28,9 @@ try{
 			DupCheck = true;
 		} else{
 			String recentData = rs.getString("MatDocNum");
-			String numberPart = recentData.substring(15);
+			String numberPart = 	recentData.substring(15);
 			int incrementedValue = Integer.parseInt(numberPart) + 1;
-			first = first.substring(0, 13) + String.format("%05d", incrementedValue);
+			first = first.substring(0, 13) + String.format("%04d", incrementedValue);
 		}
 	}
 	System.out.println(first.trim());

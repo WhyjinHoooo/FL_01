@@ -136,7 +136,7 @@
 			Pricepstmt.setString(1, MatCode);
 			PriceRs = Pricepstmt.executeQuery();
 			if(PriceRs.next()){
-				UnitPrice = PriceRs.getInt("PurPrices") / Double.parseDouble(PriceRs.getString("PriceBaseQty")) ;
+				UnitPrice = PriceRs.getDouble("PricePerUnit");
 			}
 			OTH_Insert_Pstmt.setString(9, Scan_Rs.getString("Count"));
 			OTH_Insert_Pstmt.setDouble(10, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")));
@@ -146,8 +146,8 @@
 			OTH_Insert_Pstmt.setString(14, "0");
 			OTH_Insert_Pstmt.setString(15, Scan_Rs.getString("Count"));
 			OTH_Insert_Pstmt.setDouble(16, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")));
-			OTH_Insert_Pstmt.setDouble(17, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")) % Integer.parseInt(Scan_Rs.getString("Count")));
-			OTH_Insert_Pstmt.setDouble(18, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")) % Integer.parseInt(Scan_Rs.getString("Count")));
+			OTH_Insert_Pstmt.setDouble(17, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")) / Integer.parseInt(Scan_Rs.getString("Count")));
+			OTH_Insert_Pstmt.setDouble(18, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")) / Integer.parseInt(Scan_Rs.getString("Count")));
 			OTH_Insert_Pstmt.executeUpdate();
 			
 			String OTC_Insert_Sql = "INSERT INTO totalmaterial_child VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -168,8 +168,8 @@
 			OTC_Insert_Pstmt.setString(14, "0");
 			OTC_Insert_Pstmt.setString(15, Scan_Rs.getString("Count"));
 			OTC_Insert_Pstmt.setDouble(16, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")));
-			OTC_Insert_Pstmt.setDouble(17, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")) % Integer.parseInt(Scan_Rs.getString("Count")));
-			OTC_Insert_Pstmt.setDouble(18, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")) % Integer.parseInt(Scan_Rs.getString("Count")));
+			OTC_Insert_Pstmt.setDouble(17, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")) / Integer.parseInt(Scan_Rs.getString("Count")));
+			OTC_Insert_Pstmt.setDouble(18, UnitPrice * Integer.parseInt(Scan_Rs.getString("Count")) / Integer.parseInt(Scan_Rs.getString("Count")));
 			OTC_Insert_Pstmt.executeUpdate();
 		}else{
 			String OTC_Scan_Sql = "SELECT * FROM totalmaterial_child WHERE YYMM = ? AND Com_Code = ? AND Material = ? AND Plant = ? AND StorLoc = ?";
@@ -231,11 +231,11 @@
 				OTH_Up_Pstmt.setInt(1, Purchase_In);
 				OTH_Up_Pstmt.setDouble(2, Purchase_Amt);
 				OTH_Up_Pstmt.setInt(3, Material_Out);
-				OTH_Up_Pstmt.setDouble(4, Material_Amt);
+				OTH_Up_Pstmt.setString(4, null);
 				OTH_Up_Pstmt.setInt(5, Transfer_InOut);
-				OTH_Up_Pstmt.setDouble(6, Transfer_Amt);
+				OTH_Up_Pstmt.setString(6, null);
 				OTH_Up_Pstmt.setInt(7, Inventory_Qty);
-				OTH_Up_Pstmt.setDouble(8, Inventory_Amt);
+				OTH_Up_Pstmt.setString(8, null);
 				OTH_Up_Pstmt.setDouble(9, Purchase_Amt / Purchase_In);
 				OTH_Up_Pstmt.setString(10, DateCode);
 				OTH_Up_Pstmt.setString(11, ComCode);
@@ -246,11 +246,11 @@
 				OTC_Up_Pstmt.setInt(1, Purchase_In);
 				OTC_Up_Pstmt.setDouble(2, Purchase_Amt);
 				OTC_Up_Pstmt.setInt(3, Material_Out);
-				OTC_Up_Pstmt.setDouble(4, Material_Amt);
+				OTC_Up_Pstmt.setString(4, null);
 				OTC_Up_Pstmt.setInt(5, Transfer_InOut);
-				OTC_Up_Pstmt.setDouble(6, Transfer_Amt);
+				OTC_Up_Pstmt.setString(6, null);
 				OTC_Up_Pstmt.setInt(7, Inventory_Qty);
-				OTC_Up_Pstmt.setDouble(8, Inventory_Amt);
+				OTC_Up_Pstmt.setString(8, null);
 				OTC_Up_Pstmt.setDouble(9, Purchase_Amt / Purchase_In);
 				OTC_Up_Pstmt.setString(10, DateCode);
 				OTC_Up_Pstmt.setString(11, ComCode);
@@ -294,21 +294,13 @@
 				double Purchase_Amt = OTH_Scan_Rs.getDouble("Purchase_Amt");
 				
 				int Material_Out = OTH_Scan_Rs.getInt("Material_Out");
-				double Material_Amt = OTH_Scan_Rs.getDouble("Material_Amt");
 				
 				int Transfer_InOut = OTH_Scan_Rs.getInt("Transfer_InOut");
-				double Transfer_Amt = OTH_Scan_Rs.getDouble("Transfer_Amt");
 				
 				int Inventory_Qty = OTH_Scan_Rs.getInt("Inventory_Qty");
-				double Inventory_Amt = OTH_Scan_Rs.getDouble("Inventory_Amt"); 
 				
 				Purchase_In += Scan_Rs.getInt("Count");
 				Purchase_Amt += Scan_Rs.getInt("Count") * UnitPrice;
-
-				Inventory_Qty += Purchase_In - (Material_Out + Transfer_InOut);
-				Inventory_Amt += Purchase_Amt - (Material_Amt + Transfer_Amt);
-				
-				double Inventory_UnitPrice = (Initial_Amt + Purchase_Amt) / (Initial_Qty + Purchase_In);
 				
 				String OTH_Up_Sql = "UPDATE totalmaterial_head SET "
 	                    + "Purchase_In = ?, Purchase_Amt = ?, "
@@ -316,15 +308,16 @@
 	                    + "Transfer_InOut = ?, Transfer_Amt = ?, "
 	                    + "Inventory_Qty = ?, Inventory_Amt = ?, Inventory_UnitPrice = ?  "
 	                    + "WHERE YYMM = ? AND Com_Code = ? AND Material = ?";
+				
 				PreparedStatement OTH_Up_Pstmt = conn.prepareStatement(OTH_Up_Sql);
 				OTH_Up_Pstmt.setInt(1, Purchase_In);
 				OTH_Up_Pstmt.setDouble(2, Purchase_Amt);
 				OTH_Up_Pstmt.setInt(3, Material_Out);
-				OTH_Up_Pstmt.setDouble(4, Material_Amt);
+				OTH_Up_Pstmt.setString(4, null);
 				OTH_Up_Pstmt.setInt(5, Transfer_InOut);
-				OTH_Up_Pstmt.setDouble(6, Transfer_Amt);
+				OTH_Up_Pstmt.setString(6, null);
 				OTH_Up_Pstmt.setInt(7, Inventory_Qty);
-				OTH_Up_Pstmt.setDouble(8, Inventory_Amt);
+				OTH_Up_Pstmt.setString(8, null);
 				OTH_Up_Pstmt.setDouble(9, Purchase_Amt / Purchase_In);
 				OTH_Up_Pstmt.setString(10, DateCode);
 				OTH_Up_Pstmt.setString(11, ComCode);
