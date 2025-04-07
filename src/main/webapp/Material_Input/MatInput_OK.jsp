@@ -235,7 +235,7 @@
 				OTH_Up_Pstmt.setInt(5, Transfer_InOut);
 				OTH_Up_Pstmt.setString(6, null);
 				OTH_Up_Pstmt.setInt(7, Inventory_Qty);
-				OTH_Up_Pstmt.setString(8, null);
+				OTH_Up_Pstmt.setDouble(8, Purchase_Amt / Purchase_In);
 				OTH_Up_Pstmt.setDouble(9, Purchase_Amt / Purchase_In);
 				OTH_Up_Pstmt.setString(10, DateCode);
 				OTH_Up_Pstmt.setString(11, ComCode);
@@ -301,6 +301,7 @@
 				
 				Purchase_In += Scan_Rs.getInt("Count");
 				Purchase_Amt += Scan_Rs.getInt("Count") * UnitPrice;
+				Inventory_Qty += Scan_Rs.getInt("Count") - Material_Out - Transfer_InOut;
 				
 				String OTH_Up_Sql = "UPDATE totalmaterial_head SET "
 	                    + "Purchase_In = ?, Purchase_Amt = ?, "
@@ -317,7 +318,7 @@
 				OTH_Up_Pstmt.setInt(5, Transfer_InOut);
 				OTH_Up_Pstmt.setString(6, null);
 				OTH_Up_Pstmt.setInt(7, Inventory_Qty);
-				OTH_Up_Pstmt.setString(8, null);
+				OTH_Up_Pstmt.setDouble(8, Purchase_Amt / Purchase_In);
 				OTH_Up_Pstmt.setDouble(9, Purchase_Amt / Purchase_In);
 				OTH_Up_Pstmt.setString(10, DateCode);
 				OTH_Up_Pstmt.setString(11, ComCode);

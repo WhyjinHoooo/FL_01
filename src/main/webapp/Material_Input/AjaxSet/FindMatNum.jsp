@@ -14,7 +14,7 @@ try{
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
-	String sql = "SELECT * FROM storehead WHERE MatDocNum = ?";
+	String sql = "SELECT DISTINCT(MatDocNum) FROM storechild WHERE MatDocNum = ?";
 	
 	pstmt = conn.prepareStatement(sql);
 	boolean DupCheck = false;

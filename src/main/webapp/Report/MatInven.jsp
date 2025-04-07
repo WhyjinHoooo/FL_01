@@ -11,6 +11,48 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
+function PopupPosition(popupWidth, popupHeight) {
+    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
+    
+    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+    var xPos, yPos;
+    
+    if (width == 2560 && height == 1440) {
+        xPos = (2560 / 2) - (popupWidth / 2);
+        yPos = (1440 / 2) - (popupHeight / 2);
+    } else if (width == 1920 && height == 1080) {
+        xPos = (1920 / 2) - (popupWidth / 2);
+        yPos = (1080 / 2) - (popupHeight / 2);
+    } else {
+        var monitorWidth = 2560;
+        var monitorHeight = 1440;
+        xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
+        yPos = (monitorHeight / 2) - (popupHeight / 2) + dualScreenTop;
+    }
+    
+    return { x: xPos, y: yPos };
+}
+function InfoSearch(field){
+    event.preventDefault();
+    var popupWidth = 500;
+    var popupHeight = 600;
+    
+    var ComCode = $('.ComCode').val();
+    var position = PopupPosition(popupWidth, popupHeight);
+    
+    switch(field){
+    case "PlantSearch":
+        window.open("${contextPath}/Report/PopUp/PlantSerach.jsp?ComCode=" + ComCode, "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
+    break;
+    case "MatSearch":
+    	popupWidth = 910;
+    	popupHeight = 600;
+        window.open("${contextPath}/Report/PopUp/MatSerach.jsp?ComCode=" + ComCode, "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
+    break;
+    }
+}
 const cssMap = {
 	1: '../css/Inv_ComLev.css',
 	2: '../css/Inv_PlaLev.css',
@@ -67,7 +109,7 @@ $(document).ready(function() {
 	InitialTable('15');
 	var condition = 1;
 	applyCSS(condition);
-    var value = null;
+    var value = 1;
     var count = null;
     $('.CateBtn').click(function() {
     	value = $(this).val();
@@ -117,7 +159,10 @@ $(document).ready(function() {
     	var EndDate = $('.EndDate').val();
     	var IntFromDate = new Date(FromDate).getTime();
     	var IntEndDate = new Date(EndDate).getTime();
-    	
+    	var MatData = $('.MatCode').val();
+    	var ComData = $('.ComCode').val();
+    	var PlantData = $('.PlantCode').val();
+    	var SLoData = $('.SLocCode').val();
     	if (isNaN(IntEndDate)) {
     	    alert('유효하지 않은 날짜 형식입니다.');
     	    return false;
@@ -126,6 +171,99 @@ $(document).ready(function() {
     	    alert('조회기간을 다시 입력하세요.');
     	    return false;
     	}
+    	var List = {
+    		'FromDate' : FromDate,
+    		'EndDate' : EndDate,
+    		'MatData' : MatData,
+    		'ComData' : ComData
+    	}
+    	console.log(List);
+    	switch(value){
+    	case 1:
+        	$.ajax({
+    			url : '${contextPath}/Report/AjaxSet/C_LoadData.jsp',
+    			type : 'POST',
+    			data :  JSON.stringify(List),
+    			contentType: 'application/json; charset=utf-8',
+    			dataType: 'json',
+    			async: false,
+    			success: function(data){
+    			    if(data.length === 0){
+    			    	alert('해당하는 자재에 대한 데이터가 존재하지 않습니다.');
+    			    	$('.MatCode').val('');
+    			    	return false;
+    			    }
+    			    $('.InfoTable-Body').empty();
+    			    for(var i = 0 ; i < data.length ; i++){
+    			        var row = '<tr>' +
+    			        '<td>' + (i + 1).toString().padStart(2,'0') + '</td>' + 
+    			        '<td>' + (data[i].ComCode || '') + '</td>' + 
+    			        '<td>' + (data[i].Material || '') + '</td>' + 
+    			        '<td>' + (data[i].MaterialDes || '') + '</td>' + 
+    			        '<td>' + (data[i].Unit || '') + '</td>' + 
+    			        '<td>' + (data[i].Inventory_Qty ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Inventory_Amt ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Purchase_In ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Purchase_Amt ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Material_Out ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Material_Amt ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Transfer_InOut ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Transfer_Amt ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Inventory_Qty ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Inventory_Amt ?? 0) + '</td>' + 
+    			        '</tr>';
+    			        $('.InfoTable-Body').append(row);
+    			    }
+    			},
+    			error: function(jqXHR, textStatus, errorThrown){
+    				alert('오류 발생: ' + textStatus + ', ' + errorThrown);
+    	    	}
+        	});
+    		break;
+    	case 2:
+    	case 3:
+    		List[value] = value; 
+    		List[PlantData] = PlantData;
+    		List[SLoData] = SLoData;
+    		$.ajax({
+    			url : '${contextPath}/Report/AjaxSet/PS_LoadData.jsp',
+    			type : 'POST',
+    			data :  JSON.stringify(List),
+    			contentType: 'application/json; charset=utf-8',
+    			dataType: 'json',
+    			async: false,
+    			success: function(data){
+    			    $('.InfoTable-Body').empty();
+    			    for(var i = 0 ; i < data.length ; i++){
+    			        var row = '<tr>' +
+    			        '<td>' + (i + 1).toString().padStart(2,'0') + '</td>' + 
+    			        '<td>' + (data[i].ComCode || '') + '</td>' + 
+    			        '<td>' + (data[i].Material || '') + '</td>' + 
+    			        '<td>' + (data[i].MaterialDes || '') + '</td>' + 
+    			        '<td>' + (data[i].Unit || '') + '</td>' + 
+    			        '<td>' + (data[i].Inventory_Qty ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Inventory_Amt ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Purchase_In ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Purchase_Amt ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Material_Out ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Material_Amt ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Transfer_InOut ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Transfer_Amt ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Inventory_Qty ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Inventory_Amt ?? 0) + '</td>' + 
+    			        '</tr>';
+    			        $('.InfoTable-Body').append(row);
+    			    }
+    			},
+    			error: function(jqXHR, textStatus, errorThrown){
+    				alert('오류 발생: ' + textStatus + ', ' + errorThrown);
+    	    	}
+        	});
+    		break;
+//     	case '':
+//     		break;
+    	}
+    	applyCSS(condition)
     })
 });
 </script>
@@ -161,11 +299,11 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			</div>
 			<div class="Main-Colume LvP" hidden>
 				<label>❗Plant : </label>
-				<input type="text" class="PlantCode" name="PlantCode" onclick="InfoSearch('Null')" placeholder="SELECT">
+				<input type="text" class="PlantCode" name="PlantCode" onclick="InfoSearch('PlantSearch')" placeholder="SELECT" readonly>
 			</div>
 			<div class="Main-Colume LvS" hidden>
 				<label>❗창고 : </label>
-				<input type="text" class="SLocCode" name="SLocCode" onclick="InfoSearch('Null')" placeholder="SELECT">
+				<input type="text" class="SLocCode" name="SLocCode" onclick="InfoSearch('Null')" placeholder="SELECT" readonly>
 			</div>
 <!-- 			<div class="Main-Colume">
 				<label>❗재고유형 : </label>
@@ -181,7 +319,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			</div>
 			<div class="Main-Colume">
 				<label>Mateiral : </label>
-				<input type="text" class="MatCode" name="MatCode" onclick="InfoSearch('Null')" placeholder="SELECT" readonly>
+				<input type="text" class="MatCode" name="MatCode" onclick="InfoSearch('MatSearch')" placeholder="SELECT" readonly>
 			</div>
 		</div>
 		
