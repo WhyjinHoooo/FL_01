@@ -42,6 +42,8 @@ function InfoSearch(field){
     var ComCode = $('.ComCode').val();
     var position = PopupPosition(popupWidth, popupHeight);
     
+    var MoveType = event.target.name;
+    
     switch(field){
     case "PlantSearch":
         window.open("${contextPath}/Report/PopUp/PlantSerach.jsp?ComCode=" + ComCode, "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
@@ -49,19 +51,29 @@ function InfoSearch(field){
     case "MatSearch":
     	popupWidth = 910;
     	popupHeight = 600;
-        window.open("${contextPath}/Report/PopUp/MatSerach.jsp?ComCode=" + ComCode, "PopUp01", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
+        window.open("${contextPath}/Report/PopUp/MatSerach.jsp?ComCode=" + ComCode, "PopUp02", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
     break;
+    case "SLoSearch":
+        window.open("${contextPath}/Report/PopUp/SLoSerach.jsp?ComCode=" + ComCode, "PopUp03", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
+    	break;
+    case "TypeSearch":
+    	window.open("${contextPath}/Report/PopUp/TypeSerach.jsp", "PopUp04", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
+    	break;
+    case "MovSearch":
+    	window.open("${contextPath}/Report/PopUp/MovSerach.jsp?Move=" + MoveType, "PopUp05", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
+    	break;
     }
 }
 const cssMap = {
-	1: '../css/Inv_ComLev.css',
-	2: '../css/Inv_PlaLev.css',
-	3: '../css/Inv_SlocLev.css',
-	4: '../css/Inv_MovLev.css',
+	1: '../css/Inv_ComLev.css?after',
+	2: '../css/Inv_PlaLev.css?after',
+	3: '../css/Inv_SlocLev.css?after',
+	4: '../css/Inv_MovLev.css?after',
 	default: '../css/Inven.css?after'
-	};
+};
 	
 function applyCSS(condition) {
+	console.log('applyCSS condition : ' + condition);
 	const link = document.createElement('link');
 	link.rel = 'stylesheet';
 	link.href = cssMap[condition] || cssMap['default'];
@@ -100,16 +112,32 @@ function InitialTable(count){
 }
 function DateSetting(){
 	var CurrentDate = new Date();
-	var today = CurrentDate.getFullYear() + '-' + ('0' + (CurrentDate.getMonth() + 1)).slice(-2) + '-' + ('0' + CurrentDate.getDate()).slice(-2);
+	var today = CurrentDate.getFullYear() + '-' + ('0' + (CurrentDate.getMonth() + 1)).slice(-2) + '-01';
 	$('.FromDate').val(today);
 }
 $(document).ready(function() {
 	DateSetting();
+	$('.FromDate, .EndDate').change(function() {
+		var BeforeDate = null;
+		var value = $(this).val();
+		if($(this).hasClass('FromDate')){
+			BeforeDate = new Date(value);
+			var initDate = BeforeDate.getFullYear() + '-' + ('0' + (BeforeDate.getMonth() + 1)).slice(-2) + '-01';
+			console.log('initDate : ' + initDate);
+			$(this).val(initDate);
+		}else{
+			BeforeDate = new Date(value);
+			var FinalDate = BeforeDate.getFullYear() + '-' + ('0' + (BeforeDate.getMonth() + 1)).slice(-2) + '-' +new Date(BeforeDate.getFullYear(), (BeforeDate.getMonth() + 1), 0).getDate();
+			console.log('FinalDate : ' + FinalDate);
+			$(this).val(FinalDate);
+		}
+		
+	});
 	TestFunction('Company');
 	InitialTable('15');
 	var condition = 1;
 	applyCSS(condition);
-    var value = 1;
+    var value = '1';
     var count = null;
     $('.CateBtn').click(function() {
     	value = $(this).val();
@@ -163,6 +191,9 @@ $(document).ready(function() {
     	var ComData = $('.ComCode').val();
     	var PlantData = $('.PlantCode').val();
     	var SLoData = $('.SLocCode').val();
+    	var MatType = $('.MatType').val()
+    	var MovIn = $('.MovCode-In').val();
+    	var MovOut = $('.MovCode-Out').val();
     	if (isNaN(IntEndDate)) {
     	    alert('유효하지 않은 날짜 형식입니다.');
     	    return false;
@@ -177,9 +208,8 @@ $(document).ready(function() {
     		'MatData' : MatData,
     		'ComData' : ComData
     	}
-    	console.log(List);
     	switch(value){
-    	case 1:
+    	case '1':
         	$.ajax({
     			url : '${contextPath}/Report/AjaxSet/C_LoadData.jsp',
     			type : 'POST',
@@ -220,11 +250,16 @@ $(document).ready(function() {
     	    	}
         	});
     		break;
-    	case 2:
-    	case 3:
-    		List[value] = value; 
-    		List[PlantData] = PlantData;
-    		List[SLoData] = SLoData;
+    	case '2':
+    	case '3':
+    		if (value === '2' && (!PlantData || PlantData.trim() === '')) {
+    		    return false;
+    		}else if(value === '3' && (!PlantData || PlantData.trim() === '') && (!SLoData || SLoData.trim() === '')){
+    			return false;
+    		}
+    		List['value'] = value; 
+    		List['PlantData'] = PlantData;
+    		List['SLoData'] = SLoData;
     		$.ajax({
     			url : '${contextPath}/Report/AjaxSet/PS_LoadData.jsp',
     			type : 'POST',
@@ -233,25 +268,36 @@ $(document).ready(function() {
     			dataType: 'json',
     			async: false,
     			success: function(data){
+    				if(data.length === 0){
+    			    	alert('해당하는 자재에 대한 데이터가 존재하지 않습니다.');
+    			    	$('.MatCode').val('');
+    			    	return false;
+    			    }
     			    $('.InfoTable-Body').empty();
     			    for(var i = 0 ; i < data.length ; i++){
     			        var row = '<tr>' +
     			        '<td>' + (i + 1).toString().padStart(2,'0') + '</td>' + 
-    			        '<td>' + (data[i].ComCode || '') + '</td>' + 
-    			        '<td>' + (data[i].Material || '') + '</td>' + 
-    			        '<td>' + (data[i].MaterialDes || '') + '</td>' + 
-    			        '<td>' + (data[i].Unit || '') + '</td>' + 
-    			        '<td>' + (data[i].Inventory_Qty ?? 0) + '</td>' + 
-    			        '<td>' + (data[i].Inventory_Amt ?? 0) + '</td>' + 
-    			        '<td>' + (data[i].Purchase_In ?? 0) + '</td>' + 
-    			        '<td>' + (data[i].Purchase_Amt ?? 0) + '</td>' + 
-    			        '<td>' + (data[i].Material_Out ?? 0) + '</td>' + 
-    			        '<td>' + (data[i].Material_Amt ?? 0) + '</td>' + 
-    			        '<td>' + (data[i].Transfer_InOut ?? 0) + '</td>' + 
-    			        '<td>' + (data[i].Transfer_Amt ?? 0) + '</td>' + 
-    			        '<td>' + (data[i].Inventory_Qty ?? 0) + '</td>' + 
-    			        '<td>' + (data[i].Inventory_Amt ?? 0) + '</td>' + 
-    			        '</tr>';
+    			        '<td>' + (data[i].ComCode || '') + '</td>';
+    			        if(value === '2'){
+    			        	row += '<td>' + (data[i].Plant || '') + '</td>'; 
+    			        }else{
+    			        	row += '<td>' + (data[i].Plant || '') + '</td>' +
+    			        		   '<td>' + (data[i].StorLoc || '') + '</td>';
+    			        }
+    			        row += '<td>' + (data[i].Material || '') + '</td>' + 
+		    			       '<td>' + (data[i].MaterialDes || '') + '</td>' + 
+		    			       '<td>' + (data[i].Unit || '') + '</td>' + 
+		    			       '<td>' + (data[i].Inventory_Qty ?? 0) + '</td>' + 
+		    			       '<td>' + (data[i].Inventory_Amt ?? 0) + '</td>' + 
+		    			       '<td>' + (data[i].Purchase_In ?? 0) + '</td>' + 
+		    			       '<td>' + (data[i].Purchase_Amt ?? 0) + '</td>' + 
+		    			       '<td>' + (data[i].Material_Out ?? 0) + '</td>' + 
+		    			       '<td>' + (data[i].Material_Amt ?? 0) + '</td>' + 
+		    			       '<td>' + (data[i].Transfer_InOut ?? 0) + '</td>' + 
+		    			       '<td>' + (data[i].Transfer_Amt ?? 0) + '</td>' + 
+		    			       '<td>' + (data[i].Inventory_Qty ?? 0) + '</td>' + 
+		    			       '<td>' + (data[i].Inventory_Amt ?? 0) + '</td>' + 
+		    			       '</tr>';
     			        $('.InfoTable-Body').append(row);
     			    }
     			},
@@ -260,10 +306,55 @@ $(document).ready(function() {
     	    	}
         	});
     		break;
-//     	case '':
-//     		break;
+    	case '4':
+    		List['PlantData'] = PlantData;
+    		List['MovIn'] = MovIn;
+    		List['MovOut'] = MovOut;
+    		List['MatType'] = MatType;
+    		$.ajax({
+    			url : '${contextPath}/Report/AjaxSet/Mov_LoadData.jsp',
+    			type : 'POST',
+    			data :  JSON.stringify(List),
+    			contentType: 'application/json; charset=utf-8',
+    			dataType: 'json',
+    			async: false,
+    			success: function(data){
+    				console.log(data);
+    				if(data.length === 0){
+    			    	alert('해당하는 자재에 대한 데이터가 존재하지 않습니다.');
+    			    	$('.MatCode').val('');
+    			    	return false;
+    			    }
+    			    $('.InfoTable-Body').empty();
+    			    for(var i = 0 ; i < data.length ; i++){
+    			        var row = '<tr>' +
+    			        '<td>' + (data[i].DocDate || '') + '</td>' + 
+    			        '<td>' + (data[i].MatDocNum || '') + '</td>' +
+    			        '<td>' + (data[i].ItemNum || '') + '</td>' + 
+						'<td>' + (data[i].Material || '') + '</td>' + 
+						'<td>' + (data[i].MaterialDescription || '') + '</td>' + 
+						'<td>' + (data[i].InvUnit ?? '') + '</td>' + 
+						'<td>' + (data[i].MovType ?? '') + '</td>' + 
+						'<td>' + (data[i].MoveTypeDes ?? '') + '</td>' + 
+						'<td>' + (data[i].Quantity ?? 0) + '</td>' + 
+						'<td>' + (data[i].StoLoca ?? '') + '</td>' + 
+						'<td>' + (data[i].STORAGR_NAME ?? '') + '</td>' + 
+						'<td>' + (data[i].OrderNum ?? 'N/A') + '</td>' + 
+						'<td>' + (data[i].CostObject ?? 'N/A') + '</td>' + 
+						'<td>' + (data[i].Plant ?? '') + '</td>' +
+						'<td>' + ComData + '</td>' + 
+						'<td>' + (data[i].InputPerson ?? '') + '</td>' + 
+						'</tr>';
+    			        $('.InfoTable-Body').append(row);
+    			    }
+    			},
+    			error: function(jqXHR, textStatus, errorThrown){
+    				alert('오류 발생: ' + textStatus + ', ' + errorThrown);
+    	    	}
+        	});
+    		break;
     	}
-    	applyCSS(condition)
+    	applyCSS(condition);
     })
 });
 </script>
@@ -303,19 +394,19 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			</div>
 			<div class="Main-Colume LvS" hidden>
 				<label>❗창고 : </label>
-				<input type="text" class="SLocCode" name="SLocCode" onclick="InfoSearch('Null')" placeholder="SELECT" readonly>
+				<input type="text" class="SLocCode" name="SLocCode" onclick="InfoSearch('SLoSearch')" placeholder="SELECT" readonly>
 			</div>
-<!-- 			<div class="Main-Colume">
+ 			<div class="Main-Colume LvM" hidden>
 				<label>❗재고유형 : </label>
-				<input type="text" class="MatType" name="MatType" onclick="InfoSearch('Null')" readonly>
-			</div> -->
+				<input type="text" class="MatType" name="MatType" onclick="InfoSearch('TypeSearch')" readonly placeholder="SELECT">
+			</div>
 			<div class="Main-Colume LvM" hidden>
 				<label>입출고 구분(From) : </label>
-				<input type="text" class="MovCode-In" name="MovCode-In" onclick="InfoSearch('Null')" placeholder="SELECT">
+				<input type="text" class="MovCode-In MovCode" name="MovCode-In" onclick="InfoSearch('MovSearch')" readonly placeholder="SELECT">
 			</div>
 			<div class="Main-Colume LvM" hidden>
 				<label>입출고 구분(To) : </label>
-				<input type="text" class="MovCode-Out" name="MovCode-Out" onclick="InfoSearch('Null')" placeholder="SELECT">
+				<input type="text" class="MovCode-Out MovCode" name="MovCode-Out" onclick="InfoSearch('MovSearch')" readonly placeholder="SELECT">
 			</div>
 			<div class="Main-Colume">
 				<label>Mateiral : </label>
