@@ -9,7 +9,7 @@
 	}
 	.MainHall {
     border: 1px solid black;
-    width: 25%;
+    width: 30%;
 	height: 100%;
  	}
 	.SubHall {
@@ -38,9 +38,27 @@
 	.MainHall > .MainHallArray > .Main-Colume {
 	display: flex;
 	flex-direction: row;
-	margin: 20px 0px 0px 25px;
+	margin: 20px 0px 0px 10px;
 	width: 100%;
 	} 
+	.MainHall > .MainHallArray > .Main-Colume button {
+	background: #87CEEB;
+	margin-left: 20px;
+	border-radius: 5px;
+	width: 15%;
+	color: #333333;
+	font-weight: bold;
+    }
+    .MainHall > .MainHallArray > .Main-Colume button:hover {
+	background: #333333;
+	color: #fff;
+	border: 1px solid #333333;
+    }
+	.MainHall > .MainHallArray > .Main-Colume button:active {
+	background: #333333;
+	color: #fff;
+	border: 1px solid #333333;
+	}
 	.MainHall > .MainHallArray > .Main-Colume label {
 	font-weight: 900;
 	display: inline-block;
@@ -56,26 +74,46 @@
     .MainHall > .BtnArea {
 	height: 48%;
 	}
-    .MainHall > .BtnArea > button {
+    .MainHall > .BtnArea > button:nth-child(1) {
 	width: 45%;
 	height: 10%;
 	text-align: center;
 	background-color: #002060;
 	color: white;
 	border: 1px solid #1F4E79;
-	margin: 25% 0px 0px 25%;
+	border-radius: 10px;
+	font-size: 25px;
+	margin-left: 4.5%;
+	}
+	.MainHall > .BtnArea > button:nth-child(1):hover {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.MainHall > .BtnArea > button:nth-child(1):active {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	 .MainHall > .BtnArea > button:nth-child(2) {
+	width: 45%;
+	height: 10%;
+	text-align: center;
+	background-color: #FF4040;
+	color: white;
+	border: 1px solid #FF4040;
 	border-radius: 10px;
 	font-size: 25px;
 	}
-	.MainHall > .BtnArea > button:hover {
-	background: #0068ff;
+	.MainHall > .BtnArea > button:nth-child(2):hover {
+	background: #B3003F;
 	color: #fff;
-	border: 1px solid #0068ff;
+	border: 1px solid #B3003F;
 	}
-	.MainHall > .BtnArea > button:active {
-	background: #0068ff;
+	.MainHall > .BtnArea > button:nth-child(2):active {
+	background: #B3003F;
 	color: #fff;
-	border: 1px solid #0068ff;
+	border: 1px solid #B3003F;
 	}
 	.MainHallArray {
     height: 40%;

@@ -135,6 +135,17 @@ $(document).ready(function() {
 	});
 	TestFunction('Company');
 	InitialTable('15');
+	$('.ResBtn').click(function(){
+		$('.SearOp').each(function(){
+           $(this).val('');
+           $(this).attr('placeholder', 'SELECT');
+        });
+	})
+	$('.Main-Colume > button').click(function(){
+		$(this).closest('div').find('input').val('');
+		$(this).closest('div').find('input').attr('placeholder', 'SELECT');
+	})
+	
 	var condition = 1;
 	applyCSS(condition);
     var value = '1';
@@ -164,6 +175,18 @@ $(document).ready(function() {
     		$('.LvS').prop('hidden',true);
     		count = 16;
     		condition = 4;
+    		var UserId = $('.UserId').val();
+    		$.ajax({
+    			url:'${contextPath}/Material_Output/AjaxSet/ForPlant.jsp',
+    			type:'POST',
+    			data:{id : UserId},
+    			dataType: 'text',
+    			success: function(data){
+    				var dataList = data.trim().split('-');
+    				console.log(dataList);
+    				$('.PlantCode').val(dataList[0]);
+    			}
+    		})
     		break;
     	}
 		InitialTable(count);
@@ -182,6 +205,7 @@ $(document).ready(function() {
     		break;
     	}
 	});
+    
     $('.SearBtn').click(function(){
     	var FromDate = $('.FromDate').val();
     	var EndDate = $('.EndDate').val();
@@ -370,6 +394,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 	<div class="MainHall">
 		<div class="Title">검색 항목</div>
 		<div class="Category">
+			<input class="UserId" value="<%=UserIdNumber%>" hidden>
 			<button class="CateBtn" onclick="TestFunction('Company')" value="1">Com.Lv</button> <!-- 1 -->
 			<button class="CateBtn" onclick="TestFunction('Plant')" value="2">Pla.Lv</button> <!-- 2 -->
 			<button class="CateBtn" onclick="TestFunction('Slocation')" value="3">SLo.lv</button> <!-- 3 -->
@@ -390,32 +415,39 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			</div>
 			<div class="Main-Colume LvP" hidden>
 				<label>❗Plant : </label>
-				<input type="text" class="PlantCode" name="PlantCode" onclick="InfoSearch('PlantSearch')" placeholder="SELECT" readonly>
+				<input type="text" class="PlantCode SearOp" name="PlantCode" onclick="InfoSearch('PlantSearch')" placeholder="SELECT" readonly>
+				<button>Delete</button>
 			</div>
 			<div class="Main-Colume LvS" hidden>
 				<label>❗창고 : </label>
-				<input type="text" class="SLocCode" name="SLocCode" onclick="InfoSearch('SLoSearch')" placeholder="SELECT" readonly>
+				<input type="text" class="SLocCode SearOp" name="SLocCode" onclick="InfoSearch('SLoSearch')" placeholder="SELECT" readonly>
+				<button>Delete</button>
 			</div>
  			<div class="Main-Colume LvM" hidden>
 				<label>❗재고유형 : </label>
-				<input type="text" class="MatType" name="MatType" onclick="InfoSearch('TypeSearch')" readonly placeholder="SELECT">
+				<input type="text" class="MatType SearOp" name="MatType" onclick="InfoSearch('TypeSearch')" readonly placeholder="SELECT">
+				<button>Delete</button>
 			</div>
 			<div class="Main-Colume LvM" hidden>
 				<label>입출고 구분(From) : </label>
-				<input type="text" class="MovCode-In MovCode" name="MovCode-In" onclick="InfoSearch('MovSearch')" readonly placeholder="SELECT">
+				<input type="text" class="MovCode-In MovCode SearOp" name="MovCode-In" onclick="InfoSearch('MovSearch')" readonly placeholder="SELECT">
+				<button>Delete</button>
 			</div>
 			<div class="Main-Colume LvM" hidden>
 				<label>입출고 구분(To) : </label>
-				<input type="text" class="MovCode-Out MovCode" name="MovCode-Out" onclick="InfoSearch('MovSearch')" readonly placeholder="SELECT">
+				<input type="text" class="MovCode-Out MovCode SearOp" name="MovCode-Out" onclick="InfoSearch('MovSearch')" readonly placeholder="SELECT">
+				<button>Delete</button>
 			</div>
 			<div class="Main-Colume">
 				<label>Mateiral : </label>
-				<input type="text" class="MatCode" name="MatCode" onclick="InfoSearch('MatSearch')" placeholder="SELECT" readonly>
+				<input type="text" class="MatCode SearOp" name="MatCode" onclick="InfoSearch('MatSearch')" placeholder="SELECT" readonly>
+				<button>Delete</button>
 			</div>
 		</div>
 		
 		<div class="BtnArea">
 			<button class="SearBtn">Search</button>
+			<button class="ResBtn">Reset</button>
 		</div>
 	</div>
 	
