@@ -370,7 +370,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 						<option value="SELECT">SELECT</option>
 						<option value="A 구매요청">A 구매요청</option>
 						<option value="B 발주준비">B 발주준비</option>
-						<option value="C 발주완료">C 방주완료</option>
+						<option value="C 발주완료">C 발주완료</option>
 						<option value="D 반려">D 반려</option>
 					</select>
 				</div>

@@ -69,12 +69,10 @@ $(document).ready(function(){
 		var UserId = UserId;
 		console.log(UserId);
 		for (let i = 0; i < 20; i++) {
-            const row = $('<tr></tr>'); // 새로운 <tr> 생성
-            // 34개의 빈 <td> 요소 추가 (3개의 헤더 항목 이후 31일치 데이터)
+            const row = $('<tr></tr>');
             for (let j = 0; j < 13; j++) {
                 row.append('<td></td>');
             }
-            // 생성한 <tr>을 <tbody>에 추가
             $('.InfoTable-Body').append(row);
         }
 		$.ajax({
@@ -127,7 +125,6 @@ $(document).ready(function(){
 	EntryDisabled();
 	DateSetting();
 
-	
 	$('.SearBtn').click(function(){
 		EntryDisabled();
 		var DataArray = [];
@@ -136,7 +133,6 @@ $(document).ready(function(){
 			var value = $(this).val();
 			DataArray.push(value);
 		})
-		console.log(DataArray);
 		$.ajax({
 			url: '${contextPath}/Purchasing/AjaxSet/Order/ImportFile.jsp',
 			type: 'POST',
@@ -162,8 +158,8 @@ $(document).ready(function(){
 					}
 					for(var key in DataAarray){
 						var KeyValue = DataAarray[key];
-						console.log('KeyValue : ' + KeyValue); // i값(예 0)
-						console.log('KeyValue.length : ' + KeyValue.length); //
+						console.log('KeyValue : ' + KeyValue);
+						console.log('KeyValue.length : ' + KeyValue.length);
 						for(var j = 0 ; j < KeyValue.length ; j++){
 							var index = KeyValue[j];
 							console.log('index : ' + index);
@@ -179,7 +175,7 @@ $(document).ready(function(){
 								'<td>' + data[j].StorLocaDesc + '</td>' + 
 								'<td>' + data[j].Reference + '</td>' + 
 								'<td>' + data[j].StatusPR + '</td>' + 
-								'<td></td>' + 
+								'<td>' + (data[j].PueOrdNum ?? 'N/A') + '</td>' + 
 								'<td>' + data[j].ReqPerson + '</td>' + 
 								'</tr>';
 							$('.InfoTable-Body').append(row);
@@ -190,11 +186,10 @@ $(document).ready(function(){
 		})
 	})
 	$('.NewEntryBtn').click(function(){
-		$('.Req-Area').find('input').prop('disabled', false);
+		//$('.Req-Area').find('input').prop('disabled', false);
 		CreateEntryDocument();
 	})
 	$('.SaveBtn').click(function(){
-		console.log(Userid);
 		var EntryDataArray = {};
 		event.preventDefault();
 		$('.EntryItem').each(function(){
@@ -213,7 +208,6 @@ $(document).ready(function(){
 				return false;
 			}
 		})
-		console.log(EntryDataArray);
 		if(!pass){
 			alert('모든 항목을 입력해주세요.');
 		} else{
@@ -283,7 +277,7 @@ $(document).ready(function(){
 				IsChecked = checkboxTr.prop('checked', false);
 			}
 		})
-	}) // $('.EditBtn').click(function(){...})
+	})
 })
 </script>
 </head>
