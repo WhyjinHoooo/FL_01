@@ -70,21 +70,29 @@ const cssMap = {
 	3: '../css/Inv_SlocLev.css?after',
 	4: '../css/Inv_MovLev.css?after',
 	default: '../css/Inven.css?after'
-};
-	
+};	
 function applyCSS(condition) {
 	console.log('applyCSS condition : ' + condition);
-	const link = document.createElement('link');
-	link.rel = 'stylesheet';
-	link.href = cssMap[condition] || cssMap['default'];
-	
-	const oldLink = document.querySelector('link[data-target="tbody"]');
-	if (oldLink) oldLink.remove();
-	
-	link.setAttribute('data-target', 'tbody');
-	document.head.appendChild(link);
-}
+	const linkTbody = document.createElement('link');
+    linkTbody.rel = 'stylesheet';
+    linkTbody.href = cssMap[condition] || cssMap['default'];
 
+    const oldLinkTbody = document.querySelector('link[data-target="tbody"]');
+    if (oldLinkTbody) oldLinkTbody.remove();
+
+    linkTbody.setAttribute('data-target', 'tbody');
+    document.head.appendChild(linkTbody);
+
+    const linkFooter = document.createElement('link');
+    linkFooter.rel = 'stylesheet';
+    linkFooter.href = cssMap[condition] || cssMap['default'];
+
+    const oldLinkFooter = document.querySelector('link[data-target="footer"]');
+    if (oldLinkFooter) oldLinkFooter.remove();
+
+    linkFooter.setAttribute('data-target', 'footer');
+    document.head.appendChild(linkFooter);
+}
 function TestFunction(value) {
     let Turl;
     if (value === 'Company') {
@@ -115,7 +123,23 @@ function DateSetting(){
 	var today = CurrentDate.getFullYear() + '-' + ('0' + (CurrentDate.getMonth() + 1)).slice(-2) + '-01';
 	$('.FromDate').val(today);
 }
+function updateClock() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    
+    const dateString = `${'${year}'}-${'${month}'}-${'${day}'}`;
+    const timeString = `${'${hours}'}:${'${minutes}'}:${'${seconds}'}`;
+    const fullString = `${'${dateString}'} ${'${timeString}'}`;
+    document.getElementById('clock').textContent = fullString;
+}
 $(document).ready(function() {
+	let TimeSetting = setInterval(updateClock, 1000);
+	//updateClock();
 	DateSetting();
 	$('.FromDate, .EndDate').change(function() {
 		var BeforeDate = null;
@@ -136,6 +160,7 @@ $(document).ready(function() {
 	TestFunction('Company');
 	InitialTable('15');
 	$('.ResBtn').click(function(){
+		TimeSetting = setInterval(updateClock, 1000);
 		$('.SearOp').each(function(){
            $(this).val('');
            $(this).attr('placeholder', 'SELECT');
@@ -154,23 +179,27 @@ $(document).ready(function() {
     	value = $(this).val();
     	switch(value){
     	case '1':
+    		$("footer").show();
     		$('.LvP, .LvS, .LvM').prop('hidden',true);
     		count = 15;
     		condition = 1;
     		break;
     	case '2':
+    		$("footer").show();
     		$('.LvP').prop('hidden',false);
     		$('.LvS, LvM').prop('hidden',true);
     		count = 16;
     		condition = 2;
     		break;
     	case '3':
+    		$("footer").show();
     		$('.LvP, .LvS').prop('hidden',false);
     		$('.LvM').prop('hidden',true);
     		count = 17;
     		condition = 3;
     		break;
     	case '4':
+    		$("footer").hide();
     		$('.LvP, .LvM').prop('hidden',false);
     		$('.LvS').prop('hidden',true);
     		count = 16;
@@ -207,6 +236,18 @@ $(document).ready(function() {
 	});
     
     $('.SearBtn').click(function(){
+    	var InQ = 0;
+    	var InA = 0;
+    	var PI = 0;
+    	var PA = 0;
+    	var MO = 0;
+    	var MA = 0;
+    	var TI = 0;
+    	var TA = 0;
+    	var IQ = 0;
+    	var IA = 0;
+    	
+    	
     	var FromDate = $('.FromDate').val();
     	var EndDate = $('.EndDate').val();
     	var IntFromDate = new Date(FromDate).getTime();
@@ -255,8 +296,8 @@ $(document).ready(function() {
     			        '<td>' + (data[i].Material || '') + '</td>' + 
     			        '<td>' + (data[i].MaterialDes || '') + '</td>' + 
     			        '<td>' + (data[i].Unit || '') + '</td>' + 
-    			        '<td>' + (data[i].Inventory_Qty ?? 0) + '</td>' + 
-    			        '<td>' + (data[i].Inventory_Amt ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Initial_Qty ?? 0) + '</td>' + 
+    			        '<td>' + (data[i].Initial_Amt ?? 0) + '</td>' + 
     			        '<td>' + (data[i].Purchase_In ?? 0) + '</td>' + 
     			        '<td>' + (data[i].Purchase_Amt ?? 0) + '</td>' + 
     			        '<td>' + (data[i].Material_Out ?? 0) + '</td>' + 
@@ -267,6 +308,16 @@ $(document).ready(function() {
     			        '<td>' + (data[i].Inventory_Amt ?? 0) + '</td>' + 
     			        '</tr>';
     			        $('.InfoTable-Body').append(row);
+    			        InQ += Number(data[i].Initial_Qty || 0);
+    			        InA += Number(data[i].Initial_Amt || 0);
+    			        PI += Number(data[i].Purchase_In || 0);
+    			        PA += Number(data[i].Purchase_Amt || 0);
+    			        MO += Number(data[i].Material_Out || 0);
+    			        MA += Number(data[i].Material_Amt || 0);
+    			        TI += Number(data[i].Transfer_InOut || 0);
+    			        TA += Number(data[i].Transfer_Amt || 0);
+    			        IQ += Number(data[i].Inventory_Qty || 0);
+    			        IA += Number(data[i].Inventory_Amt || 0);
     			    }
     			},
     			error: function(jqXHR, textStatus, errorThrown){
@@ -311,8 +362,8 @@ $(document).ready(function() {
     			        row += '<td>' + (data[i].Material || '') + '</td>' + 
 		    			       '<td>' + (data[i].MaterialDes || '') + '</td>' + 
 		    			       '<td>' + (data[i].Unit || '') + '</td>' + 
-		    			       '<td>' + (data[i].Inventory_Qty ?? 0) + '</td>' + 
-		    			       '<td>' + (data[i].Inventory_Amt ?? 0) + '</td>' + 
+		    			       '<td>' + (data[i].Initial_Qty ?? 0) + '</td>' + 
+		    			       '<td>' + (data[i].Initial_Amt ?? 0) + '</td>' + 
 		    			       '<td>' + (data[i].Purchase_In ?? 0) + '</td>' + 
 		    			       '<td>' + (data[i].Purchase_Amt ?? 0) + '</td>' + 
 		    			       '<td>' + (data[i].Material_Out ?? 0) + '</td>' + 
@@ -378,7 +429,12 @@ $(document).ready(function() {
         	});
     		break;
     	}
+    	var TotalCount = [IA, IQ, TA, TI, MA, MO, PA, PI,InA, InQ];
+    	for(var n = 0 ; n < TotalCount.length ; n++ ){
+        	$("footer div").eq(n).text(TotalCount[n]);
+    	}
     	applyCSS(condition);
+    	clearInterval(TimeSetting);
     })
 });
 </script>
@@ -416,46 +472,47 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			<div class="Main-Colume LvP" hidden>
 				<label>❗Plant : </label>
 				<input type="text" class="PlantCode SearOp" name="PlantCode" onclick="InfoSearch('PlantSearch')" placeholder="SELECT" readonly>
-				<button>Delete</button>
+				<button>Del</button>
 			</div>
 			<div class="Main-Colume LvS" hidden>
 				<label>❗창고 : </label>
 				<input type="text" class="SLocCode SearOp" name="SLocCode" onclick="InfoSearch('SLoSearch')" placeholder="SELECT" readonly>
-				<button>Delete</button>
+				<button>Del</button>
 			</div>
  			<div class="Main-Colume LvM" hidden>
 				<label>❗재고유형 : </label>
 				<input type="text" class="MatType SearOp" name="MatType" onclick="InfoSearch('TypeSearch')" readonly placeholder="SELECT">
-				<button>Delete</button>
+				<button>Del</button>
 			</div>
 			<div class="Main-Colume LvM" hidden>
 				<label>입출고 구분(From) : </label>
 				<input type="text" class="MovCode-In MovCode SearOp" name="MovCode-In" onclick="InfoSearch('MovSearch')" readonly placeholder="SELECT">
-				<button>Delete</button>
+				<button>Del</button>
 			</div>
 			<div class="Main-Colume LvM" hidden>
 				<label>입출고 구분(To) : </label>
 				<input type="text" class="MovCode-Out MovCode SearOp" name="MovCode-Out" onclick="InfoSearch('MovSearch')" readonly placeholder="SELECT">
-				<button>Delete</button>
+				<button>Del</button>
 			</div>
 			<div class="Main-Colume">
 				<label>Mateiral : </label>
 				<input type="text" class="MatCode SearOp" name="MatCode" onclick="InfoSearch('MatSearch')" placeholder="SELECT" readonly>
-				<button>Delete</button>
+				<button>Del</button>
 			</div>
 		</div>
 		
 		<div class="BtnArea">
 			<button class="SearBtn">Search</button>
 			<button class="ResBtn">Reset</button>
+			<div class="TimeArea" id="clock">Loading...</div>
 		</div>
+		
 	</div>
 	
 	<div class="SubHall">
 		<div class="Title">재고 수불 현황</div>
 		<table class="InfoTable">
 			<thead class="InfoTable-Header">
-
  			</thead>
 			<tbody class="InfoTable-Body">
 			</tbody>
@@ -463,4 +520,12 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 	</div>
 </div>
 </body>
+<footer>
+	<div></div><div></div>
+	<div></div><div></div>
+	<div></div><div></div>
+	<div></div><div></div>
+	<div></div><div></div>
+	<div>합계 : </div>
+</footer>
 </html>

@@ -1,5 +1,68 @@
 @charset "UTF-8";
-@media only screen and (min-width: 1537px) {
+@media only screen and (max-width: 1536px) {
+	.Hall >.SubHall > table.InfoTable tbody{
+	table-layout: fixed;
+	display: block;
+	width: 100.4%;
+	height: 100%;
+	max-height: 94%;
+	overflow-y: auto;
+	}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty){
+	padding: 3px 3px;
+	}
+	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(1){width: 88px;} 
+	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(2){width: 90px;} 
+	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(3){width: 92px;} 
+	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(4){width: 89px;} 
+	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(5){width: 91px;} 
+	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(6){width: 52px;}
+	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(7){width: 50px}
+	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(8){width: 52px;}
+	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(9){width: 52px;}
+	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(10){width: 52px;}
+	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(11){width: 51px;}
+	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(12){width: 52px;}
+	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(13){width: 51px;}
+	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(14){width: 51px;}
+	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(15){width: 50px}
+	
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(1){width: 50px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(2){width: 50px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(3){width: 50px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(4){width: 50px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(5){width: 50px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(6){width: 50px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(7){width: 50px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(8){width: 50px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(9){width: 50px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(10){width: 50px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(11){width: 50px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(12){width: 50px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(13){width: 50px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(14){width: 50px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(15){width: 50px;}
+	
+	footer > div:nth-child(1){width: 63px;height: 15px;}
+	footer > div:nth-child(2){width: 59px;height: 15px;}
+	footer > div:nth-child(3){width: 61px;height: 15px;}
+	footer > div:nth-child(4){width: 63px;height: 15px;}
+	footer > div:nth-child(5){width: 62px;height: 15px;}
+	footer > div:nth-child(6){width: 64px;height: 15px;}
+	footer > div:nth-child(7){width: 61px;height: 15px;}
+	footer > div:nth-child(8){width: 62px;height: 15px;}
+	footer > div:nth-child(9){width: 61px;height: 15px;}
+	footer > div:nth-child(10){width: 62px;height: 15px;}
+  	footer > div:nth-child(11){
+  	width: 50px;
+  	height: 15px;
+  	text-align: center;
+  	font-weight: bold;
+  	font-size: small;
+  	padding-top: 2px;
+  	}
+}
+@media only screen and (min-width: 2560px) {
 	.Hall >.SubHall > table.InfoTable tbody{
 	table-layout: fixed;
 	display: block;
@@ -42,4 +105,23 @@
 	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(13){width: 94px;}
 	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(14){width: 96px;}
 	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(15){width: 94px;}
+	
+    footer > div:nth-child(1){width: 104px;height: 34px;}
+	footer > div:nth-child(2){width: 104px;height: 34px;}
+	footer > div:nth-child(3){width: 104px;height: 34px;}
+	footer > div:nth-child(4){width: 106px;height: 34px;}
+	footer > div:nth-child(5){width: 104px;height: 34px;}
+	footer > div:nth-child(6){width: 104px;height: 34px;}
+	footer > div:nth-child(7){width: 104px;height: 34px;}
+	footer > div:nth-child(8){width: 105px;height: 34px;}
+	footer > div:nth-child(9){width: 104px;height: 34px;}
+	footer > div:nth-child(10){width: 105px;height: 34px;}
+  	footer > div:nth-child(11){
+  	width: 104.5px;
+  	height: 34px;
+  	text-align: center;
+  	font-weight: bold;
+  	font-size: x-large;
+  	padding-top: 2px;
+  	}
 }
