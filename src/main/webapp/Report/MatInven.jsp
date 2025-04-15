@@ -11,6 +11,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tbody = document.querySelector('.InfoTable-Body');
+    const thead = document.querySelector('.InfoTable-Header');
+
+    tbody.addEventListener('scroll', function() {
+        thead.scrollLeft = tbody.scrollLeft; // thead의 스크롤 위치를 직접 설정
+    });
+});
 function PopupPosition(popupWidth, popupHeight) {
     var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
     var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
@@ -158,7 +166,7 @@ $(document).ready(function() {
 		
 	});
 	TestFunction('Company');
-	InitialTable('15');
+	InitialTable(15);
 	$('.ResBtn').click(function(){
 		TimeSetting = setInterval(updateClock, 1000);
 		$('.SearOp').each(function(){
@@ -520,12 +528,4 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 	</div>
 </div>
 </body>
-<footer>
-	<div></div><div></div>
-	<div></div><div></div>
-	<div></div><div></div>
-	<div></div><div></div>
-	<div></div><div></div>
-	<div>합계 : </div>
-</footer>
 </html>

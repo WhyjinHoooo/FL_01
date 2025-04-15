@@ -9,7 +9,7 @@ body {
 	.Hall {
     display: flex;
     flex-direction: row;
-    height: 85vh;
+    height: 73vh;
     width: 100%;
     margin-top: 0.3%;
 	}
@@ -38,6 +38,7 @@ body {
 	margin: 3px 0px 0px 10px;
 	padding: 5px;
 	font-weight: bolder;
+	font-size: x-small;
 	border: 0px;
 	border-radius: 5px;
 	}
@@ -55,6 +56,7 @@ body {
 	width: 15%;
 	color: #333333;
 	font-weight: bold;
+	font-size: x-small;
 	}
     .MainHall > .MainHallArray > .Main-Colume button:hover {
 	background: #333333;
@@ -77,6 +79,7 @@ body {
 	margin-left: 10px;
 	width: 35%;
 	text-align: center;
+	font-size: x-small;
 	}
     .MainHall > .BtnArea {
 	height: 48%;
@@ -147,9 +150,14 @@ body {
 	overflow: scroll;
     }
     .Hall >.SubHall > table.InfoTable thead{
-    display: table;
-    width: 100%;
+    display: block;
+	width: 100%;
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	overflow-x: hidden;
     }
+    
    	.Hall >.SubHall > table.InfoTable tbody{
 	table-layout: fixed;
 	display: block;
@@ -157,6 +165,7 @@ body {
 	height: 100%;
 	max-height: 91%;
 	overflow-y: auto;
+	overflow-x: auto;
 	}
 	.Hall >.SubHall > table.InfoTable tbody td{
 	padding: 8px 5.5px;
@@ -167,30 +176,32 @@ body {
 	font-size: 10px;
 	font-weight: bold;
     }
-	
-	/* 두 번째부터 다섯 번째 <th> 요소 */
-	 .Hall > .SubHall > table.InfoTable thead > tr > th:not(:nth-last-child(-n+5)){
-	background-color: rgb(111, 167, 235);
-	position: sticky;
-	top: 0;
-	color: white;
-	text-align: center;
-	z-index: 10;
-	padding: 8px;
-	border: 1px solid white;
-	width: 80px;
-	font-size: 8px;
+	.Hall > .SubHall > table.InfoTable thead > tr {
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+    }
+	.Hall > .SubHall > table.InfoTable thead > tr > th:not(:nth-last-child(-n+5)) {
+    background-color: rgb(111, 167, 235);
+    top: 0;
+    color: white;
+    text-align: center;
+    z-index: 10;
+    padding: 8px;
+    border: 1px solid white;
+    width: 125px;
+    font-size: xx-small;
+    letter-spacing: 0.5em
 	}
     .Hall > .SubHall > table.InfoTable thead > tr > th:nth-last-child(-n+5){
 	background-color: rgb(111, 167, 235);
-	position: sticky;
 	top: 0;
 	color: white;
 	text-align: center;
 	z-index: 10;
 	padding: 0px;
 	border: 1px solid white;
-	width: 120px;
+	width: 200px;
 	font-size: 8px;
     }
     .Hall >.SubHall > table.InfoTable thead > tr > th > div:nth-child(1){
@@ -209,18 +220,42 @@ body {
     box-sizing: border-box;
     padding: 5px;
     }
-    .Hall >.SubHall > table.InfoTable tbody::-webkit-scrollbar {
-    width: 5px;
-  	}
-  	.Hall >.SubHall > table.InfoTable tbody::-webkit-scrollbar-thumb {
-    background-color: #2f3542;
-    border-radius: 10px;
-  	}
-  	.Hall >.SubHall > table.InfoTable tbody::-webkit-scrollbar-track {
-    background-color: white;
-    border-radius: 1px;
-    box-shadow: inset 0px 0px 5px white;
-  	}
+    .Hall >.SubHall > table.InfoTable tbody > tr {
+	    display: table;
+	    width: 100%;
+	    table-layout: fixed;
+	}
+	.Hall >.SubHall > table.InfoTable tbody > tr > td {
+	    padding: 8px;
+	    border: 1px solid #ddd;
+	    width: 125px;
+	    height: 10px;
+	    font-weight: bold;
+	}
+	.Hall >.SubHall > table.InfoTable tbody::-webkit-scrollbar {
+	    width: 5px;
+	}
+	.Hall >.SubHall > table.InfoTable tbody::-webkit-scrollbar-thumb {
+	    background-color: #2f3542;
+	    border-radius: 10px;
+	}
+	.Hall >.SubHall > table.InfoTable tbody::-webkit-scrollbar-track {
+	    background-color: white;
+	    border-radius: 1px;
+	    box-shadow: inset 0px 0px 5px white;
+	}
+	.Hall >.SubHall > table.InfoTable tbody::-webkit-scrollbar:horizontal {
+	    height: 10px;
+	}
+	.Hall >.SubHall > table.InfoTable tbody::-webkit-scrollbar-thumb:horizontal {
+	    background-color: black;
+	    border-radius: 10px;
+	}
+	.Hall >.SubHall > table.InfoTable tbody::-webkit-scrollbar-track:horizontal {
+	    background-color: white;
+	    border-radius: 1px;
+	    box-shadow: inset 0px 0px 5px white;
+	}
   	footer {
    	width: 75.4%;
    	height: 4%;

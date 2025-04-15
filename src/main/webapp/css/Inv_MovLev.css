@@ -5,28 +5,29 @@
 	display: block;
 	width: 100.4%;
 	height: 100%;
-	max-height: 96%;
+	max-height: 98.6%;
 	overflow-y: auto;
+	overflow-x: auto;
 	}
 	.Hall > .SubHall > table.InfoTable tbody td:not(:empty){
 	padding: 8px 5px;
 	}
-	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(1){width: 56px;}	 
-    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(2){width: 57px;}
-    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(3){width: 55px;}
-    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(4){width: 54px;}
-    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(5){width: 55px;}
-    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(6){width: 56px;}
-    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(7){width: 55px;}
-    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(8){width: 55px;}
-    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(9){width: 55px;}
-    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(10){width: 55px;}
-    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(11){width: 55px;}
-    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(12){width: 63px;}
-    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(13){width: 68px;}
-    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(14){width: 67px;}
-    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(15){width: 74px;}
-    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(16){width: 61px;}
+	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(1){width: 125px;}	 
+    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(2){width: 125px;}
+    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(3){width: 125px;}
+    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(4){width: 125px;}
+    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(5){width: 125px;}
+    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(6){width: 125px;}
+    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(7){width: 125px;}
+    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(8){width: 125px;}
+    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(9){width: 125px;}
+    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(10){width: 125px;}
+    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(11){width: 125px;}
+    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(12){width: 183px;}
+    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(13){width: 185px;}
+    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(14){width: 184px;}
+    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(15){width: 184px;}
+    .Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(16){width: 183px;}
     
     .Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(1){width: 40px;}
 	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(2){width: 40px;}
@@ -91,23 +92,4 @@
 	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(14){width: 50px;}
 	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(15){width: 50px;}
 	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(16){width: 50px;}
-	
-	footer > div:nth-child(1){width: 95px;height: 34px;}
-	footer > div:nth-child(2){width: 97px;height: 34px;}
-	footer > div:nth-child(3){width: 96px;height: 34px;}
-	footer > div:nth-child(4){width: 97px;height: 34px;}
-	footer > div:nth-child(5){width: 95px;height: 34px;}
-	footer > div:nth-child(6){width: 96px;height: 34px;}
-	footer > div:nth-child(7){width: 95px;height: 34px;}
-	footer > div:nth-child(8){width: 96px;height: 34px;}
-	footer > div:nth-child(9){width: 95px;height: 34px;}
-	footer > div:nth-child(10){width: 98px;height: 34px;}
-  	footer > div:nth-child(11){
-  	width: 104.5px;
-  	height: 34px;
-  	text-align: center;
-  	font-weight: bold;
-  	font-size: x-large;
-  	padding-top: 2px;
-  	}
 }
