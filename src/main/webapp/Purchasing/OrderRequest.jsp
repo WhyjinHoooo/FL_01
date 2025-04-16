@@ -9,6 +9,14 @@
 <meta charset="UTF-8">
 <title>구매 요청서</title>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tbody = document.querySelector('.InfoTable-Body');
+    const thead = document.querySelector('.InfoTable-Header');
+
+    tbody.addEventListener('scroll', function() {
+        thead.scrollLeft = tbody.scrollLeft; // thead의 스크롤 위치를 직접 설정
+    });
+});
 function InfoSearch(field){
 	event.preventDefault();
 	var MatCode = $('.Entry_MatCode').val();
@@ -291,48 +299,48 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 <jsp:include page="../HeaderTest.jsp"></jsp:include>
 	<div class="Req-Centralize">
 		<div class="Req-Header">
-				<div class="Req-Title">구매요청 Header</div>
-				<div class="InfoInput">
-					<label>Company : </label> 
-					<input type="text" class="ComCode SearOption" name="ComCode" value="<%=userComCode %>" readonly>
-				</div>
-				
-				<div class="InfoInput">
-					<label>Plant :  </label>
-					<input type="text" class="PlantCode SearOption" onclick="InfoSearch('Plant')" readonly>
-				</div>
-				
-				<div class="InfoInput">
-					<label>Material :  </label>
-					<input type="text" class="MatCode SearOption" onclick="InfoSearch('Material')" placeholder="SELECT" readonly>
-				</div>
-				
-				<div class="InfoInput">
-					<label>등록일자(From) :  </label>
-					<input type="date" class="EndDate SearOption">
-				</div>
-				
-				<div class="InfoInput">
-					<label>등록일자(To) :  </label>
-					<input type="date" class="FromDate SearOption">
-				</div>
-				
-				<div class="InfoInput">
-					<label>구매 요청자 :  </label>
-					<input type="text" class="Client SearOption" value="<%=UserIdNumber %>" onclick="InfoSearch('Client')" readonly>
-				</div>
-				
-				<div class="InfoInput">
-					<label>ORD TYPE :  </label>
-					<input type="text" class="DocCode" value="PREO" readonly>
-				</div>
-				
-				<div class="InfoInput">
-					<label>구매요청일자 :  </label>
-					<input type="text" class="BuyDate" name="BuyDate" readonly>
-				</div>
-				
-				<button class="SearBtn">실행</button>	
+			<div class="Req-Title">구매요청 Header</div>
+			<div class="InfoInput">
+				<label>Company : </label> 
+				<input type="text" class="ComCode SearOption" name="ComCode" value="<%=userComCode %>" readonly>
+			</div>
+			
+			<div class="InfoInput">
+				<label>Plant :  </label>
+				<input type="text" class="PlantCode SearOption" onclick="InfoSearch('Plant')" readonly>
+			</div>
+			
+			<div class="InfoInput">
+				<label>Material :  </label>
+				<input type="text" class="MatCode SearOption" onclick="InfoSearch('Material')" placeholder="SELECT" readonly>
+			</div>
+			
+			<div class="InfoInput">
+				<label>등록일자(From) :  </label>
+				<input type="date" class="EndDate SearOption">
+			</div>
+			
+			<div class="InfoInput">
+				<label>등록일자(To) :  </label>
+				<input type="date" class="FromDate SearOption">
+			</div>
+			
+			<div class="InfoInput">
+				<label>구매 요청자 :  </label>
+				<input type="text" class="Client SearOption" value="<%=UserIdNumber %>" onclick="InfoSearch('Client')" readonly>
+			</div>
+			
+			<div class="InfoInput">
+				<label>ORD TYPE :  </label>
+				<input type="text" class="DocCode" value="PREO" readonly>
+			</div>
+			
+			<div class="InfoInput">
+				<label>구매요청일자 :  </label>
+				<input type="text" class="BuyDate" name="BuyDate" readonly>
+			</div>
+			
+			<button class="SearBtn">실행</button>	
 		</div>
 		<div class="Req-Body">
 			<div class="Info-Area">

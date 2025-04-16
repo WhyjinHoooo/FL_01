@@ -9,6 +9,14 @@
 <meta charset="UTF-8">
 <title>발주검토</title>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tbody = document.querySelector('.InfoTable-Body');
+    const thead = document.querySelector('.InfoTable-Header');
+
+    tbody.addEventListener('scroll', function() {
+        thead.scrollLeft = tbody.scrollLeft; // thead의 스크롤 위치를 직접 설정
+    });
+});
 function InfoSearch(field){
 	event.preventDefault();
 	var MatCode = $('.Entry_MatCode').val();

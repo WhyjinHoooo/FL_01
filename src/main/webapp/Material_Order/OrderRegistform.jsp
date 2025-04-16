@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../mydbcon.jsp" %>
-<link rel="stylesheet" href="../css/style.css?after">
+<link rel="stylesheet" href="../css/MatOIO.css?after">
 <title>긴급자재발주</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
@@ -27,30 +27,32 @@ window.addEventListener('unload', (event) => {
 	}
     navigator.sendBeacon('../DeleteOrder', JSON.stringify(data));
 });
-	
+document.addEventListener('DOMContentLoaded', function() {
+    const thead = document.querySelector('.InfoTable-Header');
+    const tbody = document.querySelector('.InfoTable-Body');
+    
+    tbody.addEventListener('scroll', function() {
+        thead.scrollLeft = tbody.scrollLeft;
+    });
+});
 function InfoSearch(field){
 	var popupWidth = 500;
     var popupHeight = 600;
     
-    // 현재 활성화된 모니터의 위치를 감지
     var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
     var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
     
-    // 전체 화면의 크기를 감지
     var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
     var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
     var xPos, yPos;
     
     if (width == 2560 && height == 1440) {
-        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
         xPos = (2560 / 2) - (popupWidth / 2);
 	        yPos = (1440 / 2) - (popupHeight / 2);
     } else if (width == 1920 && height == 1080) {
-        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
         xPos = (1920 / 2) - (popupWidth / 2);
         yPos = (1080 / 2) - (popupHeight / 2);
     } else {
-        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
         var monitorWidth = 2560;
         var monitorHeight = 1440;
         xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;

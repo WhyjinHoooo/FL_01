@@ -9,7 +9,7 @@ body {
 	.Hall {
     display: flex;
     flex-direction: row;
-    height: 73vh;
+    height: 71vh;
     width: 100%;
     margin-top: 0.3%;
 	}
@@ -86,7 +86,7 @@ body {
 	padding-top: 35%;
 	}
     .MainHall > .BtnArea > button:nth-child(1) {
-	width: 40%;
+	width: 25%;
 	height: 10%;
 	text-align: center;
 	background-color: #002060;
@@ -107,7 +107,7 @@ body {
 	border: 1px solid #0068ff;
 	}
 	 .MainHall > .BtnArea > button:nth-child(2) {
-	width: 40%;
+	width: 25%;
 	height: 10%;
 	text-align: center;
 	background-color: #FF4040;
@@ -125,6 +125,26 @@ body {
 	background: #B3003F;
 	color: #fff;
 	border: 1px solid #B3003F;
+	}
+	.MainHall > .BtnArea > button:nth-child(3) {
+	width: 25%;
+	height: 10%;
+	text-align: center;
+	background-color: #40FF40;
+	color: white;
+	border: 1px solid #40FF40;
+	border-radius: 5px;
+	font-size: x-small;
+	}
+	.MainHall > .BtnArea > button:nth-child(3):hover {
+	background: #3FB300;
+	color: #fff;
+	border: 1px solid #3FB300;
+	}
+	.MainHall > .BtnArea > button:nth-child(3):active {
+	background: #3FB300;
+	color: #fff;
+	border: 1px solid #3FB300;
 	}
 	.MainHall >.BtnArea > div#clock {
     text-align: center;
@@ -157,7 +177,6 @@ body {
 	z-index: 10;
 	overflow-x: hidden;
     }
-    
    	.Hall >.SubHall > table.InfoTable tbody{
 	table-layout: fixed;
 	display: block;
@@ -348,7 +367,7 @@ body {
 	height: 48%;
 	}
     .MainHall > .BtnArea > button:nth-child(1) {
-	width: 45%;
+	width: 30%;
 	height: 10%;
 	text-align: center;
 	background-color: #002060;
@@ -369,7 +388,7 @@ body {
 	border: 1px solid #0068ff;
 	}
 	 .MainHall > .BtnArea > button:nth-child(2) {
-	width: 45%;
+	width: 30%;
 	height: 10%;
 	text-align: center;
 	background-color: #FF4040;
@@ -387,6 +406,26 @@ body {
 	background: #B3003F;
 	color: #fff;
 	border: 1px solid #B3003F;
+	}
+	.MainHall > .BtnArea > button:nth-child(3) {
+	width: 30%;
+	height: 10%;
+	text-align: center;
+	background-color: #40FF40;
+	color: white;
+	border: 1px solid #40FF40;
+	border-radius: 10px;
+	font-size: 25px;
+	}
+	.MainHall > .BtnArea > button:nth-child(3):hover {
+	background: #3FB300;
+	color: #fff;
+	border: 1px solid #3FB300;
+	}
+	.MainHall > .BtnArea > button:nth-child(3):active {
+	background: #3FB300;
+	color: #fff;
+	border: 1px solid #3FB300;
 	}
 	.MainHall >.BtnArea > div#clock {
     text-align: center;
@@ -432,7 +471,6 @@ body {
 	font-size: 10px;
 	font-weight: bold;
     }
-	
     .Hall > .SubHall > table.InfoTable thead > tr > th:not(:nth-last-child(-n+5)){
 	background-color: rgb(111, 167, 235);
 	position: sticky;

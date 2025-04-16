@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../mydbcon.jsp" %>
-<link rel="stylesheet" href="../css/style.css?after">
+<link rel="stylesheet" href="../css/MatOIO.css?after">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
@@ -23,6 +23,20 @@ window.addEventListener('unload', (event) => {
 			
 	}
     navigator.sendBeacon('../DeleteOrder', JSON.stringify(data));
+});
+document.addEventListener('DOMContentLoaded', function() {
+	const Dhead = document.querySelector('.InsertTable_Header');
+	const Dbody = document.querySelector('.InsertTable_Body');
+	
+    const thead = document.querySelector('.InfoTable_Head');
+    const tbody = document.querySelector('.InfoTable_Body');
+    
+    tbody.addEventListener('scroll', function() {
+        thead.scrollLeft = tbody.scrollLeft;
+    });
+    Dbody.addEventListener('scroll', function() {
+    	Dhead.scrollLeft = Dbody.scrollLeft;
+    });
 });
 function InfoSearch(field){
 	var popupWidth = 500;
@@ -72,21 +86,21 @@ function InfoSearch(field){
 $(document).ready(function(){
 	function InitialTable(){
 		var UserId = $('.UserID').val();
-		$('.OrderBody').empty();
-		$('.InfoBody').empty();
+		$('.InfoTable_Body').empty();
+		$('.InsertTable_Body').empty();
 		for (let i = 0; i < 20; i++) {
 	        const row = $('<tr></tr>');
 	        for (let j = 0; j < 17; j++) {
 	            row.append('<td></td>');
 	        }
-	        $('.OrderBody').append(row);
+	        $('.InfoTable_Body').append(row);
 	    }
 		for (let i = 0; i < 20; i++) {
 	        const row = $('<tr></tr>');
 	        for (let j = 0; j < 18; j++) {
 	            row.append('<td></td>');
 	        }
-	        $('.InfoBody').append(row);
+	        $('.InsertTable_Body').append(row);
 	    }
 		$.ajax({
 			url:'${contextPath}/Material_Input/AjaxSet/ForPlant.jsp',
@@ -492,13 +506,13 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			<div class="Order-Area">
 				<div class="Title">자재 발주 상태</div>
 				<table class="InfoTable">
-					<thead>
+					<thead class="InfoTable_Head">
 						<tr>
 							<th>항번</th><th>선택</th><th>공급업체</th><th>공급업체 프로필</th><th>PO번호</th><th>Item번호</th><th>자재</th><th>자재 정보</th><th>자재 유형</th>
 							<th>발주수량</th><th>구매단위</th><th>입고수량</th><th>미입고수량</th><th>거래통화</th><th>입고예정일자</th><th>입고창고</th><th>Plant</th>
 						</tr>
 					</thead>
-					<tbody class="OrderBody">
+					<tbody class="InfoTable_Body">
 					</tbody>
 				</table>
 			</div>
@@ -506,7 +520,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			<div class="Mat-Area">
 				<div class="InfoInput">
 					<label>Material 입고 번호 : </label>
-					<input type="text" class="MatNum InputInfo Header" name="MatNum" readonly>
+					<input type="text" class="MatNum InputInfo Header" name="MatNum" value="asd" readonly>
 					
 					<label>GR Item Number :</label>
 					<input type="text" class="ItemNum InputInfo" name="ItemNum" reqdonly>
@@ -589,15 +603,15 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			
 			<div class=Info-Area>
 				<div class="Title">자재 입고 상태</div>
-				<table class="InfoTable" id="InfoTable">
-					<thead>
+				<table class="InsertTable">
+					<thead class="InsertTable_Header">
 						<tr>
 							<th>항번</th><th>삭제</th><th>입고번호</th><th>Item번호</th><th>입고유형</th><th>자재</th><th>자재 정보</th>
 							<th>창고</th><th>Bin</th><th>입고수량</th><th>재고단위</th><th>Lot번호</th><th>사업장<!-- Plant --></th><th>공급업체<!-- Vendor --></th><th>제조일자</th><th>만료일자</th>
 							<th>PO번호</th><th>회사코드</th>
 						</tr>
 					</thead>
-					<tbody class="InfoBody">
+					<tbody class="InsertTable_Body">
 					</tbody>
 				</table>
 			</div>

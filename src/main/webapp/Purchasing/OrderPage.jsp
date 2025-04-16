@@ -9,6 +9,20 @@
 <meta charset="UTF-8">
 <title>자재발주</title>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+	const Dhead = document.querySelector('.POTable-Header');
+	const Dbody = document.querySelector('.POTable-Body');
+	
+    const thead = document.querySelector('.InfoTable-Header');
+    const tbody = document.querySelector('.InfoTable-Body');
+    
+    tbody.addEventListener('scroll', function() {
+        thead.scrollLeft = tbody.scrollLeft;
+    });
+    Dbody.addEventListener('scroll', function() {
+    	Dhead.scrollLeft = Dbody.scrollLeft;
+    });
+});
 function InfoSearch(field){
 	event.preventDefault();
 	var MatCode = $('.Entry_MatCode').val();

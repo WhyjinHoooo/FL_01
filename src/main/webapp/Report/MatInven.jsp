@@ -11,6 +11,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
+var TotalCount = [];
 document.addEventListener('DOMContentLoaded', function() {
     const tbody = document.querySelector('.InfoTable-Body');
     const thead = document.querySelector('.InfoTable-Header');
@@ -70,6 +71,10 @@ function InfoSearch(field){
     case "MovSearch":
     	window.open("${contextPath}/Report/PopUp/MovSerach.jsp?Move=" + MoveType, "PopUp05", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
     	break;
+    case "Summary":
+    	popupWidth = 1000;
+    	popupHeight = 160;
+    	window.open("${contextPath}/Report/PopUp/SummPopUp.jsp?Array=" + TotalCount, "PopUp06", "width=" + popupWidth + ",height=" + popupHeight + ",left=" + position.x + ",top=" + position.y);
     }
 }
 const cssMap = {
@@ -244,17 +249,7 @@ $(document).ready(function() {
 	});
     
     $('.SearBtn').click(function(){
-    	var InQ = 0;
-    	var InA = 0;
-    	var PI = 0;
-    	var PA = 0;
-    	var MO = 0;
-    	var MA = 0;
-    	var TI = 0;
-    	var TA = 0;
-    	var IQ = 0;
-    	var IA = 0;
-    	
+    	var InQ = 0, InA = 0, PI = 0, PA = 0, MO = 0, MA = 0, TI = 0, TA = 0, IQ = 0, IA = 0;
     	
     	var FromDate = $('.FromDate').val();
     	var EndDate = $('.EndDate').val();
@@ -437,10 +432,7 @@ $(document).ready(function() {
         	});
     		break;
     	}
-    	var TotalCount = [IA, IQ, TA, TI, MA, MO, PA, PI,InA, InQ];
-    	for(var n = 0 ; n < TotalCount.length ; n++ ){
-        	$("footer div").eq(n).text(TotalCount[n]);
-    	}
+    	TotalCount = [IA, IQ, TA, TI, MA, MO, PA, PI,InA, InQ];
     	applyCSS(condition);
     	clearInterval(TimeSetting);
     })
@@ -512,6 +504,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 		<div class="BtnArea">
 			<button class="SearBtn">Search</button>
 			<button class="ResBtn">Reset</button>
+			<button class="SummBtn" onclick="InfoSearch('Summary')">Sum.</button>
 			<div class="TimeArea" id="clock">Loading...</div>
 		</div>
 		

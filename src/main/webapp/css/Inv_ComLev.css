@@ -28,21 +28,21 @@
 	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(14){width: 85px;}
 	.Hall > .SubHall > table.InfoTable tbody td:empty:nth-child(15){width: 76px;}
 	
-	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(1){width: 50px;}
-	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(2){width: 50px;}
-	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(3){width: 50px;}
-	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(4){width: 50px;}
-	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(5){width: 50px;}
-	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(6){width: 50px;}
-	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(7){width: 50px;}
-	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(8){width: 50px;}
-	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(9){width: 50px;}
-	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(10){width: 50px;}
-	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(11){width: 50px;}
-	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(12){width: 50px;}
-	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(13){width: 50px;}
-	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(14){width: 50px;}
-	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(15){width: 50px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(1){width: 135px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(2){width: 135px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(3){width: 135px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(4){width: 134px;font-size: xx-small;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(5){width: 135px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(6){width: 94px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(7){width: 93px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(8){width: 94px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(9){width: 94px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(10){width: 93px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(11){width: 93px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(12){width: 96px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(13){width: 93px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(14){width: 93px;}
+	.Hall > .SubHall > table.InfoTable tbody td:not(:empty):nth-child(15){width: 98px;}
 }
 @media only screen and (min-width: 2560px) {
 	.Hall >.SubHall > table.InfoTable tbody{

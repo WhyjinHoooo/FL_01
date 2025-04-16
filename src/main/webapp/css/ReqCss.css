@@ -1,8 +1,916 @@
 @charset "UTF-8";
-@media only screen and (min-width: 1537px) {
-	input.Fixed{
+input.Fixed{
 	background: #D9D9D9;
 	}
+@media only screen and (max-width: 1536px) {
+	.Req-Centralize {
+    display: flex;
+    flex-direction: row;
+    height: 85vh;
+    margin-top: 0.5%;
+	}
+	.Req-Header {
+    border: 1px solid black;
+    width: 25%;
+	}
+	.Req-Body {
+    margin-left: 2%;
+    width: 73%;
+	}
+	.Req-Body > .Info-Area {
+    border: 1px solid black;
+    height: 45%;
+	}
+	.Req-Body > .Btn-Area {
+	height: 5%;
+	margin-top: 1%;
+	display: flex;
+	justify-content: flex-end;
+	flex-direction: row;
+    }
+	.Req-Body > .Req-Area {
+    border: 1px solid black;
+    height: 47.3%;
+    margin-top: 0.5%;
+	}
+	.Req-Title {
+	background: #260FB1;
+	color: white;
+	text-align: center;
+	font-size: small;
+	padding: 5px;
+	font-weight: bold;
+	letter-spacing: 0.5em;
+    }
+    .Req-Header > .InfoInput {
+	display: flex;
+	flex-direction: row;
+	margin-top: 20px;
+	width: 100%;
+    }
+	.Req-Header > div:nth-of-type(7) {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 30px;
+	}
+	.Req-Header > div:nth-of-type(8) > input,
+	.Req-Header > div:nth-of-type(9) > input {
+    text-align: center;
+    background: lightsteelblue;
+	}
+    .Req-Header > .InfoInput label {
+	font-weight: bold;
+	font-size: x-small;
+	display: inline-block;
+	width: 10em;
+	text-align: right;
+	letter-spacing: 0.1em;
+    }
+    .Req-Header > button {
+	width: 40%;
+	height: 7%;
+	text-align: center;
+	background-color: #002060;
+	color: white;
+	border: 1px solid #1F4E79;
+	margin: 8% 0px 0px 30%;
+	border-radius: 5px;
+	font-size: larger;
+    }
+	.Req-Header > button:hover {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.Req-Header > button:active {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+    .InfoInput input {
+	margin-left: 10px;
+	width: 200px;
+	text-align: center;
+	font-size: x-small;
+    }
+    .InfoInput select{
+    margin-left: 10px;
+    width: 210px;
+	text-align: center;
+	font-size: x-small;
+    }
+    
+    .Info-Area > table.InfoTable{
+	border-collapse: collapse;
+	width: 100%;
+	height: 92.1%;
+	table-layout: fixed;
+	overflow: scroll;
+    }
+    .Info-Area > table.InfoTable thead{
+    display: block;
+	width: 100%;
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	overflow-x: hidden;
+    }
+   	.Info-Area > table.InfoTable tbody{
+	table-layout: fixed;
+	display: block;
+	width: 100.3%;
+	height: 100%;
+	max-height: 91%;
+	overflow-y: auto;
+	overflow-x: auto;
+	}
+	.Info-Area > table.InfoTable tbody td:empty{
+	padding: 8px 5.5px;
+	border: 1px solid #ddd;
+	height: 10px;
+	text-align: center;
+	font-size: 10px;
+	font-weight: bold;
+    }
+    .Info-Area > table.InfoTable tbody td:empty:nth-child(1){width: 155px;} 
+	.Info-Area > table.InfoTable tbody td:empty:nth-child(2){width: 154px;} 
+	.Info-Area > table.InfoTable tbody td:empty:nth-child(3){width: 155px;} 
+	.Info-Area > table.InfoTable tbody td:empty:nth-child(4){width: 156px;} 
+	.Info-Area > table.InfoTable tbody td:empty:nth-child(5){width: 155px;} 
+	.Info-Area > table.InfoTable tbody td:empty:nth-child(6){width: 155px;}
+	.Info-Area > table.InfoTable tbody td:empty:nth-child(7){width: 155px;}
+	.Info-Area > table.InfoTable tbody td:empty:nth-child(8){width: 154px;}
+	.Info-Area > table.InfoTable tbody td:empty:nth-child(9){width: 156px;}
+	.Info-Area > table.InfoTable tbody td:empty:nth-child(10){width: 155px;}
+	.Info-Area > table.InfoTable tbody td:empty:nth-child(11){width: 156px;}
+	.Info-Area > table.InfoTable tbody td:empty:nth-child(12){width: 153px;}
+	.Info-Area > table.InfoTable tbody td:empty:nth-child(13){width: 154px;}
+	
+	.Info-Area > table.InfoTable tbody td:not(:empty){
+	padding: 8px 5.5px;
+	border: 1px solid #ddd;
+	height: 10px;
+	text-align: center;
+	font-size: 10px;
+	font-weight: bold;
+    }
+    .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(1){width: 156px;} 
+	.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2){width: 154px;} 
+	.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(3){width: 155px;} 
+	.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(4){width: 156px;} 
+	.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(5){width: 155px;} 
+	.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(6){width: 155px;}
+	.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(7){width: 155px;}
+	.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(8){width: 154px;}
+	.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(9){width: 156px;}
+	.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(10){width: 155px;}
+	.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(11){width: 156px;}
+	.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(12){width: 153px;}
+	.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(13){width: 154px;}
+	.Info-Area > table.InfoTable thead > tr {
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+    }
+	.Info-Area > table.InfoTable thead > tr > th {
+    background-color: rgb(111, 167, 235);
+    top: 0;
+    color: white;
+    text-align: center;
+    z-index: 10;
+    padding: 8px;
+    border: 1px solid white;
+    width: 150px;
+    font-size: xx-small;
+	 }
+	.Info-Area > table.InfoTable tbody > tr {
+	display: table;
+	width: 100%;
+	table-layout: fixed;
+    }
+    .Info-Area > table.InfoTable tbody::-webkit-scrollbar {
+	    width: 5px;
+	}
+	.Info-Area > table.InfoTable tbody::-webkit-scrollbar-thumb {
+	    background-color: #2f3542;
+	    border-radius: 10px;
+	}
+	.Info-Area > table.InfoTable tbody::-webkit-scrollbar-track {
+	    background-color: white;
+	    border-radius: 1px;
+	    box-shadow: inset 0px 0px 5px white;
+	}
+	.Info-Area > table.InfoTable tbody::-webkit-scrollbar:horizontal {
+	    height: 10px;
+	}
+	.Info-Area > table.InfoTable tbody::-webkit-scrollbar-thumb:horizontal {
+	    background-color: black;
+	    border-radius: 10px;
+	}
+	.Info-Area > table.InfoTable tbody::-webkit-scrollbar-track:horizontal {
+	    background-color: white;
+	    border-radius: 1px;
+	    box-shadow: inset 0px 0px 5px white;
+	}
+  	.Btn-Area button.NewEntryBtn {
+    width: 10%;
+    background: DarkBlue;
+    color: white;
+    font-weight: bold;
+    border: 1px solid DarkBlue;
+    padding: 5px;
+    border-radius: 5px;
+	}
+	.Btn-Area button.SaveBtn {
+    background: darkgreen;
+    margin-left: 1%;
+    width: 10%;
+    color: white;
+    font-weight: bold;
+    border: 1px solid darkgreen;
+    padding: 5px;
+    border-radius: 5px;
+	}
+	.Btn-Area button.EditBtn {
+    background: darkred;
+    width: 10%;
+    color: white;
+    font-weight: bold;
+    margin-left: 1%;
+    border: 1px solid darkred;
+    padding: 5px;
+    border-radius: 5px;
+	}
+	.Btn-Area > button.SaveBtn:hover {
+	background: #32CD32;
+	color: #fff;
+	border: 1px solid #32CD32;
+	}
+	.Btn-Area > button.SaveBtn:active {
+	background: #32CD32;
+	color: black;
+	border: 1px solid #32CD32;
+	}
+	.Btn-Area > button.NewEntryBtn:hover{
+	background: #B0E0E6;
+	color: #fff;
+	border: 1px solid #B0E0E6;
+	}
+	.Btn-Area > button.EditBtn:hover {
+	background: #FA8072;
+	color: #fff;
+	border: 1px solid #FA8072;
+	}
+	.Btn-Area > button.NewEntryBtn:active{
+	background: #B0E0E6;
+	color: black;
+	border: 1px solid #B0E0E6;
+	}
+	.Btn-Area > button.EditBtn:active {
+	background: #FA8072;
+	color: black;
+	border: 1px solid #FA8072;
+	}
+	.Req-Area > .MatInput {
+	display: flex;
+	flex-direction: row;
+	margin: 1.5% 0px 0px 10%;
+    }
+	.Req-Area > .MatInput label{
+   	font-weight: bold;
+	font-size: x-small;
+	display: inline-block;
+	width: 10em;
+	text-align: right;
+	letter-spacing: 0.1em;
+    }
+    .Req-Area > div:nth-of-type(3) > input:nth-child(4),
+	.Req-Area > div:nth-of-type(6) > input:nth-child(4) {
+    text-align: left;
+    width: 30%
+	}
+	.Req-Area > div:nth-of-type(7) > input:nth-child(2) {
+	width: 61.8%;
+    }
+	.Req-Area > .MatInput input{
+    margin-left: 10px;
+	text-align: center;
+	width: 200px;
+	font-size: x-small;
+    }
+    .Req-Area > .MatInput .Entry_EndDate{
+    width: 200px;
+    margin-left: 10px;
+	text-align: center;
+    }	
+    /* --------------------------- */
+    .Ord-Centralize {
+	display: flex;
+	flex-direction: row;
+	height: 85vh;
+	margin-top: 0.1%;
+	}
+	.Ord-Header {
+    border: 1px solid black;
+    width: 25%;
+	}
+	.Ord-Body {
+    border: 1px solid black;
+    margin-left: 2%;
+    width: 73%;
+	}
+	.Ord-Body > .Info-Area {
+    border: 1px solid black;
+    height: 45%;
+	}
+	.Ord-Body > .Btn-Area {
+    height: 5%;
+	margin: 1% 0% 1% 0%;
+	}
+	.Ord-Body > .Req-Area {
+    border: 1px solid black;
+    height: 45.3%;
+    margin-top: 0.5%;
+	}
+	.Ord-Title {
+	background: #260FB1;
+	color: white;
+	text-align: center;
+	font-size: small;
+	padding: 5px;
+	font-weight: bold;
+	letter-spacing: 0.5em;
+    }
+    .Ord-Header > .InfoInput {
+	display: flex;
+	flex-direction: row;
+	margin-top: 20px;
+	width: 100%;
+    }
+	.Ord-Header > div:nth-of-type(7) {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 30px;
+	}
+	.Ord-Header > div:nth-of-type(8) > input,
+	.Ord-Header > div:nth-of-type(9) > input {
+    text-align: center;
+    background: lightsteelblue;
+	}
+    .Ord-Header > .InfoInput label{
+	font-weight: bold;
+	font-size: x-small;
+	display: inline-block;
+	width: 10em;
+	text-align: right;
+	letter-spacing: 0.1em;
+    }
+    .Ord-Header > button {
+	width: 40%;
+	height: 7%;
+	text-align: center;
+	background-color: #002060;
+	color: white;
+	border: 1px solid #1F4E79;
+	margin: 8% 0px 0px 35%;
+	border-radius: 5px;
+	font-size: large;
+    }
+	.Ord-Header > button:hover {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.Ord-Header > button:active {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.Ord-Body > .Info-Area > table.InfoTable tbody{
+	table-layout: fixed;
+	display: block;
+	width: 100.1%;
+	height: 89.2%;
+	max-height: 88%;
+	overflow-y: auto;
+    }
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(1) {width: 154px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(2) {width: 155px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(3) {width: 155px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(4) {width: 155px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(5) {width: 155px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(6) {width: 155px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(7) {width: 155px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(8) {width: 155px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(9) {width: 155px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(10) {width: 156px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(11) {width: 155px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(12) {width: 155px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(13) {width: 155px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(14) {width: 155px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(15) {width: 155px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(16) {width: 153px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty) {
+	    padding: 8px 0px;
+	    border: 1px solid #ddd;
+	    height: 10px;
+	    text-align: center;
+	    font-size: 9px;
+	    font-weight: bold;
+	}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(1){width: 165px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2){width: 166px;padding: 0;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) > button {
+	    background: darkgray;
+	    color: white;
+	    width: 164px;
+	    height: 50px;
+	    font-weight: bold;
+	    border-radius: 10px;
+	    border: darkgray;
+	}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) > button:hover {
+		background:  #7A7A7A;
+		color: #fff;
+		border: 1px solid  #7A7A7A;
+	}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) > button:click {
+		background: #5A5A5A;
+		color: #fff;
+		border: 1px solid #5A5A5A;
+	}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(3){width: 167px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(4){width: 165px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(5){width: 165px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(6){width: 165px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(7){width: 167px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(8){width: 166px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(9){width: 166px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(10){width: 166px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(11){width: 166px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(12){width: 166px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(13){width: 166px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(14){width: 166px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(15){width: 166px;}
+	.Ord-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(16){width: 167px;}
+	.Ord-Area > .MatInput{
+	display: flex;
+	flex-direction: row;
+	margin: 1% 0px 0px 15%;
+	}
+	.Ord-Body > .Btn-Area > button.EditSaveBtn {
+	background: darkgreen;
+	margin-left: 75%;
+	width: 10%;
+	height: 35px;
+	color: white;
+	font-weight: bold;
+	font-size: small;
+	border: 1px solid darkgreen;
+	padding: 5px;
+	border-radius: 5px;
+    }
+	.Ord-Body > .Btn-Area > button.EditSaveBtn:hover {
+	background: #32CD32;
+	color: #fff;
+	border: 1px solid #32CD32;
+	}
+	.Ord-Body > .Btn-Area > button.EditSaveBtn:active {
+	background: #32CD32;
+	color: black;
+	border: 1px solid #32CD32;
+	}
+	.Ord-Body > .Btn-Area button.TotalSaveBtn {
+    background: darkred;
+    width: 10%;
+    height: 35px;
+    color: white;
+    font-weight: bold;
+	font-size: small;
+	margin-left: 3%;
+	border: 1px solid darkred;
+	padding: 5px;
+	border-radius: 5px;
+	}
+	.Ord-Body > .Btn-Area button.TotalSaveBtn:hover {
+	background: #FA8072;
+	color: #fff;
+	border: 1px solid #FA8072;
+	}
+	.Ord-Body > .Btn-Area button.TotalSaveBtn:active {
+	background: #FA8072;
+	color: black;
+	border: 1px solid #FA8072;
+	}
+	
+	.Ord-Area > .MatInput label{
+	font-weight: bold;
+	font-size: x-small;
+    display: inline-block;
+	width: 10em;
+	text-align: right;
+	letter-spacing: 0.1em;
+    }
+    .Ord-Area > div:nth-of-type(3) > input:nth-child(4),
+	.Ord-Area > div:nth-of-type(6) > input:nth-child(4) {
+    text-align: left;
+    width: 30%
+	}
+	.Ord-Area > div:nth-of-type(7) > input:nth-child(2){
+	width: 55.5%
+	}
+	.Ord-Area > div:nth-of-type(3) > input:nth-child(4) {
+    text-align: left;
+	}
+	.Ord-Area > div:nth-of-type(6) > input:nth-child(5),
+	.Ord-Area > div:nth-of-type(6) > input:nth-child(7) {
+    text-align: left;
+    width: 35px;
+	}
+	.Ord-Area  > div:nth-of-type(6) > span:nth-child(4),
+	.Ord-Area  > div:nth-of-type(6) > span:nth-child(6){
+	padding: 0px 0px 0px 7px;
+	font-size: x-small;
+	font-weight: bold;
+	}
+	.Ord-Area > div:nth-of-type(7) > input:nth-child(2){
+	width: 200px;
+	}
+	.Ord-Area > div:nth-of-type(8) > input:nth-child(2){
+	width: 55%;
+	}
+	.Ord-Area input:not(.EditOk){
+	background: darkgray;
+	}
+	.Ord-Area > .MatInput input{
+    margin-left: 10px;
+	text-align: center;
+	width: 200px;
+	font-size: x-small;
+    }
+    .Ord-Area > .MatInput .Entry_EndDate{
+    width: 200px;
+    margin-left: 10px;
+	text-align: center;
+    }
+    /* ----------------------------- */
+    .MatOrd-Centralize {
+    display: flex;
+    flex-direction: row;
+    height: 85vh;
+    margin-top: 0.1%;
+	}
+	.MatOrd-Header {
+    border: 1px solid black;
+    width: 25%;
+	}
+	.MatOrd-Body {
+    margin-left: 2%;
+    width: 73%;
+	}
+	.MatOrd-Body > .Info-Area {
+    border: 1px solid black;
+    height: 45%;
+	}
+	.MatOrd-Body > .Btn-Area {
+    height: 5%;
+	margin: 0.5% 0% 0.5% 0%;
+	display: flex;
+    justify-content: flex-end;
+	}
+	.MatOrd-Body > .Req-Area {
+    border: 1px solid black;
+    height: 45.3%;
+    margin-top: 0.5%;
+	}
+	.MatOrd-Title {
+	background: #260FB1;
+	color: white;
+	text-align: center;
+	font-size: small;
+	padding: 5px;
+	font-weight: bold;
+	letter-spacing: 0.5em;
+    }
+    .MatOrd-Header > .InfoInput {
+	display: flex;
+	flex-direction: row;
+	margin-top: 20px;
+	width: 100%;
+    }
+	.MatOrd-Header > div:nth-of-type(6) > input {
+    text-align: left;
+    width: 40px;
+	}
+	.MatOrd-Header > div:nth-of-type(6) > span {
+	padding: 0px 0px 0px 26px;
+	font-size: large;
+	font-weight: small;
+    }
+	.MatOrd-Header > div > input::placeholder{
+    text-align: center;
+	}
+    .MatOrd-Header > .InfoInput label{
+	font-weight: bold;
+	font-size: x-small;
+	display: inline-block;
+	width: 10em;
+	text-align: right;
+	letter-spacing: 0.1em;
+    }
+    .MatOrd-Header > button {
+	width: 40%;
+	height: 7%;
+	text-align: center;
+	background-color: #002060;
+	color: white;
+	border: 1px solid #1F4E79;
+	margin: 10% 0px 0px 35%;
+	border-radius: 5px;
+	font-size: large;
+	}
+	.MatOrd-Header > button:hover {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.MatOrd-Header > button:active {
+	background: #0068ff;
+	color: #fff;
+	border: 1px solid #0068ff;
+	}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody{
+	table-layout: fixed;
+	display: block;
+	width: 100.3%;
+	height: 91.2%;
+	max-height: 97%;
+	overflow-y: auto;
+    }
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(1) {width: 155px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(2) {width: 155px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(3) {width: 155px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(4) {width: 155px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(5) {width: 155px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(6) {width: 155px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(7) {width: 155px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(8) {width: 155px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(9) {width: 155px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(10) {width: 155px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(11) {width: 155px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(12) {width: 155px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:empty:nth-child(13) {width: 155px;}
+
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty) {
+	    padding: 8px 0px;
+	    border: 1px solid #ddd;
+	    height: 10px;
+	    text-align: center;
+	    font-size: 9px;
+	    font-weight: bold;
+	}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(1) {width: 166px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2) {width: 166px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(3) {width: 166px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(4) {width: 166px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(5) {width: 166px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(6) {width: 166px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(7) {width: 166px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(8) {width: 166px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(9) {width: 166px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(10) {width: 166px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(11) {width: 166px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(12) {width: 166px;}
+	.MatOrd-Body > .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(13) {width: 166px;}
+
+	.Ord-Area > .MatInput{
+	display: flex;
+	flex-direction: row;
+	margin: 30px 0px 0px 25%;
+	}
+	.MatOrd-Body > .Btn-Area > button.SaveBtn {
+    background: darkgreen;
+   	width: 10%;
+    height: 30px;
+    color: white;
+    font-weight: bold;
+    font-size: smaller;
+    border: 1px solid darkgreen;
+	padding: 5px;
+	border-radius: 5px;
+	}
+	.MatOrd-Body > .Btn-Area > button.SaveBtn:hover {
+	background: #32CD32;
+	color: #fff;
+	border: 1px solid #32CD32;
+	}
+	.MatOrd-Body > .Btn-Area > button.SaveBtn:active {
+	background: #32CD32;
+	color: black;
+	border: 1px solid #32CD32;
+	}
+	.MatOrd-Body > .Btn-Area button.CancelBtn {
+    background: darkred;
+    width: 10%;
+    height: 30px;
+    color: white;
+    font-weight: bold;
+    font-size: smaller;
+	margin-left: 1%;
+	border: 1px solid darkred;
+	padding: 5px;
+	border-radius: 5px;
+	}
+	.MatOrd-Body > .Btn-Area button.CancelBtn:hover {
+	background: #FA8072;
+	color: #fff;
+	border: 1px solid #FA8072;
+	}
+	.MatOrd-Body > .Btn-Area button.CancelBtn:active {
+	background: #FA8072;
+	color: black;
+	border: 1px solid #FA8072;
+	}
+	.MatOrd-Body > .Btn-Area button.ChgBtn {
+	background: DarkBlue;
+	width: 10%;
+	height: 30px;
+	margin-left: 1%;
+	color: white;
+	font-weight: bold;
+	font-size: smaller;
+	border: 1px solid DarkBlue;
+	padding: 5px;
+	border-radius: 5px;
+	}
+	.MatOrd-Body > .Btn-Area button.ChgBtn:hover {
+	background: #B0E0E6;
+	color: #fff;
+	border: 1px solid #B0E0E6;
+	}
+	.MatOrd-Body > .Btn-Area button.ChgBtn:active {
+	background: #B0E0E6;
+	color: black;
+	border: 1px solid #B0E0E6;
+	}
+	.MatOrd-Area {
+    height: 46.5%;
+	}
+    .MatOrd-Area > .MatOrd-Area-Header {
+    border: 1px solid rgb(0 0 0 / 50%);
+    width: 99.7%;
+    margin: 2px 0px 2px 2px;
+	}
+	.MatOrd-Area > .MatOrd-Area-Header > .MatInput label{
+   	font-weight: bold;
+   	font-size: x-small;
+    display: inline-block;
+	width: 10em;
+	text-align: right;
+	letter-spacing: 0.1em;
+    }
+    .MatOrd-Area > .MatOrd-Area-Header > div:nth-child(1){
+	margin: 0.5% 0px 0.5% 15%
+    }
+    .MatOrd-Area > .MatOrd-Area-Header > div:nth-child(2){
+	margin: 0px 0px 0px 15%
+    }
+	.MatOrd-Area > .MatOrd-Area-Header > .MatInput input{
+    margin-left: 10px;
+	text-align: center;
+	width: 15%;
+    }
+    .MatOrd-Area > .MatOrd-Area-Header > div:nth-child(2) > input:nth-child(4){
+	width: 40%;
+    }
+    .MatOrd-Area > div:nth-child(3){
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    height: 71.5%;
+    }
+    .MatOrd-Area > div:nth-child(3) > table.POTable{
+	border-collapse: collapse;
+	width: 100%;
+	height: 92.1%;
+	table-layout: fixed;
+	overflow: scroll;
+    }
+	.MatOrd-Area > div:nth-child(3) > table.POTable thead{
+    display: block;
+	width: 100%;
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	overflow-x: hidden;
+    }
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody{
+	table-layout: fixed;
+	display: block;
+	width: 100.3%;
+	height: 100%;
+	max-height: 94%;
+	overflow-y: auto;
+	overflow-x: auto;
+	}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty{
+	padding: 8px 5.5px;
+	border: 1px solid #ddd;
+	height: 10px;
+	text-align: center;
+	font-size: 10px;
+	font-weight: bold;
+    }
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(1){width: 155px;} 
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(2){width: 154px;} 
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(3){width: 155px;} 
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(4){width: 156px;} 
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(5){width: 155px;} 
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(6){width: 155px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(7){width: 155px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(8){width: 154px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(9){width: 156px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(10){width: 155px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(11){width: 156px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(12){width: 153px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(13){width: 154px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:empty:nth-child(14){width: 154px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty){
+	padding: 8px 5.5px;
+	border: 1px solid #ddd;
+	height: 10px;
+	text-align: center;
+	font-size: 10px;
+	font-weight: bold;
+    }
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(1){width: 165px; padding: 0;} 
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(2){width: 154px;} 
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(3){width: 155px;} 
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(4){width: 156px;} 
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(5){width: 155px;} 
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(6){width: 155px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(7){width: 155px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(8){width: 154px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(9){width: 156px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(10){width: 155px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(11){width: 156px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(12){width: 153px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(13){width: 154px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(14){width: 154px;}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody td:not(:empty):nth-child(1) > button {
+	background: darkgray;
+	color: white;
+	width: 163px;
+	height: 53px;
+	font-weight: bold;
+	border-radius: 10px;
+	border: darkgray;
+    }
+	.MatOrd-Area > div:nth-child(3) > table.POTable thead > tr {
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+    }
+	.MatOrd-Area > div:nth-child(3) > table.POTable thead > tr > th {
+    background-color: rgb(111, 167, 235);
+    top: 0;
+    color: white;
+    text-align: center;
+    z-index: 10;
+    padding: 8px;
+    border: 1px solid white;
+    width: 150px;
+    font-size: xx-small;
+	 }
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody > tr {
+	display: table;
+	width: 100%;
+	table-layout: fixed;
+    }
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody::-webkit-scrollbar {
+	    width: 5px;
+	}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody::-webkit-scrollbar-thumb {
+	    background-color: #2f3542;
+	    border-radius: 10px;
+	}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody::-webkit-scrollbar-track {
+	    background-color: white;
+	    border-radius: 1px;
+	    box-shadow: inset 0px 0px 5px white;
+	}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody::-webkit-scrollbar:horizontal {
+	    height: 10px;
+	}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody::-webkit-scrollbar-thumb:horizontal {
+	    background-color: black;
+	    border-radius: 10px;
+	}
+	.MatOrd-Area > div:nth-child(3) > table.POTable tbody::-webkit-scrollbar-track:horizontal {
+	    background-color: white;
+	    border-radius: 1px;
+	    box-shadow: inset 0px 0px 5px white;
+	}
+}
+@media only screen and (min-width: 2560px) {
 	.Req-Centralize {
     display: flex;
     flex-direction: row;
