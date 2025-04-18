@@ -151,7 +151,7 @@ $(document).ready(function(){
 			data : {vendor : VCode, plant : PCode},
 			dataType: 'json',
 			success: function(data){
-				$('.OrderBody').empty();
+				$('.InfoTable_Body').empty();
 				console.log(data);
 				for(var i = 0 ; i < data.length ; i++){
 					var row = '<tr>' +
@@ -174,7 +174,7 @@ $(document).ready(function(){
 					'<td>' + data[i].Plant + '</td>' +
 					'<td hidden>' + data[i].ActNumPO  + '</td>' +
 					'</tr>';
-            		$('.OrderBody').append(row);
+            		$('.InfoTable_Body').append(row);
 				}
 			}
 		});
@@ -202,7 +202,6 @@ $(document).ready(function(){
     	if(!pass){
     		alert('모든 항목을 입력해주세요.');
     	}else{
-    		BodyAbled();
     		UpdateTable();
     		$('.MovType').val('GR101');
     		$('.MovType_Des').val('구매발주 Material 입고');
@@ -212,7 +211,8 @@ $(document).ready(function(){
 	var Plus = 0;
 	var PoinfoLst = [];
 	var DataList = [];
-	$('.OrderBody').on('click','.AddBtn', function(e){
+	$('.InfoTable_Body').on('click','.AddBtn', function(e){
+		BodyAbled();
 		e.preventDefault();
 		var todayDate = $('.date').val();
 		var MoveType = $('.MovType').val();
@@ -314,8 +314,8 @@ $(document).ready(function(){
                 	if(data.status === 'Success'){
                 		var QuickSavedData = data.DataList;
                 		if(Plus === 0){
-                			$('.InfoBody').empty();
-                			RowNum = $('.InfoBody tr').length;
+                			$('.InsertTable_Body').empty();
+                			RowNum = $('.InsertTable_Body tr').length;
                 			var row = '<tr>' +
 							'<td>' + (RowNum + 1).toString().padStart(2,'0') + '</td>' + 
 							'<td><button class="DeleteBtn">Delete</button></td>' +
@@ -337,10 +337,10 @@ $(document).ready(function(){
 							'<td>' + QuickSavedData.ComCode + '</td>' +
 							'<td hidden>' + QuickSavedData.MatNum + '-' + QuickSavedData.ItemNum + '</td>' +
 							'</tr>';
-	                		$('.InfoBody').append(row);
+	                		$('.InsertTable_Body').append(row);
 	                		RowNum++;
                 		}else{
-                			RowNum = $('.InfoBody tr').length;
+                			RowNum = $('.InsertTable_Body tr').length;
                 			var row = '<tr>' +
 							'<td>' + (RowNum + 1).toString().padStart(2,'0') + '</td>' + 
 							'<td><button class="DeleteBtn">Delete</button></td>' +
@@ -362,7 +362,7 @@ $(document).ready(function(){
 							'<td>' + QuickSavedData.ComCode + '</td>' +
 							'<td hidden>' + QuickSavedData.MatNum + '-' + QuickSavedData.ItemNum + '</td>' +
 							'</tr>';
-	                		$('.InfoBody').append(row);
+	                		$('.InsertTable_Body').append(row);
 	                		RowNum++;
                 		}
                 		$('.ItemNum').val((RowNum + 1).toString().padStart(4,'0'));
@@ -378,7 +378,7 @@ $(document).ready(function(){
     	UpdateTable();
 	})
 
-	$(".InfoBody").on('click',".DeleteBtn", function(){
+	$(".InsertTable_Body").on('click',".DeleteBtn", function(){
 		var Row = $(this).closest('tr'); // 클릭된 번특이 속한 행 선택 
 		var ElementKeyValue = Row.find('td:eq(18)').text();
 		var RowLength = 0;
@@ -389,7 +389,7 @@ $(document).ready(function(){
 			success: function(response) {
 				if(response.trim() === 'Success'){
 					Row.remove();
-					RowLength = $('.InfoBody tr').length;
+					RowLength = $('.InsertTable_Body tr').length;
 					$('.ItemNum').val((RowLength + 1).toString().padStart(4,'0'));
 					if(RowLength === 0){
 						for (let i = 0; i < 20; i++) {
@@ -401,7 +401,7 @@ $(document).ready(function(){
 					    }
 						Plus = 0;
 					}else{
-						$('.InfoBody tr').each(function(index, tr){
+						$('.InsertTable_Body tr').each(function(index, tr){
 							var Element = $(this);
 							ElementKeyValue = Element.find('td:eq(18)').text();
 							$.ajax({

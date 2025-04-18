@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../mydbcon.jsp" %>
-<link rel="stylesheet" href="../css/style.css?after">
+<link rel="stylesheet" href="../css/MatOIO.css?after">
 <title>자재출고</title>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <script>
@@ -23,6 +23,14 @@ window.addEventListener('unload', (event) => {
 			
 	}
     navigator.sendBeacon('../DeleteOrder', JSON.stringify(data));
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const thead = document.querySelector('.InfoTable_Header');
+    const tbody = document.querySelector('.InfoTable_Body');
+    
+    tbody.addEventListener('scroll', function() {
+        thead.scrollLeft = tbody.scrollLeft;
+    });
 });
 function PopupPosition(popupWidth, popupHeight) {
     var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
@@ -103,13 +111,13 @@ function InfoSearch(field){
 $(document).ready(function(){
 	function InitialTable(){
 		var UserId = $('.UserID').val();
-		$('.InfoBody').empty();
+		$('.InfoTable_Body').empty();
 		for (let i = 0; i < 50; i++) {
             const row = $('<tr></tr>');
             for (let j = 0; j < 16; j++) {
                 row.append('<td></td>');
             }
-            $('.InfoBody').append(row);
+            $('.InfoTable_Body').append(row);
         }
 		$.ajax({
 			url:'${contextPath}/Material_Output/AjaxSet/ForPlant.jsp',
@@ -274,8 +282,8 @@ $(document).ready(function(){
 					if(data.status === 'Success'){
                 		var QuickSavedData = data.DataList;
 						if(Plus === 0){
-                			$('.InfoBody').empty();
-                			RowNum = $('.InfoBody tr').length;
+                			$('.InfoTable_Body').empty();
+                			RowNum = $('.InfoTable_Body tr').length;
                 			console.log('RowNum : ' + RowNum);
                 			var row = '<tr>' +
 							'<td>' + (RowNum + 1).toString().padStart(2,'0') + '</td>' + 
@@ -288,17 +296,17 @@ $(document).ready(function(){
 							'<td>' + QuickSavedData.OutCount + '</td>' + 
 							'<td>' + QuickSavedData.OrderUnit + '</td>' + 
 							'<td>' + QuickSavedData.UseDepart + '</td>' + 
-							'<td>' + QuickSavedData.LotNumber + '</td>' + 
+							'<td>' + (QuickSavedData.LotNumber || 'N/A') + '</td>' + 
 							'<td>' + QuickSavedData.Out_date + '</td>' + 
 							'<td>' + QuickSavedData.MatLotNo + '</td>' +
 							'<td>' + QuickSavedData.StorageCode + '</td>' +
 							'<td>' + QuickSavedData.PlantCode + '</td>' +
-							'<td>' + QuickSavedData.InputStorage + '</td>' +
+							'<td>' + (QuickSavedData.InputStorage || 'N/A') + '</td>' +
 							'</tr>';
-	                		$('.InfoBody').append(row);
+	                		$('.InfoTable_Body').append(row);
 	                		RowNum++;
 						}else{
-							RowNum = $('.InfoBody tr').length;
+							RowNum = $('.InfoTable_Body tr').length;
                 			console.log('RowNum : ' + RowNum);
                 			var row = '<tr>' +
 							'<td>' + (RowNum + 1).toString().padStart(2,'0') + '</td>' + 
@@ -311,14 +319,14 @@ $(document).ready(function(){
 							'<td>' + QuickSavedData.OutCount + '</td>' + 
 							'<td>' + QuickSavedData.OrderUnit + '</td>' + 
 							'<td>' + QuickSavedData.UseDepart + '</td>' + 
-							'<td>' + QuickSavedData.LotNumber + '</td>' + 
+							'<td>' + (QuickSavedData.LotNumber || 'N/A') + '</td>' + 
 							'<td>' + QuickSavedData.Out_date + '</td>' + 
 							'<td>' + QuickSavedData.MatLotNo + '</td>' +
 							'<td>' + QuickSavedData.StorageCode + '</td>' +
 							'<td>' + QuickSavedData.PlantCode + '</td>' +
-							'<td>' + QuickSavedData.InputStorage + '</td>' +
+							'<td>' + (QuickSavedData.InputStorage || 'N/A') + '</td>' +
 							'</tr>';
-	                		$('.InfoBody').append(row);
+	                		$('.InfoTable_Body').append(row);
 	                		RowNum++;
                 		}
 						$('.GINo').val((RowNum + 1).toString().padStart(4,'0'));
@@ -339,7 +347,7 @@ $(document).ready(function(){
     	Plus++;
 	});
 	
-	$(".InfoBody").on('click',".DeleteBtn", function(){
+	$(".InfoTable_Body").on('click',".DeleteBtn", function(){
 		event.preventDefault();
 		var Row = $(this).closest('tr');
 		var orderNum = Row.find('td:eq(2)').text(); // 문서번호
@@ -357,18 +365,18 @@ $(document).ready(function(){
 				if(Data.trim() == 'Success'){
 					$('.BeforeCount').val(NewCount);
 					Row.remove();
-					TableLength = $('.InfoBody tr').length;
+					TableLength = $('.InfoTable_Body tr').length;
 					if(TableLength === 0){
 						for (let i = 0; i < 50; i++) {
 				            const row = $('<tr></tr>');
 				            for (let j = 0; j < 16; j++) {
 				                row.append('<td></td>');
 				            }
-				            $('.InfoBody').append(row);
+				            $('.InfoTable_Body').append(row);
 				        }
 						Plus = 0;
 					}else{
-						$('.InfoBody tr').each(function(index, tr){
+						$('.InfoTable_Body tr').each(function(index, tr){
 							var Element = $(this);
 							ElementKeyValue = Element.find('td:eq(2)').text() + '-' + Element.find('td:eq(3)').text();
 							$.ajax({
@@ -538,12 +546,12 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 				
 		<div class=Info-Area>
 			<div class="Title">자제 출고 상태</div>
-			<table class="InfoTable" id="InfoTable">
-				<thead>
+			<table class="InfoTable">
+				<thead class="InfoTable_Header">
 					<th>항번</th><th>삭제</th><th>문서번호</th><th>품목번호</th><th>자재</th><th>자재 설명</th><th>출고 구분</th><th>수량</th>
 					<th>단위</th><th>사용 부서</th><th>생산 Lot 번호</th><th>출고 일자</th><th>자재 Lot 번호</th><th>출고 창고</th><th>공장(Plant)</th><th>입고 창고</th>
 				</thead>
-				<tbody class="InfoBody">
+				<tbody class="InfoTable_Body">
 				</tbody>
 			</table>
 		</div>	

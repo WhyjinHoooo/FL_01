@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const thead = document.querySelector('.InfoTable-Header');
 
     tbody.addEventListener('scroll', function() {
-        thead.scrollLeft = tbody.scrollLeft; // thead의 스크롤 위치를 직접 설정
+        thead.scrollLeft = tbody.scrollLeft;
     });
 });
 function InfoSearch(field){
@@ -89,7 +89,6 @@ $(document).ready(function(){
 	}
 	function InitialTable(UserId){
 		$('.InfoTable-Body').empty();
-		var UserId = UserId;
 		console.log(UserId);
 		for (let i = 0; i < 20; i++) {
             const row = $('<tr></tr>');
@@ -115,20 +114,6 @@ $(document).ready(function(){
 		var CurrentDate = new Date();
 		var today = CurrentDate.getFullYear() + '-' + ('0' + (CurrentDate.getMonth() + 1)).slice(-2) + '-' + ('0' + CurrentDate.getDate()).slice(-2);
 		$('.OrderDate').val(today);
-	}
-	function CreateEntryDocument(){
-		var DocTopic = $('.DocCode').val();
-		var DocDate = $('.BuyDate').val();
-		$('.Req-Area').find('input').prop('disabled', false);
-		$.ajax({
-			url:'${contextPath}/Purchasing/AjaxSet/Order/ForEntryDoc.jsp?From=Review',
-			type:'POST',
-			data:{Code : DocTopic, Date : DocDate},
-			dataType: 'text',
-			success: function(data){
-				$('.Entry_DocNum').val(data.trim());
-			}
-		})
 	}
 	var Userid = $('.Client').val();
 	InitialTable(Userid);
@@ -293,8 +278,6 @@ $(document).ready(function(){
 	})
 	var TotalList = {};
 	$('.TotalSaveBtn').click(function(){
-// 		const checkedCount = $('input[type="checkbox"]:checked').length;
-// 		console.log(checkedCount);
 		var Pass = true;
 		$('.InfoTable-Body input[type="checkbox"]:checked').each(function() {
 			var Row = $(this).closest('tr');

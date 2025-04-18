@@ -88,7 +88,7 @@ $(document).ready(function(){
 		$('.Ord-Area').find('input').prop('disabled', true);
 	}
 	function EntryAbled(){
-		$('.Ord-Area').find('input').not('.Entry_Reject').prop('disabled', false);
+		$('.Ord-Area').find('input').prop('disabled', false);
 	}
 	function InitialTable(UserId){
 		$('.InfoTable-Body').empty();
@@ -277,7 +277,7 @@ $(document).ready(function(){
 							'<td>' + Row.find('td:eq(6)').text() +'(' + Row.find('td:eq(7)').text() + ')' + '</td>' + // 공급업체 
 							'<td>' + Row.find('td:eq(10)').text() + '</td>' + // 납품요청일자 
  							'<td>' + Row.find('td:eq(11)').text() + '</td>' + // 납품창고
- 							'<td hidden>' + Row.find('td:eq(12)').text() + '</td>' + // 납품창고
+ 							'<td hidden>' + Row.find('td:eq(12)').text() + '</td>' + 
 							'</tr>';
 						$('.POTable-Body').append(row);
 					},
@@ -342,6 +342,11 @@ $(document).ready(function(){
 	 	            }
 	 	            $('.POTable-Body').append(row);
 	 	        }
+	 		}else{
+	 			$('.POTable-Body tr').each(function(index, tr){
+	 				var Element = $(this);
+	 				Element.find('td:eq(2)').text((index+1).toString().padStart(3,'0'));
+	 			})
 	 		}
 		}
 
