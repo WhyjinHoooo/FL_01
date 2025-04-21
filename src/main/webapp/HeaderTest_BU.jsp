@@ -50,11 +50,11 @@ $(document).ready(function(){
             <li class="dropdown-submenu">
             	<a class="dropdown-item dropdown-toggle" href="#">Global</a>
             	<ul class="dropdown-menu">
-	                <li><a class="dropdown-item" href="#">국가</a></li>
-	                <li><a class="dropdown-item" href="#">통화</a></li>
-	                <li><a class="dropdown-item" href="#">환율유형</a></li>
-	                <li><a class="dropdown-item" href="#">단위</a></li>
-	                <li><a class="dropdown-item" href="#">언어</a></li>
+	                <li><a class="dropdown-item" href="#">국가(Nationality)</a></li>
+	                <li><a class="dropdown-item" href="#">통화(Currency)</a></li>
+	                <li><a class="dropdown-item" href="#">환율유형(ExchangeRateType)</a></li>
+	                <li><a class="dropdown-item" href="#">단위(Unit)</a></li>
+	                <li><a class="dropdown-item" href="#">언어(Language)</a></li>
 	                <li><a class="dropdown-item" href="#">우편번호</a></li>
 	                <li><a class="dropdown-item" href="#">지역</a></li>
               </ul>
@@ -77,20 +77,20 @@ $(document).ready(function(){
             <li class="dropdown-submenu">
             	<a class="dropdown-item dropdown-toggle" href="#">PS/SD/MM</a>
             	<ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">문류문서구분</a></li>
+                <li><a class="dropdown-item" href="#">문류문서구분(Logis.Doc.Categ.)</a></li>
                 <li><a class="dropdown-item" href="#">SalesGroup</a></li>
                 <li><a class="dropdown-item" href="#">PurchasingGroup</a></li>
-                <li><a class="dropdown-item" href="#">거래유형</a></li>
-                <li><a class="dropdown-item" href="#">창고</a></li>
-                <li><a class="dropdown-item" href="#">적재위치</a></li>
-                <li><a class="dropdown-item" href="#">거래처구분</a></li>
+                <li><a class="dropdown-item" href="#">거래유형(DistributionChannel)</a></li>
+                <li><a class="dropdown-item" href="#">창고(StorageLocation)</a></li>
+                <li><a class="dropdown-item" href="#">적재위치(RackBin)</a></li>
+                <li><a class="dropdown-item" href="#">거래처구분(TradingPartnerCateg.)</a></li>
                 <li><a class="dropdown-item" href="#">거래처 구분코드</a></li>
-                <li><a class="dropdown-item" href="#">거래처</a></li>
-                <li><a class="dropdown-item" href="#">거래조건</a></li>
-                <li><a class="dropdown-item" href="#">대금지급조건</a></li>
+                <li><a class="dropdown-item" href="#">거래처(TradingPartner)</a></li>
+                <li><a class="dropdown-item" href="#">거래조건(IncoTerms)</a></li>
+                <li><a class="dropdown-item" href="#">대금지급조건(Pay.Terms)</a></li>
                 <li><a class="dropdown-item" href="#">Customer 여신한도</a></li>
                 <li><a class="dropdown-item" href="#">물대 지금보류원인</a></li>
-                <li><a class="dropdown-item" href="#">재고유형</a></li>
+                <li><a class="dropdown-item" href="#">재고유형(MaterialType)</a></li>
                 <li><a class="dropdown-item" href="#">Material 입출고유형</a></li>
                 <li><a class="dropdown-item" href="#">Material Group</a></li>
                 <li><a class="dropdown-item" href="${contextPath}/Material/Material_Regist.jsp">Material</a></li>
@@ -152,13 +152,13 @@ $(document).ready(function(){
             <li class="dropdown-submenu">
             	<a class="dropdown-item dropdown-toggle" href="#">FI/CO</a>
             	<ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">계정그룹</a></li>
-                <li><a class="dropdown-item" href="#">계정유형</a></li>
-                <li><a class="dropdown-item" href="#">계정과목</a></li>
-                <li><a class="dropdown-item" href="#">비용구분</a></li>
-                <li><a class="dropdown-item" href="#">부서유형</a></li>
-                <li><a class="dropdown-item" href="#">계정관리항목</a></li>
-                <li><a class="dropdown-item" href="#">미결관리기준</a></li>
+                <li><a class="dropdown-item" href="#">계정그룹(Account Group)</a></li>
+                <li><a class="dropdown-item" href="#">계정유형(Account Type)</a></li>
+                <li><a class="dropdown-item" href="#">계정과목(Account Code)</a></li>
+                <li><a class="dropdown-item" href="#">비용구분(Function Area)</a></li>
+                <li><a class="dropdown-item" href="#">부서유형(Cost Center Category)</a></li>
+                <li><a class="dropdown-item" href="#">계정관리항목(AcctManage.Item)</a></li>
+                <li><a class="dropdown-item" href="#">미결관리기준(OpenItemKey)</a></li>
                 <li><a class="dropdown-item" href="#">유형자산분류</a></li>
                 <li><a class="dropdown-item" href="#">전표구분</a></li>
                 <li><a class="dropdown-item" href="#">대차구분</a></li>
@@ -168,7 +168,7 @@ $(document).ready(function(){
                 <li><a class="dropdown-item" href="#">Bank코드</a></li>
                 <li><a class="dropdown-item" href="#">금융거래계좌</a></li>
                 <li><a class="dropdown-item" href="#">신용카드</a></li>
-                <li><a class="dropdown-item" href="#">환율</a></li>
+                <li><a class="dropdown-item" href="#">환율(ExchangeRate)</a></li>
                 <li><a class="dropdown-item" href="#">Version</a></li>
                 <li><a class="dropdown-item" href="#">금융거래계좌</a></li>
                 <li><a class="dropdown-item" href="#">V.A.T율</a></li>
@@ -237,10 +237,8 @@ $(document).ready(function(){
 	                <a class="dropdown-item dropdown-toggle" href="###">구매 요청</a>
 	                <ul class="dropdown-menu">
 		                <li><a class="dropdown-item" href="${contextPath}/Purchasing/Request.jsp">등록/수정/조회 </a></li>
-		             </ul>
-		             </li>
-		              <li class="dropdown-submenu">
-		             <a class="dropdown-item dropdown-toggle" href="#">구매 발주서</a>
+		              </ul>
+		              <a class="dropdown-item dropdown-toggle" href="#">구매 발주서</a>
 		              <ul class="dropdown-menu">
 		                <li><a class="dropdown-item" href="#">MPR구매 요청 발주서 전황</a></li>
 		                <li><a class="dropdown-item" href="${contextPath}/Material_Order/OrderRegistform.jsp">긴급 자재 발주서 등록</a></li>

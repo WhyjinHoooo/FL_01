@@ -9,6 +9,7 @@
 <title>수불관리</title>
 <link rel="stylesheet" href="../css/Inven.css?after">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
 var TotalCount = [];
@@ -20,6 +21,52 @@ document.addEventListener('DOMContentLoaded', function() {
         thead.scrollLeft = tbody.scrollLeft; // thead의 스크롤 위치를 직접 설정
     });
 });
+function exportExcel() {
+	  const originalTable = document.querySelector('.InfoTable');
+
+	  // 1. thead 복제 및 헤더 분리
+	  const thead = originalTable.querySelector('thead').cloneNode(true);
+	  const tr = thead.querySelector('tr');
+
+	  // 새 헤더 배열
+	  const newThs = [];
+
+	  // 기존 th들을 순회하며 헤더 분리
+	  tr.querySelectorAll('th').forEach(th => {
+	    const divs = th.querySelectorAll('div');
+	    if (divs.length === 2) {
+	      // 복합 헤더인 경우: 예) 기초 -> 기초수량, 기초금액
+	      const mainTitle = divs[0].innerText.trim();
+	      const spans = divs[1].querySelectorAll('span');
+	      spans.forEach(span => {
+	        const newTh = document.createElement('th');
+	        newTh.innerText = mainTitle + span.innerText.trim();
+	        newThs.push(newTh);
+	      });
+	    } else {
+	      // 단일 헤더인 경우
+	      const newTh = document.createElement('th');
+	      newTh.innerText = th.innerText.trim();
+	      newThs.push(newTh);
+	    }
+	  });
+
+	  // 기존 tr 내용 삭제 후 새 th들 추가
+	  tr.innerHTML = '';
+	  newThs.forEach(th => tr.appendChild(th));
+
+	  // 2. tbody 복제
+	  const tbody = originalTable.querySelector('tbody').cloneNode(true);
+
+	  // 3. 임시 테이블 생성 후 thead, tbody 붙이기
+	  const tempTable = document.createElement('table');
+	  tempTable.appendChild(thead);
+	  tempTable.appendChild(tbody);
+
+	  // 4. SheetJS를 이용해 엑셀 파일 생성 및 다운로드
+	  const wb = XLSX.utils.table_to_book(tempTable, { sheet: "Sheet1" });
+	  XLSX.writeFile(wb, 'exported_table.xlsx');
+	}
 function PopupPosition(popupWidth, popupHeight) {
     var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
     var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
@@ -446,6 +493,7 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 </head>
 <body>
 <jsp:include page="../HeaderTest.jsp"></jsp:include>
+<button class="ExcelSaveBtn" onclick="exportExcel()">저장</button>
 <div class="Hall">
 	<div class="MainHall">
 		<div class="Title">검색 항목</div>
@@ -519,6 +567,15 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			</tbody>
 		</table>
 	</div>
+<!-- 	<script>
+	document.querySelector('.ExcelSaveBtn').addEventListener('click', function() {
+	  var table = document.querySelector('.InfoTable');
+	  var ws = XLSX.utils.table_to_sheet(table);
+	  var wb = XLSX.utils.book_new();
+	  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+	  XLSX.writeFile(wb, 'table_export.xlsx');
+	});
+	</script> -->
 </div>
 </body>
 </html>

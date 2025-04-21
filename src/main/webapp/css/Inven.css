@@ -6,6 +6,27 @@ body {
     height: 98%;
 	}
 @media only screen and (max-width: 1536px) {
+	.ExcelSaveBtn {
+    width: 5%;
+    height: 3%;
+    margin: 0.3% 0% 0% 90%;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: small;
+    background: #5775AF;
+    border: 1px #5775AF;
+    color: white;
+	}
+	.ExcelSaveBtn:hover{
+	color: white;
+	border: 1px #87CEFA;
+	background: #87CEFA;
+	}
+	.ExcelSaveBtn:active{
+	color: white;
+	border: 1px #87CEFA;
+	background: #87CEFA;
+	}
 	.Hall {
     display: flex;
     flex-direction: row;
@@ -282,22 +303,35 @@ body {
    	display: flex;
    	flex-direction: row-reverse;
    	}
-	footer > div:nth-child(-n+10) {
-   	border: 1px solid #ddd;
-   	text-align: center;
-   	padding-top: 0.5px;
-   	font-weight: bold;
-   	font-size: larger;
-   	padding-top: 10px;
-   	}
 }
 @media only screen and (min-width: 2560px) {
+	.ExcelSaveBtn {
+    width: 5%;
+    height: 3%;
+    margin: 0.3% 0% 0% 90%;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: medium;
+    background: #5775AF;
+    border: 1px #5775AF;
+    color: white;
+	}
+	.ExcelSaveBtn:hover{
+	color: white;
+	border: 1px #87CEFA;
+	background: #87CEFA;
+	}
+	.ExcelSaveBtn:active{
+	color: white;
+	border: 1px #87CEFA;
+	background: #87CEFA;
+	}
 	.Hall {
     display: flex;
     flex-direction: row;
     height: 85vh;
     width: 100%;
-    margin-top: 1%;
+    margin-top: 0.3%;
 	}
 	.MainHall {
     border: 1px solid black;
@@ -523,19 +557,4 @@ body {
     border-radius: 1px;
     box-shadow: inset 0px 0px 5px white;
   	}
-  	footer {
-   	width: 75.4%;
-   	height: 4%;
-   	margin: 0.1% 0% 0% 24.6%;
-   	display: flex;
-   	flex-direction: row-reverse;
-   	}
-	footer > div:nth-child(-n+10) {
-   	border: 1px solid #ddd;
-   	text-align: center;
-   	padding-top: 0.5px;
-   	font-weight: bold;
-   	font-size: larger;
-   	padding-top: 10px;
-   	}
 }
