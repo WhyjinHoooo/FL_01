@@ -6,7 +6,7 @@
 <%@page import="org.json.simple.JSONValue"%>
 <%@page import="org.json.simple.JSONObject"%>
 <%@page import="java.io.BufferedReader"%>
-<%@ include file="../mydbcon.jsp" %>
+<%@ include file="../../mydbcon.jsp" %>
 <%
 	BufferedReader reader = request.getReader();
 	StringBuilder sb = new StringBuilder();

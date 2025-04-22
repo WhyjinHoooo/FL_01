@@ -13,9 +13,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<title>일반 데테전표 입력</title>
+<title>일반 대체전표 입력</title>
 <%
-	String User_Id = (String)session.getAttribute("id");
+	String User_Id = (String)session.getAttribute("UserIdNumber");
 	String User_Depart = (String)session.getAttribute("depart");
 	String User_Name = (String)session.getAttribute("name");
 	LocalDateTime today = LocalDateTime.now();
@@ -23,17 +23,6 @@
 	String todayDate = today.format(formatter);
 %>
 <script type='text/javascript'>
-	/* var path = window.location.pathname;
-	var Address = path.split("/").pop();
-	window.addEventListener('unload', (event) => {
-		
-		var data = {
-			action : 'deleteOrderData',
-			page : Address
-				
-		}
-	    navigator.sendBeacon('../DeleteOrder', JSON.stringify(data));
-	}); */
 	document.addEventListener("DOMContentLoaded", function() {
 	    var now_utc = Date.now();
 	    var timeOff = new Date().getTimezoneOffset() * 60000;
@@ -52,14 +41,10 @@ function UserBAInput(inputFieldId){
     var popupWidth = 515;
     var popupHeight = 600;
    /*  var ComCode = document.querySelector('#UserDepart').value; */
-    
-    // 현재 활성화된 모니터의 위치를 감지
+
     var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
-    // window.screenLeft와 window.screenX : 브라우저 창의 현재 왼쪽 경계가 스크린의 왼쪽 경계로부터 얼마나 떨어져 있는지를 나타내는 값
-    // window.screenLeft: 대부분의 모던 브라우저,  window.screenX는 구버전 브라우저
     var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
-    
-    // 전체 화면의 크기를 감지
+
     var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
     var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
     /*  
@@ -81,15 +66,12 @@ function UserBAInput(inputFieldId){
     var xPos, yPos;
 	
     if (width == 2560 && height == 1440) {
-        // 단일 모니터 2560x1440 중앙에 팝업창 띄우기
         xPos = (2560 / 2) - (popupWidth / 2);
         yPos = (1440 / 2) - (popupHeight / 2);
     } else if (width == 1920 && height == 1080) {
-        // 단일 모니터 1920x1080 중앙에 팝업창 띄우기
         xPos = (1920 / 2) - (popupWidth / 2);
         yPos = (1080 / 2) - (popupHeight / 2);
     } else {
-        // 확장 모드에서 2560x1440 모니터 중앙에 팝업창 띄우기
         var monitorWidth = 2560;
         var monitorHeight = 1440;
         xPos = (monitorWidth / 2) - (popupWidth / 2) + dualScreenLeft;
@@ -114,8 +96,6 @@ function UserBAInput(inputFieldId){
     	var element = event.target.closest('[data-docnumber][data-slipno]');
         docNumber = element.getAttribute('data-docnumber');
         slipNo = element.getAttribute('data-slipno');
-        
-        console.log("docNumber: " + docNumber);
 
         var C100 = ("0000" + docNumber).slice(-4);
         var D100 = slipNo + "_" + C100;
@@ -133,11 +113,8 @@ $(document).ready(function(){
 	var DeCreBDid = $('.DeCre').val();
 	var Acc = $('.AccSubject').val();
 	
-	console.log("SlipType : " + SlipType);
-	console.log("FirSlipNo : " + FirSlipNo);
-	
 	$.ajax({
-		url: 'SlipNoSelect.jsp',
+		url: '${contextPath}/Slip/AjaxSet/SlipNoSelect.jsp',
 		type: 'POST',
 		data: { type : SlipType, No : FirSlipNo, Date: todayDate },
 		success: function(response){
@@ -149,7 +126,7 @@ $(document).ready(function(){
 			var SlipDocNum = $('.SlipNo').val(); // 바뀐 전표 번호, FIG20230531S0001
 			
 			$.ajax({
-				url: 'NumberChange.jsp',
+				url: '${contextPath}/Slip/AjaxSet/NumberChange.jsp',
 				type: 'POST',
 				data: { Number : Number, SlipDocNum : SlipDocNum },
 				success: function(response){
@@ -161,14 +138,13 @@ $(document).ready(function(){
 	});
 	
 	$('.SlipType').on('change', function() {
-	    console.log("적용여부 확인");
 
 	    var SlipType = $(this).val(); // 이벤트 핸들러 내에서 값 가져오기
 	    var FirSlipNo = $('.SlipNo').val();
 	    var todayDate = $('.ToDate').val();
 
 	    $.ajax({
-	        url: 'SlipNoSelect.jsp',
+	        url: '${contextPath}/Slip/AjaxSet/SlipNoSelect.jsp',
 	        type: 'POST',
 	        data: { type: SlipType, No: FirSlipNo, Date: todayDate },
 	        success: function(response) {
@@ -180,7 +156,7 @@ $(document).ready(function(){
 	            var SlipDocNum = $('.SlipNo').val(); // 바뀐 전표 번호, FIG20230531S0001
 	            
 	            $.ajax({
-	                url: 'NumberChange.jsp',
+	                url: '${contextPath}/Slip/AjaxSet/NumberChange.jsp',
 	                type: 'POST',
 	                data: { Number: Number, SlipDocNum: SlipDocNum },
 	                success: function(response) {
@@ -193,15 +169,12 @@ $(document).ready(function(){
 	});
 	
 	$.ajax({
-	    url: 'WriterInfo.jsp',
+	    url: '${contextPath}/Slip/AjaxSet/WriterInfo.jsp',
 	    type: 'POST',
 	    data: { id: UserId },
 	    success: function(response) {
-	        // response는 JSON 배열 형태로 받습니다.
 	        if (response.length > 0) {
-	            // JSON 배열의 첫 번째 요소를 사용합니다.
 	            var data = response[0];
-	            // HTML 입력 필드에 값을 배분합니다.
 	            $('#UserBizArea').val(data.UserBA);
 	            $('#TargetDepartCd').val(data.UserCoct);
 	            $('#TargetDepartDes').val(data.UserCoctDes);
@@ -220,7 +193,7 @@ $(document).ready(function(){
 		return false;
 	};
 	$.ajax({
-		url: 'CurrencyFind.jsp',
+		url: '${contextPath}/Slip/AjaxSet/CurrencyFind.jsp',
 		type: 'POST',
 		data: { Com : ComCode },
 		success: function(response){
@@ -269,7 +242,7 @@ $(document).ready(function(){
         	console.log(dealPrice + ", " + currencyCode + ", " + DealCurrency);
         	
             $.ajax({
-                url: 'PriceExchange.jsp', // 절대 경로로 변경
+                url: '${contextPath}/Slip/AjaxSet/PriceExchange.jsp', // 절대 경로로 변경
                 type: 'POST',
                 data: { currencyCode: currencyCode, dealPrice: dealPrice, DealCurrency: DealCurrency },
                 success: function(response) {
@@ -335,17 +308,6 @@ $(document).ready(function(){
 		
 		
 		var LineFormList = {};
-		// var LineFormList = [];
-		
-		/* $('.SlipOptionTable02 tr').each(function() {
-		    var rowData = {};
-		    $(this).find('.lineform').each(function() {
-		        var name = $(this).attr("name");
-		        var value = $(this).val();
-		        rowData[name] = value;
-		    });
-		    LineFormList.push(rowData);
-		}); */
 		
 		if(DeCreBDid === "C" /* && SlipType === "CRE" */ && (Acc === "2003500" || Acc === "2003510" || Acc === "2003520")){
 			$('.lineform').each(function(){
@@ -377,7 +339,7 @@ $(document).ready(function(){
 		console.log("버튼이 클릭 횟수 : " + Add);
 		
 		$.ajax({
-			url: 'KidLineTemSave.jsp',
+			url: '${contextPath}/Slip/AjaxSet/KidLineTemSave.jsp',
 			type: 'POST',
 			data: JSON.stringify(Combination),
 			contentType: 'application/json; charset=utf-8',
@@ -422,7 +384,7 @@ $(document).ready(function(){
 	        $(this).val('');
 	    });
 	    $.ajax({
-	    	url : 'Calculate.jsp',
+	    	url : '${contextPath}/Slip/AjaxSet/Calculate.jsp',
 	    	type: 'POST',
 	    	success: function(response) {
 	    		var data = JSON.parse(response);
@@ -457,7 +419,7 @@ $(document).ready(function(){
 		    RowNum--;
 		
 		    $.ajax({
-		    	url : 'MinusCalcu.jsp',
+		    	url : '${contextPath}/Slip/AjaxSet/MinusCalcu.jsp',
 		    	type: 'POST',
 		    	data: {DocCode: DelDoc, DocCodeNumber: DelDocNum, Cre: CreditTotal, De: DebitTotal},
 		    	success: function(response) {
@@ -471,7 +433,7 @@ $(document).ready(function(){
 		    });
 		    
 		    $.ajax({
-		        url: 'DeleteTemDoc.jsp',
+		        url: '${contextPath}/Slip/AjaxSet/DeleteTemDoc.jsp',
 		        type: 'POST',
 		        data: {'List': JSON.stringify(DeletedItems)},
 		        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
@@ -691,237 +653,128 @@ $(document).ready(function(){
 </head>
 <body>
 	<jsp:include page="../HeaderTest.jsp"></jsp:include>
-		<form name="SlipInoutForm" id="SlipInoutForm" action="CreateSlip_Ok.jsp" method="POST" enctype="UTF-8">
-			<div class="SlipHeader">
-				<div class="HederSet">
-					<table class="Head01">
-						<tr>
-							<th>전표유형 : </th>
-								<td>
-									<a href="javascript:void(0)" onClick="UserBAInput('SlipTypeSel')"><input class="SlipType" id="SlipType" name="SlipType" value="FIG" readonly placeholder="선택"></a>
-									<input class="SlipTypeDes" id="SlipTypeDes" name="SlipTypeDes" hidden>
-								</td>
-							
-							<td class="EmptyCell_20"><!-- 빈 공간 크기 20% --></td>
-								
-							<th>전표번호 : </th>
-								<td>
-									<input class="SlipNo child lineform Head" id="SlipNo" name="SlipNo" readonly>
-								</td>
-							
-							<td class="EmptyCell_20"><!-- 빈 공간 크기 20% --></td>
-							<th>전표 입력자 : </th>
-								<td>
-								<%
-								if(User_Id != null){
-								%>
-									<input class="User child Head" id="User" name="User" value="<%=User_Id%>" readonly>
-								<%
-								} else{
-								%>
-									<input class="User child Head" id="User" name="User" value="Null" reandonly>
-								<%
-								}
-								%>
-								</td>
-						</tr>
-					</table>
-					<table class="Head02">
-						<tr>
-							<th>회사 : </th>
-								<td>
-									<%
-									if(User_Depart != null){
-									%>
-										<input type="text" class="UserDepart child Head" id="UserDepart" name="UserDepart" value="<%=User_Depart%>" readonly>
-									<%
-									} else{
-									%>
-										<input type="text" class="UserDepart" id="UserDepart" name="UserDepart" value="Null" readonly>
-									<%
-									}
-									%>
-								</td>
-							
-							<td class="EmptyCell_18-4"><!-- 빈 공간 크기 18.4% --></td>
-								
-							<th>전표입력 BA : </th>
-								<td>
-									<input type="text" class="Head UserBA" name="UserBizArea" id="UserBizArea" readonly>
-								</td>
-							
-							<td class="EmptyCell_18-9"> <!-- 빈 공간 크기 18.9% --></td>
-							<th>전표 입력 일자 : </th>
-								<td>
-									<input class="ToDate" id="ToDate" name="ToDate" value="<%=todayDate%>" readonly>
-								</td>							
-						</tr>
-					</table>
-					<table class="Head03">
-						<tr>
-							<th>기표일자 : </th>
-								<td>
-									<input type="date" class="ConsumeDate child Head" id="Date" name="Date">
-								</td>
-							
-							<td class="EmptyCell_23"><!-- 빈 공간 크기 23% --></td>
-								
-							<th>전표 입력 부서 : </th>
-								<td>
-									<input type="text" class="Head UserCoCT" id="TargetDepartCd" name="TargetDepartCd" readonly>
-									<input type="text" id="TargetDepartDes" name="TargetDepartDes" readonly>
-								</td>					
-						</tr>
-					</table>
-					<table class="Head04">
-						<tr>
-							<th>적요 : </th>
-								<td>
-									<input type="text" class="child Head" id="briefs" name="briefs">
-								</td>				
-						</tr>
-					</table>
-				</div>
+		<div class="Slip">
+		<div class="SlipHeader">
+			<div class="title">일반 전표 메인</div>
+			<div class="Main-Colume">
+				<label>전표유형 : </label>
+				<input class="SlipType" id="SlipType" name="SlipType" value="FIG" onClick="UserBAInput('SlipTypeSel')" readonly placeholder="선택">
+				<input class="SlipTypeDes" id="SlipTypeDes" name="SlipTypeDes" hidden>
 			</div>
-			<div class="SlipBody">
+			<div class="Main-Colume">
+				<label>전표번호 : </label>
+				<input class="SlipNo child lineform Head" id="SlipNo" name="SlipNo" readonly>
+			</div>
+			<div class="Main-Colume">
+				<label>전표 입력자 : </label>
+				<input class="User child Head" id="User" name="User" value="<%=User_Id%>" readonly>
+			</div>
+			<div class="Main-Colume">
+				<label>회사 : </label>
+				<input type="text" class="UserDepart child Head" id="UserDepart" name="UserDepart" value="<%=User_Depart%>" readonly>
+			</div>
+			<div class="Main-Colume">
+				<label>전표입력 BA : </label>
+				<input type="text" class="Head UserBA" name="UserBizArea" id="UserBizArea" readonly>
+			</div>
+			<div class="Main-Colume">
+				<label>전표 입력 일자 : </label>
+				<input class="ToDate" id="ToDate" name="ToDate" value="<%=todayDate%>" readonly>							
+			</div>
+			<div class="Main-Colume">
+				<label>기표일자 : </label>
+				<input type="date" class="ConsumeDate child Head" id="Date" name="Date">
+			</div>
+			<div class="Main-Colume">		
+				<label>전표 입력 부서 : </label>
+				<input type="text" class="Head UserCoCT" id="TargetDepartCd" name="TargetDepartCd" readonly>
+				<input type="text" id="TargetDepartDes" name="TargetDepartDes" readonly>				
+			</div>
+			<div class="Main-Colume">
+				<label>적요 : </label>
+				<input type="text" class="child Head" id="briefs" name="briefs">				
+			</div>
+		</div>
+		
+		<div class="SlipBody">
+			<div class="title">일반 전표 서브</div>
+			<div class="SlipBodyDetail">	
 				<div class="BodyChild01">
-					<div class="BodyChildSet01">
-						<table class="Child01">
-							<tr>
-								<th>항번 : </th>
-									<td>
-										<input class="DocNumber child lineform" id="DocNumber" name="DocNumber" readonly >
-									</td>				
-							</tr>
-						</table>
-						<table class="Child02">
-							<tr>
-								<th>계정과목 : </th>
-									<td>
-										<a href="javascript:void(0)" onClick="UserBAInput('AccSubjectSelect')"><input class="AccSubject child" id="AccSubject" name="AccSubject" placeholder="선택" readonly></a>
-										<input class="AccSubjectDes child" id="AccSubjectDes" name="AccSubjectDes" readonly>
-									</td>				
-							</tr>
-						</table>
-						<table class="Child03">
-							<tr>
-								<th>Debit/Credit : </th>
-									<td>
-									    <input type="checkbox" class="DeCre child" name="DeCre" value="C" onclick="checkOnlyOne(this)" checked>C 대변(Credit)
-									    <input type="checkbox" class="DeCre child" name="DeCre" value="D" onclick="checkOnlyOne(this)">D 차변(Debit)
-									</td>
-									<script type="text/javascript">
-									    // 단일 선택 체크박스 처리 함수
-									    function checkOnlyOne(element) {
-									        const checkboxes = document.getElementsByName("DeCre");
-									        checkboxes.forEach((cb) => {
-									            cb.checked = false;
-									        });
-									        element.checked = true;
-									    }
-									
-									    // 입력 필드 초기화 함수
-									    function reset(){
-									        $('.SlipOptionTable02 input').val("");
-									    }
-									
-									    // 입력 필드 조건에 따른 활성화/비활성화 함수
-									    function checkInputs(){
-									        const SelectedValue = $('input[name="DeCre"]:checked').val();
-									        const TypeValue = $('input[name="SlipType"]').val();
-									        const SubValue = $('input[name="AccSubject"]').val();
-									        
-									        console.log("Debit/Credit의 필드 SelectedValue(Debit/Credit): " + SelectedValue);
-									        console.log("Debit/Credit의 필드 TypeValue(전표유형): " + TypeValue);
-									        console.log("Debit/Credit의 필드 SubValue(계정과목): " + SubValue);
-									
-									        if (SelectedValue === "C" /* && TypeValue === "CRE" */ && (SubValue === "2003500" || SubValue === "2003510" || SubValue === "2003520")) {
-									            $('.SlipOptionTable02 input').prop('disabled', false);
-									        } else {
-									            $('.SlipOptionTable02 input').prop('disabled', true);
-									            /* $('.SlipOptionTable02 input').val(""); */
-									        }
-									    }
-									
-									    $(document).ready(function(){
-									        // 페이지 로드 시 초기 설정
-									        $('.DeCre').on('change', function() {
-									            checkOnlyOne(this);
-									            reset();
-									            checkInputs();
-									        });
-									
-									        // AccSubject 입력 필드에 변경 이벤트 리스너 추가
-									        $('#AccSubject').on('change', function() {
-									            checkInputs();
-									        });
-									
-									        // 페이지 로드 시 checkInputs 함수 한 번 실행
-									        checkInputs();
-									
-									       
-									    });
-									</script>				
-							</tr>
-						</table>
-						<table class="Child04">
-							<tr>
-								<th>거래 통화 : </th>
-									<td>
-										<a href="javascript:void(0)" onClick="UserBAInput('BizMoneyCode')"><input class="money-code child" id="money-code" name="money-code" placeholder="선택" readonly></a>
-									</td>	
-								
-								<td class="EmptyCell_45"></td>
-									
-								<th>장부 통화 : </th>
-									<td>
-										<input type="text" class="ledcurrency child" id="ledcurrency" name="ledcurrency" readonly>
-									</td>					
-							</tr>
-						</table>
-						<table class="Child05">
-							<tr>
-								<th>거래 금액 : </th>
-									<td>
-										<input type="text" class="DealPrice child" id="DealPrice" name="DealPrice">
-										<!-- <button class="DealPrice-btn">Convert Currency</button> -->
-									</td>	
-								
-								<td class="EmptyCell_45"></td>
-									
-								<th>장부 금액 : </th>
-								
-									<td>
-										<input type="text" class="ledPrice child" id="ledPrice" name="ledPrice" readonly>
-									</td>			
-							</tr>
-						</table>
-						<table class="Child06">
-							<tr>
-								<th>관리/귀속 부서 : </th>
-									<td>
-										<a href="javascript:void(0)" onClick="UserBAInput('DeptdSelect')"><input class="Deptd child" id="Deptd" name="Deptd" placeholder="선택" readonly></a>
-										<input class="DeptdDes child" id="DeptdDes" name="DeptdDes" readonly>
-									</td>
-									
-								<td class="EmptyCell_21-9"></td>
-									
-								<th>관리/귀속 BA : </th>
-									<td>
-										<input class="AdminAlloc child" id="AdminAlloc" name="AdminAlloc" placeholder="선택" readonly>
-									</td>
-							</tr>
-						</table>
-						<table class="Child07">
-							<tr>
-								<th>라인 적요 : </th>
-									<td>
-										<input class="LineBriefs child" id="LineBriefs" name="LineBriefs">
-									</td>
-							</tr>
-						</table>
+					<div class="Main-Colume">
+						<label>항번 : </label>
+						<input class="DocNumber child lineform" id="DocNumber" name="DocNumber" readonly >
 					</div>
-				</div>
+						</table>
+					<div class="Main-Colume">
+						<label>계정과목 : </label>
+						<input class="AccSubject child" id="AccSubject" name="AccSubject" onClick="UserBAInput('AccSubjectSelect')" placeholder="선택" readonly></a>
+						<input class="AccSubjectDes child" id="AccSubjectDes" name="AccSubjectDes" readonly>
+					</div>
+					<div class="Main-Colume">
+						<label>Debit/Credit : </label>
+						<input type="checkbox" class="DeCre child" name="DeCre" value="C" onclick="checkOnlyOne(this)" checked>C 대변(Credit)
+						<input type="checkbox" class="DeCre child" name="DeCre" value="D" onclick="checkOnlyOne(this)">D 차변(Debit)
+					<script type="text/javascript">
+						function checkOnlyOne(element) {
+						const checkboxes = document.getElementsByName("DeCre");
+						checkboxes.forEach((cb) => {
+							cb.checked = false;
+						});
+						element.checked = true;
+						}
+						function reset(){
+							$('.SlipOptionTable02 input').val("");
+						}
+						function checkInputs(){
+							const SelectedValue = $('input[name="DeCre"]:checked').val();
+							const TypeValue = $('input[name="SlipType"]').val();
+							const SubValue = $('input[name="AccSubject"]').val();
+							
+							if (SelectedValue === "C" /* && TypeValue === "CRE" */ && (SubValue === "2003500" || SubValue === "2003510" || SubValue === "2003520")) {
+								$('.SlipOptionTable02 input').prop('disabled', false);
+							} else {
+								$('.SlipOptionTable02 input').prop('disabled', true);
+								}
+						}
+						$(document).ready(function(){
+							$('.DeCre').on('change', function() {
+								checkOnlyOne(this);
+								reset();
+								checkInputs();
+							});
+							$('#AccSubject').on('change', function() {
+								 checkInputs();
+							});
+							checkInputs();
+						});
+					</script>		
+					</div>
+					<div class="Main-Colume">
+						<label>거래 통화 : </label>
+						<input class="money-code child" id="money-code" name="money-code" onClick="UserBAInput('BizMoneyCode')" placeholder="선택" readonly></a>
+						<label>장부 통화 : </label>
+						<input type="text" class="ledcurrency child" id="ledcurrency" name="ledcurrency" readonly>
+					</div>			
+					<div class="Main-Colume">
+						<label>거래 금액 : </label>
+						<input type="text" class="DealPrice child" id="DealPrice" name="DealPrice">
+						<label>장부 금액 : </label>
+						<input type="text" class="ledPrice child" id="ledPrice" name="ledPrice" readonly>	
+					</div>
+					<div class="Main-Colume">
+						<label>관리/귀속 부서 : </label>
+						<input class="Deptd child" id="Deptd" name="Deptd" placeholder="선택" readonly></a>
+						<input class="DeptdDes child" id="DeptdDes" name="DeptdDes" readonly>
+					</div>
+					<div class="Main-Colume">				
+						<label>관리/귀속 BA : </label>
+						<input class="AdminAlloc child" id="AdminAlloc" name="AdminAlloc" placeholder="선택" readonly>
+					</div>
+					<div class="Main-Colume">
+						<label>라인 적요 : </label>
+						<input class="LineBriefs child" id="LineBriefs" name="LineBriefs">
+					</div>
+				</div>	
 				<div class="BodyChild02">
 					<table class="SlipOptionTable01">
 						<thead>
@@ -950,13 +803,16 @@ $(document).ready(function(){
 					</table>
 				</div>
 			</div>
-			<div class="FuncArea">
-				<img id="DownBtn" name="Down" src="../img/Dvector.png" alt="">
-				<input class="input-btn" id="btn" type="submit" value="저장" onclick="CreDeCompare(event)">
-				<button class="PayPath" id="PayPath" onclick="PayRequest(event, 'SelPayPath')">결재경로</button>
-				<button class="Approval" id="Approval" onclick="PayRequest(event, 'ApprovalPage')">품의상신</button>
-			</div>
-		</form>
+		</div>
+		
+		</div>
+		<div class="FuncArea">
+			<img id="DownBtn" name="Down" src="../img/Dvector.png" alt="">
+			<input class="input-btn" id="btn" type="submit" value="저장" onclick="CreDeCompare(event)">
+			<button class="PayPath" id="PayPath" onclick="PayRequest(event, 'SelPayPath')">결재경로</button>
+			<button class="Approval" id="Approval" onclick="PayRequest(event, 'ApprovalPage')">품의상신</button>
+		</div>
+
 		<div class="SlipFoot">
 			<table class="SlipTable">
 				<th>항번</th><th>삭제</th><th>G/L Account</th><th>Account Description</th><th>Debit/Credit</th><th>Transaction Amount</th><th>Trans Curr</th><br>
@@ -965,12 +821,13 @@ $(document).ready(function(){
 			</table>
 		</div>
 		<div class="TotalPrice">
-			<div class="DebitArea">
-				<li>차변(Debit) 합계 Local Amount : <input class="DebitTotal" id="DebitTotal" name="DebitTotal" value="0" readonly></li> 
-			</div> 
-			<div class="EmptyCell_3"></div>
-			<div class="CreditArea">
-				<li>대변(Credit) 합계 Local Amount : <input class="CreditTotal" id="CreditTotal" name="CreditTotal" value="0" readonly></li> 
+			<div class="DebCre-Colume">
+				<label>차변(Debit) 합계 Local Amount :</label>
+				<input class="DebitTotal" id="DebitTotal" name="DebitTotal" value="0" readonly>
+			</div>
+			<div class="DebCre-Colume">
+				<label>대변(Credit) 합계 Local Amount :</label>
+				<input class="CreditTotal" id="CreditTotal" name="CreditTotal" value="0" readonly> 
 			</div> 
 		</div>
 </body>

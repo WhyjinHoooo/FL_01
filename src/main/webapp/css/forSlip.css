@@ -1,4 +1,7 @@
 @charset "UTF-8";
+body {
+    height: 98vh;
+}
 /* 팝업창 CSS 시작 */
 	.ComSearch-board {
 	padding: 20px;
@@ -152,33 +155,109 @@
 	}
 	
 	/* 결재경로 팝업창 CSS 끝 */
-@media only screen and (min-width: 1537px) {
-	
-	.SlipBody {
-	    display: flex;
-	    flex-direction: row;
-	    flex-wrap: nowrap;
-	    margin: 30px 0px 0px 130px;
+@media only screen and (min-width: 2560px) {
+	.title{
+	background: #260FB1;
+	color: white;
+	text-align: center;
+	font-size: large;
+	font-weight: bold;
+	padding: 5px;
+	letter-spacing: 1.5em;
+	}
+	.Slip{
+	width: 99%;
+	height: 46%;
+	display: flex;
+	flex-direction: row;
 	}
 	.SlipHeader {
-	    border: 1px solid #6fa7eb;
-	    width: 90%;
-	    height: 200px;
-	    margin: 30px 0px 0px 130px;
-	    border-radius: 10px;
-	}	
-	.BodyChild01 {
-    border: 1px solid rgb(111 167 235);
-    width: 60%;
-    height: 280px;
-    margin-right: 30px;
-    border-radius: 10px;
+	border: 1px solid #6fa7eb;
+	width: 25%;
+	height: 92%;
+	margin: 1% 0px 0px 1%;
+	border-radius: 5px;
 	}
+    .SlipBody {
+	display: flex;
+    flex-direction: column;
+	margin: 1% 0px 0px 1%;
+	width: 73%;
+	height: 92%;
+	border: 1px solid rgb(111, 167, 235);
+	border-radius: 5px;
+    }
+    .SlipBodyDetail{
+    display: flex;
+   	flex-direction: row;
+    }
+	.SlipHeader > .Main-Colume {
+	display: flex;
+	flex-direction: row;
+	margin: 5% 0px 0px 10px;
+	width: 100%;
+	} 
+	.SlipHeader > .Main-Colume label {
+	font-weight: 900;
+	display: inline-block;
+	width: 14em;
+	text-align: right;
+	letter-spacing: 0.1em;
+	}   
+    .SlipHeader > .Main-Colume input {
+	margin-left: 10px;
+	width: 200px;
+	text-align: center;
+    }
+    .SlipHeader > .Main-Colume:nth-child(9) > input:nth-child(3) {
+	margin-left: 10px;
+	width: 150px;
+	text-align: center;
+	} 
+	.SlipHeader > .Main-Colume:nth-child(10) > input {
+	margin-left: 10px;
+	width: 57.5%;
+	text-align: center;
+	} 
+	.BodyChild01 {
+    width: 55%;
+	margin-right: 30px;
+	}
+	.SlipBodyDetail > .BodyChild01 > .Main-Colume {
+	display: flex;
+	flex-direction: row;
+	margin: 3.5% 0px 0px 10px;
+	width: 100%;
+	}
+	.SlipBodyDetail > .BodyChild01 > .Main-Colume label {
+	font-weight: 900;
+	display: inline-block;
+	width: 14em;
+	text-align: right;
+	letter-spacing: 0.1em;
+	}   
+    .SlipBodyDetail > .BodyChild01 > .Main-Colume input {
+	margin-left: 10px;
+	width: 200px;
+	text-align: center;
+    }
+    .SlipBodyDetail > .BodyChild01 > .Main-Colume:nth-child(3) > input {
+	margin-left: 10px;
+	width: 50px;
+	text-align: center;
+    }
+    .SlipBodyDetail > .BodyChild01 > .Main-Colume:nth-child(6) > input:last-child {
+	margin-left: 10px;
+	width: 42.5%;;
+	text-align: left;
+    }
+    .SlipBodyDetail > .BodyChild01 > .Main-Colume:nth-child(8) > input {
+	width: 65%;
+    }
 	.BodyChild02 {
-	    border: 1px solid rgb(111 167 235);
-	    width: 33.5%;
-	    height: 280px;
-	    border-radius: 10px;
+	width: 44%;
+	height: 100%;
+	border-radius: 5px;
 	}
 	.FuncArea {
     display: flex;
@@ -187,11 +266,10 @@
     margin: 10px 0px 0px 50%;
 	}
 	img#DownBtn {
-    margin-right: 61%;
+    margin-right: 59%;
 	}
 	.FuncArea .input-btn {
-    width: 100px;
-    height: 50px;
+    width: 11%;
     border-radius: 10px;
     font-size: 25px;
     background: #002060;
@@ -200,21 +278,9 @@
     border-color: #002060;
     border-width: 2px;
 	}
-	.FuncArea .PayPath {
-    width: 100px;
-    height: 50px;
-    border-radius: 10px;
-    font-size: 20px;
-    background: #002060;
-    color: white;
-    border: 1px solid;
-    border-color: #002060;
-    border-width: 2px;
-    margin-left: 3px;
-	}
+	.FuncArea .PayPath,
 	.FuncArea .Approval {
-    width: 100px;
-    height: 50px;
+    width: 11%;
     border-radius: 10px;
     font-size: 20px;
     background: #002060;
@@ -233,15 +299,14 @@
 	.SlipFoot {
     overflow-y: auto;
     height: 480px;
-    width: 90.6%;
+    width: 98%;
     border: 1px solid rgb(111, 167, 235);
     border-radius: 0px 0px 10px 10px;
-    margin: 10px 0px 0px 120px;
+    margin: 10px 0px 0px 1%;
 	}
 	.SlipFoot br {
     	display: none;
 	}
-	
 	.SlipTable{
 	border-collapse: collapse;
 	width: 100%;
@@ -261,28 +326,28 @@
     text-align: center;
     padding: 8px;
 	}
-	.TotalPrice {
-    display: flex;
-    border: 1px solid rgb(111, 167, 235);
-    width: 90.7%;
-    margin: 5px 0px 0px 4.7%;
-    border-radius: 5px 5px 5px 5px;
-    height: 42px;
-	}
-	.TotalPrice li {
-	list-style: none;
-	font-style: normal;
-	font-weight: bold;
+    .TotalPrice {
+	display: flex;
+	border: 1px solid rgb(111, 167, 235);
+	width: 98%;
+	margin: 5px 0px 0px 1%;
+	border-radius: 5px 5px 5px 5px;
+	height: 42px;
+	flex-direction: row;
+	justify-content: flex-end;
     }
     .TotalPrice input {
     text-align: right;
     height: 20px;
     }
-	.DebitArea {
-    padding: 10px 0px 0px 57%;
+	.DebCre-Colume {
+    margin: 0.3% 1%;
 	}
-	.CreditArea {
-    padding-top: 10px;
+	.TotalPrice > .DebCre-Colume:last-child {
+	margin: 0.3% 2%
+	}
+	.DebCre-Colume > label {
+    font-weight: bold;
 	}
     .SlipOptionTable01{
     border-collapse: collapse;
@@ -337,111 +402,6 @@
     .BodyChild02 input:focus {
   	outline: none;
 	}
-	/* SlipHeader와 관련된 CSS 시작 */
-	.HederSet {
-    margin-top: 30px;
-	}
-	table.Head01 {
-    margin: 5px 0px 0px 23%;
-	}
-	table.Head01 input{
-	text-align: center;
-	}
-	table.Head02 {
-    margin: 10px 0px 0px 24.4%;
-	}
-	table.Head02 input{
-	text-align: center;
-	}
-	table.Head03 {
-    margin: 10px 0px 0px 23%;
-	}
-	table.Head03 input{
-	text-align: center;
-	}
-	.Head03 input#Date {
-    width: 171px;
-    text-align: center;
-	}
-	table.Head04 {
-    margin: 10px 0px 0px 24.4%;
-	}
-	.Head04 input#briefs {
-    width: 876px;
-	}
-	/* SlipHeader와 관련된 CSS 끝 */
-	/* SlipBody와 관련된 CSS 시작 */
-	.BodyChildSet01 {
-    margin-top: 30px;
-	}
-	table.Child01 {
-    margin-left: 20%;
-	}
-	.Child01 .DocNumber{
-	text-align: center;
-	}
-	table.Child02 {
-    margin: 10px 0px 0px 17.8%;
-	}
-	.AccSubject, .AccSubjectDes{
-	text-align: center;
-	}
-	table.Child03 {
-    margin: 10px 0px 0px 15.7%;
-	}
-	table.Child04 {
-    margin: 10px 0px 0px 17.4%;
-	}
-	.Child04 .money-code, .Child04 .ledcurrency{
-	text-align: center;
-	}
-	table.Child05 {
-	    margin: 10px 0px 0px 17.4%;
-	}
-	.Child05 .DealPrice, .Child05 .ledPrice{
-	text-align: center;
-	}
-	
-	table.Child06 {
-	    margin: 10px 0px 0px 14.7%;
-	}
-	.Child06 .AdminAlloc, .Child06 .Deptd, .Child06 .DeptdDes{
-		text-align: center;
-	}
-	table.Child07 {
-   	 margin: 5px 0px 0px 17.3%;
-	}
-	.Child07 .LineBriefs{
-		width: 488%;
-	}
-	/* SlipBody와 관련된 CSS 끝 */
-	
-	/* 빈 공간 영역들 */
-	.EmptyCell_20{
-	width: 20%;
-	}
-	.EmptyCell_18-4 {
-    width: 18.4%;
-	}
-	.EmptyCell_18-9 {
-    width: 18.9%;
-	}
-	.EmptyCell_23 {
-    width: 23%;
-	}
-	.EmptyCell_45{
-	width: 45%;
-	}
-	.EmptyCell_21-9 {
-    width: 21.9%;
-	}
-	.EmptyCell_31-7 {
-    width: 31.7%;
-	}
-	.EmptyCell_3{
-	width: 3%;
-	}
-	/* 빈 공간 영역들 */
 }
 /* =============================== */
 @media only screen and (max-width: 1537px) {

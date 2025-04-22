@@ -5,7 +5,7 @@
 <%@ page import="org.json.simple.parser.*" %>
 <%@ page import ="org.json.simple.JSONObject" %> 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="../mydbcon.jsp" %>
+<%@ include file="../../mydbcon.jsp" %>
 <%
     request.setCharacterEncoding("UTF-8");
     JSONObject jsonResponse = new JSONObject();  // response를 jsonResponse로 이름 변경
