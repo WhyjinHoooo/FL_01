@@ -11,26 +11,26 @@ import com.FL01.service.ExchangeRateService;
 
 @WebServlet("/getExchangeRate")
 public class ExchangeRateServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Servlet reached");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		System.out.println("Servlet reached");
 
-        String currencyCode = request.getParameter("currencyCode");
-        String dealPrice = request.getParameter("dealPrice");
-        
-		
-		 if (currencyCode != null && dealPrice != null) {
+		String currencyCode = request.getParameter("currencyCode");
+		String dealPrice = request.getParameter("dealPrice");
+
+		if (currencyCode != null && dealPrice != null) {
 			System.out.println("currencyCode: " + currencyCode);
-		 	System.out.println("dealPrice: " + dealPrice); 
-		 } else {
-			 System.out.println("개새"); return; 
-		 }
-		 
-        
-        BigDecimal exchangeRate = ExchangeRateService.getExchangeRate(currencyCode);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("{\"exchangeRate\": " + exchangeRate + "}");
-    }
+			System.out.println("dealPrice: " + dealPrice);
+		} else {
+			System.out.println("개새");
+			return;
+		}
+
+		BigDecimal exchangeRate = ExchangeRateService.getExchangeRate(currencyCode);
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write("{\"exchangeRate\": " + exchangeRate + "}");
+	}
 }
