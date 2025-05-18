@@ -567,15 +567,6 @@ String UserIdNumber = (String)session.getAttribute("UserIdNumber");
 			</tbody>
 		</table>
 	</div>
-<!-- 	<script>
-	document.querySelector('.ExcelSaveBtn').addEventListener('click', function() {
-	  var table = document.querySelector('.InfoTable');
-	  var ws = XLSX.utils.table_to_sheet(table);
-	  var wb = XLSX.utils.book_new();
-	  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-	  XLSX.writeFile(wb, 'table_export.xlsx');
-	});
-	</script> -->
 </div>
 </body>
 </html>

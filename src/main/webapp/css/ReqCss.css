@@ -155,7 +155,7 @@ input.Fixed{
 	font-weight: bold;
     }
     .Info-Area > table.InfoTable tbody td:not(:empty):nth-child(1){width: 156px;} 
-	.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2){width: 154px;} 
+	.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(2){width: 154px;}
 	.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(3){width: 155px;} 
 	.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(4){width: 156px;} 
 	.Info-Area > table.InfoTable tbody td:not(:empty):nth-child(5){width: 155px;} 
@@ -182,7 +182,7 @@ input.Fixed{
     border: 1px solid white;
     width: 150px;
     font-size: xx-small;
-	 }
+	}
 	.Info-Area > table.InfoTable tbody > tr {
 	display: table;
 	width: 100%;
