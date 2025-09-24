@@ -23,11 +23,13 @@ ERPpopol은 기업의 다양한 자원을 효율적으로 관리할 수 있는 E
 🛠️ 기술 스택 (Tech Stack)
 Backend
 ![Java](https://img.shields.io/badge/Java-007396?style=flat&logohttps://img.shields.io/badge/Spring-6DB33F?style=flat&logo=spring&logoColor=whitehttps://img.shields.io/badge/Tomcat-F8DC75?style=flat&logo=apache-tomcat&logoColorhttps://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white
+
 ![JSP](https://img.shields.io/badgehttps://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logohttps://img.shields.io/badge/jQuery-0769AD?style=flat&logo=jquery&logoColor=whitehttps://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=whitehttps://img.shields.io/badge/CSS3-1572B6?style=flat&logo IDE & Tools
-![Eclipse](https://img.shields.io/badge/Eclipse-2C2255?style=flat&logo=eclipseide&logoColorhttps://img.shields.io/badge/Git-F05032?style=flat&logo>
+
+![Eclipse](https://img.shields.io/badge/Eclipse-2C2255?style=flat&logo=eclipseide&logoColorhttps://img.shields.io/badge/Git-F05032?style=flat&logo
 
 <details> <summary><strong>📖 프로젝트 상세 설명</strong></summary> <br>
-🔹ERPpopol은 기업 내 다양한 자원을 통합 관리함으로써, 매월 반복되는 업무와 정보 관리 절차를 획기적으로 개선합니다.
+🔹ERP은() 기업 내 다양한 자원을 통합 관리함으로써, 매월 반복되는 업무와 정보 관리 절차를 획기적으로 개선합니다.
 자재 코드/창고/직원/거래처 등 핵심 마스터 데이터에 대해 직관적인 UI와 계층적 구조 관리가 가능합니다.
 모든 데이터는 MySQL 기반으로 표준화되어, 정보 검색과 보고 업무가 간편합니다.
 
