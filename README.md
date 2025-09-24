@@ -1,6 +1,6 @@
 <div align="center"> <h1>ERP: 기업 자원 통합 관리 ERP 시스템</h1> <p><strong>"전사 자원의 통합 관리, 업무 효율화와 데이터 표준화를 한 번에."</strong></p> </div> <br>
 
-개발자: 양진호호
+개발자: 양진호
 
 직무: Fullstack Developer
 
