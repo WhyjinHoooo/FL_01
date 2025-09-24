@@ -38,7 +38,7 @@ ERPpopol은 기업의 다양한 자원을 효율적으로 관리할 수 있는 E
 ![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white)
 
 <details> <summary><strong>📖 프로젝트 상세 설명</strong></summary> <br>
-🔹ERP은() 기업 내 다양한 자원을 통합 관리함으로써, 매월 반복되는 업무와 정보 관리 절차를 획기적으로 개선합니다.
+🔹ERP시스템는(은) 기업 내 다양한 자원을 통합 관리함으로써, 매월 반복되는 업무와 정보 관리 절차를 획기적으로 개선합니다.
 자재 코드/창고/직원/거래처 등 핵심 마스터 데이터에 대해 직관적인 UI와 계층적 구조 관리가 가능합니다.
 모든 데이터는 MySQL 기반으로 표준화되어, 정보 검색과 보고 업무가 간편합니다.
 
