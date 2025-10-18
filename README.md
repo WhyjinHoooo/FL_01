@@ -67,19 +67,25 @@ PC/웹 환경 전역에서 데이터 일관성 유지
 
 데이터 구조가 확장 가능한 설계 적용
 
-</details> <details> <summary><strong>🏗️ 아키텍처 및 DB 모델</strong></summary> <br>
+</details>
+
+<details>
+<summary><strong>🏗️ 아키텍처 및 DB 모델</strong></summary>
+<br>
+
 - **기반 아키텍처:** JSP/Servlet 기반 MVC (Model 2 구조)  
 - **서버:** Apache Tomcat  
-- **DBMS:** MySQL(업무 영역, 자재, 창고 등)  
+- **DBMS:** MySQL (업무 영역, 자재, 창고 등)  
 - **프론트엔드:** JSP, jQuery, HTML5, CSS3, JavaScript  
-- **개발 도구:** Eclipse, Git
+- **개발 도구:** Eclipse, Git  
 
-주요 테이블 구조 예시
-business_area_group: 업무 그룹 계층 관리
+**주요 테이블 구조 예시**  
+- `business_area_group`: 업무 그룹 계층 관리  
+- `material_code`: 자재 코드 정보 및 상세 내역 관리  
+- `plant_storage`: 창고/저장 위치 데이터 관리  
 
-material_code: 자재 코드 정보 및 상세 내역 관리
+</details>
 
-plant_storage: 창고/저장 위치 데이터 관리
 
 </details> <details> <summary><strong>✅ 기능 및 요구사항 전체 보기</strong></summary> <br>
 기능 요구사항
