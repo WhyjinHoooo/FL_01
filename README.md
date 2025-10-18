@@ -69,7 +69,7 @@ PC/웹 환경 전역에서 데이터 일관성 유지
 
 </details> <details> <summary><strong>🏗️ 아키텍처 및 DB 모델</strong></summary> <br>
 기본 아키텍처
-Spring 기반 MVC 패턴
+JSP/Servlet 기반 MVC (Model 2 구조) 
 
 Tomcat 서버·JSP View 구성
 
