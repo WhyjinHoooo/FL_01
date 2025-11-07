@@ -6,11 +6,15 @@
 
 역할: 시스템 설계, 프론트/백엔드 전체 개발, 문서화, 테스트
 
+---
 
-📝 프로젝트 개요
-ERP은 기업의 다양한 자원을 효율적으로 관리할 수 있는 ERP(Enterprise Resource Planning) 시스템입니다.
+## 📝 프로젝트 개요
+
+기업의 다양한 자원을 효율적으로 관리할 수 있는 **ERP(Enterprise Resource Planning) 시스템**입니다.
 업무 영역, 원가 센터, 자재 코드, 창고, 직원 등 주요 마스터 데이터를 통합 관리하여
 업무 표준화 및 실시간 정보 관리를 목표로 설계되었습니다.
+
+---
 
 핵심 가치(Core Value)
 데이터 일원화: 기업 내 마스터 정보를 하나의 시스템에서 관리
@@ -19,7 +23,9 @@ ERP은 기업의 다양한 자원을 효율적으로 관리할 수 있는 ERP(En
 
 직관적 UI: 계층적 마스터 등록, 실시간 창고 및 자재 관리 지원
 
-🛠️ 기술 스택 (Tech Stack)
+---
+
+## 🛠️ 기술 스택 (Tech Stack)
 ### Backend
 ![Java](https://img.shields.io/badge/Java-007396?style=flat&logo=java&logoColor=white)
 ![Tomcat](https://img.shields.io/badge/Tomcat-F8DC75?style=flat&logo=apache-tomcat&logoColor=black)
@@ -41,7 +47,7 @@ ERP은 기업의 다양한 자원을 효율적으로 관리할 수 있는 ERP(En
 자재 코드/창고/직원/거래처 등 핵심 마스터 데이터에 대해 직관적인 UI와 계층적 구조 관리가 가능합니다.
 모든 데이터는 MySQL 기반으로 표준화되어, 정보 검색과 보고 업무가 간편합니다.
 
-주요 관리 데이터
+**주요 관리 데이터**
 업무 영역, 원가 센터, 세금 구역, 사업장: 레벨별 구조화로 조직 단위 관리
 
 자재 코드/자재 정보: 유형, 그룹, 생성·수정·검색 기능
@@ -51,6 +57,8 @@ ERP은 기업의 다양한 자원을 효율적으로 관리할 수 있는 ERP(En
 직원, 거래처: 기본 정보/세부 필드 입력 및 목록 관리
 
 재고, 입출고 내역: 실시간 업데이트, 작업 이력 확인 가능
+
+---
 
 </details> <details> <summary><strong>🎯 개발 목표 및 성과 지표</strong></summary> <br>
 비즈니스 목표
@@ -68,6 +76,8 @@ PC/웹 환경 전역에서 데이터 일관성 유지
 데이터 구조가 확장 가능한 설계 적용
 
 </details>
+
+---
 
 <details>
 <summary><strong>🏗️ 아키텍처 및 DB 모델</strong></summary>
