@@ -8,7 +8,7 @@
 
 
 📝 프로젝트 개요
-ERPpopol은 기업의 다양한 자원을 효율적으로 관리할 수 있는 ERP(Enterprise Resource Planning) 시스템입니다.
+ERP은 기업의 다양한 자원을 효율적으로 관리할 수 있는 ERP(Enterprise Resource Planning) 시스템입니다.
 업무 영역, 원가 센터, 자재 코드, 창고, 직원 등 주요 마스터 데이터를 통합 관리하여
 업무 표준화 및 실시간 정보 관리를 목표로 설계되었습니다.
 
